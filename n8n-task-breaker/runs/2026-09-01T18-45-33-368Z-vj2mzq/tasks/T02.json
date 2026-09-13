@@ -1,0 +1,13 @@
+{
+  "id": "T02",
+  "title": "Update package repositories",
+  "objective": "Refresh the local package index to ensure access to the latest Nginx version and dependencies.",
+  "rationale": "Updating before installation avoids installing outdated packages or hitting repository issues.",
+  "inputs_required": [
+    "Network Connectivity"
+  ],
+  "expected_output": "Terminal output showing successful update of package lists.",
+  "success_criteria": "Command returns exit code 0 with no unresolved dependencies.",
+  "dependencies": [],
+  "risk_level": "low"
+}

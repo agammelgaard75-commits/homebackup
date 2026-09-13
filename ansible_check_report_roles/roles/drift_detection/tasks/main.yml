@@ -1,0 +1,142 @@
+---
+- name: Ensure baseline directory exists when creating baseline
+  ansible.builtin.file:
+    path: "{{ drift_detection_baseline_dir }}"
+    state: directory
+    mode: '0750'
+  when: drift_detection_create_baseline | bool
+
+- name: Collect package manifest
+  ansible.builtin.shell: >-
+    timeout {{ drift_detection_package_timeout_seconds | int }}s
+    dpkg-query -W -f='${binary:Package} ${Version}\n' | sort
+  register: drift_detection_packages
+  changed_when: false
+  failed_when: false
+
+- name: Collect tracked file checksums
+  ansible.builtin.shell: >-
+    timeout {{ drift_detection_checksum_timeout_seconds | int }}s bash -c '
+      for p in "$@"; do
+        if [ -e "$p" ]; then
+          if [ -d "$p" ]; then
+            find "$p" -type f -print0 | sort -z | xargs -0 sha256sum 2>/dev/null;
+          else
+            sha256sum "$p" 2>/dev/null;
+          fi
+        fi
+      done | sort
+    ' drift-check {{ drift_detection_files | map('quote') | join(' ') }}
+  register: drift_detection_checksums
+  changed_when: false
+  failed_when: false
+
+- name: Save package baseline
+  ansible.builtin.copy:
+    content: "{{ drift_detection_packages.stdout }}\n"
+    dest: "{{ drift_detection_baseline_dir }}/packages.txt"
+    mode: '0640'
+  when: drift_detection_create_baseline | bool
+
+- name: Save checksum baseline
+  ansible.builtin.copy:
+    content: "{{ drift_detection_checksums.stdout }}\n"
+    dest: "{{ drift_detection_baseline_dir }}/checksums.txt"
+    mode: '0640'
+  when: drift_detection_create_baseline | bool
+
+- name: Check existing package baseline
+  ansible.builtin.stat:
+    path: "{{ drift_detection_baseline_dir }}/packages.txt"
+  register: drift_detection_package_baseline_stat
+
+- name: Check existing checksum baseline
+  ansible.builtin.stat:
+    path: "{{ drift_detection_baseline_dir }}/checksums.txt"
+  register: drift_detection_checksum_baseline_stat
+
+- name: Write current package manifest to temp file
+  ansible.builtin.copy:
+    content: "{{ drift_detection_packages.stdout }}\n"
+    dest: /tmp/ansible-current-packages.txt
+    mode: '0600'
+  changed_when: false
+  when:
+    - not drift_detection_create_baseline | bool
+    - drift_detection_package_baseline_stat.stat.exists
+
+- name: Compare package baseline
+  ansible.builtin.command: "diff -u {{ drift_detection_baseline_dir }}/packages.txt /tmp/ansible-current-packages.txt"
+  register: drift_detection_package_diff
+  changed_when: false
+  failed_when: false
+  when:
+    - not drift_detection_create_baseline | bool
+    - drift_detection_package_baseline_stat.stat.exists
+
+- name: Write current checksums to temp file
+  ansible.builtin.copy:
+    content: "{{ drift_detection_checksums.stdout }}\n"
+    dest: /tmp/ansible-current-checksums.txt
+    mode: '0600'
+  changed_when: false
+  when:
+    - not drift_detection_create_baseline | bool
+    - drift_detection_checksum_baseline_stat.stat.exists
+
+- name: Compare checksum baseline
+  ansible.builtin.command: "diff -u {{ drift_detection_baseline_dir }}/checksums.txt /tmp/ansible-current-checksums.txt"
+  register: drift_detection_checksum_diff
+  changed_when: false
+  failed_when: false
+  when:
+    - not drift_detection_create_baseline | bool
+    - drift_detection_checksum_baseline_stat.stat.exists
+
+- name: Remove temp comparison files
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /tmp/ansible-current-packages.txt
+    - /tmp/ansible-current-checksums.txt
+  changed_when: false
+  when: not drift_detection_create_baseline | bool
+
+- name: Build drift detection report
+  ansible.builtin.set_fact:
+    drift_detection_report:
+      baseline_mode: "{{ drift_detection_create_baseline }}"
+      package_baseline_exists: "{{ drift_detection_package_baseline_stat.stat.exists }}"
+      checksum_baseline_exists: "{{ drift_detection_checksum_baseline_stat.stat.exists }}"
+      ok: >-
+        {{
+          drift_detection_create_baseline | bool
+          or
+          (
+            (drift_detection_package_diff.stdout | default('') | length == 0)
+            and
+            (drift_detection_checksum_diff.stdout | default('') | length == 0)
+          )
+        }}
+      package_diff: "{{ drift_detection_package_diff.stdout_lines | default([]) }}"
+      checksum_diff: "{{ drift_detection_checksum_diff.stdout_lines | default([]) }}"
+
+- name: Ensure report directory exists
+  ansible.builtin.file:
+    path: "{{ drift_detection_report_dir }}"
+    state: directory
+    mode: '0750'
+
+- name: Write drift detection report to file
+  ansible.builtin.copy:
+    content: |
+      {{ drift_detection_report | to_nice_json }}
+    dest: "{{ drift_detection_report_file }}"
+    mode: '0640'
+  changed_when: false
+
+- name: Print compact drift detection summary
+  ansible.builtin.debug:
+    msg: "drift_detection: ok={{ drift_detection_report.ok | default(true) }}; report={{ drift_detection_report_file }}"
+  when: drift_detection_print_summary | bool

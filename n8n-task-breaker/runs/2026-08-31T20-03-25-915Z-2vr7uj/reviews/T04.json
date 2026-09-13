@@ -1,0 +1,12 @@
+{
+  "task_id": "T04",
+  "verdict": "PASS",
+  "score": 9,
+  "problems": [
+    "Task title implies configuration but objective describes setup only"
+  ],
+  "required_changes": [
+    "Update task title to reflect directory creation rather than configuration"
+  ],
+  "reason": "Minor wording mismatch between title and objective."
+}

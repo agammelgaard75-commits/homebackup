@@ -1,0 +1,12 @@
+{
+  "task_id": "T07",
+  "verdict": "PASS",
+  "score": 9,
+  "problems": [
+    "Task title implies testing rather than installation"
+  ],
+  "required_changes": [
+    "Update task title to reflect installation or configuration instead of testing"
+  ],
+  "reason": "Title mismatch with objective."
+}

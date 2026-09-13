@@ -1,0 +1,3 @@
+debsecan --show
+Output:
+[No package found]

@@ -1,0 +1,19 @@
+{
+  "id": "T07",
+  "title": "Test Nginx Functionality",
+  "objective": "Validate nginx is responding correctly to HTTP requests",
+  "rationale": "Confirms the installation and configuration work together properly",
+  "inputs_required": [
+    "curl or wget access",
+    "web server connectivity"
+  ],
+  "expected_output": "Successful HTTP response from localhost/defined host",
+  "success_criteria": [
+    "HTTP 200 response received on port 80",
+    "Default welcome page displays correctly"
+  ],
+  "dependencies": [
+    "T06"
+  ],
+  "risk_level": "low"
+}

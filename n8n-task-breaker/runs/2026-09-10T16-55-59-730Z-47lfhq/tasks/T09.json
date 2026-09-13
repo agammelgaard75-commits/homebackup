@@ -1,0 +1,17 @@
+{
+  "id": "T09",
+  "title": "Review and secure default configuration",
+  "objective": "Inspect the default site configuration to ensure no sensitive paths are exposed.",
+  "rationale": "Default configurations often expose server tokens or unnecessary directories that should be restricted.",
+  "inputs_required": [
+    "sudo access"
+  ],
+  "expected_output": "List of identified security improvements or confirmation that defaults are safe.",
+  "success_criteria": [
+    "No sensitive files served by default."
+  ],
+  "dependencies": [
+    "T07"
+  ],
+  "risk_level": "medium"
+}

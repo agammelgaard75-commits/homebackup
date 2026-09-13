@@ -1,0 +1,17 @@
+{
+  "id": "T01",
+  "title": "Verify System Compatibility and Prerequisites",
+  "objective": "Confirm the Ubuntu version is 24.04 or compatible and validate required system resources",
+  "rationale": "Ensures the installation will work correctly on the target platform before proceeding",
+  "inputs_required": [
+    "System command line access",
+    "File listing permissions"
+  ],
+  "expected_output": "Confirmation that Ubuntu 24.04 is installed with sufficient disk/memory resources",
+  "success_criteria": [
+    "Ubuntu version confirmed as 24.04 or compatible",
+    "At least 200MB free disk space available"
+  ],
+  "dependencies": [],
+  "risk_level": "low"
+}

@@ -1,0 +1,32 @@
+---
+- name: Collect listening TCP/UDP sockets
+  ansible.builtin.command: timeout {{ port_inventory_timeout_seconds | int }}s ss -tulpen
+  register: port_inventory_ss
+  changed_when: false
+  failed_when: false
+
+- name: Build port inventory report
+  ansible.builtin.set_fact:
+    port_inventory_report:
+      ok: true
+      raw_listeners: "{{ port_inventory_ss.stdout_lines }}"
+      allowed_listeners_reference: "{{ port_inventory_allowed_listeners }}"
+
+- name: Ensure report directory exists
+  ansible.builtin.file:
+    path: "{{ port_inventory_report_dir }}"
+    state: directory
+    mode: '0750'
+
+- name: Write port inventory report to file
+  ansible.builtin.copy:
+    content: |
+      {{ port_inventory_report | to_nice_json }}
+    dest: "{{ port_inventory_report_file }}"
+    mode: '0640'
+  changed_when: false
+
+- name: Print compact port inventory summary
+  ansible.builtin.debug:
+    msg: "port_inventory: ok={{ port_inventory_report.ok | default(true) }}; report={{ port_inventory_report_file }}"
+  when: port_inventory_print_summary | bool

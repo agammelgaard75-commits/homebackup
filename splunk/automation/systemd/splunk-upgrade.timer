@@ -1,0 +1,11 @@
+[Unit]
+Description=Check Splunk and app releases daily
+
+[Timer]
+OnCalendar=*-*-* 03:00:00 UTC
+RandomizedDelaySec=15m
+Persistent=true
+Unit=splunk-upgrade.service
+
+[Install]
+WantedBy=timers.target

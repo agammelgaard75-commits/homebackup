@@ -1,0 +1,19 @@
+{
+  "id": "T08",
+  "title": "Reload Nginx Configuration",
+  "objective": "Apply the security header changes without interrupting active connections.",
+  "rationale": "Changes to configuration files must be reloaded for the server to recognize them.",
+  "inputs_required": [
+    "sudo",
+    "systemctl"
+  ],
+  "expected_output": "Confirmation message that the reload was successful.",
+  "success_criteria": [
+    "Reload command completes with exit code 0.",
+    "Service remains active after reload."
+  ],
+  "dependencies": [
+    "T07"
+  ],
+  "risk_level": "low"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "T01",
+  "title": "Verify system prerequisites",
+  "objective": "Confirm the OS version and available disk space meet requirements for Nginx installation.",
+  "rationale": "Ensuring compatibility before downloading packages prevents installation errors on unsupported distributions.",
+  "inputs_required": [
+    "OS Release",
+    "Available Disk Space"
+  ],
+  "expected_output": "Report confirming Ubuntu 24.04 and sufficient storage.",
+  "success_criteria": "System is identified as Ubuntu 24.04 with at least 1GB free disk space.",
+  "dependencies": [],
+  "risk_level": "low"
+}

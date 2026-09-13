@@ -1,0 +1,18 @@
+{
+  "id": "T08",
+  "title": "Configure Firewall Rules for Nginx",
+  "objective": "Allow HTTP/HTTPS traffic through the system firewall",
+  "rationale": "Ensures nginx is accessible from external networks while maintaining security",
+  "inputs_required": [
+    "firewall tool access (ufw/iptables)"
+  ],
+  "expected_output": "Firewall rules permitting port 80 and/or 443",
+  "success_criteria": [
+    "Port 80 is open for TCP traffic",
+    "Firewall rule changes applied successfully"
+  ],
+  "dependencies": [
+    "T07"
+  ],
+  "risk_level": "medium"
+}

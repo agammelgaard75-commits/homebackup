@@ -1,0 +1,16 @@
+{
+  "id": "T04",
+  "title": "Check Nginx Configuration File",
+  "objective": "Verify nginx configuration directory and files exist",
+  "rationale": "Configuration files indicate intentional nginx setup even if service is not running",
+  "inputs_required": [
+    "Standard config paths (/etc/nginx, /etc/nginx/conf.d)",
+    "Filesystem access permissions"
+  ],
+  "expected_output": "Directory listing results for nginx config locations",
+  "success_criteria": "Config directory listing succeeds or clearly shows absence",
+  "dependencies": [
+    "T01"
+  ],
+  "risk_level": "low"
+}

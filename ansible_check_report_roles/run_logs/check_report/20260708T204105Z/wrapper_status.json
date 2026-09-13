@@ -1,0 +1,8 @@
+{
+  "result": "fail",
+  "reason": "ansible_exit_99",
+  "ansible_exit_code": 99,
+  "log_dir": "/home/bot/ansible_check_report_roles/run_logs/check_report/20260708T204105Z",
+  "stdout_log": "/home/bot/ansible_check_report_roles/run_logs/check_report/20260708T204105Z/ansible_stdout.log",
+  "stderr_log": "/home/bot/ansible_check_report_roles/run_logs/check_report/20260708T204105Z/ansible_stderr.log"
+}

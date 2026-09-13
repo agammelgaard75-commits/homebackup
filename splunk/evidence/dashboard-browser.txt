@@ -1,0 +1,104 @@
+Skip Navigation >
+Apps
+Administrator
+1Messages
+Settings
+Activity
+Help
+Server Health — sandbox
+Search
+Edit 
+Export 
+ ...
+Server Health — sandbox
+
+Local Ubuntu telemetry sampled every 60 seconds. CPU and I/O use a 1-second sample; brief spikes between samples may be missed. Inventory covers the last 5 minutes; trends cover 1 hour. Refresh the dashboard to update.
+
+Telemetry age (seconds)
+Search has completed
+3
+CPU used (%)
+Search has completed
+68
+Memory used (%)
+Search has completed
+13
+Failed services
+Search has completed
+1
+CPU, memory and I/O wait (%)
+Search has completed
+_time
+CPU
+Memory
+IOWait
+2:45 PM ​Wed Sep 9 ​2026
+2:50 PM
+2:55 PM
+3:00 PM
+3:05 PM
+3:10 PM
+3:15 PM
+3:20 PM
+3:25 PM
+3:30 PM
+3:35 PM
+3:40 PM
+50
+100
+Filesystem capacity
+Search has completed
+mount	filesystem	used_pct	available_GiB	inode_used_pct
+/	ext4	20.34	73.36	6.78
+/boot	ext4	10.88	1.59	0.24
+Load, uptime and swap
+Search has completed
+cpu_count	load1	load5	load15	uptime_days	swap_MiB
+4	0.32	0.42	0.37	8.94	0.0
+Network (sampled bytes/sec)
+Search has completed
+interface	rx_bytes_sec	tx_bytes_sec	rx_errors	tx_errors	rx_drops	tx_drops
+br-5ec7a81d27aa	0.0	0.0	0	0	0	0
+docker0	0.0	0.0	0	0	0	0
+ens18	2080.85	8971.77	0	0	941	0
+ens18.2	1422.48	8712.42	0	0	0	0
+veth1b98ce2	0.0	0.0	0	0	0	0
+Disk I/O (sampled bytes/sec)
+Search has completed
+device	read_bytes_sec	write_bytes_sec	busy_pct
+sda	0.0	32687.03	0.7
+Failed services
+Search has completed
+unit	active_state	sub_state
+systemd-networkd-wait-online.service	failed	failed
+Main services
+Search has completed
+unit	active_state	sub_state
+Splunkd.service	active	running
+containerd.service	active	running
+docker.service	active	running
+litellm.service	active	running
+ssh.service	active	running
+systemd-timesyncd.service	active	running
+Largest processes by resident memory
+Search has completed
+process	pid	rss_MiB
+litellm	55383	325.9
+MainThread	417166	299.7
+codex	467725	244.8
+splunkd	471398	238.2
+chrome-headless	475511	181.9
+MainThread	475422	132.3
+mongod	471595	124.0
+MainThread	417254	122.2
+chrome-headless	475467	97.2
+dockerd	416854	91.8
+Collector errors
+Search has completed
+No results found.
+Recent system warnings and errors
+Search has completed
+_time	PRIORITY	MESSAGE
+2026-09-09 15:35:32.280	4	Splunk server-health onboarding verification 20260909
+2026-09-09 15:32:43.049	4	Splunkd.service: Failed with result 'exit-code'.
+2026-09-09 15:32:25.418	4	Splunkd.service: Failed with result 'exit-code'.

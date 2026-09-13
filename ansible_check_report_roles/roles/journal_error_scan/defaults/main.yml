@@ -1,0 +1,9 @@
+---
+journal_error_scan_since: "24 hours ago"
+journal_error_scan_priorities: "0..3"
+journal_error_scan_limit: 80
+journal_error_scan_exclude_patterns: []
+journal_error_scan_report_dir: /var/log/ansible-reports
+journal_error_scan_report_file: "{{ journal_error_scan_report_dir }}/journal_error_scan.json"
+journal_error_scan_print_summary: true
+journal_error_scan_timeout_seconds: 30

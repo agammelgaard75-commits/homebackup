@@ -1,0 +1,16 @@
+{
+  "id": "T01",
+  "title": "Identify Linux Distribution and Package Manager",
+  "objective": "Determine OS type to select appropriate verification commands.",
+  "rationale": "Package manager commands vary by distribution (e.g., apt vs yum).",
+  "inputs_required": [
+    "Host access credentials"
+  ],
+  "expected_output": "Detected distro name and package manager identifier",
+  "success_criteria": [
+    "OS release file parsed successfully",
+    "Package manager command identified"
+  ],
+  "dependencies": [],
+  "risk_level": "low"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "T02",
+  "title": "Add Nginx official GPG key and repository",
+  "objective": "Import the necessary signing key and add the APT repository for Nginx.",
+  "rationale": "Adding the official repository ensures access to the latest stable versions and security patches not in the default Ubuntu repo.",
+  "inputs_required": [
+    "sudo access"
+  ],
+  "expected_output": "Confirmation that the key is added and the repository file exists.",
+  "success_criteria": [
+    "GPG key fingerprint matches expected value.",
+    "Repository file created in /etc/apt/sources.list.d/."
+  ],
+  "dependencies": [
+    "T01"
+  ],
+  "risk_level": "low"
+}

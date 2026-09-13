@@ -1,0 +1,20 @@
+{
+  "id": "T04",
+  "title": "Prioritize Risks and Develop Remediation Plan",
+  "objective": "Analyze the consolidated vulnerability matrix to prioritize risks based on exploitability and business impact, and draft specific, actionable remediation steps.",
+  "rationale": "A list of vulnerabilities is useless without a plan. This task translates technical findings into prioritized, step-by-step instructions for remediation.",
+  "inputs_required": [
+    "Consolidated Vulnerability Matrix (T03)",
+    "Host Operational Context (T01)"
+  ],
+  "expected_output": "A prioritized remediation plan document detailing required patches, configuration changes, and mitigation strategies.",
+  "success_criteria": [
+    "All critical and high-severity vulnerabilities are assigned a specific remediation action.",
+    "The plan distinguishes between immediate fixes and long-term architectural improvements.",
+    "The plan includes estimated effort/complexity for each remediation step."
+  ],
+  "dependencies": [
+    "T03"
+  ],
+  "risk_level": "medium"
+}

@@ -1,0 +1,10 @@
+---
+port_inventory_allowed_listeners: []
+# Example:
+# port_inventory_allowed_listeners:
+#   - "*:22"
+#   - "127.0.0.1:5432"
+port_inventory_report_dir: /var/log/ansible-reports
+port_inventory_report_file: "{{ port_inventory_report_dir }}/port_inventory.json"
+port_inventory_print_summary: true
+port_inventory_timeout_seconds: 15

@@ -1,0 +1,70 @@
+---
+- name: Ubuntu check/report run
+  hosts: ubuntu_servers
+  become: true
+  gather_facts: true
+
+  roles:
+    - asset_inventory
+    - disk_watch
+    - failed_units_check
+    - journal_error_scan
+    - port_inventory
+    - service_healthcheck
+    - vulnerability_scan
+    - drift_detection
+
+  post_tasks:
+    - name: Build compact check/report summary
+      ansible.builtin.set_fact:
+        ansible_check_report_summary:
+          generated_at: "{{ ansible_date_time.iso8601 }}"
+          hostname: "{{ inventory_hostname }}"
+          report_dir: "{{ ansible_check_report_dir }}"
+          ok: >-
+            {{
+              (asset_inventory_report.ok | default(true))
+              and (disk_watch_report.ok | default(true))
+              and (failed_units_check_report.ok | default(true))
+              and (journal_error_scan_report.ok | default(true))
+              and (port_inventory_report.ok | default(true))
+              and (service_healthcheck_report.ok | default(true))
+              and (vulnerability_scan_report.ok | default(true))
+              and (drift_detection_report.ok | default(true))
+            }}
+          reports:
+            asset_inventory: "{{ asset_inventory_report_file }}"
+            disk_watch: "{{ disk_watch_report_file }}"
+            failed_units_check: "{{ failed_units_check_report_file }}"
+            journal_error_scan: "{{ journal_error_scan_report_file }}"
+            port_inventory: "{{ port_inventory_report_file }}"
+            service_healthcheck: "{{ service_healthcheck_report_file }}"
+            vulnerability_scan: "{{ vulnerability_scan_report_file }}"
+            drift_detection: "{{ drift_detection_report_file }}"
+          status:
+            asset_inventory: "{{ asset_inventory_report.ok | default(true) }}"
+            disk_watch: "{{ disk_watch_report.ok | default(true) }}"
+            failed_units_check: "{{ failed_units_check_report.ok | default(true) }}"
+            journal_error_scan: "{{ journal_error_scan_report.ok | default(true) }}"
+            port_inventory: "{{ port_inventory_report.ok | default(true) }}"
+            service_healthcheck: "{{ service_healthcheck_report.ok | default(true) }}"
+            vulnerability_scan: "{{ vulnerability_scan_report.ok | default(true) }}"
+            drift_detection: "{{ drift_detection_report.ok | default(true) }}"
+
+    - name: Ensure consolidated report directory exists
+      ansible.builtin.file:
+        path: "{{ ansible_check_report_dir }}"
+        state: directory
+        mode: '0750'
+
+    - name: Write compact consolidated check/report summary
+      ansible.builtin.copy:
+        content: |
+          {{ ansible_check_report_summary | to_nice_json }}
+        dest: "{{ ansible_check_report_index_file }}"
+        mode: '0640'
+      changed_when: false
+
+    - name: Print final compact check/report summary
+      ansible.builtin.debug:
+        msg: "check_report: ok={{ ansible_check_report_summary.ok }}; summary={{ ansible_check_report_index_file }}"

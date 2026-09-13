@@ -1,0 +1,53 @@
+---
+- name: Check configured services
+  ansible.builtin.command: "systemctl is-active {{ item }}"
+  loop: "{{ service_healthcheck_services }}"
+  register: service_healthcheck_service_results
+  changed_when: false
+  failed_when: false
+
+- name: Check configured ports
+  ansible.builtin.wait_for:
+    port: "{{ item }}"
+    host: "127.0.0.1"
+    timeout: 2
+    state: started
+  loop: "{{ service_healthcheck_ports }}"
+  register: service_healthcheck_port_results
+  changed_when: false
+  failed_when: false
+
+- name: Build service healthcheck report
+  ansible.builtin.set_fact:
+    service_healthcheck_report:
+      ok: >-
+        {{
+          (service_healthcheck_service_results.results | default([]) | selectattr('rc', 'defined') | selectattr('rc', 'ne', 0) | list | length == 0)
+          and
+          (service_healthcheck_port_results.results | default([]) | selectattr('failed', 'defined') | selectattr('failed') | list | length == 0)
+        }}
+      services:
+        checked: "{{ service_healthcheck_services }}"
+        results: "{{ service_healthcheck_service_results.results | default([]) }}"
+      ports:
+        checked: "{{ service_healthcheck_ports }}"
+        results: "{{ service_healthcheck_port_results.results | default([]) }}"
+
+- name: Ensure report directory exists
+  ansible.builtin.file:
+    path: "{{ service_healthcheck_report_dir }}"
+    state: directory
+    mode: '0750'
+
+- name: Write service healthcheck report to file
+  ansible.builtin.copy:
+    content: |
+      {{ service_healthcheck_report | to_nice_json }}
+    dest: "{{ service_healthcheck_report_file }}"
+    mode: '0640'
+  changed_when: false
+
+- name: Print compact service healthcheck summary
+  ansible.builtin.debug:
+    msg: "service_healthcheck: ok={{ service_healthcheck_report.ok | default(true) }}; report={{ service_healthcheck_report_file }}"
+  when: service_healthcheck_print_summary | bool

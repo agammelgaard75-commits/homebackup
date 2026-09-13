@@ -1,0 +1,6 @@
+---
+failed_units_check_include_user_units: false
+failed_units_check_report_dir: /var/log/ansible-reports
+failed_units_check_report_file: "{{ failed_units_check_report_dir }}/failed_units_check.json"
+failed_units_check_print_summary: true
+

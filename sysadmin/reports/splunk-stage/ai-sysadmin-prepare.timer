@@ -1,0 +1,12 @@
+[Unit]
+Description=Prepare the weekly AI Sysadmin change one day before maintenance
+
+[Timer]
+OnCalendar=Sat *-*-* 03:00:00 UTC
+Persistent=true
+RandomizedDelaySec=10m
+Unit=ai-sysadmin-prepare.service
+
+[Install]
+WantedBy=timers.target
+

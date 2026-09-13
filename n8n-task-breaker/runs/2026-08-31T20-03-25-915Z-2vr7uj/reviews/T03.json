@@ -1,0 +1,8 @@
+{
+  "task_id": "T03",
+  "verdict": "PASS",
+  "score": 10,
+  "problems": [],
+  "required_changes": [],
+  "reason": "Task is specific, executable, and correctly depends on T02."
+}

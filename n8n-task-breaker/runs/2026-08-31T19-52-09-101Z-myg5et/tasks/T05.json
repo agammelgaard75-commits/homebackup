@@ -1,0 +1,16 @@
+{
+  "id": "T05",
+  "title": "Verify Nginx Process and Service",
+  "objective": "Check if nginx processes are running via system service managers",
+  "rationale": "Active processes confirm nginx is installed and functional, even if package status says otherwise",
+  "inputs_required": [
+    "OS init system type (systemd, upstart, etc.)",
+    "Command for checking active services"
+  ],
+  "expected_output": "Process list or service status showing nginx running/not running",
+  "success_criteria": "ps/systemctl command shows nginx processes or confirms absence clearly",
+  "dependencies": [
+    "T01"
+  ],
+  "risk_level": "low"
+}

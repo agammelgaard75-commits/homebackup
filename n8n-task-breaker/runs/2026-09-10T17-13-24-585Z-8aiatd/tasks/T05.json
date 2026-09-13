@@ -1,0 +1,18 @@
+{
+  "id": "T05",
+  "title": "Verify Web Server Accessibility",
+  "objective": "Confirm the web server is responding to HTTP requests on port 80.",
+  "rationale": "Functional verification ensures that the installation and service start were successful and the firewall allows traffic.",
+  "inputs_required": [
+    "curl"
+  ],
+  "expected_output": "HTML content from the default Nginx welcome page or a valid HTTP 200 response.",
+  "success_criteria": [
+    "HTTP status code is 200.",
+    "Response body contains 'Welcome to nginx!'"
+  ],
+  "dependencies": [
+    "T04"
+  ],
+  "risk_level": "low"
+}

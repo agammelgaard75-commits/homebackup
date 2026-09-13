@@ -1,0 +1,17 @@
+{
+  "id": "T06",
+  "title": "Verify default configuration file syntax",
+  "objective": "Check the default nginx.conf for syntax errors before testing connectivity.",
+  "rationale": "Prevents potential service crashes caused by misconfiguration in the default setup.",
+  "inputs_required": [
+    "sudo access"
+  ],
+  "expected_output": "Output confirming configuration file is valid.",
+  "success_criteria": [
+    "No syntax errors reported."
+  ],
+  "dependencies": [
+    "T04"
+  ],
+  "risk_level": "low"
+}

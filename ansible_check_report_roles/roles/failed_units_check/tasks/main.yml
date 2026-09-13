@@ -1,0 +1,39 @@
+---
+- name: List failed systemd units
+  ansible.builtin.command: systemctl --failed --no-legend --plain
+  register: failed_units_check_system
+  changed_when: false
+  failed_when: false
+
+- name: List failed user systemd units
+  ansible.builtin.command: systemctl --user --failed --no-legend --plain
+  register: failed_units_check_user
+  changed_when: false
+  failed_when: false
+  when: failed_units_check_include_user_units | bool
+
+- name: Build failed units report
+  ansible.builtin.set_fact:
+    failed_units_check_report:
+      ok: "{{ failed_units_check_system.stdout_lines | length == 0 }}"
+      system_failed_units: "{{ failed_units_check_system.stdout_lines }}"
+      user_failed_units: "{{ failed_units_check_user.stdout_lines | default([]) }}"
+
+- name: Ensure report directory exists
+  ansible.builtin.file:
+    path: "{{ failed_units_check_report_dir }}"
+    state: directory
+    mode: '0750'
+
+- name: Write failed units check report to file
+  ansible.builtin.copy:
+    content: |
+      {{ failed_units_check_report | to_nice_json }}
+    dest: "{{ failed_units_check_report_file }}"
+    mode: '0640'
+  changed_when: false
+
+- name: Print compact failed units check summary
+  ansible.builtin.debug:
+    msg: "failed_units_check: ok={{ failed_units_check_report.ok | default(true) }}; report={{ failed_units_check_report_file }}"
+  when: failed_units_check_print_summary | bool

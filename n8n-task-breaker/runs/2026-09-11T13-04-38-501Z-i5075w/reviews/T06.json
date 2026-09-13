@@ -1,0 +1,12 @@
+{
+  "task_id": "T06",
+  "verdict": "PASS",
+  "score": 8,
+  "problems": [
+    "Inputs contain 'Local network access' instead of explicit task ID reference"
+  ],
+  "required_changes": [
+    "Update inputs_required to reference T05 output explicitly rather than 'Local network access'"
+  ],
+  "reason": "Fix input format per prior memory."
+}

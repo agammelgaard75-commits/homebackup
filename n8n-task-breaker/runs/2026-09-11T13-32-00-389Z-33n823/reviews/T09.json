@@ -1,0 +1,12 @@
+{
+  "task_id": "T09",
+  "verdict": "PASS",
+  "score": 8,
+  "problems": [
+    "Inputs reference raw command string 'curl' instead of task ID T08 output"
+  ],
+  "required_changes": [
+    "Update inputs_required to reference T08 output explicitly rather than 'curl'"
+  ],
+  "reason": "Input format non-compliant per prior memory."
+}

@@ -1,0 +1,46 @@
+---
+- name: Scan journal for high-priority errors
+  ansible.builtin.shell: >-
+    timeout {{ journal_error_scan_timeout_seconds | int }}s journalctl --since {{ journal_error_scan_since | quote }}
+    -p {{ journal_error_scan_priorities | quote }}
+    --no-pager -o short-iso
+    | tail -n {{ journal_error_scan_limit | int }}
+  register: journal_error_scan_cmd
+  changed_when: false
+  failed_when: false
+
+- name: Apply optional journal exclusions
+  ansible.builtin.set_fact:
+    journal_error_scan_filtered: >-
+      {{ journal_error_scan_cmd.stdout_lines
+         | reject('search', journal_error_scan_exclude_patterns | join('|'))
+         | list if journal_error_scan_exclude_patterns | length > 0
+         else journal_error_scan_cmd.stdout_lines }}
+
+- name: Build journal error scan report
+  ansible.builtin.set_fact:
+    journal_error_scan_report:
+      ok: "{{ journal_error_scan_filtered | length == 0 }}"
+      since: "{{ journal_error_scan_since }}"
+      priorities: "{{ journal_error_scan_priorities }}"
+      count_returned: "{{ journal_error_scan_filtered | length }}"
+      entries: "{{ journal_error_scan_filtered }}"
+
+- name: Ensure report directory exists
+  ansible.builtin.file:
+    path: "{{ journal_error_scan_report_dir }}"
+    state: directory
+    mode: '0750'
+
+- name: Write journal error scan report to file
+  ansible.builtin.copy:
+    content: |
+      {{ journal_error_scan_report | to_nice_json }}
+    dest: "{{ journal_error_scan_report_file }}"
+    mode: '0640'
+  changed_when: false
+
+- name: Print compact journal error scan summary
+  ansible.builtin.debug:
+    msg: "journal_error_scan: ok={{ journal_error_scan_report.ok | default(true) }}; report={{ journal_error_scan_report_file }}"
+  when: journal_error_scan_print_summary | bool

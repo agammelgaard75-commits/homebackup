@@ -1,0 +1,12 @@
+{
+  "task_id": "T02",
+  "verdict": "PASS",
+  "score": 9,
+  "problems": [
+    "Inputs should reference T01 output explicitly rather than raw command string"
+  ],
+  "required_changes": [
+    "Update inputs_required to reference T01 output explicitly"
+  ],
+  "reason": "Task is relevant and executable but input format needs correction."
+}

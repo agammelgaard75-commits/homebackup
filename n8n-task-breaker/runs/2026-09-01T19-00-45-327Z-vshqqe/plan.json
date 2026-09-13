@@ -1,0 +1,192 @@
+{
+  "plan_summary": "This plan outlines the steps to install and configure Nginx on an Ubuntu 24.04 system, ensuring security updates are applied, dependencies are resolved, and a basic web server configuration is deployed.",
+  "assumptions": [
+    "The Ubuntu 24.04 host has network access to update repositories.",
+    "The user has sudo privileges or root access.",
+    "A basic HTTP response is expected immediately after installation."
+  ],
+  "tasks": [
+    {
+      "id": "T01",
+      "title": "Update System Packages",
+      "objective": "Refresh the local package index to ensure the latest Nginx packages and dependencies are available.",
+      "rationale": "Updating before installation ensures compatibility with Ubuntu 24.04 repositories and avoids installing outdated components.",
+      "inputs_required": [
+        "sudo apt update"
+      ],
+      "expected_output": "Package lists updated without errors.",
+      "success_criteria": [
+        "Command exits with status 0.",
+        "Output shows 'Release' updates processed."
+      ],
+      "dependencies": [],
+      "risk_level": "low"
+    },
+    {
+      "id": "T02",
+      "title": "Install Nginx Package",
+      "objective": "Download and install the Nginx web server and its core dependencies.",
+      "rationale": "This installs the main Nginx binary, configuration files, and default SSL certificates provided by Ubuntu.",
+      "inputs_required": [
+        "sudo apt install nginx"
+      ],
+      "expected_output": "Nginx installation log showing package completion.",
+      "success_criteria": [
+        "Package 'nginx' is marked as installed.",
+        "Dependencies like pcre2 and zlib are resolved."
+      ],
+      "dependencies": [
+        "T01"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T03",
+      "title": "Start Nginx Service",
+      "objective": "Activate the Nginx service and ensure it starts successfully.",
+      "rationale": "Nginx does not start automatically just by installation on Ubuntu; the systemd service must be enabled and started.",
+      "inputs_required": [
+        "sudo systemctl start nginx",
+        "sudo systemctl enable nginx"
+      ],
+      "expected_output": "Systemd status showing active (running).",
+      "success_criteria": [
+        "Service state is 'active' for both 'started' and 'enabled'.",
+        "No logs indicate immediate start failure."
+      ],
+      "dependencies": [
+        "T02"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T04",
+      "title": "Check Service Status",
+      "objective": "Verify the health and status of the Nginx daemon.",
+      "rationale": "Confirming the service is healthy before moving to configuration or testing ensures stability.",
+      "inputs_required": [
+        "sudo systemctl status nginx"
+      ],
+      "expected_output": "Full status output showing 'Active: active (running)' and load time.",
+      "success_criteria": [
+        "Main process PID is displayed.",
+        "No 'failed' or 'activating' states observed."
+      ],
+      "dependencies": [
+        "T03"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T05",
+      "title": "Test HTTP Connectivity",
+      "objective": "Validate that the web server responds correctly to client requests.",
+      "rationale": "This confirms the Nginx instance is listening on port 80 and serving content as expected.",
+      "inputs_required": [
+        "curl -I http://localhost"
+      ],
+      "expected_output": "HTTP headers indicating a valid response (e.g., '200 OK').",
+      "success_criteria": [
+        "Response code is 200.",
+        "Server header identifies 'nginx' or the default welcome page content is returned."
+      ],
+      "dependencies": [
+        "T04"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T06",
+      "title": "Review Default Configuration",
+      "objective": "Inspect the default Nginx configuration file for correctness.",
+      "rationale": "Ubuntu 24.04 provides a specific default config; understanding its location (sites-enabled/default) helps prevent conflicts later.",
+      "inputs_required": [
+        "cat /etc/nginx/sites-available/default",
+        "ls /etc/nginx/sites-enabled/"
+      ],
+      "expected_output": "Contents of the default site configuration and list of enabled sites.",
+      "success_criteria": [
+        "File '/etc/nginx/sites-enabled/default' exists.",
+        "Configuration syntax does not show obvious errors in headers."
+      ],
+      "dependencies": [
+        "T05"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T07",
+      "title": "Run Configuration Syntax Check",
+      "objective": "Validate the Nginx configuration files for syntax errors.",
+      "rationale": "Preventing future restart failures by ensuring the config is valid before relying on it during operation.",
+      "inputs_required": [
+        "sudo nginx -t"
+      ],
+      "expected_output": "Message indicating 'nginx: configuration file /etc/nginx/nginx.conf test is successful'.",
+      "success_criteria": [
+        "Output states the test is 'successful' (exit code 0).",
+        "No warnings regarding missing upstreams or SSL paths."
+      ],
+      "dependencies": [
+        "T06"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T08",
+      "title": "Configure Firewall Rules (UFW)",
+      "objective": "Allow HTTP and HTTPS traffic through the host firewall.",
+      "rationale": "Ubuntu 24.04 uses UFW; without explicit rules, incoming port 80/443 connections will be blocked by default.",
+      "inputs_required": [
+        "sudo ufw allow 'Nginx Full'",
+        "sudo ufw reload"
+      ],
+      "expected_output": "Confirmation messages showing rules added (e.g., 'Allow OpenSSH' is already enabled, 'Allow HTTP', 'Allow HTTPS').",
+      "success_criteria": [
+        "UFW status lists port 80 and 443 as ALLOW.",
+        "Reload command completes without error."
+      ],
+      "dependencies": [
+        "T07"
+      ],
+      "risk_level": "medium"
+    },
+    {
+      "id": "T09",
+      "title": "Final Verification via External IP",
+      "objective": "Confirm the server is accessible from an external perspective using its public IP.",
+      "rationale": "Internal checks pass, but external DNS resolution or firewall misconfigurations might still block access; this validates end-to-end connectivity.",
+      "inputs_required": [
+        "curl -I http://$(curl -s ifconfig.me)"
+      ],
+      "expected_output": "Successful HTTP response received from the public IP address.",
+      "success_criteria": [
+        "Response code is 200 when querying the external IP.",
+        "No 'Connection refused' or timeout errors."
+      ],
+      "dependencies": [
+        "T08"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T10",
+      "title": "Document Installation Details",
+      "objective": "Record key details about the installation for future reference.",
+      "rationale": "Maintaining an audit trail of installed versions, ports, and configuration files aids in troubleshooting or compliance checks.",
+      "inputs_required": [
+        "nginx -v",
+        "sudo ufw status verbose"
+      ],
+      "expected_output": "A summary containing the Nginx version string and current active firewall rules.",
+      "success_criteria": [
+        "Version output captured (e.g., '1.26.x').",
+        "Firewall rules listed in documentation."
+      ],
+      "dependencies": [
+        "T09"
+      ],
+      "risk_level": "low"
+    }
+  ]
+}

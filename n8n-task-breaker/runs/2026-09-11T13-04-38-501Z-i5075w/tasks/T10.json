@@ -1,0 +1,17 @@
+{
+  "id": "T10",
+  "title": "Document installation steps and verify final state",
+  "objective": "Create a summary of the configuration and perform a final health check.",
+  "rationale": "Documentation ensures reproducibility, and a final check confirms all subtasks were successful before closing the task.",
+  "inputs_required": [
+    "Previous task outputs"
+  ],
+  "expected_output": "A brief log or note confirming Nginx is installed, running, and accessible.",
+  "success_criteria": [
+    "All previous success criteria are met simultaneously."
+  ],
+  "dependencies": [
+    "T09"
+  ],
+  "risk_level": "low"
+}

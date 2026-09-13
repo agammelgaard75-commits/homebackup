@@ -1,0 +1,12 @@
+---
+disk_watch_usage_warn_percent: 80
+disk_watch_inode_warn_percent: 80
+disk_watch_large_file_paths:
+  - /var/log
+  - /tmp
+disk_watch_large_file_min_size: +500M
+disk_watch_large_file_limit: 20
+disk_watch_report_dir: /var/log/ansible-reports
+disk_watch_report_file: "{{ disk_watch_report_dir }}/disk_watch.json"
+disk_watch_print_summary: true
+disk_watch_find_timeout_seconds: 60

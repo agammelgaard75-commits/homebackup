@@ -1,0 +1,19 @@
+{
+  "id": "T02",
+  "title": "Query Package Manager for Nginx Status",
+  "objective": "Use the identified package manager to check if the Nginx package is installed.",
+  "rationale": "This is the most reliable way to confirm if the system believes Nginx is installed, regardless of binary path.",
+  "inputs_required": [
+    "Package manager command from T01",
+    "Package name: nginx"
+  ],
+  "expected_output": "A boolean result indicating if the 'nginx' package is installed.",
+  "success_criteria": [
+    "The package manager command executes without error.",
+    "The output explicitly confirms the presence or absence of the 'nginx' package."
+  ],
+  "dependencies": [
+    "T01"
+  ],
+  "risk_level": "low"
+}

@@ -1,0 +1,700 @@
+{
+  "updatedAt": "2026-09-11T13:23:10.663Z",
+  "createdAt": "2026-08-31T14:56:56.580Z",
+  "id": "pvMkhXx9cb3xcyKl",
+  "name": "Task Breaker + Verifier",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "45ca9980-902a-4f63-ba47-1b7e370f759d",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -3472,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "major-task",
+              "name": "major_task",
+              "value": "Install nginx on the ubuntu 24.04 host",
+              "type": "string"
+            },
+            {
+              "id": "task-breaker-model",
+              "name": "task_breaker_model",
+              "value": "qwen3.5:9b",
+              "type": "string"
+            },
+            {
+              "id": "verifier-model",
+              "name": "verifier_model",
+              "value": "qwen3.5:4b",
+              "type": "string"
+            },
+            {
+              "id": "litellm-url",
+              "name": "litellm_base_url",
+              "value": "http://host.docker.internal:4000",
+              "type": "string"
+            },
+            {
+              "id": "max-subtasks",
+              "name": "max_subtasks",
+              "value": 12,
+              "type": "number"
+            },
+            {
+              "id": "max-iterations",
+              "name": "max_plan_iterations",
+              "value": 3,
+              "type": "number"
+            },
+            {
+              "id": "workspace",
+              "name": "workspace",
+              "value": "/data/task-breaker",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "af383eac-84b2-479b-b260-855492ee095c",
+      "name": "Input + Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -3248,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = $input.first().json;\n\nconst timestamp = new Date()\n  .toISOString()\n  .replace(/[:.]/g, '-');\n\nconst random = Math.random()\n  .toString(36)\n  .substring(2, 8);\n\nconst runId = `${timestamp}-${random}`;\n\nreturn [{\n  json: {\n    ...input,\n    run_id: runId,\n    iteration: 1,\n    run_dir: `${input.workspace}/runs/${runId}`\n  }\n}];"
+      },
+      "id": "7afee15a-948b-484a-b4b6-1d3d81418c09",
+      "name": "Create Run ID",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3040,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "command": "=mkdir -p \"{{ $('Create Run ID').first().json.run_dir }}/tasks\" \"{{ $('Create Run ID').first().json.run_dir }}/reviews\" \"{{ $('Create Run ID').first().json.workspace }}/memory\" && if [ ! -f \"{{ $('Create Run ID').first().json.workspace }}/memory/verifier-memory.json\" ]; then printf '{\"reviews\":[]}' > \"{{ $('Create Run ID').first().json.workspace }}/memory/verifier-memory.json\"; fi"
+      },
+      "id": "7eebdd61-4047-4a9e-bcbd-a7f18e9f5ab8",
+      "name": "Prepare Run Directories",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        -2816,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Create Run ID').first().json.litellm_base_url }}/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ JSON.stringify({ model: $('Create Run ID').first().json.task_breaker_model, temperature: 0.1, max_tokens: 2000, think: false, response_format: { type: 'json_object' }, messages: [ { role: 'system', content: `You are a Task Breaker. Convert one major task into the minimum useful number of well-defined subtasks. Return ONLY one valid JSON object. No markdown, comments, or text outside the JSON.\\n\\nRequired structure:\\n{\\n  \"plan_summary\":\"string\",\\n  \"assumptions\":[\"string\"],\\n  \"tasks\":[{\\n    \"id\":\"T01\",\\n    \"title\":\"string\",\\n    \"objective\":\"string\",\\n    \"rationale\":\"string\",\\n    \"inputs_required\":[\"string\"],\\n    \"expected_output\":\"string\",\\n    \"success_criteria\":[\"string\"],\\n    \"dependencies\":[],\\n    \"risk_level\":\"low\"\\n  }]\\n}\\n\\nRules:\\n- Typical 8-10 tasks.\\n- Hard maximum ${$('Create Run ID').first().json.max_subtasks} tasks.\\n- Keep all fields concise.\\n- Each string should normally be one sentence.\\n- Maximum 3 inputs_required entries.\\n- Maximum 3 success_criteria entries.\\n- Planning only. Do not execute commands.\\n- Each task must be detailed enough for a later coding/tool agent.\\n- Explain why each task exists.\\n- Do not invent facts about the target system.\\n- Unknown required facts should create discovery/precondition tasks.\\n- Dependencies may reference only earlier task IDs.\\n- Avoid overlap and duplicate work.\\n- Success criteria must be measurable.\\n- risk_level must be low, medium, or high.\\n- Finish the complete JSON object before stopping.` }, { role: 'user', content: `Major task:\\n${$('Create Run ID').first().json.major_task}` } ] }) }}",
+        "options": {}
+      },
+      "id": "94563c4f-830e-46bc-a8c3-fcad3febc787",
+      "name": "Task Breaker",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -2576,
+        -160
+      ],
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "9y81VsKtT4U9BV7M",
+          "name": "LiteLLM Local"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const response = $input.first().json;\nconst config = $('Create Run ID').first().json;\n\nlet content = response?.choices?.[0]?.message?.content;\n\nif (!content) {\n  throw new Error('Task Breaker returned no message content');\n}\n\ncontent = String(content).trim();\ncontent = content.replace(/<think>[\\s\\S]*?<\\/think>/gi, '').trim();\ncontent = content.replace(/```json/gi, '').replace(/```/g, '').trim();\n\nconst firstBrace = content.indexOf('{');\nconst lastBrace = content.lastIndexOf('}');\n\nif (firstBrace === -1 || lastBrace === -1 || lastBrace <= firstBrace) {\n  throw new Error(`No JSON object found in Task Breaker response: ${content}`);\n}\n\nconst jsonText = content.substring(firstBrace, lastBrace + 1);\n\nlet plan;\ntry {\n  plan = JSON.parse(jsonText);\n} catch (e) {\n  throw new Error(`Task Breaker JSON parsing failed: ${e.message}\\n\\nReceived:\\n${jsonText}`);\n}\n\nif (!Array.isArray(plan.tasks)) {\n  throw new Error('Task Breaker output has no tasks array');\n}\n\nif (plan.tasks.length < 1) {\n  throw new Error('Task Breaker returned zero tasks');\n}\n\nif (plan.tasks.length > config.max_subtasks) {\n  throw new Error(`Task Breaker returned ${plan.tasks.length} tasks; maximum is ${config.max_subtasks}`);\n}\n\nconst seen = {};\n\nfor (let i = 0; i < plan.tasks.length; i++) {\n  const task = plan.tasks[i];\n\n  if (!task.id) {\n    task.id = `T${String(i + 1).padStart(2, '0')}`;\n  }\n\n  if (seen[task.id]) {\n    throw new Error(`Duplicate task ID: ${task.id}`);\n  }\n\n  seen[task.id] = true;\n}\n\nreturn [{\n  json: {\n    ...config,\n    plan\n  }\n}];"
+      },
+      "id": "4555711d-a3ea-4a68-aab8-db8c962f3f35",
+      "name": "Parse Plan",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2336,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.first().json;\n\nreturn [{\n  json: {\n    ...data,\n    plan_json_b64: Buffer.from(JSON.stringify(data.plan, null, 2)).toString('base64')\n  }\n}];"
+      },
+      "id": "50a353f7-3c87-44a8-b5d9-45b3a3a06ba4",
+      "name": "Encode Plan",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2112,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "command": "=printf '%s' '{{ $json.plan_json_b64 }}' | base64 -d > '{{ $('Create Run ID').first().json.run_dir }}/plan.json'"
+      },
+      "id": "8846b6b5-bb56-4fcb-bcd3-ce6c8bc17029",
+      "name": "Write Plan",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        -1888,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $('Parse Plan').first().json;\n\nreturn data.plan.tasks.map(task => ({\n  json: {\n    run_id: data.run_id,\n    run_dir: data.run_dir,\n    workspace: data.workspace,\n    major_task: data.major_task,\n    verifier_model: data.verifier_model,\n    litellm_base_url: data.litellm_base_url,\n    iteration: data.iteration,\n    task,\n    task_json_b64: Buffer.from(JSON.stringify(task, null, 2)).toString('base64')\n  }\n}));"
+      },
+      "id": "1dea3ec9-3305-4c57-9084-02ab88236825",
+      "name": "Split Tasks",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1680,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": false
+        }
+      },
+      "id": "5a2c59ce-3c2c-4773-a3ce-2beb3f29637d",
+      "name": "Loop Over Tasks",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -1456,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "command": "=printf '%s' '{{ $json.task_json_b64 }}' | base64 -d > '{{ $('Create Run ID').first().json.run_dir }}/tasks/{{ $json.task.id }}.json'"
+      },
+      "id": "fef0ff0f-b3b9-433d-9374-dc343cf9182c",
+      "name": "Write Task",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        -1232,
+        -48
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const taskData = $('Loop Over Tasks').first().json;\n\nreturn [{\n  json: taskData\n}];"
+      },
+      "id": "61c95c97-3718-4415-8dd3-de6681e5ed23",
+      "name": "Restore Current Task",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1008,
+        -48
+      ]
+    },
+    {
+      "parameters": {
+        "command": "=cat '{{ $('Create Run ID').first().json.workspace }}/memory/verifier-memory.json'"
+      },
+      "id": "d3c7d2c1-0507-44b5-be55-62f0f5391687",
+      "name": "Read Verifier Memory",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        -48
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const taskData = $('Restore Current Task').first().json;\nconst commandResult = $input.first().json;\n\nlet memory = {\n  reviews: []\n};\n\ntry {\n  memory = JSON.parse(commandResult.stdout || '{\"reviews\":[]}');\n} catch (e) {\n  memory = {\n    reviews: []\n  };\n}\n\nreturn [{\n  json: {\n    ...taskData,\n    verifier_memory: memory\n  }\n}];"
+      },
+      "id": "4967f000-b958-4684-baf3-2f22e74b386a",
+      "name": "Combine Task + Memory",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -576,
+        -48
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Create Run ID').first().json.litellm_base_url }}/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ JSON.stringify({ model: $('Create Run ID').first().json.verifier_model, temperature: 0.1, max_tokens: 300, think:false, response_format: { type: 'json_object' }, messages: [ { role: 'system', content: `You are a strict planning verifier.\\n\\nYour job is to review exactly ONE proposed subtask against the overall major task.\\n\\nEvaluate:\\n- relevance to the major task\\n- specificity\\n- whether a later tool/coding agent could execute it\\n- missing required inputs\\n- measurable success criteria\\n- dependency correctness\\n- overlap or duplication\\n- unsafe assumptions\\n- scope\\n\\nPrior verifier memory may be provided. Use it only to avoid repeating previously identified planning mistakes. Do not fail a task merely because a similar issue appeared previously.\\n\\nReturn ONLY one valid JSON object in this format:\\n{\\n  \"task_id\":\"T01\",\\n  \"verdict\":\"PASS\",\\n  \"score\":8,\\n  \"problems\":[],\\n  \"required_changes\":[],\\n  \"reason\":\"5 words\"\\n}\\n\\nRules:\\n- verdict must be PASS or FAIL.\\n- score must be an integer from 0 to 10.\\n- PASS requires score >= 8.\\n- PASS requires no material problems.\\n- FAIL if required information is materially missing.\\n- Do not execute anything.\\n- Do not generate shell commands.\\n- Do not use markdown.\\n- Do not include text outside the JSON object.` }, { role: 'user', content: `MAJOR TASK:\\n\\n${$json.major_task}\\n\\nTASK TO REVIEW:\\n\\n${JSON.stringify($json.task, null, 2)}\\n\\nPRIOR VERIFIER MEMORY:\\n\\n${JSON.stringify($json.verifier_memory, null, 2)}` } ] }) }}",
+        "options": {}
+      },
+      "id": "562e2173-73ca-40e8-a5fc-b32068f55f2f",
+      "name": "Verifier",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -352,
+        -48
+      ],
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "9y81VsKtT4U9BV7M",
+          "name": "LiteLLM Local"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const response = $input.first().json;\nconst source = $('Combine Task + Memory').first().json;\n\nlet content = response?.choices?.[0]?.message?.content;\n\nif (!content) {\n  throw new Error('Verifier returned no message content');\n}\n\ncontent = String(content).trim();\ncontent = content.replace(/<think>[\\s\\S]*?<\\/think>/gi, '').trim();\ncontent = content.replace(/```json/gi, '').replace(/```/g, '').trim();\n\nconst firstBrace = content.indexOf('{');\nconst lastBrace = content.lastIndexOf('}');\n\nif (firstBrace === -1 || lastBrace === -1 || lastBrace <= firstBrace) {\n  throw new Error(`No JSON object found in Verifier response: ${content}`);\n}\n\nconst jsonText = content.substring(firstBrace, lastBrace + 1);\n\nlet review;\ntry {\n  review = JSON.parse(jsonText);\n} catch (e) {\n  throw new Error(`Verifier JSON parsing failed: ${e.message}\\n\\nReceived:\\n${jsonText}`);\n}\n\nif (!['PASS', 'FAIL'].includes(review.verdict)) {\n  throw new Error('Verifier verdict must be PASS or FAIL');\n}\n\nif (typeof review.score !== 'number') {\n  throw new Error('Verifier score must be numeric');\n}\n\nreview.task_id = source.task.id;\n\nconst memoryEntry = {\n  run_id: source.run_id,\n  iteration: source.iteration,\n  task_id: source.task.id,\n  verdict: review.verdict,\n  score: review.score,\n  problems: review.problems || [],\n  required_changes: review.required_changes || []\n};\n\nreturn [{\n  json: {\n    ...source,\n    review,\n    review_json_b64: Buffer.from(JSON.stringify(review, null, 2)).toString('base64'),\n    memory_entry_b64: Buffer.from(JSON.stringify(memoryEntry)).toString('base64')\n  }\n}];"
+      },
+      "id": "3562627a-a73b-4f5f-bec8-aba53d3f4177",
+      "name": "Parse Review",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1232,
+        256
+      ]
+    },
+    {
+      "parameters": {
+        "command": "=printf '%s' '{{ $json.review_json_b64 }}' | base64 -d > '{{ $('Create Run ID').first().json.run_dir }}/reviews/{{ $json.task.id }}.json'"
+      },
+      "id": "467a2c51-14e3-4b71-a0e9-30f0278f0950",
+      "name": "Write Review",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        -1024,
+        256
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const reviewData = $('Parse Review').first().json;\n\nreturn [{\n  json: reviewData\n}];"
+      },
+      "id": "84cf1611-16ba-48af-a5fc-e3d9fa27271f",
+      "name": "Restore Review Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -752,
+        256
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const reviewData = $('Restore Review Data').first().json;\n\nreturn [{\n  json: reviewData\n}];"
+      },
+      "id": "0bf3b398-68b6-4cb2-a12a-50794e9f3ef5",
+      "name": "Return Review",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        64,
+        256
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const run = $('Parse Plan').first().json;\nconst items = $input.all();\n\nconst reviews = items\n  .map(item => item.json.review)\n  .filter(Boolean);\n\nconst failures = reviews.filter(review =>\n  review.verdict === 'FAIL' || review.score < 8\n);\n\nreturn [{\n  json: {\n    run_id: run.run_id,\n    run_dir: run.run_dir,\n    major_task: run.major_task,\n    iteration: run.iteration,\n    total_tasks: run.plan.tasks.length,\n    reviews,\n    failure_count: failures.length,\n    failures,\n    all_passed: failures.length === 0,\n    status: failures.length === 0\n      ? 'VERIFIED'\n      : 'PLAN_REVISION_REQUIRED'\n  }\n}];"
+      },
+      "id": "0fd80f55-2e45-4cf4-8a6d-0f3c4eed6c61",
+      "name": "Final Quality Gate",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1232,
+        -304
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $(\"Restore Review Data\").first().json;\n\nconst memory = data.verifier_memory || { reviews: [] };\n\nconst entry = {\n  run_id: data.run_id,\n  iteration: data.iteration,\n  task_id: data.task.id,\n  verdict: data.review.verdict,\n  score: data.review.score,\n  problems: data.review.problems || [],\n  required_changes: data.review.required_changes || []\n};\n\nmemory.reviews = [\n  ...(memory.reviews || []),\n  entry\n].slice(-20);\n\nreturn [{\n  json: {\n    ...data,\n    verifier_memory: memory,\n    memory_b64: Buffer\n      .from(JSON.stringify(memory, null, 2))\n      .toString(\"base64\")\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -480,
+        256
+      ],
+      "id": "397bc930-54c3-4111-9798-d826a55cdc68",
+      "name": "Update Verifier Memory"
+    },
+    {
+      "parameters": {
+        "command": "={{ \"printf '%s' '\" + $json.memory_b64 + \"' | base64 -d > '\" + $(\"Create Run ID\").first().json.workspace + \"/memory/verifier-memory.json'\" }}"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        -208,
+        256
+      ],
+      "id": "5a454f7e-ff75-473b-b62a-dc26b62756aa",
+      "name": "Write Verifier Memory"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $(\"Create Run ID\").first().json.litellm_base_url }}/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ JSON.stringify({   model: $(\"Create Run ID\").first().json.task_breaker_model,   temperature: 0.0,   max_tokens: 600,   think: false,    messages: [     {       role: \"system\",       content: `You are a Linux automation tool developer.  Create ONE small executable tool that performs the supplied task.  Choose either strict Bash or strict Python: - Prefer Bash for simple Linux/system operations. - Use Python only when it materially simplifies the task.  The tool must: - Perform only the requested task. - Be non-interactive. - Avoid destructive actions. - Never modify the target system unless explicitly required. - Check required commands before using them. - Handle errors. - Send useful results to stdout. - Send errors to stderr. - Exit 0 on success and non-zero on failure. - Be suitable for later execution inside a Docker sandbox.  Return ONLY valid JSON:  {   \"language\": \"bash\",   \"filename\": \"tool.sh\",   \"purpose\": \"short description\",   \"code\": \"#!/bin/bash\\\\n...\",   \"expected_output\": \"short description\" }  Rules: - language must be \"bash\" or \"python\". - filename must end in .sh or .py accordingly. - Generate exactly one tool. - Do not use markdown fences. - Do not explain the code outside the JSON.`     },     {       role: \"user\",       content: `MAJOR TASK:  ${$(\"Create Run ID\").first().json.major_task}  SUBTASK:  ${JSON.stringify(   $(\"Parse Plan\").first().json.plan.tasks[0],   null,   2 )}`     }   ] }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -2096,
+        -512
+      ],
+      "id": "f731c216-09fa-48ca-bd31-4700d82f0d60",
+      "name": "Test tool creation",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "9y81VsKtT4U9BV7M",
+          "name": "LiteLLM Local"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Input + Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Input + Config": {
+      "main": [
+        [
+          {
+            "node": "Create Run ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Run ID": {
+      "main": [
+        [
+          {
+            "node": "Prepare Run Directories",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Run Directories": {
+      "main": [
+        [
+          {
+            "node": "Task Breaker",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Task Breaker": {
+      "main": [
+        [
+          {
+            "node": "Parse Plan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Plan": {
+      "main": [
+        [
+          {
+            "node": "Test tool creation",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Encode Plan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Encode Plan": {
+      "main": [
+        [
+          {
+            "node": "Write Plan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Plan": {
+      "main": [
+        [
+          {
+            "node": "Split Tasks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Tasks": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Tasks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Tasks": {
+      "main": [
+        [
+          {
+            "node": "Final Quality Gate",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Write Task",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Task": {
+      "main": [
+        [
+          {
+            "node": "Restore Current Task",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Restore Current Task": {
+      "main": [
+        [
+          {
+            "node": "Read Verifier Memory",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Verifier Memory": {
+      "main": [
+        [
+          {
+            "node": "Combine Task + Memory",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine Task + Memory": {
+      "main": [
+        [
+          {
+            "node": "Verifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verifier": {
+      "main": [
+        [
+          {
+            "node": "Parse Review",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Review": {
+      "main": [
+        [
+          {
+            "node": "Write Review",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Review": {
+      "main": [
+        [
+          {
+            "node": "Restore Review Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Restore Review Data": {
+      "main": [
+        [
+          {
+            "node": "Update Verifier Memory",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Return Review": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Tasks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Verifier Memory": {
+      "main": [
+        [
+          {
+            "node": "Write Verifier Memory",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Verifier Memory": {
+      "main": [
+        [
+          {
+            "node": "Return Review",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "nodeGroups": [],
+  "pinData": {},
+  "versionId": "39afc9bf-84bb-4288-b3f3-13673dfac0fc",
+  "activeVersionId": null,
+  "versionCounter": 158,
+  "triggerCount": 0,
+  "sourceWorkflowId": null,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2026-08-31T14:56:56.585Z",
+      "createdAt": "2026-08-31T14:56:56.585Z",
+      "role": "workflow:owner",
+      "workflowId": "pvMkhXx9cb3xcyKl",
+      "projectId": "GQNbng0QqhX0CllC",
+      "project": {
+        "updatedAt": "2026-07-11T09:30:14.997Z",
+        "createdAt": "2026-07-08T07:31:19.792Z",
+        "id": "GQNbng0QqhX0CllC",
+        "name": "André Gammelgaard <oldfarm@oldfarm.dk>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "customTelemetryTags": [],
+        "creatorId": "421bda88-bb9b-4a51-9076-06e01c515d92"
+      }
+    }
+  ],
+  "versionMetadata": {
+    "name": null,
+    "description": null
+  }
+}

@@ -1,0 +1,1 @@
+ansible-playbook -i inventory /home/bot/ansible_check_report_roles/check_report.yml 

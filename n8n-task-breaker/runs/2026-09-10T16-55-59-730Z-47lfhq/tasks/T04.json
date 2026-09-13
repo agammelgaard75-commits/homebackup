@@ -1,0 +1,17 @@
+{
+  "id": "T04",
+  "title": "Install Nginx package",
+  "objective": "Download and install the Nginx web server software.",
+  "rationale": "This is the core installation step that places binaries, libraries, and configuration files onto the system.",
+  "inputs_required": [
+    "sudo access"
+  ],
+  "expected_output": "Command output confirming successful installation of nginx.",
+  "success_criteria": [
+    "Package manager reports 0 failed to install."
+  ],
+  "dependencies": [
+    "T03"
+  ],
+  "risk_level": "low"
+}

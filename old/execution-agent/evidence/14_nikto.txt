@@ -1,0 +1,7 @@
+nikto -h localhost
+Output:
+Nikto v3.6.4
+---
+Host: localhost
+Ports: 80,443
+...

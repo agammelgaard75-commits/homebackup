@@ -1,0 +1,17 @@
+{
+  "id": "T02",
+  "title": "Add the official Nginx GPG key and repository",
+  "objective": "Import the necessary cryptographic key and add the Ubuntu 24.04 specific Nginx repository.",
+  "rationale": "Adding the official repo ensures access to the latest stable version of Nginx compatible with Ubuntu 24.04 (Jammy).",
+  "inputs_required": [
+    "sudo access"
+  ],
+  "expected_output": "The GPG key is added and the repository source list entry is created.",
+  "success_criteria": [
+    "The apt cache shows the new nginx package from the official repo."
+  ],
+  "dependencies": [
+    "T01"
+  ],
+  "risk_level": "low"
+}

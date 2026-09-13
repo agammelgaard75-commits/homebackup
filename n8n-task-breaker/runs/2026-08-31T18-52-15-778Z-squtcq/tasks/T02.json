@@ -1,0 +1,20 @@
+{
+  "id": "T02",
+  "title": "Execute Vulnerability Scans",
+  "objective": "Run multiple specialized scans (e.g., network, package, configuration) against the host using industry-standard tools.",
+  "rationale": "A single scan is insufficient; multiple tools are needed to cover different attack vectors (network, application, configuration) and provide comprehensive coverage.",
+  "inputs_required": [
+    "System Inventory Report (T01)",
+    "Vulnerability Scanner Tools (e.g., OpenVAS, Nessus)"
+  ],
+  "expected_output": "Raw scan results files containing identified vulnerabilities, severity ratings, and affected assets.",
+  "success_criteria": [
+    "At least three distinct types of scans (e.g., network, package, configuration) are executed.",
+    "All raw scan output files are successfully collected and stored.",
+    "The scan process completes without critical tool failures."
+  ],
+  "dependencies": [
+    "T01"
+  ],
+  "risk_level": "medium"
+}

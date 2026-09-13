@@ -1,0 +1,15 @@
+<dashboard version="1.1">
+  <label>AI Sysadmin - Server Health</label>
+  <description>Weekly health, package and maintenance closure status.</description>
+  <row>
+    <panel><single><title>Latest root free %</title><search><query>index=ai_sysadmin sourcetype=ai_sysadmin:health | stats latest(root_free_percent) as value</query><earliest>-30d</earliest><latest>now</latest></search></single></panel>
+    <panel><single><title>Failed units</title><search><query>index=ai_sysadmin sourcetype=ai_sysadmin:health | head 1 | eval value=coalesce(mvcount('failed_units{}'),0) | table value</query><earliest>-30d</earliest><latest>now</latest></search></single></panel>
+    <panel><single><title>Packages available</title><search><query>index=ai_sysadmin sourcetype=ai_sysadmin:health | stats latest(upgradable_package_count) as value</query><earliest>-30d</earliest><latest>now</latest></search></single></panel>
+  </row>
+  <row><panel><table><title>Recent health reports</title><search><query>index=ai_sysadmin sourcetype=ai_sysadmin:health | table _time host root_free_percent failed_units{} upgradable_package_count reboot_required inspection_errors{} | sort - _time</query><earliest>-30d</earliest><latest>now</latest></search></table></panel></row>
+  <row><panel><table><title>Change closures</title><search><query>index=ai_sysadmin sourcetype=ai_sysadmin:audit event_type=closure | table _time host run_id change_id status closing_remark | sort - _time</query><earliest>-30d</earliest><latest>now</latest></search></table></panel></row>
+  <row><panel><table><title>Extra software inventory (latest inspection per host)</title><search><query>index=ai_sysadmin sourcetype=ai_sysadmin:audit event_type=software [ search index=ai_sysadmin sourcetype=ai_sysadmin:audit event_type=inventory earliest=-30d | stats latest(run_id) as run_id by host | fields host run_id ] | dedup host location name | table _time host name software_version software_source location update_policy</query><earliest>-30d</earliest><latest>now</latest></search></table></panel></row>
+  <row><panel><table><title>Software inventory coverage</title><search><query>index=ai_sysadmin sourcetype=ai_sysadmin:health | dedup host | table _time host installed_package_count extra_software_count inspection_errors{}</query><earliest>-30d</earliest><latest>now</latest></search></table></panel></row>
+  <row><panel><table><title>Container images (latest inspection per host)</title><search><query>index=ai_sysadmin sourcetype=ai_sysadmin:audit event_type=container [ search index=ai_sysadmin sourcetype=ai_sysadmin:audit event_type=container_inventory earliest=-30d | stats latest(run_id) as run_id by host | fields host run_id ] | dedup host name | table _time host name image_ref image_id application_version dependency_version running health update_policy</query><earliest>-30d</earliest><latest>now</latest></search></table></panel></row>
+</dashboard>
+

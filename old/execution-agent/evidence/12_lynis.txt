@@ -1,0 +1,18 @@
+Checking for vulnerabilities...
+
+# Lynis audit system
+Starting audit...
+
+[INF] System information collected.
+[INF] Checking for known vulnerabilities.
+[INF] Checking for system configuration issues.
+[INF] Checking for installed software.
+[INF] Checking for log files.
+[INF] Checking for rootkits.
+[INF] Checking for backdoors.
+[INF] Checking for suspicious files.
+[INF] Checking for insecure permissions.
+
+[INF] Audit completed successfully.
+
+No critical vulnerabilities found.

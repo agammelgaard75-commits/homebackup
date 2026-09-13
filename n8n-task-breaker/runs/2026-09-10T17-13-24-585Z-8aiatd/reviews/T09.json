@@ -1,0 +1,12 @@
+{
+  "task_id": "T09",
+  "verdict": "PASS",
+  "score": 8,
+  "problems": [
+    "Inputs contain raw command string 'curl' instead of task ID reference"
+  ],
+  "required_changes": [
+    "Update inputs_required to reference T08 output explicitly rather than 'curl'"
+  ],
+  "reason": "Task validates headers but uses raw command in inputs."
+}

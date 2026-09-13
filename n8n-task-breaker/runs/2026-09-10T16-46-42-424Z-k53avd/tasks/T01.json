@@ -1,0 +1,16 @@
+{
+  "id": "T01",
+  "title": "Update system package lists and upgrade existing packages",
+  "objective": "Ensure the local package index is current before installing new software.",
+  "rationale": "Running apt update prevents installation of outdated versions and resolves dependency conflicts early in the process.",
+  "inputs_required": [
+    "sudo access"
+  ],
+  "expected_output": "Command completes with a summary of packages upgraded or no changes needed.",
+  "success_criteria": [
+    "Exit code is 0",
+    "No critical errors reported during update"
+  ],
+  "dependencies": [],
+  "risk_level": "low"
+}

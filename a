@@ -1,0 +1,84 @@
+ABB.ST
+Signal: Neutral
+Reason: Bearish MACD state conflicts with positive unrealized return.
+Risk: Price is above buy price but momentum indicators are weak.
+Action: Monitor
+
+SU.PA
+Signal: Negative
+Reason: High volume deviation and bearish MACD suggest caution despite small gains.
+Risk: Significant drop in trading activity relative to the 3-month average.
+Action: Investigate
+
+ASML.AS
+Signal: Neutral
+Reason: Strong unrealized return is offset by a bearish MACD state.
+Risk: Momentum increasing but histogram indicates downward pressure recently.
+Action: Monitor
+
+IFX.DE
+Signal: Negative
+Reason: Bearish MACD and high volume deviation indicate potential weakness.
+Risk: Price remains above buy price despite negative technical signals.
+Action: Investigate
+
+NKT.CO
+Signal: Neutral
+Reason: Slight loss against unrealized return with bearish momentum indicators.
+Risk: Stop loss has not triggered but returns are turning negative.
+Action: Monitor
+
+SAP.DE
+Signal: Positive
+Reason: Bullish MACD state and price above buy level suggest stability.
+Risk: Volume is significantly below the 3-month average levels.
+Action: Investigate
+
+UCG.MI
+Signal: Positive
+Reason: Strong bullish momentum with positive daily change and return.
+Risk: High volume deviation suggests some selling pressure exists.
+Action: Monitor
+
+KOG.OL
+Signal: Neutral
+Reason: Bullish MACD state conflicts with negative daily price movement.
+Risk: Price is above buy level but recent decline is notable.
+Action: Investigate
+
+CARL-B.CO
+Signal: Positive
+Reason: Bullish momentum and positive returns support a favorable outlook.
+Risk: Volume deviation indicates lower than average trading activity today.
+Action: Monitor
+
+DSV.CO
+Signal: Neutral
+Reason: Bullish MACD state with slight price gain but low volume participation.
+Risk: Significant drop in daily volume relative to the 3-month average.
+Action: Investigate
+
+MTRS.ST
+Signal: Negative
+Reason: Stop loss triggered and negative unrealized return indicate immediate risk.
+Risk: Price is below buy level confirming a downtrend has started.
+Action: stop-loss warning
+
+YCA.L
+Signal: Neutral
+Reason: Extremely high returns but bearish MACD state creates uncertainty.
+Risk: Massive volume deviation suggests unusual market conditions or volatility.
+Action: Monitor
+
+ALFA.ST
+Signal: Positive
+Reason: Strong bullish momentum and significant positive unrealized return.
+Risk: Price is above buy level with no stop loss triggered yet.
+Action: Investigate
+
+KMAR.OL
+Signal: Negative
+Reason: Stop loss triggered and negative returns confirm a sharp decline.
+Risk: Significant volume drop accompanies the price fall below support levels.
+Action: stop-loss warning
+

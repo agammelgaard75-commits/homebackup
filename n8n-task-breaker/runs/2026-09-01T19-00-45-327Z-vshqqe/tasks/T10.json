@@ -1,0 +1,19 @@
+{
+  "id": "T10",
+  "title": "Document Installation Details",
+  "objective": "Record key details about the installation for future reference.",
+  "rationale": "Maintaining an audit trail of installed versions, ports, and configuration files aids in troubleshooting or compliance checks.",
+  "inputs_required": [
+    "nginx -v",
+    "sudo ufw status verbose"
+  ],
+  "expected_output": "A summary containing the Nginx version string and current active firewall rules.",
+  "success_criteria": [
+    "Version output captured (e.g., '1.26.x').",
+    "Firewall rules listed in documentation."
+  ],
+  "dependencies": [
+    "T09"
+  ],
+  "risk_level": "low"
+}

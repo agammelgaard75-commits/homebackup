@@ -1,0 +1,19 @@
+{
+  "id": "T02",
+  "title": "Update APT Package Repository",
+  "objective": "Refresh the package index to ensure latest nginx version is available for installation",
+  "rationale": "Ensures we install the most recent stable version with all security patches",
+  "inputs_required": [
+    "sudo access",
+    "Network connectivity"
+  ],
+  "expected_output": "Updated package lists ready for installation",
+  "success_criteria": [
+    "apt update command completes without errors",
+    "Package index is current"
+  ],
+  "dependencies": [
+    "T01"
+  ],
+  "risk_level": "low"
+}

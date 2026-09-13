@@ -1,0 +1,253 @@
+{
+  "reviews": [
+    {
+      "run_id": "2026-09-10T17-13-24-585Z-8aiatd",
+      "iteration": 1,
+      "task_id": "T10",
+      "verdict": "PASS",
+      "score": 9,
+      "problems": [
+        "Inputs contain raw command string 'cat' instead of task ID reference"
+      ],
+      "required_changes": [
+        "Update inputs_required to reference T09 output explicitly rather than 'cat'"
+      ]
+    },
+    {
+      "run_id": "2026-09-11T13-04-38-501Z-i5075w",
+      "iteration": 1,
+      "task_id": "T01",
+      "verdict": "PASS",
+      "score": 10,
+      "problems": [],
+      "required_changes": []
+    },
+    {
+      "run_id": "2026-09-11T13-04-38-501Z-i5075w",
+      "iteration": 1,
+      "task_id": "T02",
+      "verdict": "FAIL",
+      "score": 4,
+      "problems": [
+        "Inputs reference raw command string 'Current apt sources list' instead of task ID T01 output",
+        "Prior verifier memory indicates this specific input format was flagged as non-compliant in previous iterations"
+      ],
+      "required_changes": [
+        "Update inputs_required to explicitly reference T01 output rather than describing the data source"
+      ]
+    },
+    {
+      "run_id": "2026-09-11T13-04-38-501Z-i5075w",
+      "iteration": 1,
+      "task_id": "T03",
+      "verdict": "PASS",
+      "score": 9,
+      "problems": [
+        "Inputs reference raw command strings instead of task ID references"
+      ],
+      "required_changes": [
+        "Update inputs_required to reference T02 output explicitly rather than 'sudo' and 'apt'"
+      ]
+    },
+    {
+      "run_id": "2026-09-11T13-04-38-501Z-i5075w",
+      "iteration": 1,
+      "task_id": "T04",
+      "verdict": "PASS",
+      "score": 9,
+      "problems": [
+        "Inputs contain raw command strings instead of task ID references"
+      ],
+      "required_changes": [
+        "Update inputs_required to reference T03 output explicitly rather than 'sudo' and 'systemctl'"
+      ]
+    },
+    {
+      "run_id": "2026-09-11T13-04-38-501Z-i5075w",
+      "iteration": 1,
+      "task_id": "T05",
+      "verdict": "PASS",
+      "score": 9,
+      "problems": [],
+      "required_changes": []
+    },
+    {
+      "run_id": "2026-09-11T13-04-38-501Z-i5075w",
+      "iteration": 1,
+      "task_id": "T06",
+      "verdict": "PASS",
+      "score": 8,
+      "problems": [
+        "Inputs contain 'Local network access' instead of explicit task ID reference"
+      ],
+      "required_changes": [
+        "Update inputs_required to reference T05 output explicitly rather than 'Local network access'"
+      ]
+    },
+    {
+      "run_id": "2026-09-11T13-04-38-501Z-i5075w",
+      "iteration": 1,
+      "task_id": "T07",
+      "verdict": "PASS",
+      "score": 8,
+      "problems": [
+        "Inputs contain raw command strings instead of task ID references"
+      ],
+      "required_changes": [
+        "Update inputs_required to reference T06 output explicitly rather than 'Read access to /etc/nginx/conf.d/'"
+      ]
+    },
+    {
+      "run_id": "2026-09-11T13-04-38-501Z-i5075w",
+      "iteration": 1,
+      "task_id": "T08",
+      "verdict": "PASS",
+      "score": 9,
+      "problems": [
+        "Inputs contain raw command strings instead of task ID references"
+      ],
+      "required_changes": [
+        "Update inputs_required to reference T07 output explicitly rather than 'sudo access'"
+      ]
+    },
+    {
+      "run_id": "2026-09-11T13-04-38-501Z-i5075w",
+      "iteration": 1,
+      "task_id": "T09",
+      "verdict": "FAIL",
+      "score": 4,
+      "problems": [
+        "Inputs contain raw command string 'sudo access' instead of task ID reference",
+        "Prior verifier memory indicates this specific input format was flagged as non-compliant in previous iterations"
+      ],
+      "required_changes": [
+        "Update inputs_required to reference T08 output explicitly rather than 'sudo access'"
+      ]
+    },
+    {
+      "run_id": "2026-09-11T13-04-38-501Z-i5075w",
+      "iteration": 1,
+      "task_id": "T10",
+      "verdict": "PASS",
+      "score": 9,
+      "problems": [],
+      "required_changes": [
+        "Update inputs_required to reference T09 output explicitly rather than 'Previous task outputs'"
+      ]
+    },
+    {
+      "run_id": "2026-09-11T13-32-00-389Z-33n823",
+      "iteration": 1,
+      "task_id": "T01",
+      "verdict": "PASS",
+      "score": 10,
+      "problems": [],
+      "required_changes": []
+    },
+    {
+      "run_id": "2026-09-11T13-32-00-389Z-33n823",
+      "iteration": 1,
+      "task_id": "T02",
+      "verdict": "FAIL",
+      "score": 4,
+      "problems": [
+        "Inputs reference raw command string 'sudo access' instead of task ID T01 output",
+        "Prior verifier memory indicates this specific input format was flagged as non-compliant in previous iterations"
+      ],
+      "required_changes": [
+        "Update inputs_required to explicitly reference T01 output rather than describing the data source"
+      ]
+    },
+    {
+      "run_id": "2026-09-11T13-32-00-389Z-33n823",
+      "iteration": 1,
+      "task_id": "T03",
+      "verdict": "PASS",
+      "score": 9,
+      "problems": [
+        "Inputs reference raw command strings instead of task ID references"
+      ],
+      "required_changes": [
+        "Update inputs_required to reference T02 output explicitly rather than 'sudo access'"
+      ]
+    },
+    {
+      "run_id": "2026-09-11T13-32-00-389Z-33n823",
+      "iteration": 1,
+      "task_id": "T04",
+      "verdict": "PASS",
+      "score": 8,
+      "problems": [
+        "Inputs contain raw command string 'sudo access' instead of task ID reference"
+      ],
+      "required_changes": [
+        "Update inputs_required to reference T03 output explicitly rather than 'sudo access'"
+      ]
+    },
+    {
+      "run_id": "2026-09-11T13-32-00-389Z-33n823",
+      "iteration": 1,
+      "task_id": "T05",
+      "verdict": "PASS",
+      "score": 9,
+      "problems": [
+        "Inputs reference raw command string 'curl' instead of task ID T04 output"
+      ],
+      "required_changes": [
+        "Update inputs_required to reference T04 output explicitly rather than 'Network connectivity'"
+      ]
+    },
+    {
+      "run_id": "2026-09-11T13-32-00-389Z-33n823",
+      "iteration": 1,
+      "task_id": "T06",
+      "verdict": "PASS",
+      "score": 8,
+      "problems": [
+        "Inputs reference raw command strings instead of task ID references"
+      ],
+      "required_changes": [
+        "Update inputs_required to reference T05 output explicitly rather than 'sudo access' and 'Text editor'"
+      ]
+    },
+    {
+      "run_id": "2026-09-11T13-32-00-389Z-33n823",
+      "iteration": 1,
+      "task_id": "T07",
+      "verdict": "PASS",
+      "score": 8,
+      "problems": [
+        "Inputs reference raw command string 'sudo access' instead of task ID T06 output"
+      ],
+      "required_changes": [
+        "Update inputs_required to reference T06 output explicitly rather than 'sudo access'"
+      ]
+    },
+    {
+      "run_id": "2026-09-11T13-32-00-389Z-33n823",
+      "iteration": 1,
+      "task_id": "T08",
+      "verdict": "PASS",
+      "score": 9,
+      "problems": [
+        "Inputs reference raw command string 'sudo access' instead of task ID T07 output"
+      ],
+      "required_changes": [
+        "Update inputs_required to reference T07 output explicitly rather than 'sudo access'"
+      ]
+    },
+    {
+      "run_id": "2026-09-11T13-32-00-389Z-33n823",
+      "iteration": 1,
+      "task_id": "T09",
+      "verdict": "PASS",
+      "score": 8,
+      "problems": [
+        "Inputs reference raw command string 'curl' instead of task ID T08 output"
+      ],
+      "required_changes": [
+        "Update inputs_required to reference T08 output explicitly rather than 'curl'"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "T01",
+  "title": "Gather System Information",
+  "objective": "Collect operating system details for package manager identification",
+  "rationale": "Different Linux distributions use different package managers (apt, yum, dnf, pacman) affecting verification commands",
+  "inputs_required": [
+    "Host IP address or hostname",
+    "SSH credentials"
+  ],
+  "expected_output": "OS type, distribution name, and release version information",
+  "success_criteria": "System info command executes successfully and returns OS details",
+  "dependencies": [],
+  "risk_level": "low"
+}

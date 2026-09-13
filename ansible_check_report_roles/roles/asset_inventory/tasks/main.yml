@@ -1,0 +1,48 @@
+---
+- name: Collect installed package count
+  ansible.builtin.shell: "dpkg-query -W -f='${binary:Package}
+' | wc -l"
+  register: asset_inventory_package_count_cmd
+  changed_when: false
+  failed_when: false
+  when: asset_inventory_include_package_count | bool
+
+- name: Build asset inventory facts
+  ansible.builtin.set_fact:
+    asset_inventory_report:
+      hostname: "{{ ansible_hostname }}"
+      fqdn: "{{ ansible_fqdn | default('') }}"
+      os:
+        distribution: "{{ ansible_distribution }}"
+        version: "{{ ansible_distribution_version }}"
+        release: "{{ ansible_distribution_release | default('') }}"
+        kernel: "{{ ansible_kernel }}"
+        architecture: "{{ ansible_architecture }}"
+      hardware:
+        cpu_cores: "{{ ansible_processor_vcpus | default(ansible_processor_cores | default('unknown')) }}"
+        memory_mb: "{{ ansible_memtotal_mb | default('unknown') }}"
+      network:
+        default_ipv4: "{{ ansible_default_ipv4.address | default('') }}"
+        interfaces: "{{ ansible_interfaces | default([]) }}"
+      packages:
+        installed_count: "{{ asset_inventory_package_count_cmd.stdout | default('skipped') }}"
+      generated_at: "{{ ansible_date_time.iso8601 }}"
+
+- name: Ensure report directory exists
+  ansible.builtin.file:
+    path: "{{ asset_inventory_report_dir }}"
+    state: directory
+    mode: '0750'
+
+- name: Write asset inventory report to file
+  ansible.builtin.copy:
+    content: |
+      {{ asset_inventory_report | to_nice_json }}
+    dest: "{{ asset_inventory_report_file }}"
+    mode: '0640'
+  changed_when: false
+
+- name: Print compact asset inventory summary
+  ansible.builtin.debug:
+    msg: "asset_inventory: ok={{ asset_inventory_report.ok | default(true) }}; report={{ asset_inventory_report_file }}"
+  when: asset_inventory_print_summary | bool

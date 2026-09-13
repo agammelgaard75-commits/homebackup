@@ -1,0 +1,18 @@
+{
+  "id": "T06",
+  "title": "Configure basic security headers in default site",
+  "objective": "Edit the default server block to include security headers like X-Frame-Options and Content-Security-Policy.",
+  "rationale": "Hardening the default configuration protects against common web vulnerabilities like clickjacking and XSS.",
+  "inputs_required": [
+    "sudo access",
+    "Text editor (nano/vi)"
+  ],
+  "expected_output": "The /etc/nginx/sites-enabled/default file is updated with security directives.",
+  "success_criteria": [
+    "Headers are present in the response headers when viewed via curl -I."
+  ],
+  "dependencies": [
+    "T05"
+  ],
+  "risk_level": "medium"
+}

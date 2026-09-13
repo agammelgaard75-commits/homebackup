@@ -1,0 +1,151 @@
+<dashboard version="1.1" theme="dark">
+  <label>Server Health — sandbox</label>
+  <description>Local Ubuntu telemetry sampled every 60 seconds. CPU and I/O use a 1-second sample; brief spikes between samples may be missed. Inventory covers the last 5 minutes; trends cover 1 hour. Refresh the dashboard to update.</description>
+  <search id="inventory">
+    <query>index=host_metrics sourcetype=server:health:json | eval entity=coalesce(unit,mount,interface,device,tostring(pid),kind) | stats latest(*) as * latest(_time) as last_seen by kind entity</query>
+    <earliest>-5m</earliest>
+    <latest>now</latest>
+    <done>
+      <set token="trends_earliest">-1h</set>
+    </done>
+  </search>
+  <search id="trends">
+    <query>index=host_metrics sourcetype=server:health:json kind=system | timechart span=1m avg(cpu_pct) as CPU avg(memory_used_pct) as Memory avg(iowait_pct) as IOWait</query>
+    <earliest>$trends_earliest$</earliest>
+    <latest>now</latest>
+    <done>
+      <set token="journal_earliest">-15m</set>
+    </done>
+  </search>
+  <row>
+    <panel>
+      <title>Telemetry age (seconds)</title>
+      <single>
+        <search base="inventory">
+          <query>| search kind=system | eval age=round(now()-last_seen) | stats max(age) as seconds</query>
+        </search>
+      </single>
+    </panel>
+    <panel>
+      <title>CPU used (%)</title>
+      <single>
+        <search base="inventory">
+          <query>| search kind=system | stats latest(cpu_pct) as percent</query>
+        </search>
+      </single>
+    </panel>
+    <panel>
+      <title>Memory used (%)</title>
+      <single>
+        <search base="inventory">
+          <query>| search kind=system | stats latest(memory_used_pct) as percent</query>
+        </search>
+      </single>
+    </panel>
+    <panel>
+      <title>Failed services</title>
+      <single>
+        <search base="inventory">
+          <query>| search kind=service_summary | stats latest(failed_count) as failed</query>
+        </search>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>CPU, memory and I/O wait (%)</title>
+      <chart>
+        <search base="trends">
+          <query>| fields _time CPU Memory IOWait</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <option name="charting.axisY.minimumNumber">0</option>
+        <option name="charting.axisY.maximumNumber">100</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Filesystem capacity</title>
+      <table>
+        <search base="inventory">
+          <query>| search kind=filesystem | eval available_GiB=round(available_bytes/1073741824,2) | table mount filesystem used_pct available_GiB inode_used_pct</query>
+        </search>
+      </table>
+    </panel>
+    <panel>
+      <title>Load, uptime and swap</title>
+      <table>
+        <search base="inventory">
+          <query>| search kind=system | eval uptime_days=round(uptime_seconds/86400,2), swap_MiB=round(swap_used_bytes/1048576,1) | eval load1=round(load1,2), load5=round(load5,2), load15=round(load15,2) | table cpu_count load1 load5 load15 uptime_days swap_MiB</query>
+        </search>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Network (sampled bytes/sec)</title>
+      <table>
+        <search base="inventory">
+          <query>| search kind=network | table interface rx_bytes_sec tx_bytes_sec rx_errors tx_errors rx_drops tx_drops</query>
+        </search>
+      </table>
+    </panel>
+    <panel>
+      <title>Disk I/O (sampled bytes/sec)</title>
+      <table>
+        <search base="inventory">
+          <query>| search kind=disk_io | table device read_bytes_sec write_bytes_sec busy_pct</query>
+        </search>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Failed services</title>
+      <table>
+        <search base="inventory">
+          <query>| search kind=service active_state=failed | table unit active_state sub_state</query>
+        </search>
+      </table>
+    </panel>
+    <panel>
+      <title>Main services</title>
+      <table>
+        <search base="inventory">
+          <query>| search kind=service unit IN ("Splunkd.service","docker.service","containerd.service","ssh.service","litellm.service","systemd-timesyncd.service") | table unit active_state sub_state</query>
+        </search>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Largest processes by resident memory</title>
+      <table>
+        <search base="inventory">
+          <query>| search kind=process | eval rss_MiB=round(rss_bytes/1048576,1) | sort 10 -rss_MiB | table process pid rss_MiB</query>
+        </search>
+      </table>
+    </panel>
+    <panel>
+      <title>Collector errors</title>
+      <table>
+        <search base="inventory">
+          <query>| search kind=collector_error | table component error last_seen</query>
+        </search>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Recent system warnings and errors</title>
+      <table>
+        <search>
+          <query>index=host_os | where tonumber(PRIORITY)&lt;=4 | head 20 | table _time _SYSTEMD_UNIT PRIORITY MESSAGE</query>
+          <earliest>$journal_earliest$</earliest>
+          <latest>now</latest>
+        </search>
+      </table>
+    </panel>
+  </row>
+</dashboard>

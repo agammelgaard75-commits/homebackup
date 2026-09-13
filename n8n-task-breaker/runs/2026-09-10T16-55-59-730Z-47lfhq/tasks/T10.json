@@ -1,0 +1,17 @@
+{
+  "id": "T10",
+  "title": "Document installation steps and configuration",
+  "objective": "Create a summary of the installation process and current configuration state.",
+  "rationale": "Documentation aids future maintenance, troubleshooting, and replication on other hosts.",
+  "inputs_required": [
+    "Installation logs"
+  ],
+  "expected_output": "A text file or note containing version numbers, config paths, and firewall rules applied.",
+  "success_criteria": [
+    "Document contains accurate version info."
+  ],
+  "dependencies": [
+    "T09"
+  ],
+  "risk_level": "low"
+}

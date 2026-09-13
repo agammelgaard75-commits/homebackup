@@ -1,0 +1,21 @@
+{
+  "id": "T06",
+  "title": "Compile Final Verification Report",
+  "objective": "Document all findings and produce consolidated installation status",
+  "rationale": "Aggregating multiple verification sources provides comprehensive and reliable conclusion",
+  "inputs_required": [
+    "Results from T02",
+    "Results from T03",
+    "Results from T04",
+    "Results from T05"
+  ],
+  "expected_output": "Complete verification report with nginx installation status and evidence",
+  "success_criteria": "Report contains all sources checked, clear yes/no installation conclusion, and timestamps",
+  "dependencies": [
+    "T02",
+    "T03",
+    "T04",
+    "T05"
+  ],
+  "risk_level": "low"
+}

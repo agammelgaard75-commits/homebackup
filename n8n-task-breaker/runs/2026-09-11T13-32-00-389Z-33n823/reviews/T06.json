@@ -1,0 +1,12 @@
+{
+  "task_id": "T06",
+  "verdict": "PASS",
+  "score": 8,
+  "problems": [
+    "Inputs reference raw command strings instead of task ID references"
+  ],
+  "required_changes": [
+    "Update inputs_required to reference T05 output explicitly rather than 'sudo access' and 'Text editor'"
+  ],
+  "reason": "Task is relevant but inputs use non-compliant format."
+}

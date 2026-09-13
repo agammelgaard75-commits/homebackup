@@ -1,0 +1,19 @@
+{
+  "id": "T03",
+  "title": "Install Nginx Package",
+  "objective": "Download and install the nginx web server package from official repositories",
+  "rationale": "Core installation step that provides the web server binary and defaults",
+  "inputs_required": [
+    "sudo access",
+    "Updated apt package index"
+  ],
+  "expected_output": "Nginx binaries installed in /usr/sbin/nginx",
+  "success_criteria": [
+    "nginx command returns version number",
+    "No dependency errors during install"
+  ],
+  "dependencies": [
+    "T02"
+  ],
+  "risk_level": "low"
+}

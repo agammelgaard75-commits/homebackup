@@ -1,0 +1,48 @@
+---
+# Tune these for your host. Empty lists mean the role reports but does not enforce.
+
+service_healthcheck_services:
+  - ssh
+
+service_healthcheck_ports:
+  - 22
+
+disk_watch_usage_warn_percent: 80
+disk_watch_inode_warn_percent: 80
+
+journal_error_scan_since: "24 hours ago"
+journal_error_scan_priorities: "0..3"
+
+vulnerability_scan_check_apt: true
+vulnerability_scan_check_trivy: false
+vulnerability_scan_fail_on_findings: false
+
+drift_detection_create_baseline: false
+drift_detection_files:
+  - /etc/ssh/sshd_config
+  - /etc/fstab
+  - /etc/hosts
+  - /etc/netplan
+
+# Reports are written on the target host. Keep stdout compact for LLM/agent runs.
+ansible_check_report_dir: /var/log/ansible-reports
+ansible_check_report_index_file: "{{ ansible_check_report_dir }}/check_report_summary.json"
+
+asset_inventory_report_dir: "{{ ansible_check_report_dir }}"
+disk_watch_report_dir: "{{ ansible_check_report_dir }}"
+failed_units_check_report_dir: "{{ ansible_check_report_dir }}"
+journal_error_scan_report_dir: "{{ ansible_check_report_dir }}"
+port_inventory_report_dir: "{{ ansible_check_report_dir }}"
+service_healthcheck_report_dir: "{{ ansible_check_report_dir }}"
+vulnerability_scan_report_dir: "{{ ansible_check_report_dir }}"
+drift_detection_report_dir: "{{ ansible_check_report_dir }}"
+
+
+# Timeouts prevent long scans from hanging agent-driven runs.
+journal_error_scan_timeout_seconds: 30
+port_inventory_timeout_seconds: 15
+disk_watch_find_timeout_seconds: 60
+drift_detection_package_timeout_seconds: 60
+drift_detection_checksum_timeout_seconds: 120
+vulnerability_scan_apt_timeout_seconds: 120
+vulnerability_scan_trivy_timeout_seconds: 300

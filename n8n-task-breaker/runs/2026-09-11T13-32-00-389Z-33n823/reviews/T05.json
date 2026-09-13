@@ -1,0 +1,12 @@
+{
+  "task_id": "T05",
+  "verdict": "PASS",
+  "score": 9,
+  "problems": [
+    "Inputs reference raw command string 'curl' instead of task ID T04 output"
+  ],
+  "required_changes": [
+    "Update inputs_required to reference T04 output explicitly rather than 'Network connectivity'"
+  ],
+  "reason": "Input format violates established pattern requiring task ID references."
+}

@@ -1,0 +1,162 @@
+{"time": 1788967405.142, "host": "sandbox", "kind": "system", "cpu_pct": 6.53, "iowait_pct": 0.0, "cpu_count": 4, "load1": 0.82470703125, "load5": 0.38916015625, "load15": 0.19580078125, "memory_total_bytes": 16770019328, "memory_available_bytes": 15322951680, "memory_used_pct": 8.63, "swap_used_bytes": 0, "uptime_seconds": 771177.28}
+{"time": 1788967405.143, "host": "sandbox", "kind": "filesystem", "mount": "/", "device": "/dev/mapper/ubuntu--vg-ubuntu--lv", "filesystem": "ext4", "used_pct": 15.19, "available_bytes": 83868397568, "total_bytes": 103374536704, "inode_used_pct": 6.2}
+{"time": 1788967405.143, "host": "sandbox", "kind": "filesystem", "mount": "/boot", "device": "/dev/sda2", "filesystem": "ext4", "used_pct": 10.88, "available_bytes": 1707794432, "total_bytes": 2040373248, "inode_used_pct": 0.24}
+{"time": 1788967405.143, "host": "sandbox", "kind": "network", "interface": "ens18", "rx_bytes_sec": 17725.29, "tx_bytes_sec": 18457.19, "rx_errors": 0, "tx_errors": 0, "rx_drops": 941, "tx_drops": 0}
+{"time": 1788967405.143, "host": "sandbox", "kind": "network", "interface": "ens18.2", "rx_bytes_sec": 16950.46, "tx_bytes_sec": 18205.56, "rx_errors": 0, "tx_errors": 0, "rx_drops": 0, "tx_drops": 0}
+{"time": 1788967405.143, "host": "sandbox", "kind": "network", "interface": "docker0", "rx_bytes_sec": 0.0, "tx_bytes_sec": 0.0, "rx_errors": 0, "tx_errors": 0, "rx_drops": 0, "tx_drops": 0}
+{"time": 1788967405.143, "host": "sandbox", "kind": "network", "interface": "br-5ec7a81d27aa", "rx_bytes_sec": 0.0, "tx_bytes_sec": 0.0, "rx_errors": 0, "tx_errors": 0, "rx_drops": 0, "tx_drops": 0}
+{"time": 1788967405.143, "host": "sandbox", "kind": "network", "interface": "veth1b98ce2", "rx_bytes_sec": 0.0, "tx_bytes_sec": 0.0, "rx_errors": 0, "tx_errors": 0, "rx_drops": 0, "tx_drops": 0}
+{"time": 1788967405.143, "host": "sandbox", "kind": "disk_io", "device": "sda", "read_bytes_sec": 0.0, "write_bytes_sec": 0.0, "busy_pct": 0.0}
+{"time": 1788967405.156, "host": "sandbox", "kind": "service", "unit": "apparmor.service", "load_state": "loaded", "active_state": "active", "sub_state": "exited"}
+{"time": 1788967405.156, "host": "sandbox", "kind": "service", "unit": "apport-autoreport.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.156, "host": "sandbox", "kind": "service", "unit": "apport.service", "load_state": "loaded", "active_state": "active", "sub_state": "exited"}
+{"time": 1788967405.156, "host": "sandbox", "kind": "service", "unit": "apt-daily-upgrade.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.156, "host": "sandbox", "kind": "service", "unit": "apt-daily.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.156, "host": "sandbox", "kind": "service", "unit": "auditd.service", "load_state": "not-found", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.156, "host": "sandbox", "kind": "service", "unit": "blk-availability.service", "load_state": "loaded", "active_state": "active", "sub_state": "exited"}
+{"time": 1788967405.157, "host": "sandbox", "kind": "service", "unit": "connman.service", "load_state": "not-found", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.157, "host": "sandbox", "kind": "service", "unit": "console-screen.service", "load_state": "not-found", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.157, "host": "sandbox", "kind": "service", "unit": "console-setup.service", "load_state": "loaded", "active_state": "active", "sub_state": "exited"}
+{"time": 1788967405.157, "host": "sandbox", "kind": "service", "unit": "containerd.service", "load_state": "loaded", "active_state": "active", "sub_state": "running"}
+{"time": 1788967405.157, "host": "sandbox", "kind": "service", "unit": "cron.service", "load_state": "loaded", "active_state": "active", "sub_state": "running"}
+{"time": 1788967405.157, "host": "sandbox", "kind": "service", "unit": "dbus.service", "load_state": "loaded", "active_state": "active", "sub_state": "running"}
+{"time": 1788967405.157, "host": "sandbox", "kind": "service", "unit": "display-manager.service", "load_state": "not-found", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.157, "host": "sandbox", "kind": "service", "unit": "dm-event.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.157, "host": "sandbox", "kind": "service", "unit": "docker.service", "load_state": "loaded", "active_state": "active", "sub_state": "running"}
+{"time": 1788967405.157, "host": "sandbox", "kind": "service", "unit": "dpkg-db-backup.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.157, "host": "sandbox", "kind": "service", "unit": "e2scrub_all.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.157, "host": "sandbox", "kind": "service", "unit": "e2scrub_reap.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.157, "host": "sandbox", "kind": "service", "unit": "emergency.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.157, "host": "sandbox", "kind": "service", "unit": "fcoe.service", "load_state": "not-found", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.157, "host": "sandbox", "kind": "service", "unit": "finalrd.service", "load_state": "loaded", "active_state": "active", "sub_state": "exited"}
+{"time": 1788967405.157, "host": "sandbox", "kind": "service", "unit": "firewalld.service", "load_state": "not-found", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.157, "host": "sandbox", "kind": "service", "unit": "fstrim.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.157, "host": "sandbox", "kind": "service", "unit": "getty-static.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.157, "host": "sandbox", "kind": "service", "unit": "getty@tty1.service", "load_state": "loaded", "active_state": "active", "sub_state": "running"}
+{"time": 1788967405.157, "host": "sandbox", "kind": "service", "unit": "grub-common.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.157, "host": "sandbox", "kind": "service", "unit": "grub-initrd-fallback.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.157, "host": "sandbox", "kind": "service", "unit": "initrd-cleanup.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.157, "host": "sandbox", "kind": "service", "unit": "initrd-parse-etc.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.157, "host": "sandbox", "kind": "service", "unit": "initrd-switch-root.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.158, "host": "sandbox", "kind": "service", "unit": "initrd-udevadm-cleanup-db.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.158, "host": "sandbox", "kind": "service", "unit": "iscsi-shutdown.service", "load_state": "not-found", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.158, "host": "sandbox", "kind": "service", "unit": "iscsid.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.158, "host": "sandbox", "kind": "service", "unit": "kbd.service", "load_state": "not-found", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.158, "host": "sandbox", "kind": "service", "unit": "keyboard-setup.service", "load_state": "loaded", "active_state": "active", "sub_state": "exited"}
+{"time": 1788967405.158, "host": "sandbox", "kind": "service", "unit": "kmod-static-nodes.service", "load_state": "loaded", "active_state": "active", "sub_state": "exited"}
+{"time": 1788967405.158, "host": "sandbox", "kind": "service", "unit": "ldconfig.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.158, "host": "sandbox", "kind": "service", "unit": "litellm.service", "load_state": "loaded", "active_state": "active", "sub_state": "running"}
+{"time": 1788967405.158, "host": "sandbox", "kind": "service", "unit": "lvm2-activation-early.service", "load_state": "not-found", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.158, "host": "sandbox", "kind": "service", "unit": "lvm2-lvmpolld.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.158, "host": "sandbox", "kind": "service", "unit": "lvm2-monitor.service", "load_state": "loaded", "active_state": "active", "sub_state": "exited"}
+{"time": 1788967405.158, "host": "sandbox", "kind": "service", "unit": "lynis.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.158, "host": "sandbox", "kind": "service", "unit": "modprobe@configfs.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.158, "host": "sandbox", "kind": "service", "unit": "modprobe@dm_mod.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.158, "host": "sandbox", "kind": "service", "unit": "modprobe@drm.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.158, "host": "sandbox", "kind": "service", "unit": "modprobe@efi_pstore.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.158, "host": "sandbox", "kind": "service", "unit": "modprobe@fuse.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.158, "host": "sandbox", "kind": "service", "unit": "modprobe@loop.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.158, "host": "sandbox", "kind": "service", "unit": "motd-news.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.158, "host": "sandbox", "kind": "service", "unit": "multipathd.service", "load_state": "loaded", "active_state": "active", "sub_state": "running"}
+{"time": 1788967405.158, "host": "sandbox", "kind": "service", "unit": "netplan-ovs-cleanup.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.158, "host": "sandbox", "kind": "service", "unit": "networkd-dispatcher.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.158, "host": "sandbox", "kind": "service", "unit": "NetworkManager.service", "load_state": "not-found", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.158, "host": "sandbox", "kind": "service", "unit": "open-iscsi.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.159, "host": "sandbox", "kind": "service", "unit": "ovsdb-server.service", "load_state": "not-found", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.159, "host": "sandbox", "kind": "service", "unit": "plymouth-quit-wait.service", "load_state": "loaded", "active_state": "active", "sub_state": "exited"}
+{"time": 1788967405.159, "host": "sandbox", "kind": "service", "unit": "plymouth-quit.service", "load_state": "loaded", "active_state": "active", "sub_state": "exited"}
+{"time": 1788967405.159, "host": "sandbox", "kind": "service", "unit": "plymouth-read-write.service", "load_state": "loaded", "active_state": "active", "sub_state": "exited"}
+{"time": 1788967405.159, "host": "sandbox", "kind": "service", "unit": "plymouth-start.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.159, "host": "sandbox", "kind": "service", "unit": "plymouth-switch-root.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.159, "host": "sandbox", "kind": "service", "unit": "polkit.service", "load_state": "loaded", "active_state": "active", "sub_state": "running"}
+{"time": 1788967405.159, "host": "sandbox", "kind": "service", "unit": "pollinate.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.159, "host": "sandbox", "kind": "service", "unit": "rbdmap.service", "load_state": "not-found", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.159, "host": "sandbox", "kind": "service", "unit": "rc-local.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.159, "host": "sandbox", "kind": "service", "unit": "rescue.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.159, "host": "sandbox", "kind": "service", "unit": "setvtrgb.service", "load_state": "loaded", "active_state": "active", "sub_state": "exited"}
+{"time": 1788967405.159, "host": "sandbox", "kind": "service", "unit": "snapd.apparmor.service", "load_state": "loaded", "active_state": "active", "sub_state": "exited"}
+{"time": 1788967405.159, "host": "sandbox", "kind": "service", "unit": "snapd.autoimport.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.159, "host": "sandbox", "kind": "service", "unit": "snapd.core-fixup.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.159, "host": "sandbox", "kind": "service", "unit": "snapd.failure.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.159, "host": "sandbox", "kind": "service", "unit": "snapd.recovery-chooser-trigger.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.159, "host": "sandbox", "kind": "service", "unit": "snapd.seeded.service", "load_state": "loaded", "active_state": "active", "sub_state": "exited"}
+{"time": 1788967405.159, "host": "sandbox", "kind": "service", "unit": "snapd.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.159, "host": "sandbox", "kind": "service", "unit": "snapd.snap-repair.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.159, "host": "sandbox", "kind": "service", "unit": "snapd.system-shutdown.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.159, "host": "sandbox", "kind": "service", "unit": "ssh.service", "load_state": "loaded", "active_state": "active", "sub_state": "running"}
+{"time": 1788967405.159, "host": "sandbox", "kind": "service", "unit": "ssl-cert.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.159, "host": "sandbox", "kind": "service", "unit": "syslog.service", "load_state": "not-found", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.159, "host": "sandbox", "kind": "service", "unit": "systemd-ask-password-console.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.159, "host": "sandbox", "kind": "service", "unit": "systemd-ask-password-plymouth.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.159, "host": "sandbox", "kind": "service", "unit": "systemd-ask-password-wall.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.159, "host": "sandbox", "kind": "service", "unit": "systemd-battery-check.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.159, "host": "sandbox", "kind": "service", "unit": "systemd-binfmt.service", "load_state": "loaded", "active_state": "active", "sub_state": "exited"}
+{"time": 1788967405.16, "host": "sandbox", "kind": "service", "unit": "systemd-bsod.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.16, "host": "sandbox", "kind": "service", "unit": "systemd-firstboot.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.16, "host": "sandbox", "kind": "service", "unit": "systemd-fsck-root.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.16, "host": "sandbox", "kind": "service", "unit": "systemd-fsck@dev-disk-by\\x2duuid-72547844\\x2dda89\\x2d45d7\\x2dad2f\\x2dbc469092d5f3.service", "load_state": "loaded", "active_state": "active", "sub_state": "exited"}
+{"time": 1788967405.16, "host": "sandbox", "kind": "service", "unit": "systemd-fsckd.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.16, "host": "sandbox", "kind": "service", "unit": "systemd-hibernate-resume.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.16, "host": "sandbox", "kind": "service", "unit": "systemd-hibernate.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.16, "host": "sandbox", "kind": "service", "unit": "systemd-hwdb-update.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.16, "host": "sandbox", "kind": "service", "unit": "systemd-hybrid-sleep.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.16, "host": "sandbox", "kind": "service", "unit": "systemd-initctl.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.16, "host": "sandbox", "kind": "service", "unit": "systemd-journal-catalog-update.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.16, "host": "sandbox", "kind": "service", "unit": "systemd-journal-flush.service", "load_state": "loaded", "active_state": "active", "sub_state": "exited"}
+{"time": 1788967405.16, "host": "sandbox", "kind": "service", "unit": "systemd-journald.service", "load_state": "loaded", "active_state": "active", "sub_state": "running"}
+{"time": 1788967405.16, "host": "sandbox", "kind": "service", "unit": "systemd-logind.service", "load_state": "loaded", "active_state": "active", "sub_state": "running"}
+{"time": 1788967405.16, "host": "sandbox", "kind": "service", "unit": "systemd-machine-id-commit.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.16, "host": "sandbox", "kind": "service", "unit": "systemd-modules-load.service", "load_state": "loaded", "active_state": "active", "sub_state": "exited"}
+{"time": 1788967405.16, "host": "sandbox", "kind": "service", "unit": "systemd-networkd-wait-online.service", "load_state": "loaded", "active_state": "failed", "sub_state": "failed"}
+{"time": 1788967405.16, "host": "sandbox", "kind": "service", "unit": "systemd-networkd.service", "load_state": "loaded", "active_state": "active", "sub_state": "running"}
+{"time": 1788967405.16, "host": "sandbox", "kind": "service", "unit": "systemd-oomd.service", "load_state": "not-found", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.16, "host": "sandbox", "kind": "service", "unit": "systemd-pcrmachine.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.16, "host": "sandbox", "kind": "service", "unit": "systemd-pcrphase-initrd.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.16, "host": "sandbox", "kind": "service", "unit": "systemd-pcrphase-sysinit.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.16, "host": "sandbox", "kind": "service", "unit": "systemd-pcrphase.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.16, "host": "sandbox", "kind": "service", "unit": "systemd-pstore.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.16, "host": "sandbox", "kind": "service", "unit": "systemd-quotacheck.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.161, "host": "sandbox", "kind": "service", "unit": "systemd-random-seed.service", "load_state": "loaded", "active_state": "active", "sub_state": "exited"}
+{"time": 1788967405.161, "host": "sandbox", "kind": "service", "unit": "systemd-remount-fs.service", "load_state": "loaded", "active_state": "active", "sub_state": "exited"}
+{"time": 1788967405.161, "host": "sandbox", "kind": "service", "unit": "systemd-repart.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.161, "host": "sandbox", "kind": "service", "unit": "systemd-resolved.service", "load_state": "loaded", "active_state": "active", "sub_state": "running"}
+{"time": 1788967405.161, "host": "sandbox", "kind": "service", "unit": "systemd-rfkill.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.161, "host": "sandbox", "kind": "service", "unit": "systemd-soft-reboot.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.161, "host": "sandbox", "kind": "service", "unit": "systemd-suspend-then-hibernate.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.161, "host": "sandbox", "kind": "service", "unit": "systemd-suspend.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.161, "host": "sandbox", "kind": "service", "unit": "systemd-sysctl.service", "load_state": "loaded", "active_state": "active", "sub_state": "exited"}
+{"time": 1788967405.161, "host": "sandbox", "kind": "service", "unit": "systemd-sysext.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.161, "host": "sandbox", "kind": "service", "unit": "systemd-sysusers.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.161, "host": "sandbox", "kind": "service", "unit": "systemd-timesyncd.service", "load_state": "loaded", "active_state": "active", "sub_state": "running"}
+{"time": 1788967405.161, "host": "sandbox", "kind": "service", "unit": "systemd-tmpfiles-clean.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.161, "host": "sandbox", "kind": "service", "unit": "systemd-tmpfiles-setup-dev-early.service", "load_state": "loaded", "active_state": "active", "sub_state": "exited"}
+{"time": 1788967405.161, "host": "sandbox", "kind": "service", "unit": "systemd-tmpfiles-setup-dev.service", "load_state": "loaded", "active_state": "active", "sub_state": "exited"}
+{"time": 1788967405.161, "host": "sandbox", "kind": "service", "unit": "systemd-tmpfiles-setup.service", "load_state": "loaded", "active_state": "active", "sub_state": "exited"}
+{"time": 1788967405.161, "host": "sandbox", "kind": "service", "unit": "systemd-tpm2-setup-early.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.161, "host": "sandbox", "kind": "service", "unit": "systemd-tpm2-setup.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.161, "host": "sandbox", "kind": "service", "unit": "systemd-udev-settle.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.161, "host": "sandbox", "kind": "service", "unit": "systemd-udev-trigger.service", "load_state": "loaded", "active_state": "active", "sub_state": "exited"}
+{"time": 1788967405.161, "host": "sandbox", "kind": "service", "unit": "systemd-udevd.service", "load_state": "loaded", "active_state": "active", "sub_state": "running"}
+{"time": 1788967405.161, "host": "sandbox", "kind": "service", "unit": "systemd-update-done.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.161, "host": "sandbox", "kind": "service", "unit": "systemd-update-utmp-runlevel.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.161, "host": "sandbox", "kind": "service", "unit": "systemd-update-utmp.service", "load_state": "loaded", "active_state": "active", "sub_state": "exited"}
+{"time": 1788967405.162, "host": "sandbox", "kind": "service", "unit": "systemd-user-sessions.service", "load_state": "loaded", "active_state": "active", "sub_state": "exited"}
+{"time": 1788967405.162, "host": "sandbox", "kind": "service", "unit": "systemd-vconsole-setup.service", "load_state": "not-found", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.162, "host": "sandbox", "kind": "service", "unit": "thermald.service", "load_state": "loaded", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.162, "host": "sandbox", "kind": "service", "unit": "ufw.service", "load_state": "loaded", "active_state": "active", "sub_state": "exited"}
+{"time": 1788967405.162, "host": "sandbox", "kind": "service", "unit": "unattended-upgrades.service", "load_state": "loaded", "active_state": "active", "sub_state": "running"}
+{"time": 1788967405.162, "host": "sandbox", "kind": "service", "unit": "user-runtime-dir@1000.service", "load_state": "loaded", "active_state": "active", "sub_state": "exited"}
+{"time": 1788967405.162, "host": "sandbox", "kind": "service", "unit": "user@1000.service", "load_state": "loaded", "active_state": "active", "sub_state": "running"}
+{"time": 1788967405.162, "host": "sandbox", "kind": "service", "unit": "wg-quick@wg0.service", "load_state": "not-found", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.162, "host": "sandbox", "kind": "service", "unit": "zfs-mount.service", "load_state": "not-found", "active_state": "inactive", "sub_state": "dead"}
+{"time": 1788967405.162, "host": "sandbox", "kind": "service_summary", "failed_count": 1, "failed_units": "systemd-networkd-wait-online.service"}
+{"time": 1788967405.177, "host": "sandbox", "kind": "process", "pid": 55383, "process": "litellm", "rss_bytes": 341684224}
+{"time": 1788967405.178, "host": "sandbox", "kind": "process", "pid": 417166, "process": "MainThread", "rss_bytes": 314294272}
+{"time": 1788967405.178, "host": "sandbox", "kind": "process", "pid": 467725, "process": "codex", "rss_bytes": 242503680}
+{"time": 1788967405.178, "host": "sandbox", "kind": "process", "pid": 417254, "process": "MainThread", "rss_bytes": 128077824}
+{"time": 1788967405.178, "host": "sandbox", "kind": "process", "pid": 416854, "process": "dockerd", "rss_bytes": 96243712}
+{"time": 1788967405.178, "host": "sandbox", "kind": "process", "pid": 416667, "process": "containerd", "rss_bytes": 48222208}
+{"time": 1788967405.178, "host": "sandbox", "kind": "process", "pid": 96133, "process": "multipathd", "rss_bytes": 28114944}
+{"time": 1788967405.178, "host": "sandbox", "kind": "process", "pid": 468864, "process": "codex-code-mode", "rss_bytes": 26222592}
+{"time": 1788967405.178, "host": "sandbox", "kind": "process", "pid": 710, "process": "unattended-upgr", "rss_bytes": 23277568}
+{"time": 1788967405.178, "host": "sandbox", "kind": "process", "pid": 96138, "process": "systemd-journal", "rss_bytes": 20348928}

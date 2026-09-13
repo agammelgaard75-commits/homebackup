@@ -1,0 +1,14 @@
+{
+  "task_id": "T04",
+  "verdict": "PASS",
+  "score": 9,
+  "problems": [
+    "Task title 'Check Service Status' does not match objective 'Verify health'",
+    "Inputs require explicit task ID reference rather than raw command string"
+  ],
+  "required_changes": [
+    "Update task title to reflect status verification",
+    "Replace inputs_required with T03 dependency reference"
+  ],
+  "reason": "Title mismatch and input format issue."
+}

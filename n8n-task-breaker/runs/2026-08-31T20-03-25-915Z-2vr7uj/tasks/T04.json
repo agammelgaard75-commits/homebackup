@@ -1,0 +1,18 @@
+{
+  "id": "T04",
+  "title": "Configure Default Web Root Directory",
+  "objective": "Set up the /var/www/html directory for serving web content",
+  "rationale": "Provides a location where website files can be placed and served",
+  "inputs_required": [
+    "write permissions to /var/www"
+  ],
+  "expected_output": "/var/www/html directory exists with proper permissions",
+  "success_criteria": [
+    "Directory exists at /var/www/html",
+    "Permissions allow web content placement"
+  ],
+  "dependencies": [
+    "T03"
+  ],
+  "risk_level": "low"
+}

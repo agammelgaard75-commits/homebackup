@@ -1,0 +1,20 @@
+{
+  "id": "T03",
+  "title": "Install Nginx Package",
+  "objective": "Download and install the Nginx web server software and its dependencies.",
+  "rationale": "This is the core installation step that places binaries, libraries, and default configuration files onto the system.",
+  "inputs_required": [
+    "sudo",
+    "apt"
+  ],
+  "expected_output": "Nginx package installed with a summary of new/updated packages.",
+  "success_criteria": [
+    "Exit code is 0.",
+    "No 'unmet dependencies' errors."
+  ],
+  "dependencies": [
+    "T01",
+    "T02"
+  ],
+  "risk_level": "low"
+}

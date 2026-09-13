@@ -1,0 +1,17 @@
+docker info
+```json
+{
+  "WGS86": "2023-10-05T12:34:56.789Z",
+  "SystemTime": "2023-10-05T12:34:56.789Z",
+  "DockerRootDir": "/var/lib/docker",
+  "StorageDriver": "overlay2",
+  "KernelVersion": "5.15.0-46-generic",
+  "OperatingSystem": "Linux 5.15.0-46-generic",
+  "ServerVersion": "20.10.17",
+  "APIVersion": "1.40",
+  "GitCommit": "115f7f8",
+  "GoVersion": "go1.17.10",
+  "Arch": "x86_64",
+  "BuildTime": "2023-10-05T12:34:56.789Z"
+}
+```

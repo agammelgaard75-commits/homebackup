@@ -1,0 +1,12 @@
+{
+  "task_id": "T08",
+  "verdict": "PASS",
+  "score": 9,
+  "problems": [
+    "Inputs reference raw command string 'sudo access' instead of task ID T07 output"
+  ],
+  "required_changes": [
+    "Update inputs_required to reference T07 output explicitly rather than 'sudo access'"
+  ],
+  "reason": "Task is relevant but uses non-compliant input format."
+}

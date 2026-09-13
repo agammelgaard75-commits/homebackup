@@ -1,0 +1,17 @@
+{
+  "id": "T03",
+  "title": "Install Nginx server packages",
+  "objective": "Download and install the Nginx web server binary and dependencies.",
+  "rationale": "This step installs the core Nginx software, default configuration files, and required libraries.",
+  "inputs_required": [
+    "sudo access"
+  ],
+  "expected_output": "Nginx binaries are installed to /usr/sbin/nginx and config files to /etc/nginx.",
+  "success_criteria": [
+    "The command reports successful installation of nginx."
+  ],
+  "dependencies": [
+    "T02"
+  ],
+  "risk_level": "low"
+}

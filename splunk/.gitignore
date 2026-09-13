@@ -1,0 +1,6 @@
+.secrets/
+downloads/
+staging/
+__pycache__/
+*.pyc
+automation/state/

@@ -1,0 +1,17 @@
+{
+  "id": "T08",
+  "title": "Configure firewall rules for port 80",
+  "objective": "Allow incoming traffic on port 80 via the system firewall.",
+  "rationale": "Ensures external clients can reach the web server without being blocked by UFW or iptables.",
+  "inputs_required": [
+    "sudo access"
+  ],
+  "expected_output": "Firewall status showing port 80 is allowed.",
+  "success_criteria": [
+    "Port 80 is listed as open/allowed."
+  ],
+  "dependencies": [
+    "T07"
+  ],
+  "risk_level": "medium"
+}

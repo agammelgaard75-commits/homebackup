@@ -1,0 +1,190 @@
+{
+  "plan_summary": "Install and configure Nginx on Ubuntu 24.04 by updating system packages, adding the official repository key if necessary, installing the package, verifying the service status, and configuring basic security settings.",
+  "assumptions": [
+    "The host is a fresh or standard Ubuntu 24.04 installation with network access.",
+    "Sudo privileges are available for the executing user.",
+    "No specific custom Nginx configuration files are required beyond defaults."
+  ],
+  "tasks": [
+    {
+      "id": "T01",
+      "title": "Update System Package Index",
+      "objective": "Ensure the local package index is current to fetch the latest Nginx version and dependencies.",
+      "rationale": "Running apt update before installation prevents installing outdated packages and ensures compatibility with Ubuntu 24.04 repositories.",
+      "inputs_required": [
+        "sudo",
+        "apt"
+      ],
+      "expected_output": "Command completes successfully with a summary of updated package lists.",
+      "success_criteria": [
+        "Exit code is 0.",
+        "No critical errors reported during update."
+      ],
+      "dependencies": [],
+      "risk_level": "low"
+    },
+    {
+      "id": "T02",
+      "title": "Verify Nginx Repository Availability",
+      "objective": "Check if the default Ubuntu repositories contain the required Nginx package version.",
+      "rationale": "Ubuntu 24.04 includes Nginx in its main repositories; this step confirms availability before attempting installation to avoid unnecessary key additions.",
+      "inputs_required": [
+        "apt-cache policy nginx"
+      ],
+      "expected_output": "Output showing the installed or available version of Nginx and its source repository.",
+      "success_criteria": [
+        "Nginx is listed as a package available in 'main' or 'universe'."
+      ],
+      "dependencies": [
+        "T01"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T03",
+      "title": "Install Nginx Package",
+      "objective": "Download and install the Nginx web server software and its dependencies.",
+      "rationale": "This is the core installation step that places binaries, libraries, and default configuration files onto the system.",
+      "inputs_required": [
+        "sudo",
+        "apt"
+      ],
+      "expected_output": "Nginx package installed with a summary of new/updated packages.",
+      "success_criteria": [
+        "Exit code is 0.",
+        "No 'unmet dependencies' errors."
+      ],
+      "dependencies": [
+        "T01",
+        "T02"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T04",
+      "title": "Start and Enable Nginx Service",
+      "objective": "Launch the Nginx daemon and configure it to start automatically on boot.",
+      "rationale": "Installation alone does not run the service; systemd commands are required to manage the process lifecycle.",
+      "inputs_required": [
+        "sudo",
+        "systemctl"
+      ],
+      "expected_output": "Service status showing 'active (running)' and 'enabled' state.",
+      "success_criteria": [
+        "systemctl status nginx returns active=running.",
+        "systemctl is-enabled nginx returns enabled."
+      ],
+      "dependencies": [
+        "T03"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T05",
+      "title": "Verify Web Server Accessibility",
+      "objective": "Confirm the web server is responding to HTTP requests on port 80.",
+      "rationale": "Functional verification ensures that the installation and service start were successful and the firewall allows traffic.",
+      "inputs_required": [
+        "curl"
+      ],
+      "expected_output": "HTML content from the default Nginx welcome page or a valid HTTP 200 response.",
+      "success_criteria": [
+        "HTTP status code is 200.",
+        "Response body contains 'Welcome to nginx!'"
+      ],
+      "dependencies": [
+        "T04"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T06",
+      "title": "Review Default Configuration Files",
+      "objective": "Inspect the contents of /etc/nginx/sites-available/default and other config directories.",
+      "rationale": "Understanding the default configuration helps identify potential security risks or misconfigurations before production use.",
+      "inputs_required": [
+        "cat"
+      ],
+      "expected_output": "Listed content of key Nginx configuration files including server blocks.",
+      "success_criteria": [
+        "Configuration syntax is valid (no obvious errors in default file)."
+      ],
+      "dependencies": [
+        "T04"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T07",
+      "title": "Configure Basic Security Headers",
+      "objective": "Add security headers (e.g., X-Frame-Options, Content-Security-Policy) to the default site configuration.",
+      "rationale": "Default Nginx configurations often lack essential security headers; adding them mitigates common web vulnerabilities.",
+      "inputs_required": [
+        "nano",
+        "vi"
+      ],
+      "expected_output": "Updated configuration file with added 'add_header' directives.",
+      "success_criteria": [
+        "Security headers are present in the config file.",
+        "Configuration test (nginx -t) passes without errors."
+      ],
+      "dependencies": [
+        "T06"
+      ],
+      "risk_level": "medium"
+    },
+    {
+      "id": "T08",
+      "title": "Reload Nginx Configuration",
+      "objective": "Apply the security header changes without interrupting active connections.",
+      "rationale": "Changes to configuration files must be reloaded for the server to recognize them.",
+      "inputs_required": [
+        "sudo",
+        "systemctl"
+      ],
+      "expected_output": "Confirmation message that the reload was successful.",
+      "success_criteria": [
+        "Reload command completes with exit code 0.",
+        "Service remains active after reload."
+      ],
+      "dependencies": [
+        "T07"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T09",
+      "title": "Verify Security Headers Implementation",
+      "objective": "Confirm that the newly added security headers are present in HTTP responses.",
+      "rationale": "Validation ensures that the configuration changes in T07 and T08 were applied correctly.",
+      "inputs_required": [
+        "curl"
+      ],
+      "expected_output": "HTTP response headers containing X-Frame-Options, Content-Security-Policy, etc.",
+      "success_criteria": [
+        "Response headers include the defined security directives."
+      ],
+      "dependencies": [
+        "T08"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T10",
+      "title": "Document Installation Steps",
+      "objective": "Create a brief summary of the installation process and current configuration state.",
+      "rationale": "Documentation aids in future maintenance, troubleshooting, or replication on other hosts.",
+      "inputs_required": [
+        "cat"
+      ],
+      "expected_output": "A text file or note containing version info, config paths, and verification results.",
+      "success_criteria": [
+        "Document exists and contains relevant installation details."
+      ],
+      "dependencies": [
+        "T09"
+      ],
+      "risk_level": "low"
+    }
+  ]
+}

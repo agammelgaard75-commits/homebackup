@@ -1,0 +1,10 @@
+nmap -sV localhost
+Starting Nmap 7.80 ( https://nmap.org ) at 2023-10-05 12:34 UTC
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.000000s latency).
+Not shown: 998 closed ports
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 8.2p1 (Ubuntu)
+80/tcp open  http    Apache httpd 2.4.41 (Ubuntu)
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 0.13 seconds

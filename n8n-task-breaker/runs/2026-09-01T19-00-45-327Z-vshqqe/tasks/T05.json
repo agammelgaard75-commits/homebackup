@@ -1,0 +1,18 @@
+{
+  "id": "T05",
+  "title": "Test HTTP Connectivity",
+  "objective": "Validate that the web server responds correctly to client requests.",
+  "rationale": "This confirms the Nginx instance is listening on port 80 and serving content as expected.",
+  "inputs_required": [
+    "curl -I http://localhost"
+  ],
+  "expected_output": "HTTP headers indicating a valid response (e.g., '200 OK').",
+  "success_criteria": [
+    "Response code is 200.",
+    "Server header identifies 'nginx' or the default welcome page content is returned."
+  ],
+  "dependencies": [
+    "T04"
+  ],
+  "risk_level": "low"
+}

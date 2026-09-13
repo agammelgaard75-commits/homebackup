@@ -1,0 +1,17 @@
+{
+  "id": "T06",
+  "title": "Review Default Configuration Files",
+  "objective": "Inspect the contents of /etc/nginx/sites-available/default and other config directories.",
+  "rationale": "Understanding the default configuration helps identify potential security risks or misconfigurations before production use.",
+  "inputs_required": [
+    "cat"
+  ],
+  "expected_output": "Listed content of key Nginx configuration files including server blocks.",
+  "success_criteria": [
+    "Configuration syntax is valid (no obvious errors in default file)."
+  ],
+  "dependencies": [
+    "T04"
+  ],
+  "risk_level": "low"
+}

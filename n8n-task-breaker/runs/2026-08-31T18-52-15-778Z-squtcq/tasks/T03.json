@@ -1,0 +1,19 @@
+{
+  "id": "T03",
+  "title": "Aggregate and Triage Scan Results",
+  "objective": "Consolidate all raw scan data, deduplicate findings, and categorize vulnerabilities by type and severity.",
+  "rationale": "Raw scan data is often redundant and overwhelming; this task filters noise and creates a single, manageable list of unique vulnerabilities.",
+  "inputs_required": [
+    "Raw Scan Results Files (T02)"
+  ],
+  "expected_output": "A consolidated vulnerability matrix listing unique CVEs, their associated severity (CVSS score), and the affected component.",
+  "success_criteria": [
+    "All raw scan results are successfully parsed and merged.",
+    "Duplicate findings are identified and merged into single entries.",
+    "The matrix includes a clear severity rating for every identified vulnerability."
+  ],
+  "dependencies": [
+    "T02"
+  ],
+  "risk_level": "low"
+}

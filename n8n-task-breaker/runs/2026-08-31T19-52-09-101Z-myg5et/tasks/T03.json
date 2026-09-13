@@ -1,0 +1,16 @@
+{
+  "id": "T03",
+  "title": "Verify Nginx Binary Location",
+  "objective": "Confirm nginx executable exists in standard installation paths",
+  "rationale": "Even if package shows not installed, binary might exist from manual compilation or alternative installation method",
+  "inputs_required": [
+    "Common nginx binary paths (/usr/sbin/nginx, /usr/local/nginx)",
+    "OS architecture"
+  ],
+  "expected_output": "File path verification results for nginx executable",
+  "success_criteria": "Binary location command returns valid file information or confirms absence",
+  "dependencies": [
+    "T01"
+  ],
+  "risk_level": "low"
+}

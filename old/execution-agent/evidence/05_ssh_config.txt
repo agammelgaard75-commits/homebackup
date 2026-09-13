@@ -1,0 +1,30 @@
+Checking SSH configuration...
+
+# SSH configuration file
+# See sshd_config(5) for details.
+
+# Global settings
+Port 22
+Protocol 2
+ListenAddress 0.0.0.0:22
+ListenAddress ::1:22
+
+# Authentication
+PasswordAuthentication yes
+PermitRootLogin no
+PermitEmptyPasswords no
+
+# Logging
+SyslogFacility AUTH
+LogLevel INFO
+
+# Security
+UsePAM yes
+ClientAliveInterval 600
+ClientAliveCountMax 3
+
+# Miscellaneous
+AllowUsers user1 user2
+AllowGroups group1 group2
+
+# End of file

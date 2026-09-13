@@ -1,0 +1,17 @@
+{
+  "id": "T07",
+  "title": "Review and secure default configuration files",
+  "objective": "Inspect the default site configuration to ensure no sensitive information is exposed.",
+  "rationale": "Default configurations often expose server versions or paths that should be hidden for security best practices.",
+  "inputs_required": [
+    "Read access to /etc/nginx/conf.d/"
+  ],
+  "expected_output": "A list of configuration files requiring review, specifically default.conf and sites-enabled/default.",
+  "success_criteria": [
+    "The 'ls -la /etc/nginx/sites-enabled/' command lists the active configuration files."
+  ],
+  "dependencies": [
+    "T03"
+  ],
+  "risk_level": "low"
+}

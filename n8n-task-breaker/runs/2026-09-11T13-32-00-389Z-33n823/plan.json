@@ -1,0 +1,160 @@
+{
+  "plan_summary": "Install and configure Nginx on Ubuntu 24.04 by updating system packages, adding the official repository key, installing the server package, verifying the service status, and configuring basic security headers.",
+  "assumptions": [
+    "The host has network connectivity to download packages.",
+    "The user has sudo privileges to install software."
+  ],
+  "tasks": [
+    {
+      "id": "T01",
+      "title": "Update system package lists and upgrade existing packages",
+      "objective": "Ensure the local package index is current before installing new software.",
+      "rationale": "Running apt update prevents conflicts between old dependencies and new versions, ensuring a stable installation environment.",
+      "inputs_required": [
+        "sudo access"
+      ],
+      "expected_output": "Command completes with no errors or warnings regarding outdated packages.",
+      "success_criteria": [
+        "The command returns to the prompt without error messages."
+      ],
+      "dependencies": [],
+      "risk_level": "low"
+    },
+    {
+      "id": "T02",
+      "title": "Add the official Nginx GPG key and repository",
+      "objective": "Import the necessary cryptographic key and add the Ubuntu 24.04 specific Nginx repository.",
+      "rationale": "Adding the official repo ensures access to the latest stable version of Nginx compatible with Ubuntu 24.04 (Jammy).",
+      "inputs_required": [
+        "sudo access"
+      ],
+      "expected_output": "The GPG key is added and the repository source list entry is created.",
+      "success_criteria": [
+        "The apt cache shows the new nginx package from the official repo."
+      ],
+      "dependencies": [
+        "T01"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T03",
+      "title": "Install Nginx server packages",
+      "objective": "Download and install the Nginx web server binary and dependencies.",
+      "rationale": "This step installs the core Nginx software, default configuration files, and required libraries.",
+      "inputs_required": [
+        "sudo access"
+      ],
+      "expected_output": "Nginx binaries are installed to /usr/sbin/nginx and config files to /etc/nginx.",
+      "success_criteria": [
+        "The command reports successful installation of nginx."
+      ],
+      "dependencies": [
+        "T02"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T04",
+      "title": "Start and enable the Nginx service",
+      "objective": "Launch the Nginx daemon and configure it to start automatically on boot.",
+      "rationale": "Starting the service makes the web server operational immediately, while enabling ensures persistence across reboots.",
+      "inputs_required": [
+        "sudo access"
+      ],
+      "expected_output": "The Nginx process is running and listening on port 80.",
+      "success_criteria": [
+        "systemctl status nginx shows 'active (running)'."
+      ],
+      "dependencies": [
+        "T03"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T05",
+      "title": "Verify Nginx is serving content correctly",
+      "objective": "Confirm the web server responds to HTTP requests with the default welcome page.",
+      "rationale": "Functional verification ensures the installation was successful and the service is bound to the correct interface.",
+      "inputs_required": [
+        "Network connectivity"
+      ],
+      "expected_output": "A browser or curl request returns the Nginx default index.html content.",
+      "success_criteria": [
+        "HTTP 200 OK response received with expected HTML content."
+      ],
+      "dependencies": [
+        "T04"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T06",
+      "title": "Configure basic security headers in default site",
+      "objective": "Edit the default server block to include security headers like X-Frame-Options and Content-Security-Policy.",
+      "rationale": "Hardening the default configuration protects against common web vulnerabilities like clickjacking and XSS.",
+      "inputs_required": [
+        "sudo access",
+        "Text editor (nano/vi)"
+      ],
+      "expected_output": "The /etc/nginx/sites-enabled/default file is updated with security directives.",
+      "success_criteria": [
+        "Headers are present in the response headers when viewed via curl -I."
+      ],
+      "dependencies": [
+        "T05"
+      ],
+      "risk_level": "medium"
+    },
+    {
+      "id": "T07",
+      "title": "Restart Nginx to apply security changes",
+      "objective": "Reload or restart the service to load the updated configuration.",
+      "rationale": "Configuration changes do not take effect until the service is restarted or reloaded.",
+      "inputs_required": [
+        "sudo access"
+      ],
+      "expected_output": "Nginx restarts successfully without syntax errors.",
+      "success_criteria": [
+        "Service status remains 'active (running)' after restart."
+      ],
+      "dependencies": [
+        "T06"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T08",
+      "title": "Verify firewall allows Nginx traffic",
+      "objective": "Ensure the system firewall (UFW) allows incoming connections on port 80.",
+      "rationale": "Even with a running service, the host must allow inbound traffic to be accessible from external networks.",
+      "inputs_required": [
+        "sudo access"
+      ],
+      "expected_output": "Port 80 is allowed in the firewall rules.",
+      "success_criteria": [
+        "ufw status shows 'ALLOW' for port 80/tcp."
+      ],
+      "dependencies": [],
+      "risk_level": "low"
+    },
+    {
+      "id": "T09",
+      "title": "Document installation steps and configuration",
+      "objective": "Create a brief summary of the installed version, key config paths, and security settings applied.",
+      "rationale": "Documentation aids in future troubleshooting and provides a record of the system state for compliance or audits.",
+      "inputs_required": [
+        "Access to installation logs"
+      ],
+      "expected_output": "A text file containing version info, config paths, and firewall status.",
+      "success_criteria": [
+        "Document is saved and contains accurate version number."
+      ],
+      "dependencies": [
+        "T07",
+        "T08"
+      ],
+      "risk_level": "low"
+    }
+  ]
+}

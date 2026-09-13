@@ -1,0 +1,23 @@
+[Unit]
+Description=Codex Splunk compatibility, upgrade and validation
+After=network-online.target Splunkd.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=bot
+Group=bot
+WorkingDirectory=/home/bot/splunk/automation
+Environment=PATH=/home/bot/.local/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/usr/bin/python3 /home/bot/splunk/automation/upgrade.py run
+ExecStopPost=/usr/bin/python3 /home/bot/splunk/automation/upgrade.py recover
+TimeoutStartSec=3h
+TimeoutStopSec=20min
+KillMode=mixed
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7
+UMask=0077
+StandardOutput=journal
+StandardError=journal
+

@@ -1,0 +1,18 @@
+{
+  "id": "T07",
+  "title": "Run Configuration Syntax Check",
+  "objective": "Validate the Nginx configuration files for syntax errors.",
+  "rationale": "Preventing future restart failures by ensuring the config is valid before relying on it during operation.",
+  "inputs_required": [
+    "sudo nginx -t"
+  ],
+  "expected_output": "Message indicating 'nginx: configuration file /etc/nginx/nginx.conf test is successful'.",
+  "success_criteria": [
+    "Output states the test is 'successful' (exit code 0).",
+    "No warnings regarding missing upstreams or SSL paths."
+  ],
+  "dependencies": [
+    "T06"
+  ],
+  "risk_level": "low"
+}

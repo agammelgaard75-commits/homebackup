@@ -1,0 +1,10 @@
+{
+  "task_id": "T06",
+  "verdict": "PASS",
+  "score": 9,
+  "problems": [],
+  "required_changes": [
+    "Replace inputs_required with explicit task ID reference"
+  ],
+  "reason": "Inputs should reference T05 output explicitly."
+}

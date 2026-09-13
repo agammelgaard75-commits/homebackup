@@ -1,0 +1,16 @@
+{
+  "id": "T01",
+  "title": "Update System Packages",
+  "objective": "Refresh the local package index to ensure the latest Nginx packages and dependencies are available.",
+  "rationale": "Updating before installation ensures compatibility with Ubuntu 24.04 repositories and avoids installing outdated components.",
+  "inputs_required": [
+    "sudo apt update"
+  ],
+  "expected_output": "Package lists updated without errors.",
+  "success_criteria": [
+    "Command exits with status 0.",
+    "Output shows 'Release' updates processed."
+  ],
+  "dependencies": [],
+  "risk_level": "low"
+}

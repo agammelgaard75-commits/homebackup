@@ -1,0 +1,17 @@
+{
+  "id": "T10",
+  "title": "Document Installation Steps",
+  "objective": "Create a brief summary of the installation process and current configuration state.",
+  "rationale": "Documentation aids in future maintenance, troubleshooting, or replication on other hosts.",
+  "inputs_required": [
+    "cat"
+  ],
+  "expected_output": "A text file or note containing version info, config paths, and verification results.",
+  "success_criteria": [
+    "Document exists and contains relevant installation details."
+  ],
+  "dependencies": [
+    "T09"
+  ],
+  "risk_level": "low"
+}

@@ -1,0 +1,186 @@
+[
+  {
+    "panel": "Telemetry age (seconds)",
+    "rows": 1,
+    "sample": [
+      {
+        "seconds": "15"
+      }
+    ]
+  },
+  {
+    "panel": "CPU used (%)",
+    "rows": 1,
+    "sample": [
+      {
+        "percent": "31.83"
+      }
+    ]
+  },
+  {
+    "panel": "Memory used (%)",
+    "rows": 1,
+    "sample": [
+      {
+        "percent": "12.01"
+      }
+    ]
+  },
+  {
+    "panel": "Failed services",
+    "rows": 1,
+    "sample": [
+      {
+        "failed": "1"
+      }
+    ]
+  },
+  {
+    "panel": "CPU, memory and I/O wait (%)",
+    "rows": 61,
+    "sample": [
+      {
+        "_time": "2026-09-09 14:42:00.000 UTC",
+        "_span": "60"
+      },
+      {
+        "_time": "2026-09-09 14:43:00.000 UTC",
+        "_span": "60"
+      }
+    ]
+  },
+  {
+    "panel": "Filesystem capacity",
+    "rows": 2,
+    "sample": [
+      {
+        "mount": "/",
+        "filesystem": "ext4",
+        "used_pct": "20.33",
+        "available_GiB": "73.38",
+        "inode_used_pct": "6.78"
+      },
+      {
+        "mount": "/boot",
+        "filesystem": "ext4",
+        "used_pct": "10.88",
+        "available_GiB": "1.59",
+        "inode_used_pct": "0.24"
+      }
+    ]
+  },
+  {
+    "panel": "Load, uptime and swap",
+    "rows": 1,
+    "sample": [
+      {
+        "cpu_count": "4",
+        "load1": "0.27",
+        "load5": "0.40",
+        "load15": "0.37",
+        "uptime_days": "8.94",
+        "swap_MiB": "0.0"
+      }
+    ]
+  },
+  {
+    "panel": "Network (sampled bytes/sec)",
+    "rows": 5,
+    "sample": [
+      {
+        "interface": "br-5ec7a81d27aa",
+        "rx_bytes_sec": "0.0",
+        "tx_bytes_sec": "0.0",
+        "rx_errors": "0",
+        "tx_errors": "0",
+        "rx_drops": "0",
+        "tx_drops": "0"
+      },
+      {
+        "interface": "docker0",
+        "rx_bytes_sec": "0.0",
+        "tx_bytes_sec": "0.0",
+        "rx_errors": "0",
+        "tx_errors": "0",
+        "rx_drops": "0",
+        "tx_drops": "0"
+      }
+    ]
+  },
+  {
+    "panel": "Disk I/O (sampled bytes/sec)",
+    "rows": 1,
+    "sample": [
+      {
+        "device": "sda",
+        "read_bytes_sec": "0.0",
+        "write_bytes_sec": "12270.59",
+        "busy_pct": "0.0"
+      }
+    ]
+  },
+  {
+    "panel": "Failed services",
+    "rows": 1,
+    "sample": [
+      {
+        "unit": "systemd-networkd-wait-online.service",
+        "active_state": "failed",
+        "sub_state": "failed"
+      }
+    ]
+  },
+  {
+    "panel": "Main services",
+    "rows": 6,
+    "sample": [
+      {
+        "unit": "Splunkd.service",
+        "active_state": "active",
+        "sub_state": "running"
+      },
+      {
+        "unit": "containerd.service",
+        "active_state": "active",
+        "sub_state": "running"
+      }
+    ]
+  },
+  {
+    "panel": "Largest processes by resident memory",
+    "rows": 10,
+    "sample": [
+      {
+        "process": "litellm",
+        "pid": "55383",
+        "rss_MiB": "325.9"
+      },
+      {
+        "process": "MainThread",
+        "pid": "417166",
+        "rss_MiB": "299.7"
+      }
+    ]
+  },
+  {
+    "panel": "Collector errors",
+    "rows": 0,
+    "sample": []
+  },
+  {
+    "panel": "Recent system warnings and errors",
+    "rows": 3,
+    "sample": [
+      {
+        "_time": "2026-09-09 15:35:32.280 UTC",
+        "PRIORITY": "4",
+        "MESSAGE": "Splunk server-health onboarding verification 20260909"
+      },
+      {
+        "_time": "2026-09-09 15:32:43.049 UTC",
+        "PRIORITY": "4",
+        "MESSAGE": "Splunkd.service: Failed with result 'exit-code'."
+      }
+    ]
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "id": "T07",
+  "title": "Test Nginx connectivity",
+  "objective": "Confirm the web server is responding to HTTP requests.",
+  "rationale": "Validates that the service is running, listening on port 80, and serving content correctly.",
+  "inputs_required": [
+    "Network access"
+  ],
+  "expected_output": "HTTP 200 OK response or default welcome page content.",
+  "success_criteria": [
+    "Browser or curl returns valid HTML."
+  ],
+  "dependencies": [
+    "T05",
+    "T06"
+  ],
+  "risk_level": "low"
+}

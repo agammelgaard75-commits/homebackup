@@ -1,0 +1,17 @@
+{
+  "id": "T02",
+  "title": "Verify Nginx repository availability or add official key",
+  "objective": "Ensure the system can locate the Nginx package in the repositories.",
+  "rationale": "Ubuntu 24.04 may require adding a specific signing key or repository source if not pre-configured for third-party packages like Nginx.",
+  "inputs_required": [
+    "Current apt sources list"
+  ],
+  "expected_output": "Confirmation that the nginx package is available via 'apt search' or that the necessary keys are present.",
+  "success_criteria": [
+    "'apt search nginx' returns a valid package entry."
+  ],
+  "dependencies": [
+    "T01"
+  ],
+  "risk_level": "low"
+}

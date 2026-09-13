@@ -1,0 +1,14 @@
+---
+drift_detection_baseline_dir: /var/lib/ansible-drift
+# This role is read-only by default. Set true only in a controlled baseline play.
+drift_detection_create_baseline: false
+drift_detection_files:
+  - /etc/ssh/sshd_config
+  - /etc/fstab
+  - /etc/hosts
+  - /etc/netplan
+drift_detection_report_dir: /var/log/ansible-reports
+drift_detection_report_file: "{{ drift_detection_report_dir }}/drift_detection.json"
+drift_detection_print_summary: true
+drift_detection_package_timeout_seconds: 60
+drift_detection_checksum_timeout_seconds: 120

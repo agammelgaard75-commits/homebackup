@@ -1,0 +1,17 @@
+{
+  "id": "T09",
+  "title": "Configure firewall rules for port 80 and 443",
+  "objective": "Ensure the system firewall allows traffic to the web server ports.",
+  "rationale": "Even if Nginx is running, a host-based firewall (like UFW) might block incoming connections by default.",
+  "inputs_required": [
+    "sudo access"
+  ],
+  "expected_output": "Firewall rules updated to allow TCP traffic on ports 80 and optionally 443.",
+  "success_criteria": [
+    "'ufw status' shows 'ALLOW' for port 80/tcp."
+  ],
+  "dependencies": [
+    "T06"
+  ],
+  "risk_level": "low"
+}

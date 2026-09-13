@@ -1,0 +1,14 @@
+---
+service_healthcheck_services: []
+service_healthcheck_ports: []
+# Example:
+# service_healthcheck_services:
+#   - ssh
+#   - nginx
+# service_healthcheck_ports:
+#   - 22
+#   - 443
+service_healthcheck_report_dir: /var/log/ansible-reports
+service_healthcheck_report_file: "{{ service_healthcheck_report_dir }}/service_healthcheck.json"
+service_healthcheck_print_summary: true
+

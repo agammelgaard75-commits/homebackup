@@ -1,0 +1,17 @@
+{
+  "id": "T05",
+  "title": "Verify Nginx is serving content correctly",
+  "objective": "Confirm the web server responds to HTTP requests with the default welcome page.",
+  "rationale": "Functional verification ensures the installation was successful and the service is bound to the correct interface.",
+  "inputs_required": [
+    "Network connectivity"
+  ],
+  "expected_output": "A browser or curl request returns the Nginx default index.html content.",
+  "success_criteria": [
+    "HTTP 200 OK response received with expected HTML content."
+  ],
+  "dependencies": [
+    "T04"
+  ],
+  "risk_level": "low"
+}

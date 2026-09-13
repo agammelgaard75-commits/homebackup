@@ -1,0 +1,16 @@
+{
+  "id": "T01",
+  "title": "Identify the Linux Package Manager",
+  "objective": "Determine if the host uses apt (Debian/Ubuntu), yum/dnf (RedHat/CentOS), or another package manager.",
+  "rationale": "The method for checking package installation differs significantly based on the underlying Linux distribution.",
+  "inputs_required": [
+    "Access to the Linux shell environment"
+  ],
+  "expected_output": "A variable identifying the correct package manager command (e.g., 'apt', 'yum', 'dnf').",
+  "success_criteria": [
+    "The script successfully determines the package manager type.",
+    "The package manager command is stored for use in subsequent tasks."
+  ],
+  "dependencies": [],
+  "risk_level": "low"
+}

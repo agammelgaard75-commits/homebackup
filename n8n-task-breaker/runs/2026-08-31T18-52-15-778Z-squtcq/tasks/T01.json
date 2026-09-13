@@ -1,0 +1,18 @@
+{
+  "id": "T01",
+  "title": "Gather Baseline System Information",
+  "objective": "Collect comprehensive details about the host's operating system, installed packages, and network services to define the scope of the assessment.",
+  "rationale": "Understanding the current state (OS version, kernel, installed software) is critical before running any vulnerability scanner to ensure accurate results and scope definition.",
+  "inputs_required": [
+    "Target Linux Host Access",
+    "Administrative Credentials"
+  ],
+  "expected_output": "A structured inventory report detailing OS version, kernel version, installed packages (with versions), and running services.",
+  "success_criteria": [
+    "OS distribution and version are identified.",
+    "A list of all installed packages and their versions is generated.",
+    "All open network ports and associated services are documented."
+  ],
+  "dependencies": [],
+  "risk_level": "low"
+}

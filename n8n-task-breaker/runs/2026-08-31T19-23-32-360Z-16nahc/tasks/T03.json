@@ -1,0 +1,18 @@
+{
+  "id": "T03",
+  "title": "Verify Nginx Binary Availability",
+  "objective": "Attempt to execute a basic Nginx command (e.g., `nginx -v`) to confirm the binary is in the system PATH.",
+  "rationale": "Even if the package is listed, the binary might not be accessible or configured correctly, requiring a direct execution test.",
+  "inputs_required": [
+    "System PATH access"
+  ],
+  "expected_output": "The version information or a specific exit code (0 for success, non-zero for failure).",
+  "success_criteria": [
+    "The command executes successfully (exit code 0).",
+    "The output contains version information for Nginx."
+  ],
+  "dependencies": [
+    "T01"
+  ],
+  "risk_level": "low"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "T09",
+  "title": "Final Verification via External IP",
+  "objective": "Confirm the server is accessible from an external perspective using its public IP.",
+  "rationale": "Internal checks pass, but external DNS resolution or firewall misconfigurations might still block access; this validates end-to-end connectivity.",
+  "inputs_required": [
+    "curl -I http://$(curl -s ifconfig.me)"
+  ],
+  "expected_output": "Successful HTTP response received from the public IP address.",
+  "success_criteria": [
+    "Response code is 200 when querying the external IP.",
+    "No 'Connection refused' or timeout errors."
+  ],
+  "dependencies": [
+    "T08"
+  ],
+  "risk_level": "low"
+}

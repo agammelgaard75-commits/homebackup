@@ -1,0 +1,21 @@
+const {chromium}=require('playwright');
+const fs=require('fs');
+(async()=>{
+ const browser=await chromium.launch({headless:true});
+ const context=await browser.newContext({ignoreHTTPSErrors:true,viewport:{width:1440,height:1000}});
+ const page=await context.newPage();
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto('https://127.0.0.1:8000/en-US/account/login',{waitUntil:'domcontentloaded'});
+ const creds=JSON.parse(fs.readFileSync('/home/bot/splunk/.secrets/splunk-admin.json','utf8'));
+ await page.locator('input[name=username]').fill(creds.username);
+ await page.locator('input[name=password]').fill(creds.password);
+ await page.locator('input[type=submit],button[type=submit]').first().click();
+ await page.waitForURL(url=>!url.pathname.includes('/account/login'),{timeout:30000});
+ await page.goto('https://127.0.0.1:8000/en-US/app/server_health/server_health',{waitUntil:'domcontentloaded'});
+ await page.waitForFunction(() => document.body.innerText.includes('Splunk server-health onboarding verification 20260909'), {timeout:45000});
+ console.log('URL',page.url());
+ const body=await page.locator('body').innerText(); fs.writeFileSync('/home/bot/splunk/evidence/dashboard-browser.txt',body); console.log('Dashboard loaded, journal verification event visible, completed panels:',(body.match(/Search has completed/g)||[]).length); if(body.includes('Search is waiting for input')||body.includes('Error in')) throw new Error('Dashboard has incomplete or failed searches');
+ console.log('Page errors',JSON.stringify(errors));
+ await page.screenshot({path:'/home/bot/splunk/evidence/dashboard.png',fullPage:true});
+ await browser.close();
+})().catch(e=>{console.error(e);process.exit(1)});

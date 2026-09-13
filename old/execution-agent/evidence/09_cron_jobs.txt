@@ -1,0 +1,2 @@
+root	*.*	/root/cronjob.sh
+user1	* * * * *	/home/user1/job.sh

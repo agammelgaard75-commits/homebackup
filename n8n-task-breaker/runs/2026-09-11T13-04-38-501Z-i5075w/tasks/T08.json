@@ -1,0 +1,17 @@
+{
+  "id": "T08",
+  "title": "Disable default site if not needed or configure virtual hosts",
+  "objective": "Remove the default welcome page to prevent information leakage about the installation.",
+  "rationale": "The default site often reveals 'Welcome to nginx!' which indicates a fresh install; removing it is a common security step.",
+  "inputs_required": [
+    "sudo access"
+  ],
+  "expected_output": "The default site configuration removed or replaced with a custom virtual host.",
+  "success_criteria": [
+    "curl http://localhost no longer returns the default welcome page."
+  ],
+  "dependencies": [
+    "T07"
+  ],
+  "risk_level": "medium"
+}

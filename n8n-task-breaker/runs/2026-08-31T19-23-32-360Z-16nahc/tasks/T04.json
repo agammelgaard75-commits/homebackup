@@ -1,0 +1,20 @@
+{
+  "id": "T04",
+  "title": "Consolidate and Report Installation Status",
+  "objective": "Combine the results from T02 and T03 to provide a definitive 'Installed' or 'Not Installed' status.",
+  "rationale": "This final task ensures the output is a single, actionable, and easily consumable result based on all preceding checks.",
+  "inputs_required": [
+    "Installation status from T02",
+    "Binary check result from T03"
+  ],
+  "expected_output": "A structured report (e.g., JSON or simple string) stating the installation status of Nginx.",
+  "success_criteria": [
+    "The report clearly states the final status (Installed/Not Installed).",
+    "The report references the evidence gathered in T02 and T03."
+  ],
+  "dependencies": [
+    "T02",
+    "T03"
+  ],
+  "risk_level": "low"
+}

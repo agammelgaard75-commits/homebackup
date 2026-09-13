@@ -1,0 +1,16 @@
+{
+  "id": "T02",
+  "title": "Check Package Manager Status",
+  "objective": "Query package manager for nginx installation status",
+  "rationale": "Package managers track installed packages and can confirm nginx presence through their database",
+  "inputs_required": [
+    "Distribution type from T01",
+    "Appropriate package manager name"
+  ],
+  "expected_output": "Package manager output showing nginx installation state",
+  "success_criteria": "Output indicates nginx is either installed or not found clearly",
+  "dependencies": [
+    "T01"
+  ],
+  "risk_level": "low"
+}

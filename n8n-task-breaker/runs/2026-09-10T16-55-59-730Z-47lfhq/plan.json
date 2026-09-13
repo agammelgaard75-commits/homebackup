@@ -1,0 +1,172 @@
+{
+  "plan_summary": "Install and configure Nginx on Ubuntu 24.04 by updating system packages, adding the official repository key if necessary, installing the package, verifying the service status, and configuring basic security settings.",
+  "assumptions": [
+    "The host has network connectivity to download packages.",
+    "The user has sudo privileges to install software."
+  ],
+  "tasks": [
+    {
+      "id": "T01",
+      "title": "Update system package lists",
+      "objective": "Ensure the local package index is current before installing new software.",
+      "rationale": "Updating packages prevents conflicts and ensures the latest version of Nginx and dependencies are available in the repositories.",
+      "inputs_required": [
+        "sudo access"
+      ],
+      "expected_output": "Command output confirming package lists are up to date.",
+      "success_criteria": [
+        "No errors reported during update process."
+      ],
+      "dependencies": [],
+      "risk_level": "low"
+    },
+    {
+      "id": "T02",
+      "title": "Add Nginx official GPG key and repository",
+      "objective": "Import the necessary signing key and add the APT repository for Nginx.",
+      "rationale": "Adding the official repository ensures access to the latest stable versions and security patches not in the default Ubuntu repo.",
+      "inputs_required": [
+        "sudo access"
+      ],
+      "expected_output": "Confirmation that the key is added and the repository file exists.",
+      "success_criteria": [
+        "GPG key fingerprint matches expected value.",
+        "Repository file created in /etc/apt/sources.list.d/."
+      ],
+      "dependencies": [
+        "T01"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T03",
+      "title": "Update package lists again",
+      "objective": "Refresh the local package index to include the newly added Nginx repository.",
+      "rationale": "The system must recognize the new repository before attempting to install packages from it.",
+      "inputs_required": [
+        "sudo access"
+      ],
+      "expected_output": "Command output confirming package lists are updated with new sources.",
+      "success_criteria": [
+        "No errors reported during update process."
+      ],
+      "dependencies": [
+        "T02"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T04",
+      "title": "Install Nginx package",
+      "objective": "Download and install the Nginx web server software.",
+      "rationale": "This is the core installation step that places binaries, libraries, and configuration files onto the system.",
+      "inputs_required": [
+        "sudo access"
+      ],
+      "expected_output": "Command output confirming successful installation of nginx.",
+      "success_criteria": [
+        "Package manager reports 0 failed to install."
+      ],
+      "dependencies": [
+        "T03"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T05",
+      "title": "Start and enable Nginx service",
+      "objective": "Launch the Nginx daemon and configure it to start on boot.",
+      "rationale": "Installation alone does not run the service; it must be started manually and enabled for persistence.",
+      "inputs_required": [
+        "sudo access"
+      ],
+      "expected_output": "Service status showing 'active (running)' and 'enabled'."
+    },
+    {
+      "id": "T06",
+      "title": "Verify default configuration file syntax",
+      "objective": "Check the default nginx.conf for syntax errors before testing connectivity.",
+      "rationale": "Prevents potential service crashes caused by misconfiguration in the default setup.",
+      "inputs_required": [
+        "sudo access"
+      ],
+      "expected_output": "Output confirming configuration file is valid.",
+      "success_criteria": [
+        "No syntax errors reported."
+      ],
+      "dependencies": [
+        "T04"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T07",
+      "title": "Test Nginx connectivity",
+      "objective": "Confirm the web server is responding to HTTP requests.",
+      "rationale": "Validates that the service is running, listening on port 80, and serving content correctly.",
+      "inputs_required": [
+        "Network access"
+      ],
+      "expected_output": "HTTP 200 OK response or default welcome page content.",
+      "success_criteria": [
+        "Browser or curl returns valid HTML."
+      ],
+      "dependencies": [
+        "T05",
+        "T06"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T08",
+      "title": "Configure firewall rules for port 80",
+      "objective": "Allow incoming traffic on port 80 via the system firewall.",
+      "rationale": "Ensures external clients can reach the web server without being blocked by UFW or iptables.",
+      "inputs_required": [
+        "sudo access"
+      ],
+      "expected_output": "Firewall status showing port 80 is allowed.",
+      "success_criteria": [
+        "Port 80 is listed as open/allowed."
+      ],
+      "dependencies": [
+        "T07"
+      ],
+      "risk_level": "medium"
+    },
+    {
+      "id": "T09",
+      "title": "Review and secure default configuration",
+      "objective": "Inspect the default site configuration to ensure no sensitive paths are exposed.",
+      "rationale": "Default configurations often expose server tokens or unnecessary directories that should be restricted.",
+      "inputs_required": [
+        "sudo access"
+      ],
+      "expected_output": "List of identified security improvements or confirmation that defaults are safe.",
+      "success_criteria": [
+        "No sensitive files served by default."
+      ],
+      "dependencies": [
+        "T07"
+      ],
+      "risk_level": "medium"
+    },
+    {
+      "id": "T10",
+      "title": "Document installation steps and configuration",
+      "objective": "Create a summary of the installation process and current configuration state.",
+      "rationale": "Documentation aids future maintenance, troubleshooting, and replication on other hosts.",
+      "inputs_required": [
+        "Installation logs"
+      ],
+      "expected_output": "A text file or note containing version numbers, config paths, and firewall rules applied.",
+      "success_criteria": [
+        "Document contains accurate version info."
+      ],
+      "dependencies": [
+        "T09"
+      ],
+      "risk_level": "low"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "task_id": "T05",
+  "verdict": "FAIL",
+  "score": 4,
+  "problems": [
+    "Missing dependencies array referencing T01 and T02",
+    "Inputs required 'sudo access' is not a task dependency"
+  ],
+  "required_changes": [
+    "Add dependencies array with T01 and T02",
+    "Replace inputs_required with explicit task ID references"
+  ],
+  "reason": "Task lacks required dependency structure and uses invalid input format."
+}

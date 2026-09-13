@@ -1,0 +1,17 @@
+{
+  "id": "T02",
+  "title": "Verify Nginx Repository Availability",
+  "objective": "Check if the default Ubuntu repositories contain the required Nginx package version.",
+  "rationale": "Ubuntu 24.04 includes Nginx in its main repositories; this step confirms availability before attempting installation to avoid unnecessary key additions.",
+  "inputs_required": [
+    "apt-cache policy nginx"
+  ],
+  "expected_output": "Output showing the installed or available version of Nginx and its source repository.",
+  "success_criteria": [
+    "Nginx is listed as a package available in 'main' or 'universe'."
+  ],
+  "dependencies": [
+    "T01"
+  ],
+  "risk_level": "low"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "T05",
+  "title": "Start and enable Nginx service",
+  "objective": "Launch the Nginx daemon and configure it to start on boot.",
+  "rationale": "Installation alone does not run the service; it must be started manually and enabled for persistence.",
+  "inputs_required": [
+    "sudo access"
+  ],
+  "expected_output": "Service status showing 'active (running)' and 'enabled'."
+}

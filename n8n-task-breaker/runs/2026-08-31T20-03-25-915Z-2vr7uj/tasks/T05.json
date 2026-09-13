@@ -1,0 +1,19 @@
+{
+  "id": "T05",
+  "title": "Create Default Server Block Configuration",
+  "objective": "Configure basic nginx server block in sites-available/ or sites-enabled/",
+  "rationale": "Defines how nginx handles incoming HTTP requests and routes traffic",
+  "inputs_required": [
+    "nginx configuration directory access"
+  ],
+  "expected_output": "Functional server block configuration file created",
+  "success_criteria": [
+    "Server block syntax is valid (nginx -t passes)",
+    "Root directive points to correct web root"
+  ],
+  "dependencies": [
+    "T04",
+    "T03"
+  ],
+  "risk_level": "low"
+}

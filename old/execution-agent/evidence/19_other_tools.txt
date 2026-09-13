@@ -1,0 +1,4 @@
+Other tools checks:
+- Ensure all security patches are applied.
+- Verify system logs for suspicious activity.
+- Check for unquoted service paths.

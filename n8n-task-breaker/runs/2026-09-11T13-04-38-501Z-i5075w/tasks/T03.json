@@ -1,0 +1,18 @@
+{
+  "id": "T03",
+  "title": "Install Nginx using the APT package manager",
+  "objective": "Download and install the Nginx web server software.",
+  "rationale": "This is the core installation step that places binaries, libraries, and configuration files onto the system.",
+  "inputs_required": [
+    "sudo access"
+  ],
+  "expected_output": "Nginx package installed with default configuration files created in /etc/nginx.",
+  "success_criteria": [
+    "The command completes successfully without dependency errors."
+  ],
+  "dependencies": [
+    "T01",
+    "T02"
+  ],
+  "risk_level": "low"
+}

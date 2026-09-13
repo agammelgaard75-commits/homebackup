@@ -1,0 +1,15 @@
+{
+  "id": "T03",
+  "title": "Install Nginx packages",
+  "objective": "Install the nginx main package and essential utilities like curl or net-tools if needed.",
+  "rationale": "This step fetches the binary and configures the initial file structure from the repository.",
+  "inputs_required": [
+    "Updated Package List"
+  ],
+  "expected_output": "Nginx installed files present in /etc/nginx and binaries in /usr/sbin.",
+  "success_criteria": "The 'nginx' binary exists and version string matches expected release.",
+  "dependencies": [
+    "T02"
+  ],
+  "risk_level": "medium"
+}

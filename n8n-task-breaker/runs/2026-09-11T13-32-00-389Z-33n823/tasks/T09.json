@@ -1,0 +1,18 @@
+{
+  "id": "T09",
+  "title": "Document installation steps and configuration",
+  "objective": "Create a brief summary of the installed version, key config paths, and security settings applied.",
+  "rationale": "Documentation aids in future troubleshooting and provides a record of the system state for compliance or audits.",
+  "inputs_required": [
+    "Access to installation logs"
+  ],
+  "expected_output": "A text file containing version info, config paths, and firewall status.",
+  "success_criteria": [
+    "Document is saved and contains accurate version number."
+  ],
+  "dependencies": [
+    "T07",
+    "T08"
+  ],
+  "risk_level": "low"
+}

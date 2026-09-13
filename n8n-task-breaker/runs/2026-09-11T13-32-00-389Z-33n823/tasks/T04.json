@@ -1,0 +1,17 @@
+{
+  "id": "T04",
+  "title": "Start and enable the Nginx service",
+  "objective": "Launch the Nginx daemon and configure it to start automatically on boot.",
+  "rationale": "Starting the service makes the web server operational immediately, while enabling ensures persistence across reboots.",
+  "inputs_required": [
+    "sudo access"
+  ],
+  "expected_output": "The Nginx process is running and listening on port 80.",
+  "success_criteria": [
+    "systemctl status nginx shows 'active (running)'."
+  ],
+  "dependencies": [
+    "T03"
+  ],
+  "risk_level": "low"
+}

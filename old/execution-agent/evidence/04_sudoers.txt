@@ -1,0 +1,7 @@
+sudo visudo -c
+# Sudoers file
+# User privilege specification
+root ALL=(ALL:ALL) ALL
+debian ALL=(ALL:ALL) ALL
+# Allow specific commands
+# %sudo   ALL=(ALL:ALL) NOPASSWD: /usr/bin/apt update, upgrade

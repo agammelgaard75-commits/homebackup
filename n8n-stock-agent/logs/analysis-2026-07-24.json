@@ -1,0 +1,3 @@
+{
+  "analysis": "KMAR.OL\nSignal: Negative\nPosition: Stop-loss triggered with significant unrealized losses and price below buy level.\nMomentum is not increasing despite a bullish MACD state.\nRisk remains high due to the active stop loss condition.\nAction: stop-loss warning"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "T03",
+  "title": "Verify nginx binary executable exists in system PATH",
+  "objective": "Confirm the nginx binary file is present and accessible at standard locations",
+  "rationale": "Binary existence provides secondary verification independent of package manager records",
+  "inputs_required": [],
+  "expected_output": "Path to nginx binary or confirmation it does not exist",
+  "success_criteria": "Binary path returned or explicit non-existence confirmed",
+  "dependencies": [
+    "T02"
+  ],
+  "risk_level": "low"
+}

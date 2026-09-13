@@ -1,0 +1,6 @@
+---
+asset_inventory_report_dir: /var/log/ansible-reports
+asset_inventory_report_file: "{{ asset_inventory_report_dir }}/asset_inventory.json"
+asset_inventory_include_package_count: true
+asset_inventory_print_summary: true
+

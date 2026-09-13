@@ -1,0 +1,17 @@
+{
+  "id": "T05",
+  "title": "Verify Nginx is listening on port 80",
+  "objective": "Confirm the web server is accepting connections on the standard HTTP port.",
+  "rationale": "Ensures the service is not only running but bound to the correct network interface and port.",
+  "inputs_required": [
+    "Network connectivity"
+  ],
+  "expected_output": "Output showing Nginx listening on 0.0.0.0:80 or specific IP:80.",
+  "success_criteria": [
+    "The 'ss -tlnp' command lists port 80 associated with nginx."
+  ],
+  "dependencies": [
+    "T04"
+  ],
+  "risk_level": "low"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "T08",
+  "title": "Configure Firewall Rules (UFW)",
+  "objective": "Allow HTTP and HTTPS traffic through the host firewall.",
+  "rationale": "Ubuntu 24.04 uses UFW; without explicit rules, incoming port 80/443 connections will be blocked by default.",
+  "inputs_required": [
+    "sudo ufw allow 'Nginx Full'",
+    "sudo ufw reload"
+  ],
+  "expected_output": "Confirmation messages showing rules added (e.g., 'Allow OpenSSH' is already enabled, 'Allow HTTP', 'Allow HTTPS').",
+  "success_criteria": [
+    "UFW status lists port 80 and 443 as ALLOW.",
+    "Reload command completes without error."
+  ],
+  "dependencies": [
+    "T07"
+  ],
+  "risk_level": "medium"
+}

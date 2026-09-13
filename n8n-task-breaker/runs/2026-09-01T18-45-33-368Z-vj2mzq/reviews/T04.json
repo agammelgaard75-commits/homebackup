@@ -1,0 +1,12 @@
+{
+  "task_id": "T04",
+  "verdict": "PASS",
+  "score": 9,
+  "problems": [
+    "Input references 'Installed Nginx Files' instead of T03 dependency"
+  ],
+  "required_changes": [
+    "Update inputs_required to reference T03 output explicitly"
+  ],
+  "reason": "Task is valid verification step after installation"
+}

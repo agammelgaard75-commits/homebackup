@@ -1,0 +1,15 @@
+{
+  "id": "T08",
+  "title": "Verify firewall allows Nginx traffic",
+  "objective": "Ensure the system firewall (UFW) allows incoming connections on port 80.",
+  "rationale": "Even with a running service, the host must allow inbound traffic to be accessible from external networks.",
+  "inputs_required": [
+    "sudo access"
+  ],
+  "expected_output": "Port 80 is allowed in the firewall rules.",
+  "success_criteria": [
+    "ufw status shows 'ALLOW' for port 80/tcp."
+  ],
+  "dependencies": [],
+  "risk_level": "low"
+}

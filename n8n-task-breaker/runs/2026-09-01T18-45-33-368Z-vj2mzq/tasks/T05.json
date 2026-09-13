@@ -1,0 +1,15 @@
+{
+  "id": "T05",
+  "title": "Test Nginx configuration syntax",
+  "objective": "Run the built-in configuration checker to ensure no syntax errors exist before starting the service.",
+  "rationale": "Starting a service with invalid config leads to immediate failure and security risks.",
+  "inputs_required": [
+    "Reviewed Configuration Files"
+  ],
+  "expected_output": "Confirmation that configuration test passed without errors.",
+  "success_criteria": "Command exits successfully indicating valid syntax.",
+  "dependencies": [
+    "T04"
+  ],
+  "risk_level": "low"
+}

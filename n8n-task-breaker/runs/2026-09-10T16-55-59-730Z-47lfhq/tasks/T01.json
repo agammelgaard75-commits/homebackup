@@ -1,0 +1,15 @@
+{
+  "id": "T01",
+  "title": "Update system package lists",
+  "objective": "Ensure the local package index is current before installing new software.",
+  "rationale": "Updating packages prevents conflicts and ensures the latest version of Nginx and dependencies are available in the repositories.",
+  "inputs_required": [
+    "sudo access"
+  ],
+  "expected_output": "Command output confirming package lists are up to date.",
+  "success_criteria": [
+    "No errors reported during update process."
+  ],
+  "dependencies": [],
+  "risk_level": "low"
+}

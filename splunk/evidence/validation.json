@@ -1,0 +1,30 @@
+{
+  "checked_at_utc": "2026-09-09T15:42:54.672327+00:00",
+  "version": "9.3.14",
+  "build": "02bbaf562558",
+  "kvstore": "ready",
+  "service_properties": "MainPID=471398\nNRestarts=1\nMemoryCurrent=592044032\nMemoryPeak=680525824\nCPUQuotaPerSecUSec=2s\nMemoryHigh=5368709120\nMemoryMax=6442450944\nMemorySwapMax=536870912\nTasksMax=4096\nLimitNOFILE=65536\nLimitNPROC=16000\nActiveState=active\n",
+  "boot_id_unchanged": true,
+  "boot_id": "4d9616ea-5b93-4d19-b182-b9920425dde4",
+  "live_ingestion": [
+    {
+      "index": "host_metrics",
+      "count": "1630",
+      "latest_time": "1788968555.793",
+      "age_seconds": "18"
+    },
+    {
+      "index": "host_os",
+      "count": "260",
+      "latest_time": "1788968522.168294",
+      "age_seconds": "52"
+    }
+  ],
+  "journal_test_event_count": 1,
+  "trial_quota_bytes_per_day": 524288000,
+  "trial_expires_utc": "2026-11-08T15:33:30+00:00",
+  "dashboard_panels_completed": 14,
+  "browser_javascript_errors": [],
+  "configuration_check": "passed",
+  "known_existing_failed_service": "systemd-networkd-wait-online.service"
+}

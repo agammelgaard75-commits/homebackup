@@ -1,0 +1,17 @@
+{
+  "id": "T06",
+  "title": "Test HTTP connectivity using a browser or curl",
+  "objective": "Validate that the web server responds to client requests with valid content.",
+  "rationale": "Functional testing confirms that DNS resolution (if applicable) and HTTP responses are working correctly.",
+  "inputs_required": [
+    "Local network access"
+  ],
+  "expected_output": "A successful HTTP 200 response containing the default 'Welcome to nginx!' page or similar.",
+  "success_criteria": [
+    "curl -I http://localhost returns an HTTP/1.1 200 OK status code."
+  ],
+  "dependencies": [
+    "T05"
+  ],
+  "risk_level": "low"
+}

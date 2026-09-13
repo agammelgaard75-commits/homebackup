@@ -1,0 +1,115 @@
+{
+  "server": {
+    "version": "9.3.14",
+    "build": "02bbaf562558",
+    "licenseState": "OK",
+    "kvStoreStatus": "ready"
+  },
+  "health": "green",
+  "inputs": [
+    {
+      "file": "/var/log/ai-sysadmin/audit.jsonl",
+      "sourcetype": "ai_sysadmin:audit",
+      "source_events": 151,
+      "indexed_events": 151,
+      "exact_source_match": true
+    },
+    {
+      "file": "/var/log/ai-sysadmin/health.jsonl",
+      "sourcetype": "ai_sysadmin:health",
+      "source_events": 7,
+      "indexed_events": 7,
+      "exact_source_match": true
+    },
+    {
+      "file": "/var/log/ai-sysadmin/anomalies.jsonl",
+      "sourcetype": "ai_sysadmin:anomaly",
+      "source_events": 9,
+      "indexed_events": 9,
+      "exact_source_match": true
+    }
+  ],
+  "timestamp_validation": [
+    {
+      "total": "167",
+      "invalid": "0"
+    }
+  ],
+  "dashboards": [
+    {
+      "view": "health_dashboard",
+      "label": "AI Sysadmin - Server Health",
+      "panels": [
+        {
+          "title": "Latest root free %",
+          "rows": 1
+        },
+        {
+          "title": "Failed units",
+          "rows": 1
+        },
+        {
+          "title": "Packages available",
+          "rows": 1
+        },
+        {
+          "title": "Recent health reports",
+          "rows": 7
+        },
+        {
+          "title": "Change closures",
+          "rows": 9
+        }
+      ]
+    },
+    {
+      "view": "anomaly_dashboard",
+      "label": "AI Sysadmin - Anomalies",
+      "panels": [
+        {
+          "title": "Recorded findings (7 days)",
+          "rows": 1
+        },
+        {
+          "title": "Findings by severity",
+          "rows": 31
+        },
+        {
+          "title": "Anomaly details",
+          "rows": 9
+        }
+      ]
+    }
+  ],
+  "latest_health": [
+    {
+      "timestamp": "2026-09-13T12:17:52+00:00",
+      "root_free_percent": "75.86",
+      "failed_count": "0",
+      "upgradable_package_count": "0",
+      "reboot_required": "false"
+    }
+  ],
+  "closed_change": [
+    {
+      "count": "1"
+    }
+  ],
+  "splunk_outage_anomaly": [
+    {
+      "timestamp": "2026-09-13T12:11:59+00:00",
+      "severity": "high",
+      "message": "Local Splunk unavailable: startup wrapper and prior runtime state missing"
+    },
+    {
+      "timestamp": "2026-09-13T12:09:43+00:00",
+      "severity": "high",
+      "message": "Local Splunk unavailable: startup wrapper and prior runtime state missing"
+    },
+    {
+      "timestamp": "2026-09-13T12:20:01+00:00",
+      "severity": "medium",
+      "message": "Splunk reported a yellow IOWait indicator during integration verification; current vmstat samples show zero IOWait, and ingestion, indexing, scheduler and KV Store are healthy"
+    }
+  ]
+}

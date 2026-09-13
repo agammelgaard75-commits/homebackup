@@ -1,0 +1,17 @@
+{
+  "id": "T01",
+  "title": "System Information Gathering",
+  "objective": "Collect baseline data on the operating system, kernel version, installed packages, and network configuration.",
+  "rationale": "Understanding the current state is necessary to scope the assessment and identify potential outdated components.",
+  "inputs_required": [
+    "Root/sudo access"
+  ],
+  "expected_output": "Comprehensive report detailing OS version, kernel version, installed package list (e.g., dpkg -l or rpm -qa), and network interfaces.",
+  "success_criteria": [
+    "OS version is identified.",
+    "Kernel version is identified.",
+    "A list of all major installed packages is generated."
+  ],
+  "dependencies": [],
+  "risk_level": "low"
+}

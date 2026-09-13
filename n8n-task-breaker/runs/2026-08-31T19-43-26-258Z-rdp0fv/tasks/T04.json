@@ -1,0 +1,13 @@
+{
+  "id": "T04",
+  "title": "Check nginx service status if systemd is available",
+  "objective": "Verify nginx service state (running/stopped/failed) using systemctl",
+  "rationale": "Service status provides operational context beyond mere installation presence",
+  "inputs_required": [],
+  "expected_output": "Current service state and any error messages if applicable",
+  "success_criteria": "Service status clearly reported or systemd unavailable noted",
+  "dependencies": [
+    "T02"
+  ],
+  "risk_level": "low"
+}

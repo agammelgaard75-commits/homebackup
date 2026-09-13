@@ -1,0 +1,17 @@
+{
+  "id": "T03",
+  "title": "Update package lists again",
+  "objective": "Refresh the local package index to include the newly added Nginx repository.",
+  "rationale": "The system must recognize the new repository before attempting to install packages from it.",
+  "inputs_required": [
+    "sudo access"
+  ],
+  "expected_output": "Command output confirming package lists are updated with new sources.",
+  "success_criteria": [
+    "No errors reported during update process."
+  ],
+  "dependencies": [
+    "T02"
+  ],
+  "risk_level": "low"
+}

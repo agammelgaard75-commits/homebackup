@@ -1,0 +1,19 @@
+{
+  "id": "T06",
+  "title": "Configure Nginx Service Management",
+  "objective": "Enable and start the nginx service for automatic startup at boot",
+  "rationale": "Ensures nginx runs persistently and starts automatically after system reboots",
+  "inputs_required": [
+    "systemctl access",
+    "write permissions"
+  ],
+  "expected_output": "Nginx service is active and enabled",
+  "success_criteria": [
+    "service nginx status shows active (running)",
+    "service nginx enable command succeeds"
+  ],
+  "dependencies": [
+    "T05"
+  ],
+  "risk_level": "low"
+}

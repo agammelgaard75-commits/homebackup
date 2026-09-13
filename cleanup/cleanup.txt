@@ -1,0 +1,178 @@
+SERVER CLEANUP REVIEW — 2026-09-09 UTC
+
+Inventory only. Nothing has been deleted, stopped, pruned, or uninstalled.
+Review the numbered items and choose which you want cleaned.
+Sizes are approximate allocated disk usage (GiB/MiB), except Docker's
+reported decimal sizes and explicitly identified file lengths.
+
+SERVER SNAPSHOT
+Ubuntu 24.04.5 LTS. Main filesystem: 97G total, 19G used, 74G available (20%).
+There is no immediate disk-space pressure.
+Major usage: /var 5.2G, /usr 3.8G, /root 3.5G, /home 1.6G, /opt 491M.
+/swap.img is an active 4G swap file and should be retained.
+Running applications include Docker/n8n, LiteLLM, nginx, and Codex.
+
+PRIORITY CACHE CANDIDATES — approximately 6 GiB combined
+These are rebuildable/downloadable caches. Clean only after approval and
+when the corresponding installer, build, or package operation is idle.
+
+[01] Downloaded Ubuntu package archives — 2.1G
+     Path: /var/cache/apt/archives
+     Includes old Node.js/Docker packages and a 611 MiB firmware .deb.
+     Candidate: clear downloaded .deb archives using APT's cache cleanup.
+     Installed software stays installed; future reinstalls require downloads.
+
+[02] Root npm package cache — 2.6G
+     Path: /root/.npm/_cacache
+     Candidate: clear root's npm download cache using npm's cache tooling.
+     Future npm installs may take longer and require network access.
+
+[03] User npm package cache — 833M
+     Path: /home/bot/.npm/_cacache
+     Candidate: clear bot's npm download cache using npm's cache tooling.
+     This is separate from installed tools and project source directories.
+
+[04] Root pip cache — 223M
+     Path: /root/.cache/pip
+     Candidate: purge pip's downloaded/wheel cache.
+     Installed Python environments remain; later installs may rebuild wheels.
+
+[05] Root node-gyp cache — 198M
+     Path: /root/.cache/node-gyp
+     Candidate: remove cached build headers after confirming no build is active.
+     Later native Node.js builds may need to download headers again.
+
+ADDITIONAL CANDIDATES — require the decisions noted below
+
+[06] Older Claude executable — 223 MiB file length
+     Path: /root/.local/share/claude/versions/2.1.72
+     Evidence: /root/.local/bin/claude points to versions/2.1.92 instead.
+     Candidate: remove 2.1.72 if no direct reference or rollback need exists.
+     Retain the current 2.1.92 executable. No Claude process was observed.
+
+[07] Codex temporary-looking plugin checkout — 98M
+     Path: /home/bot/.codex/.tmp/plugins
+     Contains a plugin tree and .git directory; dated 2026-09-08.
+     Candidate only: the directory name does not prove it is disposable.
+     Confirm no plugin installation or other Codex operation needs it, and
+     review for local work before removal. Codex is currently running.
+
+[08] Historical system journal — 190M reported by journalctl
+     Path: /var/log/journal
+     Candidate: choose a history retention period or size limit, then vacuum
+     archived journals through journalctl. Retain useful diagnostic history.
+     Savings depend on the chosen retention and archived versus active files;
+     the full 190M is not an estimate of immediately reclaimable space.
+     All of /var/log totals only about 196M, including this journal.
+
+[09] Root's local mailbox — 38M
+     Path: /var/mail/root
+     Last modification: 2026-07-11. Message contents were not read.
+     Candidate: review/archive obsolete system notifications before clearing.
+     May contain useful administrative alerts; not an automatic cache cleanup.
+
+[10] Unused Docker Alpine image — 13.01 MB reported by Docker
+     Image: alpine:latest, ID 28bd5fe8b56d
+     Evidence: zero containers reference it.
+     Candidate: remove this specific image if it is not needed for offline
+     diagnostics or future jobs. It can be pulled again when network is available.
+     No stopped containers, unused volumes, or build cache were reported.
+
+[11] npm diagnostic logs — about 5.6M combined
+     Paths: /root/.npm/_logs (4.6M), /home/bot/.npm/_logs (1008K)
+     Candidate: remove older logs after preserving any needed for troubleshooting.
+
+[12] Temporary build/test output — about 5.6M combined
+     /tmp/node-compile-cache                         5.3M
+     /tmp/vulnerability-scanner-smoke-test           320K
+     /tmp/vulnerability-scanner-verification          16K
+     Candidate: remove exact directories once their creating jobs have finished
+     and any test evidence is no longer needed. Test directories date to Sep 8.
+     Do not blanket-clear /tmp; it also contains active service/runtime paths.
+
+[13] Small abandoned-looking folders — owner decision needed
+     /home/bot/old                                   220K
+       Subfolders: sysadmin-agent, installer-agent, vul-agent, planner-agent,
+       execution-agent. Name alone does not establish that these are obsolete.
+     /home/bot/test                                    8K
+     /home/bot/.n8n-backup                            48K
+     /home/bot/.n8n                                   48K
+     The last two are not mounts of the current n8n container, but could contain
+     valuable backup/configuration data. Compare securely before any removal.
+
+[14] Goose installation — about 277M including user data
+     /home/bot/.local/bin/goose                      271M
+     /home/bot/.local/share/goose                    6.6M
+     /home/bot/.local/state/goose                    748K
+     Candidate only if you no longer use Goose. No Goose process was observed,
+     but that does not prove it is unused. Preserve desired history/configuration.
+
+[15] Packages APT currently considers automatically removable — ~369 KiB
+     Read-only simulation: sudo apt-get -s autoremove
+     Listed: libnsl2, libtirpc-common, libtirpc3t64.
+     Candidate: re-run simulation before an approved removal, and check whether
+     manually installed software needs these libraries. Very little space gain.
+
+[16] Residual configuration from removed kernels — savings not measured
+     dpkg reports config-files-only entries for linux-image, linux-modules,
+     and linux-modules-extra for each of these versions:
+       6.8.0-101-generic, 6.8.0-106-generic, 6.8.0-107-generic,
+       6.8.0-124-generic, 6.8.0-134-generic, 6.8.0-136-generic.
+     Candidate: purge only the exact already-removed package entries after review.
+     These are configuration remnants, not full installed kernel packages.
+     Keep running kernel 6.8.0-138-generic and installed 6.8.0-139-generic.
+
+LOW-VALUE / REBUILDABLE ITEMS — generally leave unless space is needed
+
+[17] APT package indexes: /var/lib/apt/lists — 195M.
+     Rebuildable with apt update, but useful for normal package management and
+     will be downloaded again. Lower priority than downloaded .deb archives.
+
+[18] Small system caches and reports:
+     /var/cache/snapd — 4.2M; no snaps are installed.
+     /var/cache/swcatalog — 7.8M; cache candidate if its producer is idle.
+     /var/crash — 32K; review reports before discarding.
+     /var/tmp — 20K; negligible and must be checked for current use.
+     /var/backups — 1.8M; keep useful system recovery backups.
+
+KEEP / EXCLUDE FROM ROUTINE CLEANUP
+
+- Running n8n container and docker.n8n.io/n8nio/n8n:latest image
+  (2.457 GB image and 63.1 MB container writable layer reported by Docker).
+- Docker volume n8n_n8n_data (59.71 MB): mounted at /home/node/.n8n.
+  This is persistent application data, potentially workflows and credentials.
+- Active n8n bind mounts:
+    /home/bot/n8n-task-breaker -> /data/task-breaker
+    /home/bot/n8n-stock-agent/logs -> /files/logs
+- /home/bot/n8n, /home/bot/n8n-stock-agent, /home/bot/vulnerability-scanner,
+  /home/bot/ansible_check_report_roles: project/configuration work, not proven clutter.
+- /var/lib/containerd (2.4G) and /var/lib/docker (58M): managed runtime storage.
+  These overlap Docker's logical accounting; do not add them as extra savings
+  or manually delete internal layers, databases, snapshots, or volume files.
+- /opt/litellm/venv (491M): LiteLLM service is currently running.
+- /home/bot/.codex/packages (320M): installed Codex executable and support files;
+  /home/bot/.local/bin/codex links into this installation.
+- Codex plugin cache (29M), other Codex cache (19M), sessions (1.5M), settings,
+  authentication, and local state: retain unless separately reviewed.
+- /root/.claude, /root/.openclaw, SSH keys, app secrets, and configuration.
+- /swap.img (4G): configured active swap, even though current use is zero.
+- Both installed kernels noted above, and /boot recovery/bootloader files.
+
+OTHER OBSERVATIONS
+- n8n's Docker JSON log is only 59,960 bytes. Its inspected logging configuration
+  is json-file with no explicit rotation options. Consider a separate review of
+  log rotation to limit future growth; no service configuration was changed.
+- systemd-networkd-wait-online.service is failed. This is a separate operational
+  issue, not disk clutter; it has not been diagnosed or changed.
+- The deleted-open-file check returned no entries; no savings assigned to it.
+
+SCOPE AND LIMITS
+Read-only inspection covered mounted filesystem usage, root/home/system directory
+sizes, large files, common caches, Docker objects and mounts, package-removal
+simulation, kernel state, logs, active services, and selected backup/temp names.
+Private message, credential, database, and workflow contents were not read.
+This is an evidence-based candidate list, not proof every obsolete file has been
+found. Filenames, age, or lack of a current process do not establish disuse.
+Do not add parent and child directory sizes or all candidates into one guaranteed
+savings figure. Items 01–05 alone are approximately 6 GiB of cache candidates;
+all remaining removals depend on your review and the checks described above.

@@ -1,0 +1,62 @@
+---
+- name: Check filesystem usage
+  ansible.builtin.command: df -P -x tmpfs -x devtmpfs
+  register: disk_watch_df
+  changed_when: false
+
+- name: Check inode usage
+  ansible.builtin.command: df -Pi -x tmpfs -x devtmpfs
+  register: disk_watch_inode_df
+  changed_when: false
+
+- name: Find large files in selected paths
+  ansible.builtin.shell: >-
+    timeout {{ disk_watch_find_timeout_seconds | int }}s find {{ disk_watch_large_file_paths | map('quote') | join(' ') }}
+    -xdev -type f -size {{ disk_watch_large_file_min_size | quote }}
+    -printf '%s %p\n' 2>/dev/null | sort -nr | head -n {{ disk_watch_large_file_limit | int }}
+  register: disk_watch_large_files
+  changed_when: false
+  failed_when: false
+
+- name: Detect filesystems above usage threshold
+  ansible.builtin.shell: >-
+    df -P -x tmpfs -x devtmpfs | awk 'NR>1 {gsub("%","",$5); if ($5 >= {{ disk_watch_usage_warn_percent | int }}) print $0}'
+  register: disk_watch_usage_warnings
+  changed_when: false
+  failed_when: false
+
+- name: Detect filesystems above inode threshold
+  ansible.builtin.shell: >-
+    df -Pi -x tmpfs -x devtmpfs | awk 'NR>1 {gsub("%","",$5); if ($5 >= {{ disk_watch_inode_warn_percent | int }}) print $0}'
+  register: disk_watch_inode_warnings
+  changed_when: false
+  failed_when: false
+
+- name: Build disk watch report
+  ansible.builtin.set_fact:
+    disk_watch_report:
+      ok: "{{ (disk_watch_usage_warnings.stdout_lines | length == 0) and (disk_watch_inode_warnings.stdout_lines | length == 0) }}"
+      usage_threshold_percent: "{{ disk_watch_usage_warn_percent }}"
+      inode_threshold_percent: "{{ disk_watch_inode_warn_percent }}"
+      usage_warnings: "{{ disk_watch_usage_warnings.stdout_lines }}"
+      inode_warnings: "{{ disk_watch_inode_warnings.stdout_lines }}"
+      large_files: "{{ disk_watch_large_files.stdout_lines }}"
+
+- name: Ensure report directory exists
+  ansible.builtin.file:
+    path: "{{ disk_watch_report_dir }}"
+    state: directory
+    mode: '0750'
+
+- name: Write disk watch report to file
+  ansible.builtin.copy:
+    content: |
+      {{ disk_watch_report | to_nice_json }}
+    dest: "{{ disk_watch_report_file }}"
+    mode: '0640'
+  changed_when: false
+
+- name: Print compact disk watch summary
+  ansible.builtin.debug:
+    msg: "disk_watch: ok={{ disk_watch_report.ok | default(true) }}; report={{ disk_watch_report_file }}"
+  when: disk_watch_print_summary | bool

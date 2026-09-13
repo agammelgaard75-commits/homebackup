@@ -1,0 +1,59 @@
+{
+  "installation": "ubuntu-local",
+  "splunk_home": "/opt/splunk",
+  "service": "Splunkd",
+  "service_user": "splunk",
+  "api_url": "https://127.0.0.1:8089",
+  "ca_file": "/home/bot/splunk/evidence/splunk-ca.pem",
+  "credential_file": "/home/bot/splunk/.secrets/splunk-admin.json",
+  "allow_loopback_certificate_name_mismatch": true,
+  "state_dir": "/home/bot/splunk/automation/state",
+  "backup_dir": "/var/backups/splunk-upgrade",
+  "codex_binary": "/home/bot/.local/bin/codex",
+  "codex_timeout_seconds": 600,
+  "auto_upgrade": true,
+  "allowed_core_branch": "9.3",
+  "report_index": "main",
+  "report_sourcetype": "splunk:upgrade:json",
+  "minimum_free_bytes": 10737418240,
+  "local_apps": {
+    "server_health": {
+      "compatible_branches": [
+        "9.3"
+      ],
+      "validation": "server_health"
+    },
+    "ai_sysadmin": {
+      "compatible_branches": [
+        "9.3"
+      ],
+      "validation": "ai_sysadmin_live_queries"
+    }
+  },
+  "generated_apps": [
+    "splunk_ingest_actions"
+  ],
+  "splunkbase_apps": {},
+  "smoke_searches": [
+    {
+      "name": "metrics_ingestion",
+      "query": "search index=host_metrics earliest=-5m | stats latest(_time) AS latest | eval pass=if(isnotnull(latest) AND now()-latest<180,1,0)",
+      "pass_field": "pass"
+    },
+    {
+      "name": "journal_ingestion",
+      "query": "search index=host_os earliest=-15m | stats latest(_indextime) AS latest | eval pass=if(isnotnull(latest) AND now()-latest<600,1,0)",
+      "pass_field": "pass"
+    },
+    {
+      "name": "ai_sysadmin_health_freshness",
+      "query": "search index=ai_sysadmin sourcetype=ai_sysadmin:health earliest=-8d | stats latest(_time) as latest | eval pass=if(isnotnull(latest) AND now()-latest<691200,1,0)",
+      "pass_field": "pass"
+    },
+    {
+      "name": "ai_sysadmin_audit_and_health",
+      "query": "search index=ai_sysadmin (sourcetype=ai_sysadmin:audit OR sourcetype=ai_sysadmin:health) earliest=-8d | stats dc(sourcetype) as sources | eval pass=if(sources=2,1,0)",
+      "pass_field": "pass"
+    }
+  ]
+}

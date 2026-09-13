@@ -1,0 +1,12 @@
+{
+  "task_id": "T04",
+  "verdict": "PASS",
+  "score": 9,
+  "problems": [
+    "Inputs contain raw command strings instead of task ID references"
+  ],
+  "required_changes": [
+    "Update inputs_required to reference T03 output explicitly rather than 'sudo' and 'systemctl'"
+  ],
+  "reason": "Task is relevant but uses raw commands in inputs."
+}

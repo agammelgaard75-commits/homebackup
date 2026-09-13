@@ -1,0 +1,18 @@
+{
+  "id": "T02",
+  "title": "Install Nginx Package",
+  "objective": "Download and install the Nginx web server and its core dependencies.",
+  "rationale": "This installs the main Nginx binary, configuration files, and default SSL certificates provided by Ubuntu.",
+  "inputs_required": [
+    "sudo apt install nginx"
+  ],
+  "expected_output": "Nginx installation log showing package completion.",
+  "success_criteria": [
+    "Package 'nginx' is marked as installed.",
+    "Dependencies like pcre2 and zlib are resolved."
+  ],
+  "dependencies": [
+    "T01"
+  ],
+  "risk_level": "low"
+}

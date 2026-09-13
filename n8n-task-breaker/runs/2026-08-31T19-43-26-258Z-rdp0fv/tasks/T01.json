@@ -1,0 +1,11 @@
+{
+  "id": "T01",
+  "title": "Identify package manager type on the host",
+  "objective": "Determine which Linux package management system is in use (apt, yum, dnf, pacman, etc.)",
+  "rationale": "Different distributions use different package managers; knowing this enables correct installation verification commands",
+  "inputs_required": [],
+  "expected_output": "Package manager identification result (e.g., apt for Debian/Ubuntu, yum/dnf for RHEL/CentOS)",
+  "success_criteria": "Output clearly identifies the active package manager type",
+  "dependencies": [],
+  "risk_level": "low"
+}

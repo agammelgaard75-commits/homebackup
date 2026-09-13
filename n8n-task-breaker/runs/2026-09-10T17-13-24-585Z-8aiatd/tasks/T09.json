@@ -1,0 +1,17 @@
+{
+  "id": "T09",
+  "title": "Verify Security Headers Implementation",
+  "objective": "Confirm that the newly added security headers are present in HTTP responses.",
+  "rationale": "Validation ensures that the configuration changes in T07 and T08 were applied correctly.",
+  "inputs_required": [
+    "curl"
+  ],
+  "expected_output": "HTTP response headers containing X-Frame-Options, Content-Security-Policy, etc.",
+  "success_criteria": [
+    "Response headers include the defined security directives."
+  ],
+  "dependencies": [
+    "T08"
+  ],
+  "risk_level": "low"
+}

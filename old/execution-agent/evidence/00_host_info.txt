@@ -1,0 +1,12 @@
+hostnamectl
+
+[31mFailed to parse command line: No such process[0m
+[31mFailed to parse command line: No such process[0m
+[31mFailed to parse command line: No such process[0m
+[31mFailed to parse command line: No such process[0m
+[31mFailed to parse command line: No such process[0m
+[31mFailed to parse command line: No such process[0m
+[31mFailed to parse command line: No such process[0m
+[31mFailed to parse command line: No such process[0m
+[31mFailed to parse command line: No such process[0m
+[31mFailed to parse command line: No such process[0m

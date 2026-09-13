@@ -1,0 +1,15 @@
+{
+  "id": "T04",
+  "title": "Review default configuration files",
+  "objective": "Examine /etc/nginx/nginx.conf and site-enabled sites for correct paths and settings.",
+  "rationale": "Default configurations often need adjustments for production use, especially on fresh installs.",
+  "inputs_required": [
+    "Installed Nginx Files"
+  ],
+  "expected_output": "List of existing configuration blocks and server names.",
+  "success_criteria": "All syntax is valid and no critical errors are reported by the config test tool.",
+  "dependencies": [
+    "T03"
+  ],
+  "risk_level": "low"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "T07",
+  "title": "Configure Basic Security Headers",
+  "objective": "Add security headers (e.g., X-Frame-Options, Content-Security-Policy) to the default site configuration.",
+  "rationale": "Default Nginx configurations often lack essential security headers; adding them mitigates common web vulnerabilities.",
+  "inputs_required": [
+    "nano",
+    "vi"
+  ],
+  "expected_output": "Updated configuration file with added 'add_header' directives.",
+  "success_criteria": [
+    "Security headers are present in the config file.",
+    "Configuration test (nginx -t) passes without errors."
+  ],
+  "dependencies": [
+    "T06"
+  ],
+  "risk_level": "medium"
+}

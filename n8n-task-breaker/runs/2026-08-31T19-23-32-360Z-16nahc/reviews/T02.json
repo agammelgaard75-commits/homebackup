@@ -1,0 +1,8 @@
+{
+  "task_id": "T02",
+  "verdict": "PASS",
+  "score": 9,
+  "problems": [],
+  "required_changes": [],
+  "reason": "Task is specific, executable, and properly scoped for nginx verification"
+}

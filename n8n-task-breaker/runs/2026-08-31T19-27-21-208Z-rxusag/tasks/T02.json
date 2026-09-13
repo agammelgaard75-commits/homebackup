@@ -1,0 +1,19 @@
+{
+  "id": "T02",
+  "title": "Verify nginx Binary Presence",
+  "objective": "Confirm the executable exists on the host filesystem.",
+  "rationale": "Direct binary check confirms physical installation regardless of package state.",
+  "inputs_required": [
+    "Output from T01",
+    "Standard system paths"
+  ],
+  "expected_output": "Path to nginx binary or confirmation of absence",
+  "success_criteria": [
+    "Binary found in path",
+    "Binary not found"
+  ],
+  "dependencies": [
+    "T01"
+  ],
+  "risk_level": "low"
+}

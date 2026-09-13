@@ -1,0 +1,18 @@
+{
+  "id": "T03",
+  "title": "Check Installed Packages for nginx",
+  "objective": "Validate installation status through system package registry.",
+  "rationale": "Package manager query provides official installation record.",
+  "inputs_required": [
+    "Package manager identifier from T01"
+  ],
+  "expected_output": "List of installed packages containing 'nginx'",
+  "success_criteria": [
+    "Package list returned",
+    "No packages found"
+  ],
+  "dependencies": [
+    "T01"
+  ],
+  "risk_level": "low"
+}

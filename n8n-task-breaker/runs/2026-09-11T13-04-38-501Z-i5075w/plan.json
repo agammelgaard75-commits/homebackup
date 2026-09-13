@@ -1,0 +1,178 @@
+{
+  "plan_summary": "Install and configure Nginx on Ubuntu 24.04 by updating system packages, adding the official repository key if necessary, installing the package, verifying the service status, and configuring basic security defaults.",
+  "assumptions": [
+    "The host has network connectivity to download packages.",
+    "The user has sudo privileges to install software."
+  ],
+  "tasks": [
+    {
+      "id": "T01",
+      "title": "Update system package lists and upgrade existing packages",
+      "objective": "Ensure the local package index is current before installing new software.",
+      "rationale": "Running apt update prevents conflicts between old dependencies and new versions, ensuring a stable installation environment.",
+      "inputs_required": [
+        "sudo access"
+      ],
+      "expected_output": "Command completes with no errors or warnings regarding outdated packages.",
+      "success_criteria": [
+        "The command returns to the prompt without error messages."
+      ],
+      "dependencies": [],
+      "risk_level": "low"
+    },
+    {
+      "id": "T02",
+      "title": "Verify Nginx repository availability or add official key",
+      "objective": "Ensure the system can locate the Nginx package in the repositories.",
+      "rationale": "Ubuntu 24.04 may require adding a specific signing key or repository source if not pre-configured for third-party packages like Nginx.",
+      "inputs_required": [
+        "Current apt sources list"
+      ],
+      "expected_output": "Confirmation that the nginx package is available via 'apt search' or that the necessary keys are present.",
+      "success_criteria": [
+        "'apt search nginx' returns a valid package entry."
+      ],
+      "dependencies": [
+        "T01"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T03",
+      "title": "Install Nginx using the APT package manager",
+      "objective": "Download and install the Nginx web server software.",
+      "rationale": "This is the core installation step that places binaries, libraries, and configuration files onto the system.",
+      "inputs_required": [
+        "sudo access"
+      ],
+      "expected_output": "Nginx package installed with default configuration files created in /etc/nginx.",
+      "success_criteria": [
+        "The command completes successfully without dependency errors."
+      ],
+      "dependencies": [
+        "T01",
+        "T02"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T04",
+      "title": "Start the Nginx service and enable it to start on boot",
+      "objective": "Launch the web server immediately and configure it for automatic startup.",
+      "rationale": "Installation alone does not run the service; systemd commands are required to manage the process lifecycle.",
+      "inputs_required": [
+        "sudo access"
+      ],
+      "expected_output": "Nginx process running in the foreground or managed by systemd, and enabled for future boots.",
+      "success_criteria": [
+        "'systemctl status nginx' shows 'active (running)'."
+      ],
+      "dependencies": [
+        "T03"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T05",
+      "title": "Verify Nginx is listening on port 80",
+      "objective": "Confirm the web server is accepting connections on the standard HTTP port.",
+      "rationale": "Ensures the service is not only running but bound to the correct network interface and port.",
+      "inputs_required": [
+        "Network connectivity"
+      ],
+      "expected_output": "Output showing Nginx listening on 0.0.0.0:80 or specific IP:80.",
+      "success_criteria": [
+        "The 'ss -tlnp' command lists port 80 associated with nginx."
+      ],
+      "dependencies": [
+        "T04"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T06",
+      "title": "Test HTTP connectivity using a browser or curl",
+      "objective": "Validate that the web server responds to client requests with valid content.",
+      "rationale": "Functional testing confirms that DNS resolution (if applicable) and HTTP responses are working correctly.",
+      "inputs_required": [
+        "Local network access"
+      ],
+      "expected_output": "A successful HTTP 200 response containing the default 'Welcome to nginx!' page or similar.",
+      "success_criteria": [
+        "curl -I http://localhost returns an HTTP/1.1 200 OK status code."
+      ],
+      "dependencies": [
+        "T05"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T07",
+      "title": "Review and secure default configuration files",
+      "objective": "Inspect the default site configuration to ensure no sensitive information is exposed.",
+      "rationale": "Default configurations often expose server versions or paths that should be hidden for security best practices.",
+      "inputs_required": [
+        "Read access to /etc/nginx/conf.d/"
+      ],
+      "expected_output": "A list of configuration files requiring review, specifically default.conf and sites-enabled/default.",
+      "success_criteria": [
+        "The 'ls -la /etc/nginx/sites-enabled/' command lists the active configuration files."
+      ],
+      "dependencies": [
+        "T03"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T08",
+      "title": "Disable default site if not needed or configure virtual hosts",
+      "objective": "Remove the default welcome page to prevent information leakage about the installation.",
+      "rationale": "The default site often reveals 'Welcome to nginx!' which indicates a fresh install; removing it is a common security step.",
+      "inputs_required": [
+        "sudo access"
+      ],
+      "expected_output": "The default site configuration removed or replaced with a custom virtual host.",
+      "success_criteria": [
+        "curl http://localhost no longer returns the default welcome page."
+      ],
+      "dependencies": [
+        "T07"
+      ],
+      "risk_level": "medium"
+    },
+    {
+      "id": "T09",
+      "title": "Configure firewall rules for port 80 and 443",
+      "objective": "Ensure the system firewall allows traffic to the web server ports.",
+      "rationale": "Even if Nginx is running, a host-based firewall (like UFW) might block incoming connections by default.",
+      "inputs_required": [
+        "sudo access"
+      ],
+      "expected_output": "Firewall rules updated to allow TCP traffic on ports 80 and optionally 443.",
+      "success_criteria": [
+        "'ufw status' shows 'ALLOW' for port 80/tcp."
+      ],
+      "dependencies": [
+        "T06"
+      ],
+      "risk_level": "low"
+    },
+    {
+      "id": "T10",
+      "title": "Document installation steps and verify final state",
+      "objective": "Create a summary of the configuration and perform a final health check.",
+      "rationale": "Documentation ensures reproducibility, and a final check confirms all subtasks were successful before closing the task.",
+      "inputs_required": [
+        "Previous task outputs"
+      ],
+      "expected_output": "A brief log or note confirming Nginx is installed, running, and accessible.",
+      "success_criteria": [
+        "All previous success criteria are met simultaneously."
+      ],
+      "dependencies": [
+        "T09"
+      ],
+      "risk_level": "low"
+    }
+  ]
+}

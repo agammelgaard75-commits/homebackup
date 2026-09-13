@@ -1,0 +1,19 @@
+{
+  "id": "T06",
+  "title": "Review Default Configuration",
+  "objective": "Inspect the default Nginx configuration file for correctness.",
+  "rationale": "Ubuntu 24.04 provides a specific default config; understanding its location (sites-enabled/default) helps prevent conflicts later.",
+  "inputs_required": [
+    "cat /etc/nginx/sites-available/default",
+    "ls /etc/nginx/sites-enabled/"
+  ],
+  "expected_output": "Contents of the default site configuration and list of enabled sites.",
+  "success_criteria": [
+    "File '/etc/nginx/sites-enabled/default' exists.",
+    "Configuration syntax does not show obvious errors in headers."
+  ],
+  "dependencies": [
+    "T05"
+  ],
+  "risk_level": "low"
+}

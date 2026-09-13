@@ -1,0 +1,15 @@
+{
+  "id": "T02",
+  "title": "Check nginx package installation status via package manager",
+  "objective": "Query the package manager to verify if nginx is installed on the system",
+  "rationale": "Package manager queries provide authoritative confirmation of installed software packages",
+  "inputs_required": [
+    "package_manager_type"
+  ],
+  "expected_output": "Installation status (installed/not installed) with package version information",
+  "success_criteria": "Returns definitive yes/no on nginx installation status",
+  "dependencies": [
+    "T01"
+  ],
+  "risk_level": "low"
+}

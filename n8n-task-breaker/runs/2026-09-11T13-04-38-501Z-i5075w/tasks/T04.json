@@ -1,0 +1,17 @@
+{
+  "id": "T04",
+  "title": "Start the Nginx service and enable it to start on boot",
+  "objective": "Launch the web server immediately and configure it for automatic startup.",
+  "rationale": "Installation alone does not run the service; systemd commands are required to manage the process lifecycle.",
+  "inputs_required": [
+    "sudo access"
+  ],
+  "expected_output": "Nginx process running in the foreground or managed by systemd, and enabled for future boots.",
+  "success_criteria": [
+    "'systemctl status nginx' shows 'active (running)'."
+  ],
+  "dependencies": [
+    "T03"
+  ],
+  "risk_level": "low"
+}

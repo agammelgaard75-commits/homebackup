@@ -1,0 +1,17 @@
+{
+  "id": "T07",
+  "title": "Restart Nginx to apply security changes",
+  "objective": "Reload or restart the service to load the updated configuration.",
+  "rationale": "Configuration changes do not take effect until the service is restarted or reloaded.",
+  "inputs_required": [
+    "sudo access"
+  ],
+  "expected_output": "Nginx restarts successfully without syntax errors.",
+  "success_criteria": [
+    "Service status remains 'active (running)' after restart."
+  ],
+  "dependencies": [
+    "T06"
+  ],
+  "risk_level": "low"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "T04",
+  "title": "Check Service Status",
+  "objective": "Verify the health and status of the Nginx daemon.",
+  "rationale": "Confirming the service is healthy before moving to configuration or testing ensures stability.",
+  "inputs_required": [
+    "sudo systemctl status nginx"
+  ],
+  "expected_output": "Full status output showing 'Active: active (running)' and load time.",
+  "success_criteria": [
+    "Main process PID is displayed.",
+    "No 'failed' or 'activating' states observed."
+  ],
+  "dependencies": [
+    "T03"
+  ],
+  "risk_level": "low"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "T03",
+  "title": "Start Nginx Service",
+  "objective": "Activate the Nginx service and ensure it starts successfully.",
+  "rationale": "Nginx does not start automatically just by installation on Ubuntu; the systemd service must be enabled and started.",
+  "inputs_required": [
+    "sudo systemctl start nginx",
+    "sudo systemctl enable nginx"
+  ],
+  "expected_output": "Systemd status showing active (running).",
+  "success_criteria": [
+    "Service state is 'active' for both 'started' and 'enabled'.",
+    "No logs indicate immediate start failure."
+  ],
+  "dependencies": [
+    "T02"
+  ],
+  "risk_level": "low"
+}

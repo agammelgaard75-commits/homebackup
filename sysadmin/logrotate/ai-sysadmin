@@ -1,9 +1,0 @@
-/var/log/ai-sysadmin/*.jsonl {
-    weekly
-    rotate 52
-    compress
-    delaycompress
-    missingok
-    notifempty
-    create 0640
-}

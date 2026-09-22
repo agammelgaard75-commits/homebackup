@@ -1,0 +1,29 @@
+{
+  "archive_readback_verified": true,
+  "backup_archive_sha256": "ad3885a9ca2f2d31d84af86d928d6ba075c7c1978837922e17d914d98b8ac014",
+  "backup_consistent_under_lifecycle_lock": true,
+  "backup_path": "/var/backups/ai-sysadmin-migration/2026-09-15T1455Z",
+  "backup_regular_files": 106,
+  "completed_at": "2026-09-15T15:04:01.004417+00:00",
+  "deployed_source_matches": [
+    {
+      "deployed": "/opt/ai-sysadmin/bin/ai-sysadmin",
+      "match": true,
+      "source": "/home/bot/sysadmin/src/ai_sysadmin.py"
+    },
+    {
+      "deployed": "/opt/ai-sysadmin/bin/container_maintenance.py",
+      "match": true,
+      "source": "/home/bot/sysadmin/src/container_maintenance.py"
+    },
+    {
+      "deployed": "/opt/ai-sysadmin/bin/litellm-planner.py",
+      "match": true,
+      "source": "/home/bot/sysadmin/scripts/litellm_planner.py"
+    }
+  ],
+  "known_tooling_deviation": "LXC availability check invoked Ubuntu launcher and installed LXD snap 5.21.7-1018661 revision 40585; no LXD pool/network configured.",
+  "os_release": "PRETTY_NAME=\"Ubuntu 24.04.5 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"24.04\"\nVERSION=\"24.04.5 LTS (Noble Numbat)\"\nVERSION_CODENAME=noble\nID=ubuntu\nID_LIKE=debian\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nUBUNTU_CODENAME=noble\nLOGO=ubuntu-logo\n",
+  "started_at": "2026-09-15T15:03:59.851154+00:00",
+  "vm_restore_verified": false
+}

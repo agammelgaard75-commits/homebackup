@@ -10,28 +10,41 @@
     {
       "file": "/var/log/ai-sysadmin/audit.jsonl",
       "sourcetype": "ai_sysadmin:audit",
-      "source_events": 151,
-      "indexed_events": 151,
+      "source_events": 1065,
+      "indexed_events": 1065,
       "exact_source_match": true
     },
     {
       "file": "/var/log/ai-sysadmin/health.jsonl",
       "sourcetype": "ai_sysadmin:health",
-      "source_events": 7,
-      "indexed_events": 7,
+      "source_events": 15,
+      "indexed_events": 15,
       "exact_source_match": true
     },
     {
       "file": "/var/log/ai-sysadmin/anomalies.jsonl",
       "sourcetype": "ai_sysadmin:anomaly",
-      "source_events": 9,
-      "indexed_events": 9,
+      "source_events": 25,
+      "indexed_events": 25,
+      "exact_source_match": true
+    },
+    {
+      "file": "/var/log/ai-sysadmin/ignored.jsonl",
+      "sourcetype": "ai_sysadmin:ignored",
+      "source_events": 3,
+      "indexed_events": 3,
       "exact_source_match": true
     }
   ],
   "timestamp_validation": [
     {
-      "total": "167",
+      "total": "1108",
+      "invalid": "1"
+    }
+  ],
+  "ignored_timestamp_validation": [
+    {
+      "total": "3",
       "invalid": "0"
     }
   ],
@@ -54,11 +67,23 @@
         },
         {
           "title": "Recent health reports",
-          "rows": 7
+          "rows": 15
         },
         {
           "title": "Change closures",
-          "rows": 9
+          "rows": 15
+        },
+        {
+          "title": "Extra software inventory (latest inspection per host)",
+          "rows": 108
+        },
+        {
+          "title": "Software inventory coverage",
+          "rows": 1
+        },
+        {
+          "title": "Container images (latest inspection per host)",
+          "rows": 1
         }
       ]
     },
@@ -76,17 +101,41 @@
         },
         {
           "title": "Anomaly details",
-          "rows": 9
+          "rows": 25
+        }
+      ]
+    },
+    {
+      "view": "ignored_dashboard",
+      "label": "AI Sysadmin - Ignored Software",
+      "panels": [
+        {
+          "title": "Current exceptions",
+          "rows": 1
+        },
+        {
+          "title": "Ignored updates available",
+          "rows": 1
+        },
+        {
+          "title": "Configured but not detected",
+          "rows": 1
+        },
+        {
+          "title": "Current accepted exceptions",
+          "rows": 1
+        },
+        {
+          "title": "Exception history",
+          "rows": 3
         }
       ]
     }
   ],
   "latest_health": [
     {
-      "timestamp": "2026-09-13T12:17:52+00:00",
-      "root_free_percent": "75.86",
+      "root_free_percent": "76.84",
       "failed_count": "0",
-      "upgradable_package_count": "0",
       "reboot_required": "false"
     }
   ],
@@ -97,6 +146,16 @@
   ],
   "splunk_outage_anomaly": [
     {
+      "timestamp": "2026-09-13T12:24:45+00:00",
+      "severity": "high",
+      "message": "Splunk IOWait returned to red after successful ingestion verification; disk I/O performance requires attention"
+    },
+    {
+      "timestamp": "2026-09-13T12:20:01+00:00",
+      "severity": "medium",
+      "message": "Splunk reported a yellow IOWait indicator during integration verification; current vmstat samples show zero IOWait, and ingestion, indexing, scheduler and KV Store are healthy"
+    },
+    {
       "timestamp": "2026-09-13T12:11:59+00:00",
       "severity": "high",
       "message": "Local Splunk unavailable: startup wrapper and prior runtime state missing"
@@ -105,11 +164,6 @@
       "timestamp": "2026-09-13T12:09:43+00:00",
       "severity": "high",
       "message": "Local Splunk unavailable: startup wrapper and prior runtime state missing"
-    },
-    {
-      "timestamp": "2026-09-13T12:20:01+00:00",
-      "severity": "medium",
-      "message": "Splunk reported a yellow IOWait indicator during integration verification; current vmstat samples show zero IOWait, and ingestion, indexing, scheduler and KV Store are healthy"
     }
   ]
 }

@@ -22,6 +22,9 @@ install -m 0644 "$REPO_DIR/splunk/README.md" /opt/ai-sysadmin/splunk/README.md
 if [ ! -e /etc/ai-sysadmin/config.toml ]; then
     install -m 0644 "$REPO_DIR/config/config.toml" /etc/ai-sysadmin/config.toml
 fi
+if [ ! -e /etc/ai-sysadmin/IGNORE.md ]; then
+    install -m 0644 "$REPO_DIR/IGNORE.md" /etc/ai-sysadmin/IGNORE.md
+fi
 install -m 0644 "$REPO_DIR/systemd/ai-sysadmin-prepare.service" /etc/systemd/system/
 python3 "$REPO_DIR/scripts/render_deployment.py" /etc/ai-sysadmin/config.toml "$STAGE_DIR"
 install -m 0644 "$STAGE_DIR/ai-sysadmin-prepare.timer" /etc/systemd/system/

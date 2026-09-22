@@ -1,7 +1,7 @@
 # Splunk integration
 
 Enabled and verified on this host on 2026-09-13. The `ai_sysadmin` app monitors
-production audit, health and anomaly JSONL files. Dry-run logs are excluded.
+production audit, health, anomaly and ignored-software JSONL files. Dry-run logs are excluded.
 The dedicated index retains up to 365 days or 2 GiB, whichever comes first;
 bucket overhead can temporarily exceed the size limit. Source logs rotate weekly
 and retain 52 archives independently of indexed retention.
@@ -16,6 +16,7 @@ ssh -N -L 8000:127.0.0.1:8000 bot@192.168.2.100
 
 - [Server Health](https://localhost:8000/en-US/app/ai_sysadmin/health_dashboard)
 - [Anomalies](https://localhost:8000/en-US/app/ai_sysadmin/anomaly_dashboard)
+- [Ignored Software](https://localhost:8000/en-US/app/ai_sysadmin/ignored_dashboard)
 
 Use the existing `admin` credentials stored privately in
 `/home/bot/splunk/.secrets/splunk-admin.json`. They were reused without being printed
@@ -26,6 +27,8 @@ The health dashboard shows current disk space, failed/restarting services,
 available upgrades, health history and maintenance closures. The anomaly dashboard
 shows recorded findings and severity history. Historical findings can include
 resolved issues; the count is not a count of currently open incidents.
+The ignored-software dashboard shows every accepted exception, its reason,
+observed versions, available candidate versions, and policy history.
 
 ## Installation and verification
 
@@ -46,7 +49,7 @@ source occurrence.
 index=ai_sysadmin | stats count by sourcetype
 ```
 
-All three monitored inputs, exact source event counts, timestamp extraction,
+The original three monitored inputs, exact source event counts, timestamp extraction,
 eight dashboard searches, the successful maintenance closure, the Splunk outage
 anomaly, and the additional upgrade smoke searches were verified through the
 existing authenticated loopback API. Evidence is in

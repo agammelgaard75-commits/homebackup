@@ -1,0 +1,197 @@
+{
+  "at": "2026-09-22T18:27:18.218635+00:00",
+  "closure_counts": [
+    {
+      "change_id": "CHG-20260913",
+      "count": "4",
+      "status": "FAILED"
+    },
+    {
+      "change_id": "CHG-20260913-R1",
+      "count": "1",
+      "status": "FAILED"
+    },
+    {
+      "change_id": "CHG-20260913-R2",
+      "count": "1",
+      "status": "CLOSED"
+    },
+    {
+      "change_id": "CHG-20260914",
+      "count": "2",
+      "status": "FAILED"
+    },
+    {
+      "change_id": "CHG-20260915",
+      "count": "1",
+      "status": "FAILED"
+    },
+    {
+      "change_id": "CHG-20260916",
+      "count": "1",
+      "status": "FAILED"
+    },
+    {
+      "change_id": "CHG-20260917",
+      "count": "1",
+      "status": "FAILED"
+    },
+    {
+      "change_id": "CHG-20260918",
+      "count": "1",
+      "status": "FAILED"
+    },
+    {
+      "change_id": "CHG-20260919",
+      "count": "1",
+      "status": "FAILED"
+    },
+    {
+      "change_id": "CHG-20260920",
+      "count": "1",
+      "status": "FAILED"
+    },
+    {
+      "change_id": "CHG-20260921",
+      "count": "1",
+      "status": "FAILED"
+    },
+    {
+      "change_id": "CONTAINERS-20260913",
+      "count": "1",
+      "status": "CLOSED"
+    },
+    {
+      "change_id": "EMPTY-POINTER-20260913",
+      "count": "1",
+      "status": "CLOSED"
+    },
+    {
+      "change_id": "IGNORE-20260914",
+      "count": "1",
+      "status": "CLOSED"
+    },
+    {
+      "change_id": "RECOVERY-20260913",
+      "count": "2",
+      "status": "CLOSED"
+    },
+    {
+      "change_id": "SOFTWARE-INVENTORY-20260913",
+      "count": "1",
+      "status": "CLOSED"
+    },
+    {
+      "change_id": "SPLUNK-20260913",
+      "count": "2",
+      "status": "CLOSED"
+    }
+  ],
+  "counts": [
+    {
+      "count": "53",
+      "newest_event": "1790024465",
+      "sourcetype": "ai_sysadmin:anomaly"
+    },
+    {
+      "count": "2084",
+      "newest_event": "1790100000",
+      "sourcetype": "ai_sysadmin:audit"
+    },
+    {
+      "count": "22",
+      "newest_event": "1790024403",
+      "sourcetype": "ai_sysadmin:health"
+    },
+    {
+      "count": "10",
+      "newest_event": "1790024403",
+      "sourcetype": "ai_sysadmin:ignored"
+    }
+  ],
+  "dashboards": [
+    {
+      "name": "health_dashboard",
+      "queries": [
+        "index=ai_sysadmin sourcetype=ai_sysadmin:health | stats latest(root_free_percent) as value",
+        "index=ai_sysadmin sourcetype=ai_sysadmin:health | head 1 | eval value=coalesce(mvcount('failed_units{}'),0) | table value",
+        "index=ai_sysadmin sourcetype=ai_sysadmin:health | stats latest(upgradable_package_count) as value",
+        "index=ai_sysadmin sourcetype=ai_sysadmin:health | table _time host root_free_percent failed_units{} upgradable_package_count reboot_required inspection_errors{} | sort - _time",
+        "index=ai_sysadmin sourcetype=ai_sysadmin:audit event_type=closure | table _time host run_id change_id status closing_remark | sort - _time",
+        "index=ai_sysadmin sourcetype=ai_sysadmin:audit event_type=software [ search index=ai_sysadmin sourcetype=ai_sysadmin:audit event_type=inventory earliest=-30d | stats latest(run_id) as run_id by host | fields host run_id ] | dedup host location name | table _time host name software_version software_source location update_policy",
+        "index=ai_sysadmin sourcetype=ai_sysadmin:health | dedup host | table _time host installed_package_count extra_software_count inspection_errors{}",
+        "index=ai_sysadmin sourcetype=ai_sysadmin:audit event_type=container [ search index=ai_sysadmin sourcetype=ai_sysadmin:audit event_type=container_inventory earliest=-30d | stats latest(run_id) as run_id by host | fields host run_id ] | dedup host name | table _time host name image_ref image_id application_version dependency_version running health update_policy"
+      ],
+      "sha256": "31cd3fad4333aca963dd42ab23bb012ee9640e6cf31a3c651861a9cc507e2a63",
+      "title": "AI Sysadmin - Server Health"
+    },
+    {
+      "name": "anomaly_dashboard",
+      "queries": [
+        "index=ai_sysadmin sourcetype=ai_sysadmin:anomaly earliest=-7d | stats count as value",
+        "index=ai_sysadmin sourcetype=ai_sysadmin:anomaly earliest=-30d | timechart count by severity",
+        "index=ai_sysadmin sourcetype=ai_sysadmin:anomaly | table _time host severity message run_id action container reason error backup name package_version installed_version location locations{} errors{} failed_units{} observed threshold | sort - _time"
+      ],
+      "sha256": "0a0c05fb0b66e1c17bc76af3df85385c86818d61882c9bc28f0391394a2a731e",
+      "title": "AI Sysadmin - Anomalies"
+    },
+    {
+      "name": "ignored_dashboard",
+      "queries": [
+        "index=ai_sysadmin sourcetype=ai_sysadmin:ignored [ search index=ai_sysadmin sourcetype=ai_sysadmin:ignored earliest=-30d | stats latest(run_id) as run_id by host | fields host run_id ] | stats dc(software) as value",
+        "index=ai_sysadmin sourcetype=ai_sysadmin:ignored status=update_available_ignored [ search index=ai_sysadmin sourcetype=ai_sysadmin:ignored earliest=-30d | stats latest(run_id) as run_id by host | fields host run_id ] | stats dc(software) as value",
+        "index=ai_sysadmin sourcetype=ai_sysadmin:ignored status=not_detected [ search index=ai_sysadmin sourcetype=ai_sysadmin:ignored earliest=-30d | stats latest(run_id) as run_id by host | fields host run_id ] | stats dc(software) as value",
+        "index=ai_sysadmin sourcetype=ai_sysadmin:ignored [ search index=ai_sysadmin sourcetype=ai_sysadmin:ignored earliest=-30d | stats latest(run_id) as run_id by host | fields host run_id ] | dedup host software | table _time host software status installed_versions{} candidate_versions{} sources{} locations{} reason policy_file policy_sha256 run_id | sort host software",
+        "index=ai_sysadmin sourcetype=ai_sysadmin:ignored | table _time host software status installed_versions{} candidate_versions{} reason policy_sha256 run_id | sort - _time"
+      ],
+      "sha256": "d994ade9c6ca7fac15768c014c0e97062b0bb5288e055b87809dc4dadc963ce3",
+      "title": "AI Sysadmin - Ignored Software"
+    }
+  ],
+  "health": "green",
+  "latest_health": [
+    {
+      "failed_units{}": [
+        "ai-sysadmin-maintenance.service     loaded failed failed AI Sysadmin weekly approved maintenance",
+        "lxd-installer@0-394986-1000.service loaded failed failed Helper to install lxd snap on demand"
+      ],
+      "reboot_required": "false",
+      "root_free_percent": "74.77"
+    }
+  ],
+  "monitors": [
+    {
+      "disabled": false,
+      "index": "ai_sysadmin",
+      "name": "/var/log/ai-sysadmin/anomalies.jsonl",
+      "sourcetype": "ai_sysadmin:anomaly"
+    },
+    {
+      "disabled": false,
+      "index": "ai_sysadmin",
+      "name": "/var/log/ai-sysadmin/audit.jsonl",
+      "sourcetype": "ai_sysadmin:audit"
+    },
+    {
+      "disabled": false,
+      "index": "ai_sysadmin",
+      "name": "/var/log/ai-sysadmin/health.jsonl",
+      "sourcetype": "ai_sysadmin:health"
+    },
+    {
+      "disabled": false,
+      "index": "ai_sysadmin",
+      "name": "/var/log/ai-sysadmin/ignored.jsonl",
+      "sourcetype": "ai_sysadmin:ignored"
+    }
+  ],
+  "saved_searches": [],
+  "server": {
+    "build": "02bbaf562558",
+    "kvStoreStatus": "ready",
+    "licenseState": "OK",
+    "version": "9.3.14"
+  },
+  "status": "PASS",
+  "writes_to_index": false
+}

@@ -1,0 +1,906 @@
+{
+  "files": [
+    {
+      "gid": 1000,
+      "mode": "0o775",
+      "mtime_ns": 1789390975434204965,
+      "path": "/home/bot/sysadmin",
+      "size": 4096,
+      "type": "directory",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789289505092469896,
+      "path": "/home/bot/sysadmin/.gitignore",
+      "sha256": "30a36e7abc350ba5d975b4ffbc5e28d9d78eddbbf4d1beaec91ba6329e9da581",
+      "size": 46,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789321029109129065,
+      "path": "/home/bot/sysadmin/1",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789322759684888237,
+      "path": "/home/bot/sysadmin/AGENTS.md",
+      "sha256": "fb3b31bc0ad91ad373c444d24dc02d34f7e54443c5673bd2b9743d40270cc5a0",
+      "size": 2786,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o644",
+      "mtime_ns": 1789387517754565246,
+      "path": "/home/bot/sysadmin/IGNORE.md",
+      "sha256": "2f7a43132d52b0156b15fd2f5c6e0fe1632a1c17f9be3e46a5259b588cc9b519",
+      "size": 361,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789387629787233123,
+      "path": "/home/bot/sysadmin/README.md",
+      "sha256": "b54b0b06987abf5bab15337fc7cb467523c555f64fc89118882baca18a56c07b",
+      "size": 15227,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789302285850688790,
+      "path": "/home/bot/sysadmin/READY_FOR_PROD",
+      "sha256": "bffffb701332124187317a35f578a3b40cdd190abdeeff3ac9a3d48e28e17190",
+      "size": 2478,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o775",
+      "mtime_ns": 1789387494293216271,
+      "path": "/home/bot/sysadmin/config",
+      "size": 4096,
+      "type": "directory",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789387494293216271,
+      "path": "/home/bot/sysadmin/config/config.toml",
+      "sha256": "727c1e944d9e08da41787b8ccca511e881807bbe4a2a6d4ca15565a5e1995c35",
+      "size": 1695,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o775",
+      "mtime_ns": 1789284242546141390,
+      "path": "/home/bot/sysadmin/logrotate",
+      "size": 4096,
+      "type": "directory",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789288400417472121,
+      "path": "/home/bot/sysadmin/logrotate/ai-sysadmin",
+      "sha256": "2d1371aaf4154e9d13045b0f1e559090cf9e985e142afd37ae21de44cb203370",
+      "size": 134,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o775",
+      "mtime_ns": 1789388053662558977,
+      "path": "/home/bot/sysadmin/reports",
+      "size": 4096,
+      "type": "directory",
+      "uid": 1000
+    },
+    {
+      "gid": 0,
+      "mode": "0o644",
+      "mtime_ns": 1789325143306499710,
+      "path": "/home/bot/sysadmin/reports/2026-09-13-containers.md",
+      "sha256": "7885c2683794b31450baea9daf5948c2110effa8457cb9e62e79766c74e0c1bc",
+      "size": 3717,
+      "type": "file",
+      "uid": 0
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789321294155080876,
+      "path": "/home/bot/sysadmin/reports/2026-09-13-empty-pointer.md",
+      "sha256": "57d6e17afa9dd425e91e63a54bd9e82640c996b20539a5d1f7da63a6a649768c",
+      "size": 2200,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789301004631738703,
+      "path": "/home/bot/sysadmin/reports/2026-09-13-recovery.md",
+      "sha256": "e67a121bef50dd172b479e81265c4ff5f4c093d255666efe5f57b43916995188",
+      "size": 5121,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 0,
+      "mode": "0o644",
+      "mtime_ns": 1789323688912752202,
+      "path": "/home/bot/sysadmin/reports/2026-09-13-software-inventory.md",
+      "sha256": "7b7538279bfc53b42377a217d1829cb68bc8a826d016214a0347c21cd2397475",
+      "size": 2786,
+      "type": "file",
+      "uid": 0
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789302285849688774,
+      "path": "/home/bot/sysadmin/reports/2026-09-13-splunk-integration.md",
+      "sha256": "2cb930850802094930fa830a40f9a4c52e82a0115af1896560a8810803d2d08a",
+      "size": 8134,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789300345486904195,
+      "path": "/home/bot/sysadmin/reports/90-ai-sysadmin-readiness.conf",
+      "sha256": "5c0c9e7035d8238ea486da56676656ec6bab0668059acc5d452317bd023c7473",
+      "size": 271,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789325143313499815,
+      "path": "/home/bot/sysadmin/reports/container-deployment.log",
+      "sha256": "732f62c3e2fd7433c3a4c52b737f7783137fc9b1467c04cafc024aa9ec06c0b1",
+      "size": 1620,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 0,
+      "mode": "0o644",
+      "mtime_ns": 1789325143296499560,
+      "path": "/home/bot/sysadmin/reports/container-live-verification.json",
+      "sha256": "a0ae5c6ff9e69e3daafafd85f1166335bb7b332d5bbbb05f604eda4cc8b04f67",
+      "size": 3282,
+      "type": "file",
+      "uid": 0
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789324774692978348,
+      "path": "/home/bot/sysadmin/reports/container-preview.log",
+      "sha256": "e131c16cb30b4227ea8630d63b8c83094bf0aefe9cca16be3550f16197daff3c",
+      "size": 1870,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789325003639407408,
+      "path": "/home/bot/sysadmin/reports/container-tests.log",
+      "sha256": "9056faadacd04d96dd62e6d87871307e3919403ee6860871e7082167758a64b5",
+      "size": 16474,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789324905464936864,
+      "path": "/home/bot/sysadmin/reports/container-validation.log",
+      "sha256": "22c4b0bb53d532e7cade015f318cc117c5f79519fd9615ba68bbe2cecae884dd",
+      "size": 17072,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789300486748990594,
+      "path": "/home/bot/sysadmin/reports/controller-recovery.patch",
+      "sha256": "2f623ac7f9f32da6e89920bb13203c3b01eabf5d3cd8ab75e514d65b0024b54b",
+      "size": 9606,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789325126148242656,
+      "path": "/home/bot/sysadmin/reports/deploy_containers.py",
+      "sha256": "a81b26a9e4b14dbb2c1b8285c331ce552220a1968a20c4e601fb3cebe13967f4",
+      "size": 11855,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789321264078642151,
+      "path": "/home/bot/sysadmin/reports/deploy_empty_pointer.py",
+      "sha256": "51b259003d5802182df7ba2b1b1a3cc669fa8a05584bf3ee45fa51a0812e8959",
+      "size": 4169,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789300419061991728,
+      "path": "/home/bot/sysadmin/reports/deploy_recovery.py",
+      "sha256": "b090b6e36736575c41254e1bf4878f62c8b88fb9cee9493fa22b37cbca6c7e26",
+      "size": 3194,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789323655164250048,
+      "path": "/home/bot/sysadmin/reports/deploy_software_inventory.py",
+      "sha256": "5f7ea7f2d30bb046994799433d6125f70987e18e444ed91bd7661a9b96e0a4ab",
+      "size": 9773,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789321276333820826,
+      "path": "/home/bot/sysadmin/reports/empty-pointer-deployment.log",
+      "sha256": "d86a7de7b15c4786a4797e083f73297578389eba7dca10bce3c042434b0c4e70",
+      "size": 348,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789321198052674737,
+      "path": "/home/bot/sysadmin/reports/empty-pointer-tests.log",
+      "sha256": "6028fd80e7b9e313f7451f41b2fe2e33f55b2cb24873495952bbce1921810830",
+      "size": 10926,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789321217778968327,
+      "path": "/home/bot/sysadmin/reports/empty-pointer-validation.log",
+      "sha256": "b85469a33f828ef2a867a62ea42bd88ec20fa9d65a1bec4b1055f6934bcf72f8",
+      "size": 11524,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789324768857890967,
+      "path": "/home/bot/sysadmin/reports/preview_containers.py",
+      "sha256": "677baac292a530720fe93b1418bdd6300abda37bdace2bd3282e265a5963f794",
+      "size": 1181,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789300346513919390,
+      "path": "/home/bot/sysadmin/reports/recovery-tests.log",
+      "sha256": "99878c9e4b545812349a3f89ca73306d24a7da29550a6a925a1bac01cba61af0",
+      "size": 8371,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789300376437361924,
+      "path": "/home/bot/sysadmin/reports/recovery-validation.log",
+      "sha256": "8120f09d3fe23a44b9479969edde7c68d899cf9a41fc5297c4f95543a861c631",
+      "size": 8969,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789301519606506723,
+      "path": "/home/bot/sysadmin/reports/restore_local_splunk.py",
+      "sha256": "1afbcafced713e614d202edebae4701766c52a94c0430f52667ef21cfcb2328b",
+      "size": 6468,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789323688925752396,
+      "path": "/home/bot/sysadmin/reports/software-deployment.log",
+      "sha256": "977a06355e6c49158a2ad4876f04273f81d184602951c498c5fd5d93b0a7bd5c",
+      "size": 3660,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 0,
+      "mode": "0o644",
+      "mtime_ns": 1789323688898751994,
+      "path": "/home/bot/sysadmin/reports/software-live-verification.json",
+      "sha256": "ed8a0ae2c9250ad4311828661c53d2769504b82a736fd2c525a814c5dc61d6c9",
+      "size": 2975,
+      "type": "file",
+      "uid": 0
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789323346852676470,
+      "path": "/home/bot/sysadmin/reports/software-tests.log",
+      "sha256": "0b86a801891a20d08de8cc4022dcfef673847e00ae612126fc08f02f4745ebfb",
+      "size": 13354,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789323661607345898,
+      "path": "/home/bot/sysadmin/reports/software-validation.log",
+      "sha256": "f08187be0189ed1748b631f86109e259eb1be69758575ff9658a06bb731cc1dd",
+      "size": 13952,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789302230326820691,
+      "path": "/home/bot/sysadmin/reports/splunk-final-health.json",
+      "sha256": "f191fe4cb2ddcff520a79a8a82cdd833d62b9677ed6e34126921075f2c7194ac",
+      "size": 2102,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789302080358468480,
+      "path": "/home/bot/sysadmin/reports/splunk-license-state.json",
+      "sha256": "4ca5ef293ad600c1c1aa7955823907eb95b40b2ecff42d01d8f75f8de31a1e76",
+      "size": 630,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 0,
+      "mode": "0o644",
+      "mtime_ns": 1789388254997569022,
+      "path": "/home/bot/sysadmin/reports/splunk-live-verification.json",
+      "sha256": "61c4a04300c892e13f817e25f4e90be8f2b34f7589d990a86493ef592c1fbd8b",
+      "size": 4011,
+      "type": "file",
+      "uid": 0
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789301939650249027,
+      "path": "/home/bot/sysadmin/reports/splunk-restored-dashboard-verification.json",
+      "sha256": "7de538d1d8528d266b723b85f647258bc5faf04edcc3f5a7c0b96d0eb455ab16",
+      "size": 866,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o775",
+      "mtime_ns": 1789301202974216441,
+      "path": "/home/bot/sysadmin/reports/splunk-stage",
+      "size": 4096,
+      "type": "directory",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789301202974216441,
+      "path": "/home/bot/sysadmin/reports/splunk-stage/ai-sysadmin-maintenance.timer",
+      "sha256": "2068037d2dbea85d586be8ada29d67a748d1468d199624967b0d3f847ad28136",
+      "size": 208,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789301202973216424,
+      "path": "/home/bot/sysadmin/reports/splunk-stage/ai-sysadmin-prepare.timer",
+      "sha256": "d54e0a9d3e5f48fe6930baf76090d4a459f4eca7829ffce1ec0ce233ac161241",
+      "size": 234,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o775",
+      "mtime_ns": 1789301202974216441,
+      "path": "/home/bot/sysadmin/reports/splunk-stage/ai_sysadmin",
+      "size": 4096,
+      "type": "directory",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o775",
+      "mtime_ns": 1789301202975216458,
+      "path": "/home/bot/sysadmin/reports/splunk-stage/ai_sysadmin/default",
+      "size": 4096,
+      "type": "directory",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789301202974216441,
+      "path": "/home/bot/sysadmin/reports/splunk-stage/ai_sysadmin/default/app.conf",
+      "sha256": "7938e4e45e0ef6db9d1a9c050fbfd8fabfdd5ec9d37a6b3866b62e9853e07ee4",
+      "size": 218,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o775",
+      "mtime_ns": 1789301202974216441,
+      "path": "/home/bot/sysadmin/reports/splunk-stage/ai_sysadmin/default/data",
+      "size": 4096,
+      "type": "directory",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o775",
+      "mtime_ns": 1789301202974216441,
+      "path": "/home/bot/sysadmin/reports/splunk-stage/ai_sysadmin/default/data/ui",
+      "size": 4096,
+      "type": "directory",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o775",
+      "mtime_ns": 1789301202974216441,
+      "path": "/home/bot/sysadmin/reports/splunk-stage/ai_sysadmin/default/data/ui/nav",
+      "size": 4096,
+      "type": "directory",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789301202974216441,
+      "path": "/home/bot/sysadmin/reports/splunk-stage/ai_sysadmin/default/data/ui/nav/default.xml",
+      "sha256": "bc449912abeb4f64a45654ad3f15f000e60b9cb9c3f1b30e265e809e1d656cbd",
+      "size": 148,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o775",
+      "mtime_ns": 1789301202975216458,
+      "path": "/home/bot/sysadmin/reports/splunk-stage/ai_sysadmin/default/data/ui/views",
+      "size": 4096,
+      "type": "directory",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789301202975216458,
+      "path": "/home/bot/sysadmin/reports/splunk-stage/ai_sysadmin/default/data/ui/views/anomaly_dashboard.xml",
+      "sha256": "fc5f9233011575739ceaaba2aff632bf433008968eaf94ee3c84cb1d3a6859da",
+      "size": 1055,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789301202975216458,
+      "path": "/home/bot/sysadmin/reports/splunk-stage/ai_sysadmin/default/data/ui/views/health_dashboard.xml",
+      "sha256": "67fd69812f1d98eb1d520b91b4b0a1f4f776f188270aac19b4a465b4211fcad8",
+      "size": 1550,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789301202975216458,
+      "path": "/home/bot/sysadmin/reports/splunk-stage/ai_sysadmin/default/indexes.conf",
+      "sha256": "b14a43d4eca7247df924c8af5b9a406958027897474ec02560519e2e872b0de5",
+      "size": 233,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789301202975216458,
+      "path": "/home/bot/sysadmin/reports/splunk-stage/ai_sysadmin/default/inputs.conf",
+      "sha256": "c88ce4c8fa66fc59292ca826cf14bef80f08e3617f05e4baa22f91b93f5ed6af",
+      "size": 394,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789301202975216458,
+      "path": "/home/bot/sysadmin/reports/splunk-stage/ai_sysadmin/default/props.conf",
+      "sha256": "7d122dd9ccc96db4ff4cef0786db82dbf2e32ce127a05139336d432b112215f4",
+      "size": 584,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o775",
+      "mtime_ns": 1789301202974216441,
+      "path": "/home/bot/sysadmin/reports/splunk-stage/ai_sysadmin/metadata",
+      "size": 4096,
+      "type": "directory",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789301202974216441,
+      "path": "/home/bot/sysadmin/reports/splunk-stage/ai_sysadmin/metadata/default.meta",
+      "sha256": "e1d376fdff0eff0511da0336373009cdd968381cba64a74b5ed1f6d5e9fa0880",
+      "size": 58,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789301486297961141,
+      "path": "/home/bot/sysadmin/reports/splunk-tests.log",
+      "sha256": "fbf83abed5ee2e4f639997de9d0e4836264ba8c7f1e599c171f6bcdd4a914842",
+      "size": 8583,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789301825357434671,
+      "path": "/home/bot/sysadmin/reports/splunk-validation.log",
+      "sha256": "da87a994e87b0b9e5a5bd51acc6495bb2f82a4d57287227dd773d29ebfc40cdd",
+      "size": 9181,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789302028906658498,
+      "path": "/home/bot/sysadmin/reports/splunk-verification-output.log",
+      "sha256": "48b4ebe494df00f1b2366ad0915b90cf8d5907bc554a6b6a5c8ba46d9b68f035",
+      "size": 2708,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789388053662558977,
+      "path": "/home/bot/sysadmin/reports/verify_splunk_integration.py",
+      "sha256": "ff396f94b497eef64c759ab1ab08ff9a76bb98da2327a7f6b075c1614676bf36",
+      "size": 4319,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o775",
+      "mtime_ns": 1789387574777413889,
+      "path": "/home/bot/sysadmin/scripts",
+      "size": 4096,
+      "type": "directory",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o775",
+      "mtime_ns": 1789387494304216435,
+      "path": "/home/bot/sysadmin/scripts/install.sh",
+      "sha256": "35447a84629053855c2b02c51f3d998b30ac6a4ac9ef336ea36ec38e20d1e2a2",
+      "size": 3231,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789289505089469851,
+      "path": "/home/bot/sysadmin/scripts/litellm_planner.py",
+      "sha256": "c7ce79c2ad64753efd0796a310c5e910beee810525e04059e78736d8feb71326",
+      "size": 2355,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789387494299216360,
+      "path": "/home/bot/sysadmin/scripts/render_deployment.py",
+      "sha256": "b62e4e47c9e9cc396c4aa8c444e770002618865ab7f8a7e09a8162a9382ebc69",
+      "size": 4671,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o775",
+      "mtime_ns": 1789288846506388649,
+      "path": "/home/bot/sysadmin/scripts/validate.sh",
+      "sha256": "24bea7e286a76b359fdb7b72b6e841558385b1c57e2006d973484f8cb60e0775",
+      "size": 2453,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o775",
+      "mtime_ns": 1789388246214437663,
+      "path": "/home/bot/sysadmin/splunk",
+      "size": 4096,
+      "type": "directory",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789387645967474186,
+      "path": "/home/bot/sysadmin/splunk/README.md",
+      "sha256": "2210a6adf7d808b1e7e8eb44f249a26ca03f1ef2472004f2130ea207d058e376",
+      "size": 4024,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789324840960970770,
+      "path": "/home/bot/sysadmin/splunk/anomaly-dashboard.xml",
+      "sha256": "481145ab42f90bbfbcb20962f907a9a0f69b72feae5fc1031233aa2f0ff48b87",
+      "size": 1145,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789324898835837575,
+      "path": "/home/bot/sysadmin/splunk/health-dashboard.xml",
+      "sha256": "241f28026141b649f645b47edb12563a91d773da42722d9140504e824f7676a6",
+      "size": 2916,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o644",
+      "mtime_ns": 1789387517754565246,
+      "path": "/home/bot/sysadmin/splunk/ignored-dashboard.xml",
+      "sha256": "e8136398ab796e17c725275b3c473ad04245ded9d24c1ed2f51d9b63dca4b607",
+      "size": 2248,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o775",
+      "mtime_ns": 1789387601519812080,
+      "path": "/home/bot/sysadmin/src",
+      "size": 4096,
+      "type": "directory",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o775",
+      "mtime_ns": 1789387601519812080,
+      "path": "/home/bot/sysadmin/src/ai_sysadmin.py",
+      "sha256": "3a2d07a2f9f5b130e01124329460403e78a2ed11aede3437a7131b2d8537a205",
+      "size": 50628,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789387494288216197,
+      "path": "/home/bot/sysadmin/src/container_maintenance.py",
+      "sha256": "5e870844d43be6b58ae57d027e4ad05187655248950776c84cd97b083163c4e0",
+      "size": 23392,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o775",
+      "mtime_ns": 1789383758139237107,
+      "path": "/home/bot/sysadmin/systemd",
+      "size": 4096,
+      "type": "directory",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789284242543141347,
+      "path": "/home/bot/sysadmin/systemd/ai-sysadmin-maintenance.service",
+      "sha256": "8c073d8272462e6b8b781008ed274acbab178c40fa803a6b2cd32a5e6dc12f0b",
+      "size": 446,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789383758139237107,
+      "path": "/home/bot/sysadmin/systemd/ai-sysadmin-maintenance.timer",
+      "sha256": "91063fb6735a1ee32e0731f74f92a30ffdf6658e44a9b9d466001bf2c5289436",
+      "size": 230,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789284242542141332,
+      "path": "/home/bot/sysadmin/systemd/ai-sysadmin-prepare.service",
+      "sha256": "e6e9b69b64c529ae5f57845c0d75dcf9091bda3a5c85f228203ca8c07fc78b85",
+      "size": 368,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789383758139237107,
+      "path": "/home/bot/sysadmin/systemd/ai-sysadmin-prepare.timer",
+      "sha256": "1f2ff291f5a47ff2cfb59dd616119acbd29e316a5914c5c84ad5e1c19db4d077",
+      "size": 256,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o775",
+      "mtime_ns": 1789388246214437663,
+      "path": "/home/bot/sysadmin/tests",
+      "size": 4096,
+      "type": "directory",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789324898838837620,
+      "path": "/home/bot/sysadmin/tests/test_containers.py",
+      "sha256": "43cd3cf4e61cb94ceba1374a97ee2354f1aacdc636670c4e91befebfb95bd946",
+      "size": 13369,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789387601504811857,
+      "path": "/home/bot/sysadmin/tests/test_deployment.py",
+      "sha256": "61a4f74c301747117a588e68a43c9f0e67985b72d02fe982550652a5f8217568",
+      "size": 2288,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789387601513811991,
+      "path": "/home/bot/sysadmin/tests/test_lifecycle.py",
+      "sha256": "a81a6a494b6f1d134dfde0fab08e306fd2a6b06452a3eed54a5e17cc1611222e",
+      "size": 17168,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789289579059585382,
+      "path": "/home/bot/sysadmin/tests/test_planner.py",
+      "sha256": "827872a15aebd12da40167a4b8255cbbda0642373a205f58ec5d13f62bf43986",
+      "size": 2405,
+      "type": "file",
+      "uid": 1000
+    },
+    {
+      "gid": 1000,
+      "mode": "0o664",
+      "mtime_ns": 1789387686992085574,
+      "path": "/home/bot/sysadmin/tests/test_software.py",
+      "sha256": "b7176316ba729068e432381f20400cb59074169c56c421f05412ca22c90754dc",
+      "size": 10725,
+      "type": "file",
+      "uid": 1000
+    }
+  ],
+  "revision": {
+    "argv": [
+      "git",
+      "-C",
+      "/home/bot/sysadmin",
+      "rev-parse",
+      "HEAD"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "7f725c0b9fcea7a472c9ee4d3690ed6ee5254f70\n"
+  },
+  "root": "/home/bot/sysadmin",
+  "source_tar_sha256": "9071ef93115dccb2ca7a496080227e8ec136e15e99c204eab5b13df4301bdf2a",
+  "status": {
+    "argv": [
+      "git",
+      "-C",
+      "/home/bot/sysadmin",
+      "status",
+      "--short",
+      "--",
+      "."
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": " M README.md\n M config/config.toml\n M reports/splunk-live-verification.json\n M reports/verify_splunk_integration.py\n M scripts/install.sh\n M scripts/render_deployment.py\n M splunk/README.md\n M src/ai_sysadmin.py\n M src/container_maintenance.py\n M systemd/ai-sysadmin-maintenance.timer\n M systemd/ai-sysadmin-prepare.timer\n M tests/test_deployment.py\n M tests/test_lifecycle.py\n M tests/test_software.py\n?? IGNORE.md\n?? splunk/ignored-dashboard.xml\n"
+  },
+  "working_tree_patch_sha256": "1a2091d800a295c410961888394a4f5ebb80d2520661b36a6b86fc49c6691036"
+}

@@ -22,12 +22,39 @@ from typing import Any
 
 from container_maintenance import ContainerMaintenance
 
-VERSION = "1.2.0"
+VERSION = "1.3.0"
 CHANGE_ID_PATTERN = r"CHG-\d{8}(?:-R[1-9]\d*)?"
 DEFAULT_CONFIG = Path("/etc/ai-sysadmin/config.toml")
 
 
-def upgrade_candidates(output: str) -> tuple[list[dict[str, str]], list[str]]:
+def software_name(name: str) -> str:
+    return name.split(":", 1)[0].lower()
+
+
+def read_ignore_file(path: Path) -> dict[str, dict[str, str]]:
+    """Read strict Markdown bullets: '- software-name: operator reason'."""
+    if not path.exists():
+        return {}
+    metadata = path.stat()
+    if path.is_symlink() or not path.is_file() or metadata.st_size > 65536 or metadata.st_mode & 0o022:
+        raise ValueError("IGNORE.md must be a non-writable regular file no larger than 64 KiB")
+    ignored = {}
+    for number, raw in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        match = re.fullmatch(r"- ([A-Za-z0-9][A-Za-z0-9+._-]*): (\S.{0,499})", line)
+        if not match:
+            raise ValueError(f"Invalid IGNORE.md entry on line {number}")
+        name, reason = match.groups()
+        key = name.lower()
+        if key in ignored:
+            raise ValueError(f"Duplicate IGNORE.md entry for {name}")
+        ignored[key] = {"name": name, "reason": reason, "line": str(number)}
+    return ignored
+
+
+def upgrade_candidates(output: str, ignored: set[str] | None = None) -> tuple[list[dict[str, str]], list[str]]:
     """Fail closed on removals, new installs and ambiguous/major transitions."""
     packages, errors = [], []
     for line in output.splitlines():
@@ -39,6 +66,8 @@ def upgrade_candidates(output: str) -> tuple[list[dict[str, str]], list[str]]:
                 errors.append("New install or unrecognized upgrade requires review: " + line)
                 continue
             name, old, new = match.groups()
+            if software_name(name) in (ignored or set()):
+                continue
 
             def series(version: str) -> tuple[str, str] | None:
                 epoch, upstream = version.split(":", 1) if ":" in version else ("0", version)
@@ -114,6 +143,15 @@ class Controller:
         self.logs.mkdir(parents=True, exist_ok=True)
         self.changes.mkdir(parents=True, exist_ok=True)
         self.run_id = f"{utcnow():%Y%m%dT%H%M%SZ}-{os.getpid()}"
+        self.ignore_file = Path(self.config.get("paths", {}).get("ignore_file", "/etc/ai-sysadmin/IGNORE.md"))
+        self.ignore_errors = []
+        try:
+            self.ignored = read_ignore_file(self.ignore_file)
+        except (OSError, UnicodeError, ValueError) as exc:
+            self.ignored = {}
+            self.ignore_errors.append(str(exc))
+        normalized = {key: value["reason"] for key, value in sorted(self.ignored.items())}
+        self.ignore_policy_sha256 = hashlib.sha256(json.dumps(normalized, sort_keys=True).encode()).hexdigest()
         self.containers = ContainerMaintenance(self)
 
     def event(self, event_type: str, message: str, **fields: Any) -> None:
@@ -129,6 +167,8 @@ class Controller:
             target = "health.jsonl"
         elif event_type == "anomaly":
             target = "anomalies.jsonl"
+        elif event_type == "ignored":
+            target = "ignored.jsonl"
         line = json.dumps(record, sort_keys=True, separators=(",", ":")) + "\n"
         path = self.logs / target
         fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o640)
@@ -195,8 +235,11 @@ class Controller:
             inventory["errors"].append("Package database needs attention")
 
         def add(name: str, version: str, source: str, location: str) -> None:
+            ignored = self.ignored.get(name.lower())
             inventory["extra"].append({"name": name, "version": version, "software_source": source,
-                                       "location": location, "update_policy": "operator_review"})
+                                       "location": location,
+                                       "update_policy": "ignored" if ignored else "operator_review",
+                                       **({"ignore_reason": ignored["reason"]} if ignored else {})})
 
         roots = [Path(p) for p in self.config.get("inventory", {}).get("roots", ["/opt", "/usr/local"])]
         splunk_home = Path(self.config.get("splunk", {}).get("home", "/opt/splunk"))
@@ -224,9 +267,10 @@ class Controller:
                         if installed and actual and not re.match(re.escape(actual) + r"(?:$|[+~-])", installed):
                             conflict = {"name": "splunk", "package_version": installed,
                                         "installed_version": actual, "location": str(location)}
-                            inventory["package_version_conflicts"].append(conflict)
-                            self.event("anomaly", "Splunk manifest and package database versions disagree",
-                                       severity="high", **conflict)
+                            if "splunk" not in self.ignored:
+                                inventory["package_version_conflicts"].append(conflict)
+                                self.event("anomaly", "Splunk manifest and package database versions disagree",
+                                           severity="high", **conflict)
                     continue
                 metadata = set()
                 for pattern in ("lib/python*/site-packages/*.dist-info/METADATA",
@@ -275,7 +319,8 @@ class Controller:
         for item in inventory["extra"]:
             self.event("software", "Installed software detected", software_version=item["version"],
                        **{k: v for k, v in item.items() if k != "version"})
-        unknown = [item["location"] for item in inventory["extra"] if item["version"] == "unknown"]
+        unknown = [item["location"] for item in inventory["extra"]
+                   if item["version"] == "unknown" and item["update_policy"] != "ignored"]
         if unknown:
             self.event("anomaly", "Software locations need version identification", severity="medium", locations=unknown)
         return inventory
@@ -292,9 +337,31 @@ class Controller:
         failed_lines = [line for line in failed["stdout"].splitlines() if line.strip()]
         upgrade_lines = [line for line in upgrades["stdout"].splitlines()
                          if line.startswith("Inst ")]
-        candidates, policy_errors = upgrade_candidates(upgrades["stdout"])
+        all_candidates, _ = upgrade_candidates(upgrades["stdout"])
+        candidates, policy_errors = upgrade_candidates(upgrades["stdout"], set(self.ignored))
         inventory = self.software_inventory()
         container_inventory = self.containers.inspect()
+        ignored_software = []
+        for key, policy in sorted(self.ignored.items()):
+            package_versions = [version for name, version in inventory["apt_packages"].items()
+                                if software_name(name) == key]
+            extras = [item for item in inventory["extra"] if item["name"].lower() == key]
+            containers = [item for item in container_inventory.get("items", []) if item["name"].lower() == key]
+            ignored_candidates = [item["after"] for item in all_candidates if software_name(item["name"]) == key]
+            observed = ([item["version"] for item in extras] + package_versions +
+                        [item["application_version"] for item in containers])
+            row = {"software": policy["name"], "reason": policy["reason"],
+                   "status": "update_available_ignored" if ignored_candidates else
+                             ("ignored_current" if observed else "not_detected"),
+                   "installed_versions": sorted(set(observed)),
+                   "candidate_versions": sorted(set(ignored_candidates)),
+                   "locations": sorted(set(item["location"] for item in extras)),
+                   "sources": sorted(set(item["software_source"] for item in extras) |
+                                     ({"apt"} if package_versions else set()) |
+                                     ({"container"} if containers else set())),
+                   "policy_file": str(self.ignore_file), "policy_sha256": self.ignore_policy_sha256}
+            ignored_software.append(row)
+            self.event("ignored", "Operator-approved software exception", **row)
         conflict_names = {item["name"] for item in inventory["package_version_conflicts"]}
         policy_errors.extend("Conflicting installed/package version requires review: " + item["name"]
                              for item in candidates if item["name"].split(":", 1)[0] in conflict_names)
@@ -306,6 +373,8 @@ class Controller:
             "upgradable_packages": upgrade_lines[:500],
             "package_candidates": candidates,
             "package_policy_errors": policy_errors,
+            "ignored_software": ignored_software,
+            "ignored_software_count": len(ignored_software),
             "software_inventory": inventory,
             "container_inventory": container_inventory,
             "container_count": len(container_inventory["items"]),
@@ -314,7 +383,7 @@ class Controller:
             "reboot_required": reboot_required,
             "inspection_errors": [name for name, value in
                                   (("systemctl", failed), ("apt", upgrades))
-                                  if value["returncode"] != 0] + inventory["errors"] + container_inventory["errors"],
+                                  if value["returncode"] != 0] + self.ignore_errors + inventory["errors"] + container_inventory["errors"],
         }
         self.event("health", "Host inspection completed", **report)
         threshold = self.config["policy"]["minimum_free_root_percent"]
@@ -396,6 +465,7 @@ class Controller:
         actions.append({"id": "verify", "reason": "Measure post-change host health"})
         plan = {"generated_at": stamp(), "actions": actions, "blocked_reasons": blocked,
                 "reasoning": reasoning,
+                "ignore_policy_sha256": self.ignore_policy_sha256,
                 "container_updates": container_updates, "container_deferred": container_deferred,
                 "policy": {"no_reboot": True, "no_dist_upgrade": True,
                            "no_major_upgrade": True, "no_remove": True,
@@ -561,7 +631,7 @@ Pending maintenance execution.
         simulated = self.command("simulate_refreshed_upgrade", ["apt-get", "-s", "--no-remove", "upgrade"], 180)
         if simulated["returncode"]:
             return [], [], ["Refreshed package simulation failed"]
-        packages, errors = upgrade_candidates(simulated["stdout"])
+        packages, errors = upgrade_candidates(simulated["stdout"], set(self.ignored))
         conflicts = {item["name"] for item in inspection.get("software_inventory", {}).get("package_version_conflicts", [])}
         errors.extend("Conflicting installed/package version requires review: " + item["name"]
                       for item in packages if item["name"].split(":", 1)[0] in conflicts)
@@ -576,6 +646,10 @@ Pending maintenance execution.
         # Validate dependencies too, then execute these exact versions.
         pinned = self.command("simulate_exact_upgrade", ["apt-get", "-s"] + args, 180)
         checked, problems = upgrade_candidates(pinned["stdout"])
+        ignored_changes = [item for item in checked if software_name(item["name"]) in self.ignored]
+        if ignored_changes:
+            errors.append("Exact package transaction would change ignored software: " +
+                          ", ".join(item["name"] for item in ignored_changes))
         if pinned["returncode"] or problems or sorted(checked, key=lambda p: p["name"]) != sorted(packages, key=lambda p: p["name"]):
             errors.append("Exact package transaction changed or violates policy")
         self.event("decision", "Evaluated exact package transaction after metadata refresh",
@@ -678,6 +752,8 @@ Pending maintenance execution.
             return 2
         pre = self.inspect()
         reasons = self.blockers(pre)
+        if plan.get("ignore_policy_sha256") != self.ignore_policy_sha256:
+            reasons.append("IGNORE.md changed after preparation")
         reasons.extend(self.containers.validate(plan.get("container_updates", [])))
         if reasons:
             self.close(record, record_text, change_id, "FAILED", "; ".join(reasons))

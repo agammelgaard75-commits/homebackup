@@ -1,0 +1,39 @@
+{
+  "advertised_model_ids": [
+    "gemini-flash",
+    "qwen3:8b",
+    "gemma4",
+    "qwen3.5:4b",
+    "qwen3.5:9b"
+  ],
+  "at": "2026-09-22T18:27:10.188425+00:00",
+  "base_url": "http://127.0.0.1:4000/v1",
+  "configured_model": "qwen3.5:9b",
+  "configured_timeout_seconds": 660,
+  "median_seconds": 4.847,
+  "requests": [
+    {
+      "error_type": "HTTPError",
+      "request_bytes": 474,
+      "scenario": "healthy",
+      "schema_valid": false,
+      "seconds": 4.847
+    },
+    {
+      "error_type": "HTTPError",
+      "request_bytes": 450,
+      "scenario": "blocked",
+      "schema_valid": false,
+      "seconds": 4.087
+    },
+    {
+      "error_type": "HTTPError",
+      "request_bytes": 473,
+      "scenario": "no_update",
+      "schema_valid": false,
+      "seconds": 4.933
+    }
+  ],
+  "scope": "Stage 0 three-request baseline, not the later 20-request v2 acceptance benchmark.",
+  "synthetic_input_only": true
+}

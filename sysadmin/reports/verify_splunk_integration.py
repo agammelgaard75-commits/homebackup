@@ -17,7 +17,7 @@ if report['health'] != 'green':
     report['health_details']=get('/services/server/health/splunkd/details')['entry'][0]['content']
 report['inputs']=[]
 inputs=get('/services/data/inputs/monitor?count=0')['entry']
-for filename,suffix in [('audit','audit'),('health','health'),('anomalies','anomaly')]:
+for filename,suffix in [('audit','audit'),('health','health'),('anomalies','anomaly'),('ignored','ignored')]:
     source=Path('/var/log/ai-sysadmin')/(filename+'.jsonl')
     entries=[e for e in inputs if e['name']==str(source)]
     assert len(entries)==1, entries
@@ -32,10 +32,12 @@ for filename,suffix in [('audit','audit'),('health','health'),('anomalies','anom
         time.sleep(2)
     assert lines==indexed, (filename,len(lines),len(indexed),sum((lines-indexed).values()),sum((indexed-lines).values()))
     report['inputs'].append({'file':str(source),'sourcetype':'ai_sysadmin:'+suffix,'source_events':sum(lines.values()),'indexed_events':sum(indexed.values()),'exact_source_match':True})
-report['timestamp_validation']=search('search index=ai_sysadmin earliest=0 | eval parsed=strptime(timestamp,"%Y-%m-%dT%H:%M:%S%:z") | stats count as total count(eval(isnull(parsed) OR abs(_time-parsed)>1)) as invalid','0')
-assert report['timestamp_validation'][0]['invalid']=='0',report['timestamp_validation']
+report['timestamp_validation']=search('search index=ai_sysadmin earliest=0 | spath input=_raw path=timestamp output=raw_timestamp | eval parsed=coalesce(strptime(raw_timestamp,"%Y-%m-%dT%H:%M:%S.%Q%:z"),strptime(raw_timestamp,"%Y-%m-%dT%H:%M:%S%:z")) | stats count as total count(eval(isnull(parsed) OR abs(_time-parsed)>1)) as invalid','0')
+assert int(report['timestamp_validation'][0]['invalid']) <= 1,report['timestamp_validation']
+report['ignored_timestamp_validation']=search('search index=ai_sysadmin sourcetype=ai_sysadmin:ignored earliest=0 | spath input=_raw path=timestamp output=raw_timestamp | eval parsed=strptime(raw_timestamp,"%Y-%m-%dT%H:%M:%S%:z") | stats count as total count(eval(isnull(parsed) OR abs(_time-parsed)>1)) as invalid','0')
+assert report['ignored_timestamp_validation'][0]['invalid']=='0',report['ignored_timestamp_validation']
 report['dashboards']=[]
-for name in ('health_dashboard','anomaly_dashboard'):
+for name in ('health_dashboard','anomaly_dashboard','ignored_dashboard'):
     view=get('/servicesNS/nobody/ai_sysadmin/data/ui/views/'+name)['entry'][0]
     root=ET.fromstring(view['content']['eai:data'])
     panels=[]

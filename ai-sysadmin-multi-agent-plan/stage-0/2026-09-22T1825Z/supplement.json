@@ -1,0 +1,668 @@
+{
+  "at": "2026-09-22T18:32:13.963161+00:00",
+  "deployment_integrity": {
+    "all_unchanged": true,
+    "changed_files": [],
+    "files_checked": 27
+  },
+  "failed_units": {
+    "argv": [
+      "systemctl",
+      "list-units",
+      "--state=failed,auto-restart",
+      "--no-legend",
+      "--plain",
+      "--all"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "ai-sysadmin-maintenance.service     loaded failed failed AI Sysadmin weekly approved maintenance\nai-sysadmin-prepare.service         loaded failed failed AI Sysadmin weekly change preparation\nlxd-installer@0-394986-1000.service loaded failed failed Helper to install lxd snap on demand\n"
+  },
+  "latest_plan": {
+    "ai_assessment": null,
+    "blocked_reasons": [
+      "Failed systemd units exceed policy",
+      "AI assessment unavailable: CalledProcessError"
+    ],
+    "change_id": "CHG-20260921",
+    "generated_at": "2026-09-21T21:01:05+00:00"
+  },
+  "live_controller_invoked": false,
+  "maintenance_journal": {
+    "argv": [
+      "journalctl",
+      "-u",
+      "ai-sysadmin-maintenance.service",
+      "-n",
+      "15",
+      "--no-pager"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "Sep 20 18:00:00 sandbox systemd[1]: Starting ai-sysadmin-maintenance.service - AI Sysadmin weekly approved maintenance...\nSep 20 18:00:00 sandbox ai-sysadmin[1022916]: [2026-09-20T18:00:00+00:00] Change record closed\nSep 20 18:00:00 sandbox systemd[1]: ai-sysadmin-maintenance.service: Main process exited, code=exited, status=2/INVALIDARGUMENT\nSep 20 18:00:00 sandbox systemd[1]: ai-sysadmin-maintenance.service: Failed with result 'exit-code'.\nSep 20 18:00:00 sandbox systemd[1]: Failed to start ai-sysadmin-maintenance.service - AI Sysadmin weekly approved maintenance.\nSep 21 18:00:00 sandbox systemd[1]: Starting ai-sysadmin-maintenance.service - AI Sysadmin weekly approved maintenance...\nSep 21 18:00:00 sandbox ai-sysadmin[1144626]: [2026-09-21T18:00:00+00:00] Change record closed\nSep 21 18:00:00 sandbox systemd[1]: ai-sysadmin-maintenance.service: Main process exited, code=exited, status=2/INVALIDARGUMENT\nSep 21 18:00:00 sandbox systemd[1]: ai-sysadmin-maintenance.service: Failed with result 'exit-code'.\nSep 21 18:00:00 sandbox systemd[1]: Failed to start ai-sysadmin-maintenance.service - AI Sysadmin weekly approved maintenance.\nSep 22 18:00:00 sandbox systemd[1]: Starting ai-sysadmin-maintenance.service - AI Sysadmin weekly approved maintenance...\nSep 22 18:00:00 sandbox ai-sysadmin[1266457]: [2026-09-22T18:00:00+00:00] Change record closed\nSep 22 18:00:00 sandbox systemd[1]: ai-sysadmin-maintenance.service: Main process exited, code=exited, status=2/INVALIDARGUMENT\nSep 22 18:00:00 sandbox systemd[1]: ai-sysadmin-maintenance.service: Failed with result 'exit-code'.\nSep 22 18:00:00 sandbox systemd[1]: Failed to start ai-sysadmin-maintenance.service - AI Sysadmin weekly approved maintenance.\n"
+  },
+  "manual_manifests": [
+    {
+      "BUILD": "02bbaf562558",
+      "PRODUCT": "splunk",
+      "VERSION": "9.3.14",
+      "path": "/opt/splunk/etc/splunk.version"
+    },
+    {
+      "BUILD": "6315942c563f",
+      "PRODUCT": "splunk",
+      "VERSION": "9.0.9",
+      "path": "/opt/splunk-incomplete-20260913/etc/splunk.version"
+    }
+  ],
+  "n8n_digests": {
+    "argv": [
+      "docker",
+      "image",
+      "inspect",
+      "docker.n8n.io/n8nio/n8n:latest",
+      "--format",
+      "{{json .RepoDigests}}"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[\"docker.n8n.io/n8nio/n8n@sha256:6db59d74350a4fd627e120098b02b909d6f521feb75ac465b00bac1970520033\"]\n"
+  },
+  "n8n_identity": {
+    "argv": [
+      "docker",
+      "inspect",
+      "n8n",
+      "--format",
+      "{{.Name}} {{.Config.Image}} {{.Image}} {{.State.Status}}"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "/n8n docker.n8n.io/n8nio/n8n:latest sha256:6db59d74350a4fd627e120098b02b909d6f521feb75ac465b00bac1970520033 running\n"
+  },
+  "package_tooling_state": {
+    "argv": [
+      "dpkg-query",
+      "-W",
+      "-f=${binary:Package}\t${db:Status-Status}\n",
+      "qemu-system-x86",
+      "qemu-system-common",
+      "libslirp0"
+    ],
+    "returncode": 1,
+    "stderr": "dpkg-query: no packages found matching qemu-system-x86\ndpkg-query: no packages found matching qemu-system-common\ndpkg-query: no packages found matching libslirp0\n",
+    "stdout": ""
+  },
+  "python_metadata": [
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/aiohappyeyeballs-2.6.1.dist-info/METADATA",
+      "name": "aiohappyeyeballs",
+      "version": "2.6.1"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/aiohttp-3.13.5.dist-info/METADATA",
+      "name": "aiohttp",
+      "version": "3.13.5"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/aiosignal-1.4.0.dist-info/METADATA",
+      "name": "aiosignal",
+      "version": "1.4.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/annotated_doc-0.0.4.dist-info/METADATA",
+      "name": "annotated-doc",
+      "version": "0.0.4"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/annotated_types-0.7.0.dist-info/METADATA",
+      "name": "annotated-types",
+      "version": "0.7.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/anyio-4.13.0.dist-info/METADATA",
+      "name": "anyio",
+      "version": "4.13.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/apscheduler-3.11.2.dist-info/METADATA",
+      "name": "APScheduler",
+      "version": "3.11.2"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/attrs-26.1.0.dist-info/METADATA",
+      "name": "attrs",
+      "version": "26.1.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/azure_core-1.39.0.dist-info/METADATA",
+      "name": "azure-core",
+      "version": "1.39.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/azure_identity-1.25.3.dist-info/METADATA",
+      "name": "azure-identity",
+      "version": "1.25.3"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/azure_storage_blob-12.28.0.dist-info/METADATA",
+      "name": "azure-storage-blob",
+      "version": "12.28.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/backoff-2.2.1.dist-info/METADATA",
+      "name": "backoff",
+      "version": "2.2.1"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/boto3-1.42.80.dist-info/METADATA",
+      "name": "boto3",
+      "version": "1.42.80"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/botocore-1.42.83.dist-info/METADATA",
+      "name": "botocore",
+      "version": "1.42.83"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/certifi-2026.2.25.dist-info/METADATA",
+      "name": "certifi",
+      "version": "2026.2.25"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/cffi-2.0.0.dist-info/METADATA",
+      "name": "cffi",
+      "version": "2.0.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/charset_normalizer-3.4.7.dist-info/METADATA",
+      "name": "charset-normalizer",
+      "version": "3.4.7"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/click-8.1.8.dist-info/METADATA",
+      "name": "click",
+      "version": "8.1.8"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/croniter-6.2.2.dist-info/METADATA",
+      "name": "croniter",
+      "version": "6.2.2"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/cryptography-43.0.3.dist-info/METADATA",
+      "name": "cryptography",
+      "version": "43.0.3"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/distro-1.9.0.dist-info/METADATA",
+      "name": "distro",
+      "version": "1.9.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/dnspython-2.8.0.dist-info/METADATA",
+      "name": "dnspython",
+      "version": "2.8.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/email_validator-2.3.0.dist-info/METADATA",
+      "name": "email-validator",
+      "version": "2.3.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/fastapi-0.124.4.dist-info/METADATA",
+      "name": "fastapi",
+      "version": "0.124.4"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/fastapi_sso-0.16.0.dist-info/METADATA",
+      "name": "fastapi-sso",
+      "version": "0.16.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/fastuuid-0.14.0.dist-info/METADATA",
+      "name": "fastuuid",
+      "version": "0.14.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/filelock-3.25.2.dist-info/METADATA",
+      "name": "filelock",
+      "version": "3.25.2"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/frozenlist-1.8.0.dist-info/METADATA",
+      "name": "frozenlist",
+      "version": "1.8.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/fsspec-2026.3.0.dist-info/METADATA",
+      "name": "fsspec",
+      "version": "2026.3.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/gunicorn-23.0.0.dist-info/METADATA",
+      "name": "gunicorn",
+      "version": "23.0.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/h11-0.16.0.dist-info/METADATA",
+      "name": "h11",
+      "version": "0.16.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/hf_xet-1.4.3.dist-info/METADATA",
+      "name": "hf-xet",
+      "version": "1.4.3"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/httpcore-1.0.9.dist-info/METADATA",
+      "name": "httpcore",
+      "version": "1.0.9"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/httpx-0.28.1.dist-info/METADATA",
+      "name": "httpx",
+      "version": "0.28.1"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/httpx_sse-0.4.3.dist-info/METADATA",
+      "name": "httpx-sse",
+      "version": "0.4.3"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/huggingface_hub-1.9.0.dist-info/METADATA",
+      "name": "huggingface_hub",
+      "version": "1.9.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/idna-3.11.dist-info/METADATA",
+      "name": "idna",
+      "version": "3.11"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/importlib_metadata-8.5.0.dist-info/METADATA",
+      "name": "importlib_metadata",
+      "version": "8.5.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/isodate-0.7.2.dist-info/METADATA",
+      "name": "isodate",
+      "version": "0.7.2"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/jinja2-3.1.6.dist-info/METADATA",
+      "name": "Jinja2",
+      "version": "3.1.6"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/jiter-0.13.0.dist-info/METADATA",
+      "name": "jiter",
+      "version": "0.13.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/jmespath-1.1.0.dist-info/METADATA",
+      "name": "jmespath",
+      "version": "1.1.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/jsonschema-4.23.0.dist-info/METADATA",
+      "name": "jsonschema",
+      "version": "4.23.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/jsonschema_specifications-2025.9.1.dist-info/METADATA",
+      "name": "jsonschema-specifications",
+      "version": "2025.9.1"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/litellm-1.83.2.dist-info/METADATA",
+      "name": "litellm",
+      "version": "1.83.2"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/litellm_enterprise-0.1.35.dist-info/METADATA",
+      "name": "litellm-enterprise",
+      "version": "0.1.35"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/litellm_proxy_extras-0.4.64.dist-info/METADATA",
+      "name": "litellm-proxy-extras",
+      "version": "0.4.64"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/markdown_it_py-4.0.0.dist-info/METADATA",
+      "name": "markdown-it-py",
+      "version": "4.0.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/markupsafe-3.0.3.dist-info/METADATA",
+      "name": "MarkupSafe",
+      "version": "3.0.3"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/mcp-1.26.0.dist-info/METADATA",
+      "name": "mcp",
+      "version": "1.26.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/mdurl-0.1.2.dist-info/METADATA",
+      "name": "mdurl",
+      "version": "0.1.2"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/msal-1.35.1.dist-info/METADATA",
+      "name": "msal",
+      "version": "1.35.1"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/msal_extensions-1.3.1.dist-info/METADATA",
+      "name": "msal-extensions",
+      "version": "1.3.1"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/multidict-6.7.1.dist-info/METADATA",
+      "name": "multidict",
+      "version": "6.7.1"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/oauthlib-3.3.1.dist-info/METADATA",
+      "name": "oauthlib",
+      "version": "3.3.1"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/openai-2.30.0.dist-info/METADATA",
+      "name": "openai",
+      "version": "2.30.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/orjson-3.10.15.dist-info/METADATA",
+      "name": "orjson",
+      "version": "3.10.15"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/packaging-26.0.dist-info/METADATA",
+      "name": "packaging",
+      "version": "26.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/pip-24.0.dist-info/METADATA",
+      "name": "pip",
+      "version": "24.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/polars-1.39.3.dist-info/METADATA",
+      "name": "polars",
+      "version": "1.39.3"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/polars_runtime_32-1.39.3.dist-info/METADATA",
+      "name": "polars-runtime-32",
+      "version": "1.39.3"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/propcache-0.4.1.dist-info/METADATA",
+      "name": "propcache",
+      "version": "0.4.1"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/pycparser-3.0.dist-info/METADATA",
+      "name": "pycparser",
+      "version": "3.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/pydantic-2.12.5.dist-info/METADATA",
+      "name": "pydantic",
+      "version": "2.12.5"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/pydantic_core-2.41.5.dist-info/METADATA",
+      "name": "pydantic_core",
+      "version": "2.41.5"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/pydantic_settings-2.13.1.dist-info/METADATA",
+      "name": "pydantic-settings",
+      "version": "2.13.1"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/pygments-2.20.0.dist-info/METADATA",
+      "name": "Pygments",
+      "version": "2.20.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/pyjwt-2.12.1.dist-info/METADATA",
+      "name": "PyJWT",
+      "version": "2.12.1"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/pynacl-1.6.2.dist-info/METADATA",
+      "name": "PyNaCl",
+      "version": "1.6.2"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/pyroscope_io-0.8.16.dist-info/METADATA",
+      "name": "pyroscope-io",
+      "version": "0.8.16"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/python_dateutil-2.9.0.post0.dist-info/METADATA",
+      "name": "python-dateutil",
+      "version": "2.9.0.post0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/python_dotenv-1.0.1.dist-info/METADATA",
+      "name": "python-dotenv",
+      "version": "1.0.1"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/python_multipart-0.0.20.dist-info/METADATA",
+      "name": "python-multipart",
+      "version": "0.0.20"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/pyyaml-6.0.3.dist-info/METADATA",
+      "name": "PyYAML",
+      "version": "6.0.3"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/redis-7.4.0.dist-info/METADATA",
+      "name": "redis",
+      "version": "7.4.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/referencing-0.37.0.dist-info/METADATA",
+      "name": "referencing",
+      "version": "0.37.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/regex-2026.4.4.dist-info/METADATA",
+      "name": "regex",
+      "version": "2026.4.4"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/requests-2.33.1.dist-info/METADATA",
+      "name": "requests",
+      "version": "2.33.1"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/rich-13.9.4.dist-info/METADATA",
+      "name": "rich",
+      "version": "13.9.4"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/rpds_py-0.30.0.dist-info/METADATA",
+      "name": "rpds-py",
+      "version": "0.30.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/rq-2.7.0.dist-info/METADATA",
+      "name": "rq",
+      "version": "2.7.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/s3transfer-0.16.0.dist-info/METADATA",
+      "name": "s3transfer",
+      "version": "0.16.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/shellingham-1.5.4.dist-info/METADATA",
+      "name": "shellingham",
+      "version": "1.5.4"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/six-1.17.0.dist-info/METADATA",
+      "name": "six",
+      "version": "1.17.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/sniffio-1.3.1.dist-info/METADATA",
+      "name": "sniffio",
+      "version": "1.3.1"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/soundfile-0.12.1.dist-info/METADATA",
+      "name": "soundfile",
+      "version": "0.12.1"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/sse_starlette-3.3.4.dist-info/METADATA",
+      "name": "sse-starlette",
+      "version": "3.3.4"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/starlette-0.50.0.dist-info/METADATA",
+      "name": "starlette",
+      "version": "0.50.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/tiktoken-0.12.0.dist-info/METADATA",
+      "name": "tiktoken",
+      "version": "0.12.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/tokenizers-0.22.2.dist-info/METADATA",
+      "name": "tokenizers",
+      "version": "0.22.2"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/tqdm-4.67.3.dist-info/METADATA",
+      "name": "tqdm",
+      "version": "4.67.3"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/typer-0.23.1.dist-info/METADATA",
+      "name": "typer",
+      "version": "0.23.1"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/typing_extensions-4.15.0.dist-info/METADATA",
+      "name": "typing_extensions",
+      "version": "4.15.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/typing_inspection-0.4.2.dist-info/METADATA",
+      "name": "typing-inspection",
+      "version": "0.4.2"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/tzlocal-5.3.1.dist-info/METADATA",
+      "name": "tzlocal",
+      "version": "5.3.1"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/urllib3-2.6.3.dist-info/METADATA",
+      "name": "urllib3",
+      "version": "2.6.3"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/uvicorn-0.33.0.dist-info/METADATA",
+      "name": "uvicorn",
+      "version": "0.33.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/uvloop-0.21.0.dist-info/METADATA",
+      "name": "uvloop",
+      "version": "0.21.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/websockets-15.0.1.dist-info/METADATA",
+      "name": "websockets",
+      "version": "15.0.1"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/yarl-1.23.0.dist-info/METADATA",
+      "name": "yarl",
+      "version": "1.23.0"
+    },
+    {
+      "metadata_path": "/opt/litellm/venv/lib/python3.12/site-packages/zipp-3.23.0.dist-info/METADATA",
+      "name": "zipp",
+      "version": "3.23.0"
+    }
+  ],
+  "registrations": {
+    "docker": {
+      "enabled": true,
+      "services": [
+        {
+          "compose_files": [
+            "/home/bot/n8n/docker-compose.yml"
+          ],
+          "health_timeout_seconds": 180,
+          "health_url": "http://127.0.0.1:5678/healthz/readiness",
+          "hold": false,
+          "image": "docker.n8n.io/n8nio/n8n:latest",
+          "maximum_backup_bytes": 1073741824,
+          "name": "n8n",
+          "project": "n8n",
+          "service": "n8n"
+        }
+      ]
+    },
+    "manual": {},
+    "note": "Inventory and installed metadata do not authorize updates. The captured v1 configuration has Docker registration only; no manual/pip update registrations.",
+    "pip": {}
+  },
+  "snap_state": {
+    "argv": [
+      "snap",
+      "list",
+      "lxd"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "Name  Version         Rev    Tracking       Publisher    Notes\nlxd   5.21.7-1018661  40585  5.21/stable/\u2026  canonical**  -\n"
+  },
+  "source_integrity": {
+    "all_unchanged": true,
+    "changed_files": [],
+    "files_checked": 72
+  },
+  "unit_definitions": {
+    "argv": [
+      "systemctl",
+      "cat",
+      "ai-sysadmin-prepare.service",
+      "ai-sysadmin-maintenance.service",
+      "ai-sysadmin-prepare.timer",
+      "ai-sysadmin-maintenance.timer"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "# /etc/systemd/system/ai-sysadmin-prepare.service\n[Unit]\nDescription=AI Sysadmin weekly change preparation\nDocumentation=file:/opt/ai-sysadmin/README.md\nConditionPathExists=/opt/ai-sysadmin/bin/ai-sysadmin\n\n[Service]\nType=oneshot\nExecStart=/opt/ai-sysadmin/bin/ai-sysadmin prepare\nUser=root\nGroup=root\nNice=10\nIOSchedulingClass=best-effort\nIOSchedulingPriority=7\nPrivateTmp=true\nProtectHome=true\nNoNewPrivileges=true\n\n\n# /etc/systemd/system/ai-sysadmin-prepare.service.d/50-containers.conf\n[Service]\nProtectHome=tmpfs\nBindReadOnlyPaths=/home/bot/n8n\n\n# /etc/systemd/system/ai-sysadmin-maintenance.service\n[Unit]\nDescription=AI Sysadmin weekly approved maintenance\nDocumentation=file:/opt/ai-sysadmin/README.md\nConditionPathExists=/opt/ai-sysadmin/bin/ai-sysadmin\nAfter=network-online.target\nWants=network-online.target\n\n[Service]\nType=oneshot\nExecStart=/opt/ai-sysadmin/bin/ai-sysadmin maintain\nUser=root\nGroup=root\nNice=10\nIOSchedulingClass=best-effort\nIOSchedulingPriority=7\nPrivateTmp=true\nProtectHome=true\nNoNewPrivileges=true\nTimeoutStartSec=2h\n\n\n# /etc/systemd/system/ai-sysadmin-maintenance.service.d/50-containers.conf\n[Service]\nProtectHome=tmpfs\nBindReadOnlyPaths=/home/bot/n8n\n\n# /etc/systemd/system/ai-sysadmin-prepare.timer\n[Unit]\nDescription=Prepare the daily AI Sysadmin change one day before maintenance\n\n[Timer]\nOnCalendar=*-*-* 23:00:00 Europe/Copenhagen\nPersistent=true\nRandomizedDelaySec=0\nAccuracySec=1s\nUnit=ai-sysadmin-prepare.service\n\n[Install]\nWantedBy=timers.target\n\n\n# /etc/systemd/system/ai-sysadmin-maintenance.timer\n[Unit]\nDescription=Run daily AI Sysadmin maintenance\n\n[Timer]\nOnCalendar=*-*-* 20:00:00 Europe/Copenhagen\nPersistent=true\nRandomizedDelaySec=0\nAccuracySec=1s\nUnit=ai-sysadmin-maintenance.service\n\n[Install]\nWantedBy=timers.target\n\n"
+  },
+  "unit_states": {
+    "argv": [
+      "systemctl",
+      "show",
+      "ai-sysadmin-prepare.service",
+      "ai-sysadmin-maintenance.service",
+      "ai-sysadmin-prepare.timer",
+      "ai-sysadmin-maintenance.timer",
+      "--property=Id,MainPID,ActiveState,SubState,UnitFileState,NextElapseUSecRealtime,Result,ExecMainStatus"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "MainPID=0\nResult=exit-code\nExecMainStatus=2\nId=ai-sysadmin-prepare.service\nActiveState=failed\nSubState=failed\nUnitFileState=static\n\nMainPID=0\nResult=exit-code\nExecMainStatus=2\nId=ai-sysadmin-maintenance.service\nActiveState=failed\nSubState=failed\nUnitFileState=static\n\nNextElapseUSecRealtime=Tue 2026-09-22 21:00:00 UTC\nResult=success\nId=ai-sysadmin-prepare.timer\nActiveState=active\nSubState=waiting\nUnitFileState=enabled\n\nNextElapseUSecRealtime=Wed 2026-09-23 18:00:00 UTC\nResult=success\nId=ai-sysadmin-maintenance.timer\nActiveState=active\nSubState=waiting\nUnitFileState=enabled\n"
+  }
+}

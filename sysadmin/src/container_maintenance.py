@@ -185,6 +185,10 @@ class ContainerMaintenance:
         by_name = {item["name"]: item for item in items}
         for service in self.services():
             name = service["name"]
+            if name.lower() in self.c.ignored:
+                self.c.event("idempotency", "Container omitted by IGNORE.md", container=name,
+                             reason=self.c.ignored[name.lower()]["reason"])
+                continue
             if service.get("hold", False):
                 self.c.event("idempotency", "Container held at current image", container=name)
                 continue

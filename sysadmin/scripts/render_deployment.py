@@ -9,16 +9,22 @@ def render(config, output):
     repo = Path(__file__).resolve().parents[1]
     days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     schedule = config['schedule']
-    maintenance = days.index(schedule['maintenance_day'])
-    preparation = days.index(schedule['preparation_day'])
-    hour = schedule['maintenance_hour_utc']
-    if (maintenance - preparation) % 7 != 1 or type(hour) is not int or not 0 <= hour <= 23:
-        raise ValueError('Preparation must be the day before maintenance; hour must be 0..23 UTC')
+    if schedule.get('frequency') == 'daily':
+        calendars = {'prepare': '*-*-* 23:00:00 Europe/Copenhagen',
+                     'maintenance': '*-*-* 20:00:00 Europe/Copenhagen'}
+    else:
+        maintenance = days.index(schedule['maintenance_day'])
+        preparation = days.index(schedule['preparation_day'])
+        hour = schedule['maintenance_hour_utc']
+        if (maintenance - preparation) % 7 != 1 or type(hour) is not int or not 0 <= hour <= 23:
+            raise ValueError('Preparation must be the day before maintenance; hour must be 0..23 UTC')
+        calendars = {phase: f'{days[day][:3]} *-*-* {hour:02d}:00:00 UTC'
+                     for phase, day in [('prepare', preparation), ('maintenance', maintenance)]}
     output.mkdir(parents=True, exist_ok=True)
-    for phase, day in [('prepare', preparation), ('maintenance', maintenance)]:
+    for phase, calendar in calendars.items():
         source = repo / 'systemd' / f'ai-sysadmin-{phase}.timer'
         lines = source.read_text().splitlines()
-        lines = [f'OnCalendar={days[day][:3]} *-*-* {hour:02d}:00:00 UTC'
+        lines = [f'OnCalendar={calendar}'
                  if line.startswith('OnCalendar=') else line for line in lines]
         (output / source.name).write_text('\n'.join(lines) + '\n')
     directories = set()
@@ -37,15 +43,15 @@ def render(config, output):
     default = app / 'default'
     views = default / 'data/ui/views'
     views.mkdir(parents=True, exist_ok=True)
-    (default / 'app.conf').write_text('[install]\nis_configured = 1\n[ui]\nis_visible = 1\nlabel = AI Sysadmin\n[launcher]\nauthor = Local Operations\ndescription = Auditable weekly maintenance, host health and anomalies\nversion = 1.0.1\n[package]\nid = ai_sysadmin\n')
+    (default / 'app.conf').write_text('[install]\nis_configured = 1\n[ui]\nis_visible = 1\nlabel = AI Sysadmin\n[launcher]\nauthor = Local Operations\ndescription = Auditable maintenance, host health, accepted exceptions and anomalies\nversion = 1.1.0\n[package]\nid = ai_sysadmin\n')
     nav = default / 'data/ui/nav'
     nav.mkdir(parents=True, exist_ok=True)
-    (nav / 'default.xml').write_text('<nav search_view="search" color="#234E70"><view name="health_dashboard" default="true"/><view name="anomaly_dashboard"/><view name="search"/></nav>\n')
+    (nav / 'default.xml').write_text('<nav search_view="search" color="#234E70"><view name="health_dashboard" default="true"/><view name="anomaly_dashboard"/><view name="ignored_dashboard"/><view name="search"/></nav>\n')
     metadata = app / 'metadata'
     metadata.mkdir(exist_ok=True)
     (metadata / 'default.meta').write_text('[]\naccess = read : [ * ], write : [ admin ]\nexport = none\n')
     inputs, props = [], []
-    for filename, suffix in [('audit', 'audit'), ('health', 'health'), ('anomalies', 'anomaly')]:
+    for filename, suffix in [('audit', 'audit'), ('health', 'health'), ('anomalies', 'anomaly'), ('ignored', 'ignored')]:
         path = Path(config['paths']['log_dir']) / (filename + '.jsonl')
         inputs.append(f'[monitor://{path}]\nindex = ai_sysadmin\nsourcetype = ai_sysadmin:{suffix}\ndisabled = 0\ncrcSalt = <SOURCE>\n')
         props.append(f'[ai_sysadmin:{suffix}]\nSHOULD_LINEMERGE = false\nLINE_BREAKER = ([\\r\\n]+)\nTRUNCATE = 0\nKV_MODE = json\nTIME_PREFIX = "timestamp":\\s*"\nTIME_FORMAT = %Y-%m-%dT%H:%M:%S%:z\nMAX_TIMESTAMP_LOOKAHEAD = 32\n')

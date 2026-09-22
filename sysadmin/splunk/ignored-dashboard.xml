@@ -1,0 +1,13 @@
+<dashboard version="1.1">
+  <label>AI Sysadmin - Ignored Software</label>
+  <description>Operator-approved software exceptions. These entries remain inventoried but are omitted from automatic updates.</description>
+  <row>
+    <panel><single><title>Current exceptions</title><search><query>index=ai_sysadmin sourcetype=ai_sysadmin:ignored [ search index=ai_sysadmin sourcetype=ai_sysadmin:ignored earliest=-30d | stats latest(run_id) as run_id by host | fields host run_id ] | stats dc(software) as value</query><earliest>-30d</earliest><latest>now</latest></search></single></panel>
+    <panel><single><title>Ignored updates available</title><search><query>index=ai_sysadmin sourcetype=ai_sysadmin:ignored status=update_available_ignored [ search index=ai_sysadmin sourcetype=ai_sysadmin:ignored earliest=-30d | stats latest(run_id) as run_id by host | fields host run_id ] | stats dc(software) as value</query><earliest>-30d</earliest><latest>now</latest></search></single></panel>
+    <panel><single><title>Configured but not detected</title><search><query>index=ai_sysadmin sourcetype=ai_sysadmin:ignored status=not_detected [ search index=ai_sysadmin sourcetype=ai_sysadmin:ignored earliest=-30d | stats latest(run_id) as run_id by host | fields host run_id ] | stats dc(software) as value</query><earliest>-30d</earliest><latest>now</latest></search></single></panel>
+  </row>
+  <row><panel><table><title>Current accepted exceptions</title><search><query>index=ai_sysadmin sourcetype=ai_sysadmin:ignored [ search index=ai_sysadmin sourcetype=ai_sysadmin:ignored earliest=-30d | stats latest(run_id) as run_id by host | fields host run_id ] | dedup host software | table _time host software status installed_versions{} candidate_versions{} sources{} locations{} reason policy_file policy_sha256 run_id | sort host software</query><earliest>-30d</earliest><latest>now</latest></search></table></panel></row>
+  <row><panel><table><title>Exception history</title><search><query>index=ai_sysadmin sourcetype=ai_sysadmin:ignored | table _time host software status installed_versions{} candidate_versions{} reason policy_sha256 run_id | sort - _time</query><earliest>-30d</earliest><latest>now</latest></search></table></panel></row>
+</dashboard>
+
+

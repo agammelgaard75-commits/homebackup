@@ -6,7 +6,7 @@ import unittest
 from unittest.mock import Mock, patch
 
 import test_lifecycle
-from ai_sysadmin import Controller, upgrade_candidates
+from ai_sysadmin import Controller, read_ignore_file, upgrade_candidates
 
 
 class SoftwareTests(unittest.TestCase):
@@ -88,6 +88,22 @@ class SoftwareTests(unittest.TestCase):
         for old, new in (("1:9.6p1-3ubuntu13.1", "1:9.6p1-3ubuntu13.2"),
                          ("1.2.3", "1.4.0"), ("20250101-1", "20250101-1ubuntu0.1")):
             self.assertFalse(upgrade_candidates(f"Inst example [{old}] ({new} repo [amd64])")[1])
+
+    def test_ignore_file_requires_named_entries_with_reasons(self):
+        path = self.root / "IGNORE.md"
+        path.write_text("# Accepted exceptions\n- Splunk: CPU architecture constraint\n")
+        path.chmod(0o644)
+        self.assertEqual(read_ignore_file(path)["splunk"]["reason"], "CPU architecture constraint")
+        path.write_text("Splunk\n")
+        with self.assertRaises(ValueError):
+            read_ignore_file(path)
+
+    def test_ignored_package_is_omitted_but_removal_is_still_rejected(self):
+        line = "Inst splunk [9.3.14] (10.0.0 repo [amd64])"
+        packages, errors = upgrade_candidates(line, {"splunk"})
+        self.assertEqual(packages, [])
+        self.assertEqual(errors, [])
+        self.assertTrue(upgrade_candidates("Remv splunk [9.3.14]", {"splunk"})[1])
 
     def test_exact_transaction_is_pinned_and_dependency_change_refused(self):
         for second, expected_error in ((self.simulation, False),

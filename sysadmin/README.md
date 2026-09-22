@@ -1,6 +1,6 @@
 # Local AI Sysadmin
 
-This repository implements a conservative weekly maintenance lifecycle for an
+This repository implements a conservative daily maintenance lifecycle for an
 Ubuntu VM:
 
 1. A preparation timer runs the day before maintenance. It inspects the host,
@@ -49,16 +49,24 @@ sudo /opt/ai-sysadmin/bin/ai-sysadmin maintain
 - Audit events for Splunk: `/var/log/ai-sysadmin/audit.jsonl`
 - Health events for Splunk: `/var/log/ai-sysadmin/health.jsonl`
 - Anomaly events for Splunk: `/var/log/ai-sysadmin/anomalies.jsonl`
+- Accepted software exceptions: `/etc/ai-sysadmin/IGNORE.md`
+- Ignored-software events for Splunk: `/var/log/ai-sysadmin/ignored.jsonl`
 
 The Splunk dashboard XML and deployment notes are in `splunk/`.
+
+`IGNORE.md` accepts one strict Markdown bullet per exception: `- software-name:
+reason`. Names are case-insensitive and match APT package names (without an
+architecture suffix), discovered software names, and configured container names.
+Ignored software is inventoried but omitted from automatic updates. Each entry,
+including entries not currently detected, is written to its own Splunk log and
+shown in the Ignored Software dashboard. Changing the file after preparation
+blocks execution so the approved change and executed policy cannot diverge.
 
 ## Readiness and integration configuration
 
 `READY_FOR_PROD` records the verified deployment as of 2026-09-13. A real
 AI-approved maintenance run completed successfully and both installed services
-passed a repeat-run check without changing the closed artifacts. Weekly timers
-are enabled for Saturday preparation and Sunday maintenance at 03:00 UTC plus
-up to ten minutes of jitter. Local Splunk integration is enabled and verified: audit, health and anomaly logs
+passed a repeat-run check without changing the closed artifacts. Daily timers run maintenance at 20:00 Europe/Copenhagen and preparation at 23:00 for the following evening, with automatic daylight saving adjustment and no random delay. Local Splunk integration is enabled and verified: audit, health and anomaly logs
 are searchable in `index=ai_sysadmin`, with separate health and anomaly dashboards.
 See `splunk/README.md` for access and verification.
 

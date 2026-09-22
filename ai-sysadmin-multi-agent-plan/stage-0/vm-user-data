@@ -1,0 +1,16 @@
+#cloud-config
+hostname: stage0-disposable
+manage_etc_hosts: true
+users: []
+ssh_pwauth: false
+disable_root: true
+package_update: false
+package_upgrade: false
+write_files:
+  - path: /etc/stage0-disposable-guest
+    permissions: '0600'
+    content: "Offline migration baseline validation guest.\n"
+runcmd:
+  - [mkdir, -p, /mnt/stage0]
+  - [mount, -o, ro, /dev/sr0, /mnt/stage0]
+  - [python3, -B, /mnt/stage0/guest_validate.py]

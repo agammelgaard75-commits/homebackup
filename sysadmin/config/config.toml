@@ -1,7 +1,5 @@
 [schedule]
-preparation_day = "Saturday"
-maintenance_day = "Sunday"
-maintenance_hour_utc = 3
+frequency = "daily" # Maintenance 20:00, preparation 23:00 Europe/Copenhagen
 
 [policy]
 minimum_free_root_percent = 15
@@ -12,6 +10,7 @@ allow_service_restart = true
 [paths]
 state_dir = "/var/lib/ai-sysadmin"
 log_dir = "/var/log/ai-sysadmin"
+ignore_file = "/etc/ai-sysadmin/IGNORE.md"
 
 [inventory]
 # Read-only discovery in immediate installation directories under these roots.

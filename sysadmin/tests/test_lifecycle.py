@@ -21,6 +21,7 @@ class LifecycleTests(unittest.TestCase):
         config = root / "config.toml"
         self.config_path = config
         config.write_text(f'[paths]\nstate_dir="{root}/state"\nlog_dir="{root}/log"\n'
+                          f'ignore_file="{root}/IGNORE.md"\n'
                           '[policy]\nminimum_free_root_percent=15\nmaximum_failed_units=0\n'
                           'allow_service_restart=true\npackage_update_timeout_seconds=10\n'
                           '[ai]\nrequired=false\n')

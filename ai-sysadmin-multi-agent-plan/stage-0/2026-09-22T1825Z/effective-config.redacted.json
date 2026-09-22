@@ -1,0 +1,48 @@
+{
+  "ai": {
+    "api_key_file": "/etc/ai-sysadmin/litellm.key",
+    "base_url": "http://127.0.0.1:4000/v1",
+    "command": [
+      "/usr/bin/python3",
+      "/opt/ai-sysadmin/bin/litellm-planner.py"
+    ],
+    "model": "qwen3.5:9b",
+    "required": true,
+    "timeout_seconds": 660
+  },
+  "containers": {
+    "enabled": true,
+    "services": [
+      {
+        "compose_files": [
+          "/home/bot/n8n/docker-compose.yml"
+        ],
+        "health_timeout_seconds": 180,
+        "health_url": "http://127.0.0.1:5678/healthz/readiness",
+        "hold": false,
+        "image": "docker.n8n.io/n8nio/n8n:latest",
+        "maximum_backup_bytes": 1073741824,
+        "name": "n8n",
+        "project": "n8n",
+        "service": "n8n"
+      }
+    ]
+  },
+  "paths": {
+    "log_dir": "/var/log/ai-sysadmin",
+    "state_dir": "/var/lib/ai-sysadmin"
+  },
+  "policy": {
+    "allow_service_restart": true,
+    "maximum_failed_units": 0,
+    "minimum_free_root_percent": 15,
+    "package_update_timeout_seconds": 1800
+  },
+  "schedule": {
+    "frequency": "daily"
+  },
+  "splunk": {
+    "home": "/opt/splunk",
+    "install_app": true
+  }
+}

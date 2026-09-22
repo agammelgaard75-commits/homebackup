@@ -1,10 +1,11 @@
 [Unit]
-Description=Prepare the weekly AI Sysadmin change one day before maintenance
+Description=Prepare the daily AI Sysadmin change one day before maintenance
 
 [Timer]
-OnCalendar=Sat *-*-* 03:00:00 UTC
+OnCalendar=*-*-* 23:00:00 Europe/Copenhagen
 Persistent=true
-RandomizedDelaySec=10m
+RandomizedDelaySec=0
+AccuracySec=1s
 Unit=ai-sysadmin-prepare.service
 
 [Install]

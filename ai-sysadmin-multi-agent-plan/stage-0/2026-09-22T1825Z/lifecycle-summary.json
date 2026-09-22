@@ -1,0 +1,86 @@
+{
+  "current_change": "CHG-20260921",
+  "records": [
+    {
+      "change_id": "CHG-20260913-R1",
+      "closure_count": 1,
+      "plan_exists": true,
+      "record_sha256": "40117bca469d99337cdb83ee37e7c50195e8d324ec2e189fe8c804642a8f97ce",
+      "status": "FAILED"
+    },
+    {
+      "change_id": "CHG-20260913-R2",
+      "closure_count": 1,
+      "plan_exists": true,
+      "record_sha256": "2fafb859a5b5f03ea8ec476cb8667e83e1de966678b4746a82ef67f6d9b566ed",
+      "status": "CLOSED"
+    },
+    {
+      "change_id": "CHG-20260913",
+      "closure_count": 1,
+      "plan_exists": false,
+      "record_sha256": "677723a72ca925665019658a13ccd3064069d6c7921a0fffb3bb0451a8de6a47",
+      "status": "FAILED"
+    },
+    {
+      "change_id": "CHG-20260914",
+      "closure_count": 1,
+      "plan_exists": true,
+      "record_sha256": "cdcc6ab65bc4802e3f7563b054d142c6229684e89ba4831b27990c3bc828ff30",
+      "status": "FAILED"
+    },
+    {
+      "change_id": "CHG-20260915",
+      "closure_count": 1,
+      "plan_exists": true,
+      "record_sha256": "3da762f7537a39d6428dd738338f5beba650f1e4cc75759834465c169eed776b",
+      "status": "FAILED"
+    },
+    {
+      "change_id": "CHG-20260916",
+      "closure_count": 1,
+      "plan_exists": true,
+      "record_sha256": "7c42e158f2d444f7b94be29d9ff4bfc526e04c9959f543603c8412b14fe46124",
+      "status": "FAILED"
+    },
+    {
+      "change_id": "CHG-20260917",
+      "closure_count": 1,
+      "plan_exists": true,
+      "record_sha256": "47daff52afd753967a15f70769f6660f197d7993cce24ff43f7fa8e27db8cc4d",
+      "status": "FAILED"
+    },
+    {
+      "change_id": "CHG-20260918",
+      "closure_count": 1,
+      "plan_exists": true,
+      "record_sha256": "1b234e980739d06f8bd90daba4d047fdba84e2ffc45517360b3a8667b76999a6",
+      "status": "FAILED"
+    },
+    {
+      "change_id": "CHG-20260919",
+      "closure_count": 1,
+      "plan_exists": true,
+      "record_sha256": "8cccea84b998ab6f538d0c1bbda41a56349305b32cc59f2d75ef147b7859d8a7",
+      "status": "FAILED"
+    },
+    {
+      "change_id": "CHG-20260920",
+      "closure_count": 1,
+      "plan_exists": true,
+      "record_sha256": "8df919454f052ab20ae15e9b53b3dafff364abb2ea9b8bb46769c0ec63277d52",
+      "status": "FAILED"
+    },
+    {
+      "change_id": "CHG-20260921",
+      "closure_count": 1,
+      "plan_exists": true,
+      "record_sha256": "84fd03fcab35b180ae778e05210c0b64521425fa7c2b321c6532839f8b849f76",
+      "status": "FAILED"
+    }
+  ],
+  "status_counts": {
+    "CLOSED": 1,
+    "FAILED": 10
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "address": "fe80::f64d:30ff:fe60:69ad",
+  "scope": "ens18",
+  "port": 8006,
+  "test": "TLS connection and HEAD / only; certificate verification disabled for diagnostic link-local connection",
+  "response": [
+    "HTTP/1.0 501 method 'HEAD' not available",
+    "Server: pve-api-daemon/3.0"
+  ]
+}

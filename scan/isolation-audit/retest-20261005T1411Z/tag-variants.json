@@ -1,0 +1,119 @@
+[
+  {
+    "sent_tags": [],
+    "target": "192.168.2.1",
+    "requests": 2,
+    "replies": [
+      {
+        "sender": "192.168.2.1",
+        "mac": "6e:63:f8:15:ea:a0",
+        "tags": []
+      }
+    ]
+  },
+  {
+    "sent_tags": [],
+    "target": "192.168.3.189",
+    "requests": 2,
+    "replies": []
+  },
+  {
+    "sent_tags": [
+      [
+        "0x8100",
+        0
+      ]
+    ],
+    "target": "192.168.2.1",
+    "requests": 2,
+    "replies": [
+      {
+        "sender": "192.168.2.1",
+        "mac": "6e:63:f8:15:ea:a0",
+        "tags": []
+      }
+    ]
+  },
+  {
+    "sent_tags": [
+      [
+        "0x8100",
+        1
+      ]
+    ],
+    "target": "192.168.1.1",
+    "requests": 2,
+    "replies": []
+  },
+  {
+    "sent_tags": [
+      [
+        "0x8100",
+        3
+      ]
+    ],
+    "target": "192.168.3.189",
+    "requests": 2,
+    "replies": []
+  },
+  {
+    "sent_tags": [
+      [
+        "0x8100",
+        2
+      ],
+      [
+        "0x8100",
+        3
+      ]
+    ],
+    "target": "192.168.3.1",
+    "requests": 2,
+    "replies": []
+  },
+  {
+    "sent_tags": [
+      [
+        "0x8100",
+        0
+      ],
+      [
+        "0x8100",
+        3
+      ]
+    ],
+    "target": "192.168.3.1",
+    "requests": 2,
+    "replies": []
+  },
+  {
+    "sent_tags": [
+      [
+        "0x88a8",
+        2
+      ],
+      [
+        "0x8100",
+        3
+      ]
+    ],
+    "target": "192.168.3.1",
+    "requests": 2,
+    "replies": []
+  },
+  {
+    "sent_tags": [
+      [
+        "0x8100",
+        2
+      ],
+      [
+        "0x8100",
+        1
+      ]
+    ],
+    "target": "192.168.1.1",
+    "requests": 2,
+    "replies": []
+  }
+]

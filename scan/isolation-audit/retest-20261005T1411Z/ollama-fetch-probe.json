@@ -1,0 +1,141 @@
+{
+  "marker": "isolation-audit-3f7a25bd78",
+  "events": [
+    {
+      "time": 1791209736.5988917,
+      "peer": "192.168.3.189",
+      "method": "GET",
+      "path": "/v2/audit/isolation-audit-3f7a25bd78/manifests/latest",
+      "user_agent": "ollama/0.35.1 (amd64 windows) Go/go1.26.0"
+    },
+    {
+      "time": 1791209758.9185035,
+      "peer": "192.168.3.189",
+      "method": "GET",
+      "path": "/v2/audit/isolation-audit-3f7a25bd78-redirect-0/manifests/latest",
+      "user_agent": "ollama/0.35.1 (amd64 windows) Go/go1.26.0"
+    },
+    {
+      "time": 1791209760.9556475,
+      "peer": "192.168.3.189",
+      "method": "GET",
+      "path": "/v2/audit/isolation-audit-3f7a25bd78-redirect-1/manifests/latest",
+      "user_agent": "ollama/0.35.1 (amd64 windows) Go/go1.26.0"
+    },
+    {
+      "time": 1791209763.022315,
+      "peer": "192.168.3.189",
+      "method": "GET",
+      "path": "/v2/audit/isolation-audit-3f7a25bd78-redirect-2/manifests/latest",
+      "user_agent": "ollama/0.35.1 (amd64 windows) Go/go1.26.0"
+    }
+  ],
+  "results": [
+    {
+      "label": "controlled-callback",
+      "model": "192.168.2.100:18089/audit/isolation-audit-3f7a25bd78:latest",
+      "insecure": true,
+      "stream": false,
+      "status": 500,
+      "body": "{\"error\":\"pull model manifest: 418: isolation-audit-3f7a25bd78\"}",
+      "elapsed": 0.029
+    },
+    {
+      "label": "direct-registry-probe",
+      "model": "192.168.1.1:80/audit/isolation-audit-3f7a25bd78:latest",
+      "insecure": true,
+      "stream": false,
+      "status": 500,
+      "body": "{\"error\":\"pull model manifest: Get \\\"http://192.168.1.1:80/v2/audit/isolation-audit-3f7a25bd78/manifests/latest\\\": dial tcp 192.168.1.1:80: connectex: No connection could be made because the target machine actively refused it.\"}",
+      "elapsed": 2.064
+    },
+    {
+      "label": "direct-registry-probe",
+      "model": "192.168.1.50:80/audit/isolation-audit-3f7a25bd78:latest",
+      "insecure": true,
+      "stream": false,
+      "error": "timed out",
+      "elapsed": 6.008
+    },
+    {
+      "label": "direct-registry-probe",
+      "model": "192.168.1.201:80/audit/isolation-audit-3f7a25bd78:latest",
+      "insecure": true,
+      "stream": false,
+      "status": 500,
+      "body": "{\"error\":\"pull model manifest: Get \\\"http://192.168.1.201:80/v2/audit/isolation-audit-3f7a25bd78/manifests/latest\\\": dial tcp 192.168.1.201:80: connectex: No connection could be made because the target machine actively refused it.\"}",
+      "elapsed": 2.069
+    },
+    {
+      "label": "direct-registry-probe",
+      "model": "192.168.2.1:80/audit/isolation-audit-3f7a25bd78:latest",
+      "insecure": true,
+      "stream": false,
+      "status": 500,
+      "body": "{\"error\":\"pull model manifest: Get \\\"http://192.168.2.1:80/v2/audit/isolation-audit-3f7a25bd78/manifests/latest\\\": dial tcp 192.168.2.1:80: connectex: No connection could be made because the target machine actively refused it.\"}",
+      "elapsed": 2.026
+    },
+    {
+      "label": "direct-registry-probe",
+      "model": "192.168.3.1:80/audit/isolation-audit-3f7a25bd78:latest",
+      "insecure": true,
+      "stream": false,
+      "status": 500,
+      "body": "{\"error\":\"pull model manifest: Get \\\"http://192.168.3.1:80/v2/audit/isolation-audit-3f7a25bd78/manifests/latest\\\": dial tcp 192.168.3.1:80: connectex: No connection could be made because the target machine actively refused it.\"}",
+      "elapsed": 2.049
+    },
+    {
+      "label": "direct-registry-probe",
+      "model": "192.168.3.189:80/audit/isolation-audit-3f7a25bd78:latest",
+      "insecure": true,
+      "stream": false,
+      "status": 500,
+      "body": "{\"error\":\"pull model manifest: Get \\\"http://192.168.3.189:80/v2/audit/isolation-audit-3f7a25bd78/manifests/latest\\\": dial tcp 192.168.3.189:80: connectex: No connection could be made because the target machine actively refused it.\"}",
+      "elapsed": 2.048
+    },
+    {
+      "label": "direct-registry-probe",
+      "model": "127.0.0.1:11434/audit/isolation-audit-3f7a25bd78:latest",
+      "insecure": true,
+      "stream": false,
+      "status": 500,
+      "body": "{\"error\":\"pull model manifest: file does not exist\"}",
+      "elapsed": 0.016
+    },
+    {
+      "label": "direct-registry-probe",
+      "model": "192.168.1.50:8006/audit/isolation-audit-3f7a25bd78:latest",
+      "insecure": true,
+      "stream": false,
+      "error": "timed out",
+      "elapsed": 6.008
+    },
+    {
+      "label": "redirect-to-http://192.168.1.1/isolation-audit-3f7a25bd78",
+      "model": "192.168.2.100:18089/audit/isolation-audit-3f7a25bd78-redirect-0:latest",
+      "insecure": true,
+      "stream": false,
+      "status": 500,
+      "body": "{\"error\":\"pull model manifest: Get \\\"http://192.168.1.1/isolation-audit-3f7a25bd78\\\": dial tcp 192.168.1.1:80: connectex: No connection could be made because the target machine actively refused it.\"}",
+      "elapsed": 2.036
+    },
+    {
+      "label": "redirect-to-http://192.168.3.1/isolation-audit-3f7a25bd78",
+      "model": "192.168.2.100:18089/audit/isolation-audit-3f7a25bd78-redirect-1:latest",
+      "insecure": true,
+      "stream": false,
+      "status": 500,
+      "body": "{\"error\":\"pull model manifest: Get \\\"http://192.168.3.1/isolation-audit-3f7a25bd78\\\": dial tcp 192.168.3.1:80: connectex: No connection could be made because the target machine actively refused it.\"}",
+      "elapsed": 2.066
+    },
+    {
+      "label": "redirect-to-https://192.168.1.50:8006/isolation-audit-3f7a25bd78",
+      "model": "192.168.2.100:18089/audit/isolation-audit-3f7a25bd78-redirect-2:latest",
+      "insecure": true,
+      "stream": false,
+      "error": "timed out",
+      "elapsed": 6.006
+    }
+  ],
+  "listener_closed": true
+}

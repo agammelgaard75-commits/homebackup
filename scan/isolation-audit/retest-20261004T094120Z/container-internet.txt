@@ -1,0 +1,15 @@
+['sudo', '-n', 'nsenter', '-t', '1219', '-n', 'curl', '--noproxy', '*', '-4', '-sS', '-I', '--connect-timeout', '4', '--max-time', '8', '--resolve', 'example.com:443:172.66.147.243', 'https://example.com']
+HTTP/2 200 
+date: Sun, 04 Oct 2026 09:41:32 GMT
+content-type: text/html; charset=utf-8
+server: cloudflare
+last-modified: Sun, 04 Oct 2026 07:03:47 GMT
+allow: GET, HEAD
+accept-ranges: bytes
+age: 5381
+cf-cache-status: HIT
+cf-ray: a4533b3fcdc61a87-CPH
+alt-svc: h3=":443"; ma=86400
+
+
+exit=0

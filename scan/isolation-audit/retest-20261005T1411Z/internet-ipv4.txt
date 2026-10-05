@@ -1,0 +1,12 @@
+HTTP/2 200 
+date: Mon, 05 Oct 2026 14:13:20 GMT
+content-type: text/html; charset=utf-8
+server: cloudflare
+last-modified: Fri, 02 Oct 2026 16:11:02 GMT
+allow: GET, HEAD
+accept-ranges: bytes
+age: 7285
+cf-cache-status: HIT
+cf-ray: a45d06c069c7c0b7-CPH
+alt-svc: h3=":443"; ma=86400
+

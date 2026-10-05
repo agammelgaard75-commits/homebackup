@@ -1,0 +1,7 @@
+# Nmap 7.94SVN scan initiated Mon Oct  5 14:17:35 2026 as: nmap -n -sn -PR --max-retries 1 --max-rate 40 -oA isolation-audit/retest-20261005T1411Z/arp-discovery 192.168.2.0/24
+Nmap scan report for 192.168.2.1
+Host is up (0.00045s latency).
+MAC Address: 6E:63:F8:15:EA:A0 (Unknown)
+Nmap scan report for 192.168.2.100
+Host is up.
+# Nmap done at Mon Oct  5 14:17:49 2026 -- 256 IP addresses (2 hosts up) scanned in 13.70 seconds

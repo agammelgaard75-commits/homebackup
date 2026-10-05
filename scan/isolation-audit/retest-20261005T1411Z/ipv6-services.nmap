@@ -1,0 +1,212 @@
+# Nmap 7.94SVN scan initiated Mon Oct  5 14:12:22 2026 as: nmap -6 -n -Pn -sT -p 22,23,53,80,443,445,2375,3000,4000,5678,8000,8006,8080,8443,9090,11434 --reason --max-retries 1 --max-rate 80 -iL isolation-audit/retest-20261005T1411Z/targets-ipv6.txt -oA isolation-audit/retest-20261005T1411Z/ipv6-services
+Nmap scan report for fe80::4e3:b0fa:4799:dcf8
+Host is up, received user-set.
+
+PORT      STATE    SERVICE        REASON
+22/tcp    filtered ssh            no-response
+23/tcp    filtered telnet         no-response
+53/tcp    filtered domain         no-response
+80/tcp    filtered http           no-response
+443/tcp   filtered https          no-response
+445/tcp   filtered microsoft-ds   no-response
+2375/tcp  filtered docker         no-response
+3000/tcp  filtered ppp            no-response
+4000/tcp  filtered remoteanything no-response
+5678/tcp  filtered rrac           no-response
+8000/tcp  filtered http-alt       no-response
+8006/tcp  filtered wpl-analytics  no-response
+8080/tcp  filtered http-proxy     no-response
+8443/tcp  filtered https-alt      no-response
+9090/tcp  filtered zeus-admin     no-response
+11434/tcp filtered unknown        no-response
+
+Nmap scan report for fe80::6c63:f8ff:fe15:eaa0
+Host is up, received user-set (0.00059s latency).
+
+PORT      STATE  SERVICE        REASON
+22/tcp    closed ssh            conn-refused
+23/tcp    closed telnet         conn-refused
+53/tcp    open   domain         syn-ack
+80/tcp    closed http           conn-refused
+443/tcp   closed https          conn-refused
+445/tcp   closed microsoft-ds   conn-refused
+2375/tcp  closed docker         conn-refused
+3000/tcp  closed ppp            conn-refused
+4000/tcp  closed remoteanything conn-refused
+5678/tcp  closed rrac           conn-refused
+8000/tcp  closed http-alt       conn-refused
+8006/tcp  closed wpl-analytics  conn-refused
+8080/tcp  closed http-proxy     conn-refused
+8443/tcp  closed https-alt      conn-refused
+9090/tcp  closed zeus-admin     conn-refused
+11434/tcp closed unknown        conn-refused
+
+Nmap scan report for fe80::aef2:3cff:feab:af25
+Host is up, received user-set.
+
+PORT      STATE    SERVICE        REASON
+22/tcp    filtered ssh            no-response
+23/tcp    filtered telnet         no-response
+53/tcp    filtered domain         no-response
+80/tcp    filtered http           no-response
+443/tcp   filtered https          no-response
+445/tcp   filtered microsoft-ds   no-response
+2375/tcp  filtered docker         no-response
+3000/tcp  filtered ppp            no-response
+4000/tcp  filtered remoteanything no-response
+5678/tcp  filtered rrac           no-response
+8000/tcp  filtered http-alt       no-response
+8006/tcp  filtered wpl-analytics  no-response
+8080/tcp  filtered http-proxy     no-response
+8443/tcp  filtered https-alt      no-response
+9090/tcp  filtered zeus-admin     no-response
+11434/tcp filtered unknown        no-response
+
+Nmap scan report for fe80::be24:11ff:fe4b:3ef5
+Host is up, received user-set.
+
+PORT      STATE    SERVICE        REASON
+22/tcp    filtered ssh            no-response
+23/tcp    filtered telnet         no-response
+53/tcp    filtered domain         no-response
+80/tcp    filtered http           no-response
+443/tcp   filtered https          no-response
+445/tcp   filtered microsoft-ds   no-response
+2375/tcp  filtered docker         no-response
+3000/tcp  filtered ppp            no-response
+4000/tcp  filtered remoteanything no-response
+5678/tcp  filtered rrac           no-response
+8000/tcp  filtered http-alt       no-response
+8006/tcp  filtered wpl-analytics  no-response
+8080/tcp  filtered http-proxy     no-response
+8443/tcp  filtered https-alt      no-response
+9090/tcp  filtered zeus-admin     no-response
+11434/tcp filtered unknown        no-response
+
+Nmap scan report for fe80::be24:11ff:febe:aa22
+Host is up, received user-set.
+
+PORT      STATE    SERVICE        REASON
+22/tcp    filtered ssh            no-response
+23/tcp    filtered telnet         no-response
+53/tcp    filtered domain         no-response
+80/tcp    filtered http           no-response
+443/tcp   filtered https          no-response
+445/tcp   filtered microsoft-ds   no-response
+2375/tcp  filtered docker         no-response
+3000/tcp  filtered ppp            no-response
+4000/tcp  filtered remoteanything no-response
+5678/tcp  filtered rrac           no-response
+8000/tcp  filtered http-alt       no-response
+8006/tcp  filtered wpl-analytics  no-response
+8080/tcp  filtered http-proxy     no-response
+8443/tcp  filtered https-alt      no-response
+9090/tcp  filtered zeus-admin     no-response
+11434/tcp filtered unknown        no-response
+
+Nmap scan report for fe80::cf:d94:bb18:6099
+Host is up, received user-set.
+
+PORT      STATE    SERVICE        REASON
+22/tcp    filtered ssh            no-response
+23/tcp    filtered telnet         no-response
+53/tcp    filtered domain         no-response
+80/tcp    filtered http           no-response
+443/tcp   filtered https          no-response
+445/tcp   filtered microsoft-ds   no-response
+2375/tcp  filtered docker         no-response
+3000/tcp  filtered ppp            no-response
+4000/tcp  filtered remoteanything no-response
+5678/tcp  filtered rrac           no-response
+8000/tcp  filtered http-alt       no-response
+8006/tcp  filtered wpl-analytics  no-response
+8080/tcp  filtered http-proxy     no-response
+8443/tcp  filtered https-alt      no-response
+9090/tcp  filtered zeus-admin     no-response
+11434/tcp filtered unknown        no-response
+
+Nmap scan report for fe80::dab3:70ff:fe9a:a21f
+Host is up, received user-set.
+
+PORT      STATE    SERVICE        REASON
+22/tcp    filtered ssh            no-response
+23/tcp    filtered telnet         no-response
+53/tcp    filtered domain         no-response
+80/tcp    filtered http           no-response
+443/tcp   filtered https          no-response
+445/tcp   filtered microsoft-ds   no-response
+2375/tcp  filtered docker         no-response
+3000/tcp  filtered ppp            no-response
+4000/tcp  filtered remoteanything no-response
+5678/tcp  filtered rrac           no-response
+8000/tcp  filtered http-alt       no-response
+8006/tcp  filtered wpl-analytics  no-response
+8080/tcp  filtered http-proxy     no-response
+8443/tcp  filtered https-alt      no-response
+9090/tcp  filtered zeus-admin     no-response
+11434/tcp filtered unknown        no-response
+
+Nmap scan report for fe80::dab3:70ff:feb6:6b87
+Host is up, received user-set.
+
+PORT      STATE    SERVICE        REASON
+22/tcp    filtered ssh            no-response
+23/tcp    filtered telnet         no-response
+53/tcp    filtered domain         no-response
+80/tcp    filtered http           no-response
+443/tcp   filtered https          no-response
+445/tcp   filtered microsoft-ds   no-response
+2375/tcp  filtered docker         no-response
+3000/tcp  filtered ppp            no-response
+4000/tcp  filtered remoteanything no-response
+5678/tcp  filtered rrac           no-response
+8000/tcp  filtered http-alt       no-response
+8006/tcp  filtered wpl-analytics  no-response
+8080/tcp  filtered http-proxy     no-response
+8443/tcp  filtered https-alt      no-response
+9090/tcp  filtered zeus-admin     no-response
+11434/tcp filtered unknown        no-response
+
+Nmap scan report for fe80::e4f5:b0ff:fe7a:e8fe
+Host is up, received user-set.
+
+PORT      STATE    SERVICE        REASON
+22/tcp    filtered ssh            no-response
+23/tcp    filtered telnet         no-response
+53/tcp    filtered domain         no-response
+80/tcp    filtered http           no-response
+443/tcp   filtered https          no-response
+445/tcp   filtered microsoft-ds   no-response
+2375/tcp  filtered docker         no-response
+3000/tcp  filtered ppp            no-response
+4000/tcp  filtered remoteanything no-response
+5678/tcp  filtered rrac           no-response
+8000/tcp  filtered http-alt       no-response
+8006/tcp  filtered wpl-analytics  no-response
+8080/tcp  filtered http-proxy     no-response
+8443/tcp  filtered https-alt      no-response
+9090/tcp  filtered zeus-admin     no-response
+11434/tcp filtered unknown        no-response
+
+Nmap scan report for fe80::f64d:30ff:fe60:69ad
+Host is up, received user-set.
+
+PORT      STATE    SERVICE        REASON
+22/tcp    filtered ssh            no-response
+23/tcp    filtered telnet         no-response
+53/tcp    filtered domain         no-response
+80/tcp    filtered http           no-response
+443/tcp   filtered https          no-response
+445/tcp   filtered microsoft-ds   no-response
+2375/tcp  filtered docker         no-response
+3000/tcp  filtered ppp            no-response
+4000/tcp  filtered remoteanything no-response
+5678/tcp  filtered rrac           no-response
+8000/tcp  filtered http-alt       no-response
+8006/tcp  filtered wpl-analytics  no-response
+8080/tcp  filtered http-proxy     no-response
+8443/tcp  filtered https-alt      no-response
+9090/tcp  filtered zeus-admin     no-response
+11434/tcp filtered unknown        no-response
+
+# Nmap done at Mon Oct  5 14:12:26 2026 -- 10 IP addresses (10 hosts up) scanned in 3.98 seconds

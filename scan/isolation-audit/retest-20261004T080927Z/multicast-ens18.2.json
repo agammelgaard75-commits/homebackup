@@ -1,0 +1,8 @@
+{
+  "iface": "ens18.2",
+  "requests": 2,
+  "reply_addresses": [
+    "fe80::be24:11ff:feac:52ab"
+  ],
+  "other_addresses": []
+}

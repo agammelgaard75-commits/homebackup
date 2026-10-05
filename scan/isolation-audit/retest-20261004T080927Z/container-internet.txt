@@ -1,0 +1,4 @@
+['sudo', '-n', 'nsenter', '-t', '1084', '-n', 'curl', '--noproxy', '*', '-4', '-sS', '-I', '--connect-timeout', '4', '--max-time', '8', 'https://example.com']
+curl: (6) Could not resolve host: example.com
+
+exit=6

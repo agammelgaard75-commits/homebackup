@@ -1,0 +1,135 @@
+[
+  {
+    "vlans": "[]",
+    "ethertype": "0x800",
+    "source": "192.168.3.189",
+    "destination": "192.168.2.100",
+    "count": 263
+  },
+  {
+    "vlans": "[]",
+    "ethertype": "0x800",
+    "source": "172.64.155.209",
+    "destination": "192.168.2.100",
+    "count": 211
+  },
+  {
+    "vlans": "[]",
+    "ethertype": "0x27",
+    "source": "",
+    "destination": "",
+    "count": 6
+  },
+  {
+    "vlans": "[]",
+    "ethertype": "0x806",
+    "source": "192.168.1.43",
+    "destination": "192.168.1.50",
+    "count": 12
+  },
+  {
+    "vlans": "[]",
+    "ethertype": "0x800",
+    "source": "192.168.1.170",
+    "destination": "192.168.1.255",
+    "count": 3
+  },
+  {
+    "vlans": "[]",
+    "ethertype": "0x86dd",
+    "source": "fe80::6c63:f8ff:fe15:eaa0",
+    "destination": "ff02::1:ffbe:aa22",
+    "count": 1
+  },
+  {
+    "vlans": "[]",
+    "ethertype": "0x86dd",
+    "source": "fe80::6c63:f8ff:fe15:eaa0",
+    "destination": "ff02::1:ff9a:a21f",
+    "count": 1
+  },
+  {
+    "vlans": "[]",
+    "ethertype": "0x806",
+    "source": "192.168.1.201",
+    "destination": "192.168.1.50",
+    "count": 3
+  },
+  {
+    "vlans": "[]",
+    "ethertype": "0x800",
+    "source": "192.168.2.1",
+    "destination": "224.0.0.251",
+    "count": 12
+  },
+  {
+    "vlans": "[]",
+    "ethertype": "0x800",
+    "source": "192.168.1.1",
+    "destination": "224.0.0.251",
+    "count": 10
+  },
+  {
+    "vlans": "[]",
+    "ethertype": "0x86dd",
+    "source": "fe80::6c63:f8ff:fe15:eaa0",
+    "destination": "ff02::1:ff4b:3ef5",
+    "count": 1
+  },
+  {
+    "vlans": "[]",
+    "ethertype": "0x806",
+    "source": "192.168.1.1",
+    "destination": "192.168.1.20",
+    "count": 2
+  },
+  {
+    "vlans": "[]",
+    "ethertype": "0x806",
+    "source": "192.168.1.1",
+    "destination": "192.168.1.201",
+    "count": 2
+  },
+  {
+    "vlans": "[]",
+    "ethertype": "0x806",
+    "source": "192.168.1.1",
+    "destination": "192.168.1.43",
+    "count": 2
+  },
+  {
+    "vlans": "[]",
+    "ethertype": "0x800",
+    "source": "192.168.1.159",
+    "destination": "224.0.0.251",
+    "count": 2
+  },
+  {
+    "vlans": "[]",
+    "ethertype": "0x86dd",
+    "source": "fe80::183c:2627:1003:80f0",
+    "destination": "ff02::fb",
+    "count": 2
+  },
+  {
+    "vlans": "[]",
+    "ethertype": "0x800",
+    "source": "192.168.3.1",
+    "destination": "224.0.0.251",
+    "count": 2
+  },
+  {
+    "vlans": "[]",
+    "ethertype": "0x86dd",
+    "source": "fe80::6c63:f8ff:fe15:eaa0",
+    "destination": "ff02::fb",
+    "count": 2
+  },
+  {
+    "vlans": "[]",
+    "ethertype": "0x86dd",
+    "source": "fd8b:7c34:a921:20::1",
+    "destination": "ff02::fb",
+    "count": 2
+  }
+]

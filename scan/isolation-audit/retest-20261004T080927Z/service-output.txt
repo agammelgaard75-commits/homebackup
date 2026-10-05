@@ -1,0 +1,12 @@
+$ ['python3', '/home/bot/scan/isolation-audit/retest-20261004T080927Z/service-proof.py']
+{"address": "fe80::be24:11ff:fe4b:3ef5", "scope": "ens18", "port": 22, "protocol": "ssh", "error": "timed out"}
+{"address": "fe80::be24:11ff:febe:aa22", "scope": "ens18", "port": 22, "protocol": "ssh", "error": "timed out"}
+{"address": "fe80::f64d:30ff:fe60:69ad", "scope": "ens18", "port": 22, "protocol": "ssh", "error": "timed out"}
+{"address": "fe80::aef2:3cff:feab:af25", "scope": "ens18", "port": 80, "protocol": "http", "error": "timed out"}
+{"address": "fe80::be24:11ff:fe4b:3ef5", "scope": "ens18", "port": 8080, "protocol": "http", "error": "timed out"}
+{"address": "192.168.2.1", "scope": null, "port": 53, "protocol": "udp DNS", "query": "example.com A", "error": "timed out"}
+{"address": "fd8b:7c34:a921:20::1", "scope": "ens18.2", "port": 53, "protocol": "udp DNS", "query": "example.com A", "error": "[Errno 101] Network is unreachable"}
+{"address": "fe80::6c63:f8ff:fe15:eaa0", "scope": "ens18.2", "port": 53, "protocol": "udp DNS", "query": "example.com A", "error": "timed out"}
+{"address": "fe80::6c63:f8ff:fe15:eaa0", "scope": "ens18", "port": 53, "protocol": "udp DNS", "query": "example.com A", "reply_from": "fe80::6c63:f8ff:fe15:eaa0", "transaction_matches": true, "rcode": 0, "answer_count": 2, "recursion_available": true}
+
+exit=0

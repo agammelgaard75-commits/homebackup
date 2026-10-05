@@ -1,0 +1,25 @@
+[
+  {
+    "interface": "ens18",
+    "echo_reply_peers": [
+      "fe80::4e3:b0fa:4799:dcf8",
+      "fe80::6c63:f8ff:fe15:eaa0",
+      "fe80::aef2:3cff:feab:af25",
+      "fe80::be24:11ff:fe4b:3ef5",
+      "fe80::be24:11ff:feac:52ab",
+      "fe80::be24:11ff:febe:aa22",
+      "fe80::cf:d94:bb18:6099",
+      "fe80::dab3:70ff:fe9a:a21f",
+      "fe80::dab3:70ff:feb6:6b87",
+      "fe80::e4f5:b0ff:fe7a:e8fe",
+      "fe80::f64d:30ff:fe60:69ad"
+    ]
+  },
+  {
+    "interface": "ens18.2",
+    "echo_reply_peers": [
+      "fe80::6c63:f8ff:fe15:eaa0",
+      "fe80::be24:11ff:feac:52ab"
+    ]
+  }
+]

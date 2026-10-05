@@ -1,0 +1,10 @@
+{
+  "requests": 2,
+  "reply_addresses": [
+    "fe80::be24:11ff:feac:52ab",
+    "fe80::6c63:f8ff:fe15:eaa0"
+  ],
+  "other_addresses": [
+    "fe80::6c63:f8ff:fe15:eaa0"
+  ]
+}

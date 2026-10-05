@@ -1,0 +1,78 @@
+# Nmap 7.94SVN scan initiated Mon Oct  5 14:15:41 2026 as: nmap -n -Pn -sU -p 53,67,69,123,137,161,500,1900,4500,5353 --reason --max-retries 1 --max-rate 30 --host-timeout 90s -oA isolation-audit/retest-20261005T1411Z/udp-known 192.168.1.1 192.168.1.50 192.168.2.1 192.168.3.1 192.168.3.189
+Nmap scan report for 192.168.1.1
+Host is up, received user-set.
+
+PORT     STATE         SERVICE    REASON
+53/udp   open|filtered domain     no-response
+67/udp   open|filtered dhcps      no-response
+69/udp   open|filtered tftp       no-response
+123/udp  open|filtered ntp        no-response
+137/udp  open|filtered netbios-ns no-response
+161/udp  open|filtered snmp       no-response
+500/udp  open|filtered isakmp     no-response
+1900/udp open|filtered upnp       no-response
+4500/udp open|filtered nat-t-ike  no-response
+5353/udp open|filtered zeroconf   no-response
+
+Nmap scan report for 192.168.1.50
+Host is up, received user-set.
+
+PORT     STATE         SERVICE    REASON
+53/udp   open|filtered domain     no-response
+67/udp   open|filtered dhcps      no-response
+69/udp   open|filtered tftp       no-response
+123/udp  open|filtered ntp        no-response
+137/udp  open|filtered netbios-ns no-response
+161/udp  open|filtered snmp       no-response
+500/udp  open|filtered isakmp     no-response
+1900/udp open|filtered upnp       no-response
+4500/udp open|filtered nat-t-ike  no-response
+5353/udp open|filtered zeroconf   no-response
+
+Nmap scan report for 192.168.3.1
+Host is up, received user-set.
+
+PORT     STATE         SERVICE    REASON
+53/udp   open|filtered domain     no-response
+67/udp   open|filtered dhcps      no-response
+69/udp   open|filtered tftp       no-response
+123/udp  open|filtered ntp        no-response
+137/udp  open|filtered netbios-ns no-response
+161/udp  open|filtered snmp       no-response
+500/udp  open|filtered isakmp     no-response
+1900/udp open|filtered upnp       no-response
+4500/udp open|filtered nat-t-ike  no-response
+5353/udp open|filtered zeroconf   no-response
+
+Nmap scan report for 192.168.3.189
+Host is up, received user-set.
+
+PORT     STATE         SERVICE    REASON
+53/udp   open|filtered domain     no-response
+67/udp   open|filtered dhcps      no-response
+69/udp   open|filtered tftp       no-response
+123/udp  open|filtered ntp        no-response
+137/udp  open|filtered netbios-ns no-response
+161/udp  open|filtered snmp       no-response
+500/udp  open|filtered isakmp     no-response
+1900/udp open|filtered upnp       no-response
+4500/udp open|filtered nat-t-ike  no-response
+5353/udp open|filtered zeroconf   no-response
+
+Nmap scan report for 192.168.2.1
+Host is up, received arp-response (0.00035s latency).
+
+PORT     STATE         SERVICE    REASON
+53/udp   open|filtered domain     no-response
+67/udp   open|filtered dhcps      no-response
+69/udp   open|filtered tftp       no-response
+123/udp  open|filtered ntp        no-response
+137/udp  open|filtered netbios-ns no-response
+161/udp  open|filtered snmp       no-response
+500/udp  open|filtered isakmp     no-response
+1900/udp open|filtered upnp       no-response
+4500/udp open|filtered nat-t-ike  no-response
+5353/udp open|filtered zeroconf   no-response
+MAC Address: 6E:63:F8:15:EA:A0 (Unknown)
+
+# Nmap done at Mon Oct  5 14:15:52 2026 -- 5 IP addresses (5 hosts up) scanned in 10.82 seconds

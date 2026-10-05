@@ -1,0 +1,68 @@
+$ sudo -n cat /etc/netplan/50-cloud-init.yaml /etc/netplan/50-cloud-init.yaml-orig
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    ens18:
+      dhcp4: false
+
+  vlans:
+    ens18.2:
+      id: 2
+      link: ens18
+      addresses:
+        - 192.168.2.100/24
+      routes:
+        - to: default
+          via: 192.168.2.1
+      nameservers:
+        addresses:
+          - 1.1.1.1
+          - 8.8.8.8
+
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    ens18:
+      dhcp4: false
+      addresses:
+        - 192.168.2.100/24
+      routes:
+        - to: default
+          via: 192.168.2.1
+      nameservers:
+        addresses:
+          - 192.168.2.1
+
+$ sudo -n docker inspect --format "{{.Name}} pid={{.State.Pid}} network={{.HostConfig.NetworkMode}} privileged={{.HostConfig.Privileged}} capadd={{.HostConfig.CapAdd}}" n8n
+/n8n pid=1084 network=n8n_default privileged=false capadd=[]
+
+$ sudo -n nsenter -t 1084 -n ip -br addr
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+eth0@if6         UP             172.18.0.2/16 
+
+$ sudo -n nsenter -t 1084 -n ip route
+default via 172.18.0.1 dev eth0 
+172.18.0.0/16 dev eth0 proto kernel scope link src 172.18.0.2 
+
+$ sudo -n ss -nt state established sport = :22
+Recv-Q Send-Q Local Address:Port  Peer Address:Port Process
+0      0      192.168.2.100:22   192.168.3.189:59356       
+
+$ ip neigh show
+192.168.2.1 dev ens18.2 lladdr 6e:63:f8:15:ea:a0 REACHABLE 
+172.18.0.2 dev br-5ec7a81d27aa lladdr 6e:fb:d4:c1:f9:e7 STALE 
+fe80::dab3:70ff:feb6:6b87 dev ens18 lladdr d8:b3:70:b6:6b:87 router STALE 
+fe80::f64d:30ff:fe60:69ad dev ens18 lladdr f4:4d:30:60:69:ad router STALE 
+fe80::e4f5:b0ff:fe7a:e8fe dev ens18 lladdr e6:f5:b0:7a:e8:fe STALE 
+fe80::be24:11ff:febe:aa22 dev ens18 lladdr bc:24:11:be:aa:22 STALE 
+fe80::be24:11ff:fe4b:3ef5 dev ens18 lladdr bc:24:11:4b:3e:f5 STALE 
+fe80::cf:d94:bb18:6099 dev ens18 lladdr b6:ca:10:b2:d6:aa STALE 
+fe80::dab3:70ff:fe9a:a21f dev ens18 lladdr d8:b3:70:9a:a2:1f STALE 
+fe80::6c63:f8ff:fe15:eaa0 dev ens18 lladdr 6e:63:f8:15:ea:a0 router STALE 
+fd8b:7c34:a921:20::1 dev ens18.2 lladdr 6e:63:f8:15:ea:a0 router STALE 
+fe80::aef2:3cff:feab:af25 dev ens18 lladdr ac:f2:3c:ab:af:25 STALE 
+fe80::6c63:f8ff:fe15:eaa0 dev ens18.2 lladdr 6e:63:f8:15:ea:a0 router STALE 
+fe80::4e3:b0fa:4799:dcf8 dev ens18 FAILED 
+

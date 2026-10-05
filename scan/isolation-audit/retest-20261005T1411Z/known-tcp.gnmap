@@ -1,0 +1,14 @@
+# Nmap 7.94SVN scan initiated Mon Oct  5 14:12:22 2026 as: nmap -n -Pn -sS --top-ports 1000 --reason --min-rate 150 --max-rate 250 --max-retries 1 -oA isolation-audit/retest-20261005T1411Z/known-tcp 192.168.1.1 192.168.1.43 192.168.1.50 192.168.1.201 192.168.2.1 192.168.3.1
+Host: 192.168.1.1 ()	Status: Up
+Host: 192.168.1.1 ()	Ports: 	Ignored State: filtered (1000)
+Host: 192.168.1.43 ()	Status: Up
+Host: 192.168.1.43 ()	Ports: 	Ignored State: filtered (1000)
+Host: 192.168.1.50 ()	Status: Up
+Host: 192.168.1.50 ()	Ports: 	Ignored State: filtered (1000)
+Host: 192.168.1.201 ()	Status: Up
+Host: 192.168.1.201 ()	Ports: 	Ignored State: filtered (1000)
+Host: 192.168.3.1 ()	Status: Up
+Host: 192.168.3.1 ()	Ports: 	Ignored State: filtered (1000)
+Host: 192.168.2.1 ()	Status: Up
+Host: 192.168.2.1 ()	Ports: 	Ignored State: filtered (1000)
+# Nmap done at Mon Oct  5 14:13:44 2026 -- 6 IP addresses (6 hosts up) scanned in 82.19 seconds

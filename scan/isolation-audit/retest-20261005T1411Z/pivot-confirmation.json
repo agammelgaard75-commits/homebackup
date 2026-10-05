@@ -1,0 +1,46 @@
+[
+  {
+    "origin": "scan-host",
+    "destination": "192.168.1.43",
+    "port": 22,
+    "error": "timed out",
+    "elapsed": 3.006
+  },
+  {
+    "origin": "scan-host",
+    "destination": "192.168.1.43",
+    "port": 8080,
+    "error": "timed out",
+    "elapsed": 3.003
+  },
+  {
+    "origin": "scan-host",
+    "destination": "192.168.1.43",
+    "port": 8443,
+    "error": "timed out",
+    "elapsed": 3.003
+  },
+  {
+    "origin": "scan-host",
+    "destination": "192.168.3.189",
+    "port": 445,
+    "error": "timed out",
+    "elapsed": 3.004
+  },
+  {
+    "origin": "ollama-api",
+    "destination": "192.168.1.43",
+    "port": 8080,
+    "status": 500,
+    "body": "{\"error\":\"pull model manifest: Get \\\"https://192.168.1.43:8443/v2/audit/isolation-audit-confirm-20261005/manifests/latest\\\": tls: failed to verify certificate: x509: certificate signed by unknown authority\"}",
+    "elapsed": 0.082
+  },
+  {
+    "origin": "ollama-api",
+    "destination": "192.168.1.43",
+    "port": 8443,
+    "status": 500,
+    "body": "{\"error\":\"pull model manifest: 400: Bad Request\\r\\nThis combination of host and port requires TLS.\\r\\n\"}",
+    "elapsed": 0.075
+  }
+]

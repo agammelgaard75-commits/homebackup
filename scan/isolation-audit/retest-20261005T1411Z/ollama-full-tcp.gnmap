@@ -1,0 +1,4 @@
+# Nmap 7.94SVN scan initiated Mon Oct  5 14:11:45 2026 as: nmap -n -Pn -sS -p- --reason --min-rate 300 --max-rate 600 --max-retries 1 -oA isolation-audit/retest-20261005T1411Z/ollama-full-tcp 192.168.3.189
+Host: 192.168.3.189 ()	Status: Up
+Host: 192.168.3.189 ()	Ports: 11434/open/tcp/////	Ignored State: filtered (65534)
+# Nmap done at Mon Oct  5 14:15:24 2026 -- 1 IP address (1 host up) scanned in 218.84 seconds

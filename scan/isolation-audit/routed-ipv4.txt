@@ -1,0 +1,80 @@
+# Nmap 7.94SVN scan initiated Sun Oct  4 07:16:59 2026 as: nmap -n -sT -Pn --reason --max-retries 1 --max-rate 10 --host-timeout 45s -p 22,53,80,443,445,8006,8080,8443 -oN isolation-audit/routed-ipv4.txt 192.168.1.1 192.168.1.43 192.168.1.50 192.168.1.201 192.168.3.1 192.168.3.189
+Nmap scan report for 192.168.1.1
+Host is up, received user-set.
+
+PORT     STATE    SERVICE       REASON
+22/tcp   filtered ssh           no-response
+53/tcp   filtered domain        no-response
+80/tcp   filtered http          no-response
+443/tcp  filtered https         no-response
+445/tcp  filtered microsoft-ds  no-response
+8006/tcp filtered wpl-analytics no-response
+8080/tcp filtered http-proxy    no-response
+8443/tcp filtered https-alt     no-response
+
+Nmap scan report for 192.168.1.43
+Host is up, received user-set.
+
+PORT     STATE    SERVICE       REASON
+22/tcp   filtered ssh           no-response
+53/tcp   filtered domain        no-response
+80/tcp   filtered http          no-response
+443/tcp  filtered https         no-response
+445/tcp  filtered microsoft-ds  no-response
+8006/tcp filtered wpl-analytics no-response
+8080/tcp filtered http-proxy    no-response
+8443/tcp filtered https-alt     no-response
+
+Nmap scan report for 192.168.1.50
+Host is up, received user-set.
+
+PORT     STATE    SERVICE       REASON
+22/tcp   filtered ssh           no-response
+53/tcp   filtered domain        no-response
+80/tcp   filtered http          no-response
+443/tcp  filtered https         no-response
+445/tcp  filtered microsoft-ds  no-response
+8006/tcp filtered wpl-analytics no-response
+8080/tcp filtered http-proxy    no-response
+8443/tcp filtered https-alt     no-response
+
+Nmap scan report for 192.168.1.201
+Host is up, received user-set.
+
+PORT     STATE    SERVICE       REASON
+22/tcp   filtered ssh           no-response
+53/tcp   filtered domain        no-response
+80/tcp   filtered http          no-response
+443/tcp  filtered https         no-response
+445/tcp  filtered microsoft-ds  no-response
+8006/tcp filtered wpl-analytics no-response
+8080/tcp filtered http-proxy    no-response
+8443/tcp filtered https-alt     no-response
+
+Nmap scan report for 192.168.3.1
+Host is up, received user-set.
+
+PORT     STATE    SERVICE       REASON
+22/tcp   filtered ssh           no-response
+53/tcp   filtered domain        no-response
+80/tcp   filtered http          no-response
+443/tcp  filtered https         no-response
+445/tcp  filtered microsoft-ds  no-response
+8006/tcp filtered wpl-analytics no-response
+8080/tcp filtered http-proxy    no-response
+8443/tcp filtered https-alt     no-response
+
+Nmap scan report for 192.168.3.189
+Host is up, received user-set.
+
+PORT     STATE    SERVICE       REASON
+22/tcp   filtered ssh           no-response
+53/tcp   filtered domain        no-response
+80/tcp   filtered http          no-response
+443/tcp  filtered https         no-response
+445/tcp  filtered microsoft-ds  no-response
+8006/tcp filtered wpl-analytics no-response
+8080/tcp filtered http-proxy    no-response
+8443/tcp filtered https-alt     no-response
+
+# Nmap done at Sun Oct  4 07:17:10 2026 -- 6 IP addresses (6 hosts up) scanned in 10.66 seconds

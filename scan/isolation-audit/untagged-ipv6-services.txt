@@ -1,0 +1,132 @@
+# Nmap 7.94SVN scan initiated Sun Oct  4 07:16:24 2026 as: nmap -6 -n -sT -Pn --reason --max-retries 1 --max-rate 10 --host-timeout 45s -p 22,53,80,443,445,8006,8080,8443 -oN isolation-audit/untagged-ipv6-services.txt fe80::4e3:b0fa:4799:dcf8%ens18 fe80::6c63:f8ff:fe15:eaa0%ens18 fe80::aef2:3cff:feab:af25%ens18 fe80::be24:11ff:fe4b:3ef5%ens18 fe80::be24:11ff:febe:aa22%ens18 fe80::cf:d94:bb18:6099%ens18 fe80::dab3:70ff:fe9a:a21f%ens18 fe80::dab3:70ff:feb6:6b87%ens18 fe80::e4f5:b0ff:fe7a:e8fe%ens18 fe80::f64d:30ff:fe60:69ad%ens18
+Nmap scan report for fe80::4e3:b0fa:4799:dcf8
+Host is up, received user-set.
+
+PORT     STATE    SERVICE       REASON
+22/tcp   filtered ssh           no-response
+53/tcp   filtered domain        no-response
+80/tcp   filtered http          no-response
+443/tcp  filtered https         no-response
+445/tcp  filtered microsoft-ds  no-response
+8006/tcp filtered wpl-analytics no-response
+8080/tcp filtered http-proxy    no-response
+8443/tcp filtered https-alt     no-response
+
+Nmap scan report for fe80::6c63:f8ff:fe15:eaa0
+Host is up, received user-set (0.0013s latency).
+
+PORT     STATE  SERVICE       REASON
+22/tcp   closed ssh           conn-refused
+53/tcp   open   domain        syn-ack
+80/tcp   closed http          conn-refused
+443/tcp  closed https         conn-refused
+445/tcp  closed microsoft-ds  conn-refused
+8006/tcp closed wpl-analytics conn-refused
+8080/tcp closed http-proxy    conn-refused
+8443/tcp closed https-alt     conn-refused
+
+Nmap scan report for fe80::aef2:3cff:feab:af25
+Host is up, received user-set (0.0068s latency).
+
+PORT     STATE  SERVICE       REASON
+22/tcp   closed ssh           conn-refused
+53/tcp   closed domain        conn-refused
+80/tcp   open   http          syn-ack
+443/tcp  open   https         syn-ack
+445/tcp  closed microsoft-ds  conn-refused
+8006/tcp closed wpl-analytics conn-refused
+8080/tcp closed http-proxy    conn-refused
+8443/tcp closed https-alt     conn-refused
+
+Nmap scan report for fe80::be24:11ff:fe4b:3ef5
+Host is up, received user-set (0.00042s latency).
+
+PORT     STATE  SERVICE       REASON
+22/tcp   open   ssh           syn-ack
+53/tcp   closed domain        conn-refused
+80/tcp   closed http          conn-refused
+443/tcp  closed https         conn-refused
+445/tcp  closed microsoft-ds  conn-refused
+8006/tcp closed wpl-analytics conn-refused
+8080/tcp open   http-proxy    syn-ack
+8443/tcp open   https-alt     syn-ack
+
+Nmap scan report for fe80::be24:11ff:febe:aa22
+Host is up, received user-set (0.0014s latency).
+
+PORT     STATE  SERVICE       REASON
+22/tcp   open   ssh           syn-ack
+53/tcp   closed domain        conn-refused
+80/tcp   closed http          conn-refused
+443/tcp  closed https         conn-refused
+445/tcp  closed microsoft-ds  conn-refused
+8006/tcp closed wpl-analytics conn-refused
+8080/tcp closed http-proxy    conn-refused
+8443/tcp closed https-alt     conn-refused
+
+Nmap scan report for fe80::cf:d94:bb18:6099
+Host is up, received user-set (0.058s latency).
+
+PORT     STATE  SERVICE       REASON
+22/tcp   closed ssh           conn-refused
+53/tcp   closed domain        conn-refused
+80/tcp   closed http          conn-refused
+443/tcp  closed https         conn-refused
+445/tcp  closed microsoft-ds  conn-refused
+8006/tcp closed wpl-analytics conn-refused
+8080/tcp closed http-proxy    conn-refused
+8443/tcp closed https-alt     conn-refused
+
+Nmap scan report for fe80::dab3:70ff:fe9a:a21f
+Host is up, received user-set (0.0020s latency).
+
+PORT     STATE  SERVICE       REASON
+22/tcp   closed ssh           conn-refused
+53/tcp   closed domain        conn-refused
+80/tcp   closed http          conn-refused
+443/tcp  closed https         conn-refused
+445/tcp  closed microsoft-ds  conn-refused
+8006/tcp closed wpl-analytics conn-refused
+8080/tcp closed http-proxy    conn-refused
+8443/tcp closed https-alt     conn-refused
+
+Nmap scan report for fe80::dab3:70ff:feb6:6b87
+Host is up, received user-set (0.00092s latency).
+
+PORT     STATE  SERVICE       REASON
+22/tcp   closed ssh           conn-refused
+53/tcp   closed domain        conn-refused
+80/tcp   closed http          conn-refused
+443/tcp  closed https         conn-refused
+445/tcp  closed microsoft-ds  conn-refused
+8006/tcp closed wpl-analytics conn-refused
+8080/tcp closed http-proxy    conn-refused
+8443/tcp closed https-alt     conn-refused
+
+Nmap scan report for fe80::e4f5:b0ff:fe7a:e8fe
+Host is up, received user-set (0.029s latency).
+
+PORT     STATE  SERVICE       REASON
+22/tcp   closed ssh           conn-refused
+53/tcp   closed domain        conn-refused
+80/tcp   closed http          conn-refused
+443/tcp  closed https         conn-refused
+445/tcp  closed microsoft-ds  conn-refused
+8006/tcp closed wpl-analytics conn-refused
+8080/tcp closed http-proxy    conn-refused
+8443/tcp closed https-alt     conn-refused
+
+Nmap scan report for fe80::f64d:30ff:fe60:69ad
+Host is up, received user-set (0.00030s latency).
+
+PORT     STATE  SERVICE       REASON
+22/tcp   open   ssh           syn-ack
+53/tcp   closed domain        conn-refused
+80/tcp   closed http          conn-refused
+443/tcp  closed https         conn-refused
+445/tcp  closed microsoft-ds  conn-refused
+8006/tcp open   wpl-analytics syn-ack
+8080/tcp closed http-proxy    conn-refused
+8443/tcp closed https-alt     conn-refused
+
+# Nmap done at Sun Oct  4 07:16:32 2026 -- 10 IP addresses (10 hosts up) scanned in 8.85 seconds

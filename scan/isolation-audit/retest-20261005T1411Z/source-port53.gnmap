@@ -1,0 +1,14 @@
+# Nmap 7.94SVN scan initiated Mon Oct  5 14:18:04 2026 as: nmap -n -Pn -sS --reason --max-retries 1 --max-rate 40 -p 22,53,80,443,445,8006,8080,8443,11434 --source-port 53 -oA /home/bot/scan/isolation-audit/retest-20261005T1411Z/source-port53 192.168.1.1 192.168.1.43 192.168.1.201 192.168.2.1 192.168.3.1 192.168.3.189
+Host: 192.168.1.1 ()	Status: Up
+Host: 192.168.1.1 ()	Ports: 22/filtered/tcp//ssh///, 53/filtered/tcp//domain///, 80/filtered/tcp//http///, 443/filtered/tcp//https///, 445/filtered/tcp//microsoft-ds///, 8006/filtered/tcp//wpl-analytics///, 8080/filtered/tcp//http-proxy///, 8443/filtered/tcp//https-alt///, 11434/filtered/tcp/////
+Host: 192.168.1.43 ()	Status: Up
+Host: 192.168.1.43 ()	Ports: 22/filtered/tcp//ssh///, 53/filtered/tcp//domain///, 80/filtered/tcp//http///, 443/filtered/tcp//https///, 445/filtered/tcp//microsoft-ds///, 8006/filtered/tcp//wpl-analytics///, 8080/filtered/tcp//http-proxy///, 8443/filtered/tcp//https-alt///, 11434/filtered/tcp/////
+Host: 192.168.1.201 ()	Status: Up
+Host: 192.168.1.201 ()	Ports: 22/filtered/tcp//ssh///, 53/filtered/tcp//domain///, 80/filtered/tcp//http///, 443/filtered/tcp//https///, 445/filtered/tcp//microsoft-ds///, 8006/filtered/tcp//wpl-analytics///, 8080/filtered/tcp//http-proxy///, 8443/filtered/tcp//https-alt///, 11434/filtered/tcp/////
+Host: 192.168.3.1 ()	Status: Up
+Host: 192.168.3.1 ()	Ports: 22/filtered/tcp//ssh///, 53/filtered/tcp//domain///, 80/filtered/tcp//http///, 443/filtered/tcp//https///, 445/filtered/tcp//microsoft-ds///, 8006/filtered/tcp//wpl-analytics///, 8080/filtered/tcp//http-proxy///, 8443/filtered/tcp//https-alt///, 11434/filtered/tcp/////
+Host: 192.168.3.189 ()	Status: Up
+Host: 192.168.3.189 ()	Ports: 22/filtered/tcp//ssh///, 53/filtered/tcp//domain///, 80/filtered/tcp//http///, 443/filtered/tcp//https///, 445/filtered/tcp//microsoft-ds///, 8006/filtered/tcp//wpl-analytics///, 8080/filtered/tcp//http-proxy///, 8443/filtered/tcp//https-alt///, 11434/open/tcp/////
+Host: 192.168.2.1 ()	Status: Up
+Host: 192.168.2.1 ()	Ports: 22/filtered/tcp//ssh///, 53/filtered/tcp//domain///, 80/filtered/tcp//http///, 443/filtered/tcp//https///, 445/filtered/tcp//microsoft-ds///, 8006/filtered/tcp//wpl-analytics///, 8080/filtered/tcp//http-proxy///, 8443/filtered/tcp//https-alt///, 11434/filtered/tcp/////
+# Nmap done at Mon Oct  5 14:18:12 2026 -- 6 IP addresses (6 hosts up) scanned in 7.85 seconds

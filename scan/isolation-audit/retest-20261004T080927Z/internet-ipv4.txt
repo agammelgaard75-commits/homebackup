@@ -1,0 +1,15 @@
+$ ['curl', '--noproxy', '*', '-4', '-sS', '-I', '--connect-timeout', '4', '--max-time', '8', 'https://example.com']
+HTTP/2 200 
+date: Sun, 04 Oct 2026 08:09:27 GMT
+content-type: text/html; charset=utf-8
+server: cloudflare
+last-modified: Fri, 02 Oct 2026 16:11:13 GMT
+allow: GET, HEAD
+accept-ranges: bytes
+age: 14256
+cf-cache-status: HIT
+cf-ray: a452b4599e0089c8-CPH
+alt-svc: h3=":443"; ma=86400
+
+
+exit=0

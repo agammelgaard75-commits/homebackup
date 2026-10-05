@@ -1,0 +1,54 @@
+$ curl --noproxy * -4 -sS -I --connect-timeout 4 --max-time 8 https://example.com
+HTTP/2 200 
+date: Sun, 04 Oct 2026 07:35:28 GMT
+content-type: text/html; charset=utf-8
+server: cloudflare
+last-modified: Fri, 02 Oct 2026 16:11:13 GMT
+allow: GET, HEAD
+accept-ranges: bytes
+age: 12217
+cf-cache-status: HIT
+cf-ray: a4528294beb04f62-CPH
+alt-svc: h3=":443"; ma=86400
+
+
+exit=0
+$ curl --noproxy * -6 -sS -I --connect-timeout 4 --max-time 8 https://example.com
+curl: (7) Failed to connect to example.com port 443 after 16 ms: Couldn't connect to server
+
+exit=7
+$ nmap -n -sT -Pn --reason --max-retries 1 --max-rate 10 --host-timeout 30s -p 22,53,80,443,8006 192.168.1.1 192.168.2.1 192.168.3.1
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-10-04 07:35 UTC
+Nmap scan report for 192.168.1.1
+Host is up, received user-set.
+
+PORT     STATE    SERVICE       REASON
+22/tcp   filtered ssh           no-response
+53/tcp   filtered domain        no-response
+80/tcp   filtered http          no-response
+443/tcp  filtered https         no-response
+8006/tcp filtered wpl-analytics no-response
+
+Nmap scan report for 192.168.2.1
+Host is up, received user-set.
+
+PORT     STATE    SERVICE       REASON
+22/tcp   filtered ssh           no-response
+53/tcp   filtered domain        no-response
+80/tcp   filtered http          no-response
+443/tcp  filtered https         no-response
+8006/tcp filtered wpl-analytics no-response
+
+Nmap scan report for 192.168.3.1
+Host is up, received user-set.
+
+PORT     STATE    SERVICE       REASON
+22/tcp   filtered ssh           no-response
+53/tcp   filtered domain        no-response
+80/tcp   filtered http          no-response
+443/tcp  filtered https         no-response
+8006/tcp filtered wpl-analytics no-response
+
+Nmap done: 3 IP addresses (3 hosts up) scanned in 4.15 seconds
+
+exit=0

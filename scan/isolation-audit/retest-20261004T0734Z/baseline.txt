@@ -1,0 +1,190 @@
+$ date -u
+Sun Oct  4 07:34:42 UTC 2026
+
+exit=0
+$ ip -br address
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+ens18            UP             fe80::be24:11ff:feac:52ab/64 
+ens18.2@ens18    UP             192.168.2.100/24 fe80::be24:11ff:feac:52ab/64 
+br-5ec7a81d27aa  UP             172.18.0.1/16 fe80::94f1:b2ff:fe48:2a3f/64 
+docker0          DOWN           172.17.0.1/16 
+veth86c648b@if2  UP             fe80::e0f5:3dff:febc:4e1/64 
+
+exit=0
+$ ip -4 route show table all
+default via 192.168.2.1 dev ens18.2 proto static 
+172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1 linkdown 
+172.18.0.0/16 dev br-5ec7a81d27aa proto kernel scope link src 172.18.0.1 
+192.168.2.0/24 dev ens18.2 proto kernel scope link src 192.168.2.100 
+local 127.0.0.0/8 dev lo table local proto kernel scope host src 127.0.0.1 
+local 127.0.0.1 dev lo table local proto kernel scope host src 127.0.0.1 
+broadcast 127.255.255.255 dev lo table local proto kernel scope link src 127.0.0.1 
+local 172.17.0.1 dev docker0 table local proto kernel scope host src 172.17.0.1 
+broadcast 172.17.255.255 dev docker0 table local proto kernel scope link src 172.17.0.1 linkdown 
+local 172.18.0.1 dev br-5ec7a81d27aa table local proto kernel scope host src 172.18.0.1 
+broadcast 172.18.255.255 dev br-5ec7a81d27aa table local proto kernel scope link src 172.18.0.1 
+local 192.168.2.100 dev ens18.2 table local proto kernel scope host src 192.168.2.100 
+broadcast 192.168.2.255 dev ens18.2 table local proto kernel scope link src 192.168.2.100 
+
+exit=0
+$ ip -6 route show table all
+fe80::/64 dev ens18 proto kernel metric 256 pref medium
+fe80::/64 dev ens18.2 proto kernel metric 256 pref medium
+fe80::/64 dev veth86c648b proto kernel metric 256 pref medium
+fe80::/64 dev br-5ec7a81d27aa proto kernel metric 256 pref medium
+local ::1 dev lo table local proto kernel metric 0 pref medium
+local fe80::94f1:b2ff:fe48:2a3f dev br-5ec7a81d27aa table local proto kernel metric 0 pref medium
+local fe80::be24:11ff:feac:52ab dev ens18.2 table local proto kernel metric 0 pref medium
+local fe80::be24:11ff:feac:52ab dev ens18 table local proto kernel metric 0 pref medium
+local fe80::e0f5:3dff:febc:4e1 dev veth86c648b table local proto kernel metric 0 pref medium
+multicast ff00::/8 dev ens18 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev ens18.2 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev veth86c648b table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev br-5ec7a81d27aa table local proto kernel metric 256 pref medium
+
+exit=0
+$ sysctl net.ipv6.conf.all.disable_ipv6 net.ipv6.conf.default.disable_ipv6 net.ipv6.conf.ens18.disable_ipv6
+net.ipv6.conf.all.disable_ipv6 = 0
+net.ipv6.conf.default.disable_ipv6 = 0
+net.ipv6.conf.ens18.disable_ipv6 = 0
+
+exit=0
+$ cat /proc/sys/net/ipv6/conf/ens18.2/disable_ipv6
+0
+
+exit=0
+$ sudo -n nft list ruleset
+# Warning: table ip nat is managed by iptables-nft, do not touch!
+table ip nat {
+	chain DOCKER {
+		iifname != "br-5ec7a81d27aa" tcp dport 5678 counter packets 0 bytes 0 dnat to 172.18.0.2:5678
+	}
+
+	chain PREROUTING {
+		type nat hook prerouting priority dstnat; policy accept;
+		fib daddr type local counter packets 14 bytes 752 jump DOCKER
+	}
+
+	chain OUTPUT {
+		type nat hook output priority dstnat; policy accept;
+		ip daddr != 127.0.0.0/8 fib daddr type local counter packets 0 bytes 0 jump DOCKER
+	}
+
+	chain POSTROUTING {
+		type nat hook postrouting priority srcnat; policy accept;
+		ip saddr 172.17.0.0/16 oifname != "docker0" counter packets 0 bytes 0 masquerade
+		ip saddr 172.18.0.0/16 oifname != "br-5ec7a81d27aa" counter packets 615 bytes 36900 masquerade
+	}
+}
+# Warning: table ip filter is managed by iptables-nft, do not touch!
+table ip filter {
+	chain DOCKER {
+		ip daddr 172.18.0.2 iifname != "br-5ec7a81d27aa" oifname "br-5ec7a81d27aa" tcp dport 5678 counter packets 0 bytes 0 accept
+		iifname != "br-5ec7a81d27aa" oifname "br-5ec7a81d27aa" counter packets 0 bytes 0 drop
+		iifname != "docker0" oifname "docker0" counter packets 0 bytes 0 drop
+	}
+
+	chain DOCKER-FORWARD {
+		counter packets 9806 bytes 4360494 jump DOCKER-CT
+		counter packets 4816 bytes 2171194 jump DOCKER-INTERNAL
+		counter packets 4816 bytes 2171194 jump DOCKER-BRIDGE
+		iifname "br-5ec7a81d27aa" counter packets 4816 bytes 2171194 accept
+		iifname "docker0" counter packets 0 bytes 0 accept
+	}
+
+	chain DOCKER-BRIDGE {
+		oifname "br-5ec7a81d27aa" counter packets 0 bytes 0 jump DOCKER
+		oifname "docker0" counter packets 0 bytes 0 jump DOCKER
+	}
+
+	chain DOCKER-CT {
+		oifname "br-5ec7a81d27aa" ct state related,established counter packets 4990 bytes 2189300 accept
+		oifname "docker0" ct state related,established counter packets 0 bytes 0 accept
+	}
+
+	chain DOCKER-INTERNAL {
+	}
+
+	chain FORWARD {
+		type filter hook forward priority filter; policy drop;
+		counter packets 9806 bytes 4360494 jump DOCKER-USER
+		counter packets 9806 bytes 4360494 jump DOCKER-FORWARD
+	}
+
+	chain DOCKER-USER {
+	}
+}
+# Warning: table ip6 nat is managed by iptables-nft, do not touch!
+table ip6 nat {
+	chain DOCKER {
+	}
+
+	chain PREROUTING {
+		type nat hook prerouting priority dstnat; policy accept;
+		fib daddr type local counter packets 0 bytes 0 jump DOCKER
+	}
+
+	chain OUTPUT {
+		type nat hook output priority dstnat; policy accept;
+		ip6 daddr != ::1 fib daddr type local counter packets 0 bytes 0 jump DOCKER
+	}
+}
+table ip6 filter {
+	chain DOCKER {
+	}
+
+	chain DOCKER-FORWARD {
+		counter packets 0 bytes 0 jump DOCKER-CT
+		counter packets 0 bytes 0 jump DOCKER-INTERNAL
+		counter packets 0 bytes 0 jump DOCKER-BRIDGE
+	}
+
+	chain DOCKER-BRIDGE {
+	}
+
+	chain DOCKER-CT {
+	}
+
+	chain DOCKER-INTERNAL {
+	}
+
+	chain FORWARD {
+		type filter hook forward priority filter; policy accept;
+		counter packets 0 bytes 0 jump DOCKER-USER
+		counter packets 0 bytes 0 jump DOCKER-FORWARD
+	}
+
+	chain DOCKER-USER {
+	}
+}
+table ip raw {
+	chain PREROUTING {
+		type filter hook prerouting priority raw; policy accept;
+		ip daddr 172.18.0.2 iifname != "br-5ec7a81d27aa" counter packets 0 bytes 0 drop
+	}
+}
+
+exit=0
+$ sudo -n ufw status verbose
+Status: inactive
+
+exit=0
+$ sudo -n ss -lntup
+Netid State  Recv-Q Send-Q Local Address:Port  Peer Address:PortProcess                                                    
+udp   UNCONN 0      0         127.0.0.54:53         0.0.0.0:*    users:(("systemd-resolve",pid=2227290,fd=16))             
+udp   UNCONN 0      0      127.0.0.53%lo:53         0.0.0.0:*    users:(("systemd-resolve",pid=2227290,fd=14))             
+tcp   LISTEN 0      128        127.0.0.1:8000       0.0.0.0:*    users:(("splunkd",pid=1277448,fd=166))                    
+tcp   LISTEN 0      128        127.0.0.1:8191       0.0.0.0:*    users:(("mongod",pid=1277628,fd=9))                       
+tcp   LISTEN 0      128        127.0.0.1:8089       0.0.0.0:*    users:(("splunkd",pid=1277448,fd=4))                      
+tcp   LISTEN 0      5          127.0.0.1:8065       0.0.0.0:*    users:(("python3.9",pid=1277870,fd=8))                    
+tcp   LISTEN 0      4096         0.0.0.0:22         0.0.0.0:*    users:(("sshd",pid=2227283,fd=3),("systemd",pid=1,fd=157))
+tcp   LISTEN 0      2048         0.0.0.0:4000       0.0.0.0:*    users:(("litellm",pid=2227298,fd=13))                     
+tcp   LISTEN 0      4096      127.0.0.54:53         0.0.0.0:*    users:(("systemd-resolve",pid=2227290,fd=17))             
+tcp   LISTEN 0      4096         0.0.0.0:5678       0.0.0.0:*    users:(("docker-proxy",pid=1122,fd=8))                    
+tcp   LISTEN 0      4096   127.0.0.53%lo:53         0.0.0.0:*    users:(("systemd-resolve",pid=2227290,fd=15))             
+tcp   LISTEN 0      4096       127.0.0.1:41243      0.0.0.0:*    users:(("identity",pid=1277905,fd=7))                     
+tcp   LISTEN 0      4096       127.0.0.1:33165      0.0.0.0:*    users:(("identity",pid=1277905,fd=4))                     
+tcp   LISTEN 0      4096            [::]:22            [::]:*    users:(("sshd",pid=2227283,fd=4),("systemd",pid=1,fd=160))
+tcp   LISTEN 0      4096            [::]:5678          [::]:*    users:(("docker-proxy",pid=1128,fd=8))                    
+
+exit=0

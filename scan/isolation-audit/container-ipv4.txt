@@ -1,0 +1,35 @@
+# Nmap 7.94SVN scan initiated Sun Oct  4 07:16:58 2026 as: nmap -n -sT -Pn --reason --max-retries 1 --max-rate 10 --host-timeout 30s -p 22,53,80,443,445,8006 -oN /home/bot/scan/isolation-audit/container-ipv4.txt 192.168.1.1 192.168.2.1 192.168.3.1
+Nmap scan report for 192.168.1.1
+Host is up, received user-set.
+
+PORT     STATE    SERVICE       REASON
+22/tcp   filtered ssh           no-response
+53/tcp   filtered domain        no-response
+80/tcp   filtered http          no-response
+443/tcp  filtered https         no-response
+445/tcp  filtered microsoft-ds  no-response
+8006/tcp filtered wpl-analytics no-response
+
+Nmap scan report for 192.168.2.1
+Host is up, received user-set.
+
+PORT     STATE    SERVICE       REASON
+22/tcp   filtered ssh           no-response
+53/tcp   filtered domain        no-response
+80/tcp   filtered http          no-response
+443/tcp  filtered https         no-response
+445/tcp  filtered microsoft-ds  no-response
+8006/tcp filtered wpl-analytics no-response
+
+Nmap scan report for 192.168.3.1
+Host is up, received user-set.
+
+PORT     STATE    SERVICE       REASON
+22/tcp   filtered ssh           no-response
+53/tcp   filtered domain        no-response
+80/tcp   filtered http          no-response
+443/tcp  filtered https         no-response
+445/tcp  filtered microsoft-ds  no-response
+8006/tcp filtered wpl-analytics no-response
+
+# Nmap done at Sun Oct  4 07:17:04 2026 -- 3 IP addresses (3 hosts up) scanned in 6.05 seconds

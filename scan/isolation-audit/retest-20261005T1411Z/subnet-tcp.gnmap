@@ -1,0 +1,1536 @@
+# Nmap 7.94SVN scan initiated Mon Oct  5 14:12:23 2026 as: nmap -n -Pn -sS --disable-arp-ping -p 22,23,53,80,81,111,135,139,443,445,554,631,1080,1433,1883,2049,2375,2376,3000,3128,3306,3389,4000,5000,5432,5678,5900,6379,6443,8000,8006,8080,8081,8123,8443,9000,9090,9100,9200,10000,11434,27017 --exclude 192.168.2.100 --reason --min-rate 250 --max-rate 400 --max-retries 1 -oA isolation-audit/retest-20261005T1411Z/subnet-tcp 192.168.1.0/24 192.168.2.0/24 192.168.3.0/24
+Host: 192.168.1.0 ()	Status: Up
+Host: 192.168.1.0 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.1 ()	Status: Up
+Host: 192.168.1.1 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.2 ()	Status: Up
+Host: 192.168.1.2 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.3 ()	Status: Up
+Host: 192.168.1.3 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.4 ()	Status: Up
+Host: 192.168.1.4 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.5 ()	Status: Up
+Host: 192.168.1.5 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.6 ()	Status: Up
+Host: 192.168.1.6 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.7 ()	Status: Up
+Host: 192.168.1.7 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.8 ()	Status: Up
+Host: 192.168.1.8 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.9 ()	Status: Up
+Host: 192.168.1.9 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.10 ()	Status: Up
+Host: 192.168.1.10 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.11 ()	Status: Up
+Host: 192.168.1.11 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.12 ()	Status: Up
+Host: 192.168.1.12 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.13 ()	Status: Up
+Host: 192.168.1.13 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.14 ()	Status: Up
+Host: 192.168.1.14 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.15 ()	Status: Up
+Host: 192.168.1.15 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.16 ()	Status: Up
+Host: 192.168.1.16 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.17 ()	Status: Up
+Host: 192.168.1.17 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.18 ()	Status: Up
+Host: 192.168.1.18 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.19 ()	Status: Up
+Host: 192.168.1.19 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.20 ()	Status: Up
+Host: 192.168.1.20 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.21 ()	Status: Up
+Host: 192.168.1.21 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.22 ()	Status: Up
+Host: 192.168.1.22 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.23 ()	Status: Up
+Host: 192.168.1.23 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.24 ()	Status: Up
+Host: 192.168.1.24 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.25 ()	Status: Up
+Host: 192.168.1.25 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.26 ()	Status: Up
+Host: 192.168.1.26 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.27 ()	Status: Up
+Host: 192.168.1.27 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.28 ()	Status: Up
+Host: 192.168.1.28 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.29 ()	Status: Up
+Host: 192.168.1.29 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.30 ()	Status: Up
+Host: 192.168.1.30 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.31 ()	Status: Up
+Host: 192.168.1.31 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.32 ()	Status: Up
+Host: 192.168.1.32 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.33 ()	Status: Up
+Host: 192.168.1.33 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.34 ()	Status: Up
+Host: 192.168.1.34 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.35 ()	Status: Up
+Host: 192.168.1.35 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.36 ()	Status: Up
+Host: 192.168.1.36 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.37 ()	Status: Up
+Host: 192.168.1.37 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.38 ()	Status: Up
+Host: 192.168.1.38 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.39 ()	Status: Up
+Host: 192.168.1.39 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.40 ()	Status: Up
+Host: 192.168.1.40 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.41 ()	Status: Up
+Host: 192.168.1.41 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.42 ()	Status: Up
+Host: 192.168.1.42 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.43 ()	Status: Up
+Host: 192.168.1.43 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.44 ()	Status: Up
+Host: 192.168.1.44 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.45 ()	Status: Up
+Host: 192.168.1.45 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.46 ()	Status: Up
+Host: 192.168.1.46 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.47 ()	Status: Up
+Host: 192.168.1.47 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.48 ()	Status: Up
+Host: 192.168.1.48 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.49 ()	Status: Up
+Host: 192.168.1.49 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.50 ()	Status: Up
+Host: 192.168.1.50 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.51 ()	Status: Up
+Host: 192.168.1.51 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.52 ()	Status: Up
+Host: 192.168.1.52 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.53 ()	Status: Up
+Host: 192.168.1.53 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.54 ()	Status: Up
+Host: 192.168.1.54 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.55 ()	Status: Up
+Host: 192.168.1.55 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.56 ()	Status: Up
+Host: 192.168.1.56 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.57 ()	Status: Up
+Host: 192.168.1.57 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.58 ()	Status: Up
+Host: 192.168.1.58 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.59 ()	Status: Up
+Host: 192.168.1.59 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.60 ()	Status: Up
+Host: 192.168.1.60 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.61 ()	Status: Up
+Host: 192.168.1.61 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.62 ()	Status: Up
+Host: 192.168.1.62 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.63 ()	Status: Up
+Host: 192.168.1.63 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.64 ()	Status: Up
+Host: 192.168.1.64 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.65 ()	Status: Up
+Host: 192.168.1.65 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.66 ()	Status: Up
+Host: 192.168.1.66 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.67 ()	Status: Up
+Host: 192.168.1.67 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.68 ()	Status: Up
+Host: 192.168.1.68 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.69 ()	Status: Up
+Host: 192.168.1.69 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.70 ()	Status: Up
+Host: 192.168.1.70 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.71 ()	Status: Up
+Host: 192.168.1.71 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.72 ()	Status: Up
+Host: 192.168.1.72 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.73 ()	Status: Up
+Host: 192.168.1.73 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.74 ()	Status: Up
+Host: 192.168.1.74 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.75 ()	Status: Up
+Host: 192.168.1.75 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.76 ()	Status: Up
+Host: 192.168.1.76 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.77 ()	Status: Up
+Host: 192.168.1.77 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.78 ()	Status: Up
+Host: 192.168.1.78 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.79 ()	Status: Up
+Host: 192.168.1.79 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.80 ()	Status: Up
+Host: 192.168.1.80 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.81 ()	Status: Up
+Host: 192.168.1.81 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.82 ()	Status: Up
+Host: 192.168.1.82 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.83 ()	Status: Up
+Host: 192.168.1.83 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.84 ()	Status: Up
+Host: 192.168.1.84 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.85 ()	Status: Up
+Host: 192.168.1.85 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.86 ()	Status: Up
+Host: 192.168.1.86 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.87 ()	Status: Up
+Host: 192.168.1.87 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.88 ()	Status: Up
+Host: 192.168.1.88 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.89 ()	Status: Up
+Host: 192.168.1.89 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.90 ()	Status: Up
+Host: 192.168.1.90 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.91 ()	Status: Up
+Host: 192.168.1.91 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.92 ()	Status: Up
+Host: 192.168.1.92 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.93 ()	Status: Up
+Host: 192.168.1.93 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.94 ()	Status: Up
+Host: 192.168.1.94 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.95 ()	Status: Up
+Host: 192.168.1.95 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.96 ()	Status: Up
+Host: 192.168.1.96 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.97 ()	Status: Up
+Host: 192.168.1.97 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.98 ()	Status: Up
+Host: 192.168.1.98 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.99 ()	Status: Up
+Host: 192.168.1.99 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.100 ()	Status: Up
+Host: 192.168.1.100 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.101 ()	Status: Up
+Host: 192.168.1.101 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.102 ()	Status: Up
+Host: 192.168.1.102 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.103 ()	Status: Up
+Host: 192.168.1.103 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.104 ()	Status: Up
+Host: 192.168.1.104 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.105 ()	Status: Up
+Host: 192.168.1.105 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.106 ()	Status: Up
+Host: 192.168.1.106 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.107 ()	Status: Up
+Host: 192.168.1.107 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.108 ()	Status: Up
+Host: 192.168.1.108 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.109 ()	Status: Up
+Host: 192.168.1.109 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.110 ()	Status: Up
+Host: 192.168.1.110 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.111 ()	Status: Up
+Host: 192.168.1.111 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.112 ()	Status: Up
+Host: 192.168.1.112 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.113 ()	Status: Up
+Host: 192.168.1.113 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.114 ()	Status: Up
+Host: 192.168.1.114 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.115 ()	Status: Up
+Host: 192.168.1.115 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.116 ()	Status: Up
+Host: 192.168.1.116 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.117 ()	Status: Up
+Host: 192.168.1.117 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.118 ()	Status: Up
+Host: 192.168.1.118 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.119 ()	Status: Up
+Host: 192.168.1.119 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.120 ()	Status: Up
+Host: 192.168.1.120 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.121 ()	Status: Up
+Host: 192.168.1.121 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.122 ()	Status: Up
+Host: 192.168.1.122 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.123 ()	Status: Up
+Host: 192.168.1.123 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.124 ()	Status: Up
+Host: 192.168.1.124 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.125 ()	Status: Up
+Host: 192.168.1.125 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.126 ()	Status: Up
+Host: 192.168.1.126 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.127 ()	Status: Up
+Host: 192.168.1.127 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.128 ()	Status: Up
+Host: 192.168.1.128 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.129 ()	Status: Up
+Host: 192.168.1.129 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.130 ()	Status: Up
+Host: 192.168.1.130 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.131 ()	Status: Up
+Host: 192.168.1.131 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.132 ()	Status: Up
+Host: 192.168.1.132 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.133 ()	Status: Up
+Host: 192.168.1.133 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.134 ()	Status: Up
+Host: 192.168.1.134 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.135 ()	Status: Up
+Host: 192.168.1.135 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.136 ()	Status: Up
+Host: 192.168.1.136 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.137 ()	Status: Up
+Host: 192.168.1.137 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.138 ()	Status: Up
+Host: 192.168.1.138 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.139 ()	Status: Up
+Host: 192.168.1.139 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.140 ()	Status: Up
+Host: 192.168.1.140 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.141 ()	Status: Up
+Host: 192.168.1.141 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.142 ()	Status: Up
+Host: 192.168.1.142 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.143 ()	Status: Up
+Host: 192.168.1.143 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.144 ()	Status: Up
+Host: 192.168.1.144 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.145 ()	Status: Up
+Host: 192.168.1.145 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.146 ()	Status: Up
+Host: 192.168.1.146 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.147 ()	Status: Up
+Host: 192.168.1.147 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.148 ()	Status: Up
+Host: 192.168.1.148 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.149 ()	Status: Up
+Host: 192.168.1.149 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.150 ()	Status: Up
+Host: 192.168.1.150 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.151 ()	Status: Up
+Host: 192.168.1.151 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.152 ()	Status: Up
+Host: 192.168.1.152 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.153 ()	Status: Up
+Host: 192.168.1.153 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.154 ()	Status: Up
+Host: 192.168.1.154 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.155 ()	Status: Up
+Host: 192.168.1.155 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.156 ()	Status: Up
+Host: 192.168.1.156 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.157 ()	Status: Up
+Host: 192.168.1.157 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.158 ()	Status: Up
+Host: 192.168.1.158 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.159 ()	Status: Up
+Host: 192.168.1.159 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.160 ()	Status: Up
+Host: 192.168.1.160 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.161 ()	Status: Up
+Host: 192.168.1.161 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.162 ()	Status: Up
+Host: 192.168.1.162 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.163 ()	Status: Up
+Host: 192.168.1.163 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.164 ()	Status: Up
+Host: 192.168.1.164 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.165 ()	Status: Up
+Host: 192.168.1.165 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.166 ()	Status: Up
+Host: 192.168.1.166 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.167 ()	Status: Up
+Host: 192.168.1.167 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.168 ()	Status: Up
+Host: 192.168.1.168 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.169 ()	Status: Up
+Host: 192.168.1.169 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.170 ()	Status: Up
+Host: 192.168.1.170 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.171 ()	Status: Up
+Host: 192.168.1.171 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.172 ()	Status: Up
+Host: 192.168.1.172 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.173 ()	Status: Up
+Host: 192.168.1.173 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.174 ()	Status: Up
+Host: 192.168.1.174 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.175 ()	Status: Up
+Host: 192.168.1.175 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.176 ()	Status: Up
+Host: 192.168.1.176 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.177 ()	Status: Up
+Host: 192.168.1.177 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.178 ()	Status: Up
+Host: 192.168.1.178 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.179 ()	Status: Up
+Host: 192.168.1.179 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.180 ()	Status: Up
+Host: 192.168.1.180 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.181 ()	Status: Up
+Host: 192.168.1.181 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.182 ()	Status: Up
+Host: 192.168.1.182 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.183 ()	Status: Up
+Host: 192.168.1.183 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.184 ()	Status: Up
+Host: 192.168.1.184 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.185 ()	Status: Up
+Host: 192.168.1.185 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.186 ()	Status: Up
+Host: 192.168.1.186 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.187 ()	Status: Up
+Host: 192.168.1.187 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.188 ()	Status: Up
+Host: 192.168.1.188 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.189 ()	Status: Up
+Host: 192.168.1.189 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.190 ()	Status: Up
+Host: 192.168.1.190 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.191 ()	Status: Up
+Host: 192.168.1.191 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.192 ()	Status: Up
+Host: 192.168.1.192 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.193 ()	Status: Up
+Host: 192.168.1.193 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.194 ()	Status: Up
+Host: 192.168.1.194 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.195 ()	Status: Up
+Host: 192.168.1.195 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.196 ()	Status: Up
+Host: 192.168.1.196 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.197 ()	Status: Up
+Host: 192.168.1.197 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.198 ()	Status: Up
+Host: 192.168.1.198 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.199 ()	Status: Up
+Host: 192.168.1.199 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.200 ()	Status: Up
+Host: 192.168.1.200 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.201 ()	Status: Up
+Host: 192.168.1.201 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.202 ()	Status: Up
+Host: 192.168.1.202 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.203 ()	Status: Up
+Host: 192.168.1.203 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.204 ()	Status: Up
+Host: 192.168.1.204 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.205 ()	Status: Up
+Host: 192.168.1.205 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.206 ()	Status: Up
+Host: 192.168.1.206 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.207 ()	Status: Up
+Host: 192.168.1.207 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.208 ()	Status: Up
+Host: 192.168.1.208 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.209 ()	Status: Up
+Host: 192.168.1.209 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.210 ()	Status: Up
+Host: 192.168.1.210 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.211 ()	Status: Up
+Host: 192.168.1.211 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.212 ()	Status: Up
+Host: 192.168.1.212 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.213 ()	Status: Up
+Host: 192.168.1.213 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.214 ()	Status: Up
+Host: 192.168.1.214 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.215 ()	Status: Up
+Host: 192.168.1.215 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.216 ()	Status: Up
+Host: 192.168.1.216 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.217 ()	Status: Up
+Host: 192.168.1.217 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.218 ()	Status: Up
+Host: 192.168.1.218 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.219 ()	Status: Up
+Host: 192.168.1.219 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.220 ()	Status: Up
+Host: 192.168.1.220 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.221 ()	Status: Up
+Host: 192.168.1.221 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.222 ()	Status: Up
+Host: 192.168.1.222 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.223 ()	Status: Up
+Host: 192.168.1.223 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.224 ()	Status: Up
+Host: 192.168.1.224 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.225 ()	Status: Up
+Host: 192.168.1.225 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.226 ()	Status: Up
+Host: 192.168.1.226 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.227 ()	Status: Up
+Host: 192.168.1.227 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.228 ()	Status: Up
+Host: 192.168.1.228 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.229 ()	Status: Up
+Host: 192.168.1.229 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.230 ()	Status: Up
+Host: 192.168.1.230 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.231 ()	Status: Up
+Host: 192.168.1.231 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.232 ()	Status: Up
+Host: 192.168.1.232 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.233 ()	Status: Up
+Host: 192.168.1.233 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.234 ()	Status: Up
+Host: 192.168.1.234 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.235 ()	Status: Up
+Host: 192.168.1.235 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.236 ()	Status: Up
+Host: 192.168.1.236 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.237 ()	Status: Up
+Host: 192.168.1.237 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.238 ()	Status: Up
+Host: 192.168.1.238 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.239 ()	Status: Up
+Host: 192.168.1.239 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.240 ()	Status: Up
+Host: 192.168.1.240 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.241 ()	Status: Up
+Host: 192.168.1.241 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.242 ()	Status: Up
+Host: 192.168.1.242 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.243 ()	Status: Up
+Host: 192.168.1.243 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.244 ()	Status: Up
+Host: 192.168.1.244 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.245 ()	Status: Up
+Host: 192.168.1.245 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.246 ()	Status: Up
+Host: 192.168.1.246 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.247 ()	Status: Up
+Host: 192.168.1.247 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.248 ()	Status: Up
+Host: 192.168.1.248 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.249 ()	Status: Up
+Host: 192.168.1.249 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.250 ()	Status: Up
+Host: 192.168.1.250 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.251 ()	Status: Up
+Host: 192.168.1.251 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.252 ()	Status: Up
+Host: 192.168.1.252 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.253 ()	Status: Up
+Host: 192.168.1.253 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.254 ()	Status: Up
+Host: 192.168.1.254 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.1.255 ()	Status: Up
+Host: 192.168.1.255 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.0 ()	Status: Up
+Host: 192.168.2.0 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.1 ()	Status: Up
+Host: 192.168.2.1 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.2 ()	Status: Up
+Host: 192.168.2.2 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.3 ()	Status: Up
+Host: 192.168.2.3 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.4 ()	Status: Up
+Host: 192.168.2.4 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.5 ()	Status: Up
+Host: 192.168.2.5 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.6 ()	Status: Up
+Host: 192.168.2.6 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.7 ()	Status: Up
+Host: 192.168.2.7 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.8 ()	Status: Up
+Host: 192.168.2.8 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.9 ()	Status: Up
+Host: 192.168.2.9 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.10 ()	Status: Up
+Host: 192.168.2.10 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.11 ()	Status: Up
+Host: 192.168.2.11 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.12 ()	Status: Up
+Host: 192.168.2.12 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.13 ()	Status: Up
+Host: 192.168.2.13 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.14 ()	Status: Up
+Host: 192.168.2.14 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.15 ()	Status: Up
+Host: 192.168.2.15 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.16 ()	Status: Up
+Host: 192.168.2.16 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.17 ()	Status: Up
+Host: 192.168.2.17 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.18 ()	Status: Up
+Host: 192.168.2.18 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.19 ()	Status: Up
+Host: 192.168.2.19 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.20 ()	Status: Up
+Host: 192.168.2.20 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.21 ()	Status: Up
+Host: 192.168.2.21 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.22 ()	Status: Up
+Host: 192.168.2.22 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.23 ()	Status: Up
+Host: 192.168.2.23 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.24 ()	Status: Up
+Host: 192.168.2.24 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.25 ()	Status: Up
+Host: 192.168.2.25 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.26 ()	Status: Up
+Host: 192.168.2.26 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.27 ()	Status: Up
+Host: 192.168.2.27 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.28 ()	Status: Up
+Host: 192.168.2.28 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.29 ()	Status: Up
+Host: 192.168.2.29 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.30 ()	Status: Up
+Host: 192.168.2.30 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.31 ()	Status: Up
+Host: 192.168.2.31 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.32 ()	Status: Up
+Host: 192.168.2.32 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.33 ()	Status: Up
+Host: 192.168.2.33 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.34 ()	Status: Up
+Host: 192.168.2.34 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.35 ()	Status: Up
+Host: 192.168.2.35 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.36 ()	Status: Up
+Host: 192.168.2.36 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.37 ()	Status: Up
+Host: 192.168.2.37 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.38 ()	Status: Up
+Host: 192.168.2.38 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.39 ()	Status: Up
+Host: 192.168.2.39 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.40 ()	Status: Up
+Host: 192.168.2.40 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.41 ()	Status: Up
+Host: 192.168.2.41 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.42 ()	Status: Up
+Host: 192.168.2.42 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.43 ()	Status: Up
+Host: 192.168.2.43 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.44 ()	Status: Up
+Host: 192.168.2.44 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.45 ()	Status: Up
+Host: 192.168.2.45 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.46 ()	Status: Up
+Host: 192.168.2.46 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.47 ()	Status: Up
+Host: 192.168.2.47 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.48 ()	Status: Up
+Host: 192.168.2.48 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.49 ()	Status: Up
+Host: 192.168.2.49 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.50 ()	Status: Up
+Host: 192.168.2.50 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.51 ()	Status: Up
+Host: 192.168.2.51 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.52 ()	Status: Up
+Host: 192.168.2.52 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.53 ()	Status: Up
+Host: 192.168.2.53 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.54 ()	Status: Up
+Host: 192.168.2.54 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.55 ()	Status: Up
+Host: 192.168.2.55 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.56 ()	Status: Up
+Host: 192.168.2.56 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.57 ()	Status: Up
+Host: 192.168.2.57 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.58 ()	Status: Up
+Host: 192.168.2.58 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.59 ()	Status: Up
+Host: 192.168.2.59 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.60 ()	Status: Up
+Host: 192.168.2.60 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.61 ()	Status: Up
+Host: 192.168.2.61 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.62 ()	Status: Up
+Host: 192.168.2.62 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.63 ()	Status: Up
+Host: 192.168.2.63 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.64 ()	Status: Up
+Host: 192.168.2.64 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.65 ()	Status: Up
+Host: 192.168.2.65 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.66 ()	Status: Up
+Host: 192.168.2.66 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.67 ()	Status: Up
+Host: 192.168.2.67 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.68 ()	Status: Up
+Host: 192.168.2.68 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.69 ()	Status: Up
+Host: 192.168.2.69 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.70 ()	Status: Up
+Host: 192.168.2.70 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.71 ()	Status: Up
+Host: 192.168.2.71 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.72 ()	Status: Up
+Host: 192.168.2.72 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.73 ()	Status: Up
+Host: 192.168.2.73 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.74 ()	Status: Up
+Host: 192.168.2.74 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.75 ()	Status: Up
+Host: 192.168.2.75 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.76 ()	Status: Up
+Host: 192.168.2.76 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.77 ()	Status: Up
+Host: 192.168.2.77 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.78 ()	Status: Up
+Host: 192.168.2.78 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.79 ()	Status: Up
+Host: 192.168.2.79 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.80 ()	Status: Up
+Host: 192.168.2.80 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.81 ()	Status: Up
+Host: 192.168.2.81 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.82 ()	Status: Up
+Host: 192.168.2.82 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.83 ()	Status: Up
+Host: 192.168.2.83 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.84 ()	Status: Up
+Host: 192.168.2.84 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.85 ()	Status: Up
+Host: 192.168.2.85 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.86 ()	Status: Up
+Host: 192.168.2.86 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.87 ()	Status: Up
+Host: 192.168.2.87 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.88 ()	Status: Up
+Host: 192.168.2.88 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.89 ()	Status: Up
+Host: 192.168.2.89 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.90 ()	Status: Up
+Host: 192.168.2.90 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.91 ()	Status: Up
+Host: 192.168.2.91 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.92 ()	Status: Up
+Host: 192.168.2.92 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.93 ()	Status: Up
+Host: 192.168.2.93 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.94 ()	Status: Up
+Host: 192.168.2.94 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.95 ()	Status: Up
+Host: 192.168.2.95 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.96 ()	Status: Up
+Host: 192.168.2.96 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.97 ()	Status: Up
+Host: 192.168.2.97 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.98 ()	Status: Up
+Host: 192.168.2.98 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.99 ()	Status: Up
+Host: 192.168.2.99 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.101 ()	Status: Up
+Host: 192.168.2.101 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.102 ()	Status: Up
+Host: 192.168.2.102 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.103 ()	Status: Up
+Host: 192.168.2.103 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.104 ()	Status: Up
+Host: 192.168.2.104 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.105 ()	Status: Up
+Host: 192.168.2.105 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.106 ()	Status: Up
+Host: 192.168.2.106 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.107 ()	Status: Up
+Host: 192.168.2.107 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.108 ()	Status: Up
+Host: 192.168.2.108 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.109 ()	Status: Up
+Host: 192.168.2.109 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.110 ()	Status: Up
+Host: 192.168.2.110 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.111 ()	Status: Up
+Host: 192.168.2.111 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.112 ()	Status: Up
+Host: 192.168.2.112 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.113 ()	Status: Up
+Host: 192.168.2.113 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.114 ()	Status: Up
+Host: 192.168.2.114 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.115 ()	Status: Up
+Host: 192.168.2.115 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.116 ()	Status: Up
+Host: 192.168.2.116 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.117 ()	Status: Up
+Host: 192.168.2.117 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.118 ()	Status: Up
+Host: 192.168.2.118 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.119 ()	Status: Up
+Host: 192.168.2.119 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.120 ()	Status: Up
+Host: 192.168.2.120 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.121 ()	Status: Up
+Host: 192.168.2.121 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.122 ()	Status: Up
+Host: 192.168.2.122 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.123 ()	Status: Up
+Host: 192.168.2.123 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.124 ()	Status: Up
+Host: 192.168.2.124 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.125 ()	Status: Up
+Host: 192.168.2.125 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.126 ()	Status: Up
+Host: 192.168.2.126 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.127 ()	Status: Up
+Host: 192.168.2.127 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.128 ()	Status: Up
+Host: 192.168.2.128 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.129 ()	Status: Up
+Host: 192.168.2.129 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.130 ()	Status: Up
+Host: 192.168.2.130 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.131 ()	Status: Up
+Host: 192.168.2.131 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.132 ()	Status: Up
+Host: 192.168.2.132 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.133 ()	Status: Up
+Host: 192.168.2.133 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.134 ()	Status: Up
+Host: 192.168.2.134 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.135 ()	Status: Up
+Host: 192.168.2.135 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.136 ()	Status: Up
+Host: 192.168.2.136 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.137 ()	Status: Up
+Host: 192.168.2.137 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.138 ()	Status: Up
+Host: 192.168.2.138 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.139 ()	Status: Up
+Host: 192.168.2.139 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.140 ()	Status: Up
+Host: 192.168.2.140 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.141 ()	Status: Up
+Host: 192.168.2.141 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.142 ()	Status: Up
+Host: 192.168.2.142 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.143 ()	Status: Up
+Host: 192.168.2.143 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.144 ()	Status: Up
+Host: 192.168.2.144 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.145 ()	Status: Up
+Host: 192.168.2.145 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.146 ()	Status: Up
+Host: 192.168.2.146 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.147 ()	Status: Up
+Host: 192.168.2.147 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.148 ()	Status: Up
+Host: 192.168.2.148 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.149 ()	Status: Up
+Host: 192.168.2.149 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.150 ()	Status: Up
+Host: 192.168.2.150 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.151 ()	Status: Up
+Host: 192.168.2.151 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.152 ()	Status: Up
+Host: 192.168.2.152 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.153 ()	Status: Up
+Host: 192.168.2.153 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.154 ()	Status: Up
+Host: 192.168.2.154 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.155 ()	Status: Up
+Host: 192.168.2.155 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.156 ()	Status: Up
+Host: 192.168.2.156 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.157 ()	Status: Up
+Host: 192.168.2.157 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.158 ()	Status: Up
+Host: 192.168.2.158 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.159 ()	Status: Up
+Host: 192.168.2.159 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.160 ()	Status: Up
+Host: 192.168.2.160 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.161 ()	Status: Up
+Host: 192.168.2.161 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.162 ()	Status: Up
+Host: 192.168.2.162 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.163 ()	Status: Up
+Host: 192.168.2.163 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.164 ()	Status: Up
+Host: 192.168.2.164 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.165 ()	Status: Up
+Host: 192.168.2.165 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.166 ()	Status: Up
+Host: 192.168.2.166 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.167 ()	Status: Up
+Host: 192.168.2.167 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.168 ()	Status: Up
+Host: 192.168.2.168 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.169 ()	Status: Up
+Host: 192.168.2.169 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.170 ()	Status: Up
+Host: 192.168.2.170 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.171 ()	Status: Up
+Host: 192.168.2.171 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.172 ()	Status: Up
+Host: 192.168.2.172 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.173 ()	Status: Up
+Host: 192.168.2.173 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.174 ()	Status: Up
+Host: 192.168.2.174 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.175 ()	Status: Up
+Host: 192.168.2.175 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.176 ()	Status: Up
+Host: 192.168.2.176 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.177 ()	Status: Up
+Host: 192.168.2.177 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.178 ()	Status: Up
+Host: 192.168.2.178 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.179 ()	Status: Up
+Host: 192.168.2.179 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.180 ()	Status: Up
+Host: 192.168.2.180 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.181 ()	Status: Up
+Host: 192.168.2.181 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.182 ()	Status: Up
+Host: 192.168.2.182 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.183 ()	Status: Up
+Host: 192.168.2.183 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.184 ()	Status: Up
+Host: 192.168.2.184 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.185 ()	Status: Up
+Host: 192.168.2.185 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.186 ()	Status: Up
+Host: 192.168.2.186 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.187 ()	Status: Up
+Host: 192.168.2.187 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.188 ()	Status: Up
+Host: 192.168.2.188 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.189 ()	Status: Up
+Host: 192.168.2.189 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.190 ()	Status: Up
+Host: 192.168.2.190 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.191 ()	Status: Up
+Host: 192.168.2.191 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.192 ()	Status: Up
+Host: 192.168.2.192 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.193 ()	Status: Up
+Host: 192.168.2.193 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.194 ()	Status: Up
+Host: 192.168.2.194 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.195 ()	Status: Up
+Host: 192.168.2.195 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.196 ()	Status: Up
+Host: 192.168.2.196 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.197 ()	Status: Up
+Host: 192.168.2.197 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.198 ()	Status: Up
+Host: 192.168.2.198 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.199 ()	Status: Up
+Host: 192.168.2.199 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.200 ()	Status: Up
+Host: 192.168.2.200 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.201 ()	Status: Up
+Host: 192.168.2.201 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.202 ()	Status: Up
+Host: 192.168.2.202 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.203 ()	Status: Up
+Host: 192.168.2.203 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.204 ()	Status: Up
+Host: 192.168.2.204 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.205 ()	Status: Up
+Host: 192.168.2.205 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.206 ()	Status: Up
+Host: 192.168.2.206 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.207 ()	Status: Up
+Host: 192.168.2.207 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.208 ()	Status: Up
+Host: 192.168.2.208 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.209 ()	Status: Up
+Host: 192.168.2.209 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.210 ()	Status: Up
+Host: 192.168.2.210 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.211 ()	Status: Up
+Host: 192.168.2.211 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.212 ()	Status: Up
+Host: 192.168.2.212 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.213 ()	Status: Up
+Host: 192.168.2.213 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.214 ()	Status: Up
+Host: 192.168.2.214 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.215 ()	Status: Up
+Host: 192.168.2.215 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.216 ()	Status: Up
+Host: 192.168.2.216 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.217 ()	Status: Up
+Host: 192.168.2.217 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.218 ()	Status: Up
+Host: 192.168.2.218 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.219 ()	Status: Up
+Host: 192.168.2.219 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.220 ()	Status: Up
+Host: 192.168.2.220 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.221 ()	Status: Up
+Host: 192.168.2.221 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.222 ()	Status: Up
+Host: 192.168.2.222 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.223 ()	Status: Up
+Host: 192.168.2.223 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.224 ()	Status: Up
+Host: 192.168.2.224 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.225 ()	Status: Up
+Host: 192.168.2.225 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.226 ()	Status: Up
+Host: 192.168.2.226 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.227 ()	Status: Up
+Host: 192.168.2.227 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.228 ()	Status: Up
+Host: 192.168.2.228 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.229 ()	Status: Up
+Host: 192.168.2.229 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.230 ()	Status: Up
+Host: 192.168.2.230 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.231 ()	Status: Up
+Host: 192.168.2.231 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.232 ()	Status: Up
+Host: 192.168.2.232 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.233 ()	Status: Up
+Host: 192.168.2.233 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.234 ()	Status: Up
+Host: 192.168.2.234 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.235 ()	Status: Up
+Host: 192.168.2.235 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.236 ()	Status: Up
+Host: 192.168.2.236 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.237 ()	Status: Up
+Host: 192.168.2.237 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.238 ()	Status: Up
+Host: 192.168.2.238 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.239 ()	Status: Up
+Host: 192.168.2.239 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.240 ()	Status: Up
+Host: 192.168.2.240 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.241 ()	Status: Up
+Host: 192.168.2.241 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.242 ()	Status: Up
+Host: 192.168.2.242 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.243 ()	Status: Up
+Host: 192.168.2.243 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.244 ()	Status: Up
+Host: 192.168.2.244 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.245 ()	Status: Up
+Host: 192.168.2.245 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.246 ()	Status: Up
+Host: 192.168.2.246 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.247 ()	Status: Up
+Host: 192.168.2.247 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.248 ()	Status: Up
+Host: 192.168.2.248 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.249 ()	Status: Up
+Host: 192.168.2.249 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.250 ()	Status: Up
+Host: 192.168.2.250 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.251 ()	Status: Up
+Host: 192.168.2.251 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.252 ()	Status: Up
+Host: 192.168.2.252 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.253 ()	Status: Up
+Host: 192.168.2.253 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.254 ()	Status: Up
+Host: 192.168.2.254 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.2.255 ()	Status: Up
+Host: 192.168.2.255 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.0 ()	Status: Up
+Host: 192.168.3.0 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.1 ()	Status: Up
+Host: 192.168.3.1 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.2 ()	Status: Up
+Host: 192.168.3.2 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.3 ()	Status: Up
+Host: 192.168.3.3 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.4 ()	Status: Up
+Host: 192.168.3.4 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.5 ()	Status: Up
+Host: 192.168.3.5 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.6 ()	Status: Up
+Host: 192.168.3.6 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.7 ()	Status: Up
+Host: 192.168.3.7 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.8 ()	Status: Up
+Host: 192.168.3.8 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.9 ()	Status: Up
+Host: 192.168.3.9 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.10 ()	Status: Up
+Host: 192.168.3.10 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.11 ()	Status: Up
+Host: 192.168.3.11 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.12 ()	Status: Up
+Host: 192.168.3.12 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.13 ()	Status: Up
+Host: 192.168.3.13 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.14 ()	Status: Up
+Host: 192.168.3.14 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.15 ()	Status: Up
+Host: 192.168.3.15 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.16 ()	Status: Up
+Host: 192.168.3.16 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.17 ()	Status: Up
+Host: 192.168.3.17 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.18 ()	Status: Up
+Host: 192.168.3.18 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.19 ()	Status: Up
+Host: 192.168.3.19 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.20 ()	Status: Up
+Host: 192.168.3.20 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.21 ()	Status: Up
+Host: 192.168.3.21 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.22 ()	Status: Up
+Host: 192.168.3.22 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.23 ()	Status: Up
+Host: 192.168.3.23 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.24 ()	Status: Up
+Host: 192.168.3.24 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.25 ()	Status: Up
+Host: 192.168.3.25 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.26 ()	Status: Up
+Host: 192.168.3.26 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.27 ()	Status: Up
+Host: 192.168.3.27 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.28 ()	Status: Up
+Host: 192.168.3.28 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.29 ()	Status: Up
+Host: 192.168.3.29 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.30 ()	Status: Up
+Host: 192.168.3.30 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.31 ()	Status: Up
+Host: 192.168.3.31 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.32 ()	Status: Up
+Host: 192.168.3.32 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.33 ()	Status: Up
+Host: 192.168.3.33 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.34 ()	Status: Up
+Host: 192.168.3.34 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.35 ()	Status: Up
+Host: 192.168.3.35 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.36 ()	Status: Up
+Host: 192.168.3.36 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.37 ()	Status: Up
+Host: 192.168.3.37 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.38 ()	Status: Up
+Host: 192.168.3.38 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.39 ()	Status: Up
+Host: 192.168.3.39 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.40 ()	Status: Up
+Host: 192.168.3.40 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.41 ()	Status: Up
+Host: 192.168.3.41 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.42 ()	Status: Up
+Host: 192.168.3.42 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.43 ()	Status: Up
+Host: 192.168.3.43 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.44 ()	Status: Up
+Host: 192.168.3.44 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.45 ()	Status: Up
+Host: 192.168.3.45 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.46 ()	Status: Up
+Host: 192.168.3.46 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.47 ()	Status: Up
+Host: 192.168.3.47 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.48 ()	Status: Up
+Host: 192.168.3.48 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.49 ()	Status: Up
+Host: 192.168.3.49 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.50 ()	Status: Up
+Host: 192.168.3.50 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.51 ()	Status: Up
+Host: 192.168.3.51 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.52 ()	Status: Up
+Host: 192.168.3.52 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.53 ()	Status: Up
+Host: 192.168.3.53 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.54 ()	Status: Up
+Host: 192.168.3.54 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.55 ()	Status: Up
+Host: 192.168.3.55 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.56 ()	Status: Up
+Host: 192.168.3.56 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.57 ()	Status: Up
+Host: 192.168.3.57 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.58 ()	Status: Up
+Host: 192.168.3.58 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.59 ()	Status: Up
+Host: 192.168.3.59 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.60 ()	Status: Up
+Host: 192.168.3.60 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.61 ()	Status: Up
+Host: 192.168.3.61 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.62 ()	Status: Up
+Host: 192.168.3.62 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.63 ()	Status: Up
+Host: 192.168.3.63 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.64 ()	Status: Up
+Host: 192.168.3.64 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.65 ()	Status: Up
+Host: 192.168.3.65 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.66 ()	Status: Up
+Host: 192.168.3.66 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.67 ()	Status: Up
+Host: 192.168.3.67 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.68 ()	Status: Up
+Host: 192.168.3.68 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.69 ()	Status: Up
+Host: 192.168.3.69 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.70 ()	Status: Up
+Host: 192.168.3.70 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.71 ()	Status: Up
+Host: 192.168.3.71 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.72 ()	Status: Up
+Host: 192.168.3.72 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.73 ()	Status: Up
+Host: 192.168.3.73 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.74 ()	Status: Up
+Host: 192.168.3.74 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.75 ()	Status: Up
+Host: 192.168.3.75 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.76 ()	Status: Up
+Host: 192.168.3.76 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.77 ()	Status: Up
+Host: 192.168.3.77 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.78 ()	Status: Up
+Host: 192.168.3.78 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.79 ()	Status: Up
+Host: 192.168.3.79 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.80 ()	Status: Up
+Host: 192.168.3.80 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.81 ()	Status: Up
+Host: 192.168.3.81 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.82 ()	Status: Up
+Host: 192.168.3.82 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.83 ()	Status: Up
+Host: 192.168.3.83 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.84 ()	Status: Up
+Host: 192.168.3.84 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.85 ()	Status: Up
+Host: 192.168.3.85 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.86 ()	Status: Up
+Host: 192.168.3.86 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.87 ()	Status: Up
+Host: 192.168.3.87 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.88 ()	Status: Up
+Host: 192.168.3.88 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.89 ()	Status: Up
+Host: 192.168.3.89 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.90 ()	Status: Up
+Host: 192.168.3.90 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.91 ()	Status: Up
+Host: 192.168.3.91 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.92 ()	Status: Up
+Host: 192.168.3.92 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.93 ()	Status: Up
+Host: 192.168.3.93 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.94 ()	Status: Up
+Host: 192.168.3.94 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.95 ()	Status: Up
+Host: 192.168.3.95 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.96 ()	Status: Up
+Host: 192.168.3.96 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.97 ()	Status: Up
+Host: 192.168.3.97 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.98 ()	Status: Up
+Host: 192.168.3.98 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.99 ()	Status: Up
+Host: 192.168.3.99 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.100 ()	Status: Up
+Host: 192.168.3.100 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.101 ()	Status: Up
+Host: 192.168.3.101 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.102 ()	Status: Up
+Host: 192.168.3.102 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.103 ()	Status: Up
+Host: 192.168.3.103 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.104 ()	Status: Up
+Host: 192.168.3.104 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.105 ()	Status: Up
+Host: 192.168.3.105 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.106 ()	Status: Up
+Host: 192.168.3.106 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.107 ()	Status: Up
+Host: 192.168.3.107 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.108 ()	Status: Up
+Host: 192.168.3.108 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.109 ()	Status: Up
+Host: 192.168.3.109 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.110 ()	Status: Up
+Host: 192.168.3.110 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.111 ()	Status: Up
+Host: 192.168.3.111 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.112 ()	Status: Up
+Host: 192.168.3.112 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.113 ()	Status: Up
+Host: 192.168.3.113 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.114 ()	Status: Up
+Host: 192.168.3.114 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.115 ()	Status: Up
+Host: 192.168.3.115 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.116 ()	Status: Up
+Host: 192.168.3.116 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.117 ()	Status: Up
+Host: 192.168.3.117 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.118 ()	Status: Up
+Host: 192.168.3.118 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.119 ()	Status: Up
+Host: 192.168.3.119 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.120 ()	Status: Up
+Host: 192.168.3.120 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.121 ()	Status: Up
+Host: 192.168.3.121 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.122 ()	Status: Up
+Host: 192.168.3.122 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.123 ()	Status: Up
+Host: 192.168.3.123 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.124 ()	Status: Up
+Host: 192.168.3.124 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.125 ()	Status: Up
+Host: 192.168.3.125 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.126 ()	Status: Up
+Host: 192.168.3.126 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.127 ()	Status: Up
+Host: 192.168.3.127 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.128 ()	Status: Up
+Host: 192.168.3.128 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.129 ()	Status: Up
+Host: 192.168.3.129 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.130 ()	Status: Up
+Host: 192.168.3.130 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.131 ()	Status: Up
+Host: 192.168.3.131 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.132 ()	Status: Up
+Host: 192.168.3.132 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.133 ()	Status: Up
+Host: 192.168.3.133 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.134 ()	Status: Up
+Host: 192.168.3.134 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.135 ()	Status: Up
+Host: 192.168.3.135 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.136 ()	Status: Up
+Host: 192.168.3.136 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.137 ()	Status: Up
+Host: 192.168.3.137 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.138 ()	Status: Up
+Host: 192.168.3.138 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.139 ()	Status: Up
+Host: 192.168.3.139 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.140 ()	Status: Up
+Host: 192.168.3.140 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.141 ()	Status: Up
+Host: 192.168.3.141 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.142 ()	Status: Up
+Host: 192.168.3.142 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.143 ()	Status: Up
+Host: 192.168.3.143 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.144 ()	Status: Up
+Host: 192.168.3.144 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.145 ()	Status: Up
+Host: 192.168.3.145 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.146 ()	Status: Up
+Host: 192.168.3.146 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.147 ()	Status: Up
+Host: 192.168.3.147 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.148 ()	Status: Up
+Host: 192.168.3.148 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.149 ()	Status: Up
+Host: 192.168.3.149 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.150 ()	Status: Up
+Host: 192.168.3.150 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.151 ()	Status: Up
+Host: 192.168.3.151 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.152 ()	Status: Up
+Host: 192.168.3.152 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.153 ()	Status: Up
+Host: 192.168.3.153 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.154 ()	Status: Up
+Host: 192.168.3.154 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.155 ()	Status: Up
+Host: 192.168.3.155 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.156 ()	Status: Up
+Host: 192.168.3.156 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.157 ()	Status: Up
+Host: 192.168.3.157 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.158 ()	Status: Up
+Host: 192.168.3.158 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.159 ()	Status: Up
+Host: 192.168.3.159 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.160 ()	Status: Up
+Host: 192.168.3.160 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.161 ()	Status: Up
+Host: 192.168.3.161 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.162 ()	Status: Up
+Host: 192.168.3.162 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.163 ()	Status: Up
+Host: 192.168.3.163 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.164 ()	Status: Up
+Host: 192.168.3.164 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.165 ()	Status: Up
+Host: 192.168.3.165 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.166 ()	Status: Up
+Host: 192.168.3.166 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.167 ()	Status: Up
+Host: 192.168.3.167 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.168 ()	Status: Up
+Host: 192.168.3.168 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.169 ()	Status: Up
+Host: 192.168.3.169 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.170 ()	Status: Up
+Host: 192.168.3.170 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.171 ()	Status: Up
+Host: 192.168.3.171 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.172 ()	Status: Up
+Host: 192.168.3.172 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.173 ()	Status: Up
+Host: 192.168.3.173 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.174 ()	Status: Up
+Host: 192.168.3.174 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.175 ()	Status: Up
+Host: 192.168.3.175 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.176 ()	Status: Up
+Host: 192.168.3.176 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.177 ()	Status: Up
+Host: 192.168.3.177 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.178 ()	Status: Up
+Host: 192.168.3.178 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.179 ()	Status: Up
+Host: 192.168.3.179 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.180 ()	Status: Up
+Host: 192.168.3.180 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.181 ()	Status: Up
+Host: 192.168.3.181 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.182 ()	Status: Up
+Host: 192.168.3.182 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.183 ()	Status: Up
+Host: 192.168.3.183 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.184 ()	Status: Up
+Host: 192.168.3.184 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.185 ()	Status: Up
+Host: 192.168.3.185 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.186 ()	Status: Up
+Host: 192.168.3.186 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.187 ()	Status: Up
+Host: 192.168.3.187 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.188 ()	Status: Up
+Host: 192.168.3.188 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.189 ()	Status: Up
+Host: 192.168.3.189 ()	Ports: 11434/open/tcp/////	Ignored State: filtered (41)
+Host: 192.168.3.190 ()	Status: Up
+Host: 192.168.3.190 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.191 ()	Status: Up
+Host: 192.168.3.191 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.192 ()	Status: Up
+Host: 192.168.3.192 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.193 ()	Status: Up
+Host: 192.168.3.193 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.194 ()	Status: Up
+Host: 192.168.3.194 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.195 ()	Status: Up
+Host: 192.168.3.195 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.196 ()	Status: Up
+Host: 192.168.3.196 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.197 ()	Status: Up
+Host: 192.168.3.197 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.198 ()	Status: Up
+Host: 192.168.3.198 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.199 ()	Status: Up
+Host: 192.168.3.199 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.200 ()	Status: Up
+Host: 192.168.3.200 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.201 ()	Status: Up
+Host: 192.168.3.201 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.202 ()	Status: Up
+Host: 192.168.3.202 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.203 ()	Status: Up
+Host: 192.168.3.203 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.204 ()	Status: Up
+Host: 192.168.3.204 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.205 ()	Status: Up
+Host: 192.168.3.205 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.206 ()	Status: Up
+Host: 192.168.3.206 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.207 ()	Status: Up
+Host: 192.168.3.207 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.208 ()	Status: Up
+Host: 192.168.3.208 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.209 ()	Status: Up
+Host: 192.168.3.209 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.210 ()	Status: Up
+Host: 192.168.3.210 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.211 ()	Status: Up
+Host: 192.168.3.211 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.212 ()	Status: Up
+Host: 192.168.3.212 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.213 ()	Status: Up
+Host: 192.168.3.213 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.214 ()	Status: Up
+Host: 192.168.3.214 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.215 ()	Status: Up
+Host: 192.168.3.215 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.216 ()	Status: Up
+Host: 192.168.3.216 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.217 ()	Status: Up
+Host: 192.168.3.217 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.218 ()	Status: Up
+Host: 192.168.3.218 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.219 ()	Status: Up
+Host: 192.168.3.219 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.220 ()	Status: Up
+Host: 192.168.3.220 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.221 ()	Status: Up
+Host: 192.168.3.221 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.222 ()	Status: Up
+Host: 192.168.3.222 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.223 ()	Status: Up
+Host: 192.168.3.223 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.224 ()	Status: Up
+Host: 192.168.3.224 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.225 ()	Status: Up
+Host: 192.168.3.225 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.226 ()	Status: Up
+Host: 192.168.3.226 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.227 ()	Status: Up
+Host: 192.168.3.227 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.228 ()	Status: Up
+Host: 192.168.3.228 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.229 ()	Status: Up
+Host: 192.168.3.229 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.230 ()	Status: Up
+Host: 192.168.3.230 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.231 ()	Status: Up
+Host: 192.168.3.231 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.232 ()	Status: Up
+Host: 192.168.3.232 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.233 ()	Status: Up
+Host: 192.168.3.233 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.234 ()	Status: Up
+Host: 192.168.3.234 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.235 ()	Status: Up
+Host: 192.168.3.235 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.236 ()	Status: Up
+Host: 192.168.3.236 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.237 ()	Status: Up
+Host: 192.168.3.237 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.238 ()	Status: Up
+Host: 192.168.3.238 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.239 ()	Status: Up
+Host: 192.168.3.239 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.240 ()	Status: Up
+Host: 192.168.3.240 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.241 ()	Status: Up
+Host: 192.168.3.241 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.242 ()	Status: Up
+Host: 192.168.3.242 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.243 ()	Status: Up
+Host: 192.168.3.243 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.244 ()	Status: Up
+Host: 192.168.3.244 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.245 ()	Status: Up
+Host: 192.168.3.245 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.246 ()	Status: Up
+Host: 192.168.3.246 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.247 ()	Status: Up
+Host: 192.168.3.247 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.248 ()	Status: Up
+Host: 192.168.3.248 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.249 ()	Status: Up
+Host: 192.168.3.249 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.250 ()	Status: Up
+Host: 192.168.3.250 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.251 ()	Status: Up
+Host: 192.168.3.251 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.252 ()	Status: Up
+Host: 192.168.3.252 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.253 ()	Status: Up
+Host: 192.168.3.253 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.254 ()	Status: Up
+Host: 192.168.3.254 ()	Ports: 	Ignored State: filtered (42)
+Host: 192.168.3.255 ()	Status: Up
+Host: 192.168.3.255 ()	Ports: 	Ignored State: filtered (42)
+# Nmap done at Mon Oct  5 14:19:55 2026 -- 767 IP addresses (767 hosts up) scanned in 451.94 seconds

@@ -1,0 +1,12 @@
+# Nmap 7.94SVN scan initiated Mon Oct  5 14:15:41 2026 as: nmap -n -Pn -sU -p 53,67,69,123,137,161,500,1900,4500,5353 --reason --max-retries 1 --max-rate 30 --host-timeout 90s -oA isolation-audit/retest-20261005T1411Z/udp-known 192.168.1.1 192.168.1.50 192.168.2.1 192.168.3.1 192.168.3.189
+Host: 192.168.1.1 ()	Status: Up
+Host: 192.168.1.1 ()	Ports: 53/open|filtered/udp//domain///, 67/open|filtered/udp//dhcps///, 69/open|filtered/udp//tftp///, 123/open|filtered/udp//ntp///, 137/open|filtered/udp//netbios-ns///, 161/open|filtered/udp//snmp///, 500/open|filtered/udp//isakmp///, 1900/open|filtered/udp//upnp///, 4500/open|filtered/udp//nat-t-ike///, 5353/open|filtered/udp//zeroconf///
+Host: 192.168.1.50 ()	Status: Up
+Host: 192.168.1.50 ()	Ports: 53/open|filtered/udp//domain///, 67/open|filtered/udp//dhcps///, 69/open|filtered/udp//tftp///, 123/open|filtered/udp//ntp///, 137/open|filtered/udp//netbios-ns///, 161/open|filtered/udp//snmp///, 500/open|filtered/udp//isakmp///, 1900/open|filtered/udp//upnp///, 4500/open|filtered/udp//nat-t-ike///, 5353/open|filtered/udp//zeroconf///
+Host: 192.168.3.1 ()	Status: Up
+Host: 192.168.3.1 ()	Ports: 53/open|filtered/udp//domain///, 67/open|filtered/udp//dhcps///, 69/open|filtered/udp//tftp///, 123/open|filtered/udp//ntp///, 137/open|filtered/udp//netbios-ns///, 161/open|filtered/udp//snmp///, 500/open|filtered/udp//isakmp///, 1900/open|filtered/udp//upnp///, 4500/open|filtered/udp//nat-t-ike///, 5353/open|filtered/udp//zeroconf///
+Host: 192.168.3.189 ()	Status: Up
+Host: 192.168.3.189 ()	Ports: 53/open|filtered/udp//domain///, 67/open|filtered/udp//dhcps///, 69/open|filtered/udp//tftp///, 123/open|filtered/udp//ntp///, 137/open|filtered/udp//netbios-ns///, 161/open|filtered/udp//snmp///, 500/open|filtered/udp//isakmp///, 1900/open|filtered/udp//upnp///, 4500/open|filtered/udp//nat-t-ike///, 5353/open|filtered/udp//zeroconf///
+Host: 192.168.2.1 ()	Status: Up
+Host: 192.168.2.1 ()	Ports: 53/open|filtered/udp//domain///, 67/open|filtered/udp//dhcps///, 69/open|filtered/udp//tftp///, 123/open|filtered/udp//ntp///, 137/open|filtered/udp//netbios-ns///, 161/open|filtered/udp//snmp///, 500/open|filtered/udp//isakmp///, 1900/open|filtered/udp//upnp///, 4500/open|filtered/udp//nat-t-ike///, 5353/open|filtered/udp//zeroconf///
+# Nmap done at Mon Oct  5 14:15:52 2026 -- 5 IP addresses (5 hosts up) scanned in 10.82 seconds

@@ -1,0 +1,10 @@
+Health check: sandbox | Ubuntu 24.04.5 LTS | 2026-09-22 18:51 UTC.
+Overall: systemd reports degraded; 3 failed units need investigation.
+Uptime: 9 days 9 hours 43 minutes; 2 logged-in sessions.
+CPU: 4 logical CPUs; load averages 0.15/0.41/0.65; sampled idle 81%, I/O wait 0%.
+Memory: 1,822 MiB used of 15,993 MiB; 14,170 MiB available; swap usage negligible.
+Storage: root 22% used (73 GiB available), /boot 11% used; root inodes 8% used.
+Failed units: ai-sysadmin-maintenance.service and ai-sysadmin-prepare.service (definitions missing), lxd-installer@0-394986-1000.service.
+Network: ens18.2 UP at 192.168.2.100; default route via 192.168.2.1; external reachability not tested.
+Logs: recurring network-online timeouts and maintenance failures; no kernel errors in accessible current-boot journal.
+Updates/time: 13 upgrades in cached APT metadata (freshness unverified); no reboot-required marker; NTP synchronized.

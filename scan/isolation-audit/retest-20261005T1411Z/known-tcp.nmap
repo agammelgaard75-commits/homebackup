@@ -1,0 +1,33 @@
+# Nmap 7.94SVN scan initiated Mon Oct  5 14:12:22 2026 as: nmap -n -Pn -sS --top-ports 1000 --reason --min-rate 150 --max-rate 250 --max-retries 1 -oA isolation-audit/retest-20261005T1411Z/known-tcp 192.168.1.1 192.168.1.43 192.168.1.50 192.168.1.201 192.168.2.1 192.168.3.1
+Nmap scan report for 192.168.1.1
+Host is up, received user-set.
+All 1000 scanned ports on 192.168.1.1 are in ignored states.
+Not shown: 1000 filtered tcp ports (no-response)
+
+Nmap scan report for 192.168.1.43
+Host is up, received user-set.
+All 1000 scanned ports on 192.168.1.43 are in ignored states.
+Not shown: 1000 filtered tcp ports (no-response)
+
+Nmap scan report for 192.168.1.50
+Host is up, received user-set.
+All 1000 scanned ports on 192.168.1.50 are in ignored states.
+Not shown: 1000 filtered tcp ports (no-response)
+
+Nmap scan report for 192.168.1.201
+Host is up, received user-set.
+All 1000 scanned ports on 192.168.1.201 are in ignored states.
+Not shown: 1000 filtered tcp ports (no-response)
+
+Nmap scan report for 192.168.3.1
+Host is up, received user-set.
+All 1000 scanned ports on 192.168.3.1 are in ignored states.
+Not shown: 1000 filtered tcp ports (no-response)
+
+Nmap scan report for 192.168.2.1
+Host is up, received arp-response (0.00027s latency).
+All 1000 scanned ports on 192.168.2.1 are in ignored states.
+Not shown: 1000 filtered tcp ports (no-response)
+MAC Address: 6E:63:F8:15:EA:A0 (Unknown)
+
+# Nmap done at Mon Oct  5 14:13:44 2026 -- 6 IP addresses (6 hosts up) scanned in 82.19 seconds

@@ -1,0 +1,137 @@
+[
+  {
+    "host": "192.168.1.1",
+    "port": 22,
+    "insecure": true,
+    "status": 500,
+    "body": "{\"error\":\"pull model manifest: Get \\\"http://192.168.1.1:22/v2/audit/isolation-audit-20261005-1411/manifests/latest\\\": dial tcp 192.168.1.1:22: connectex: No connection could be made because the target machine actively refused it.\"}",
+    "elapsed": 2.148
+  },
+  {
+    "host": "192.168.1.1",
+    "port": 443,
+    "insecure": false,
+    "status": 500,
+    "body": "{\"error\":\"pull model manifest: Get \\\"https://192.168.1.1:443/v2/audit/isolation-audit-20261005-1411/manifests/latest\\\": dial tcp 192.168.1.1:443: connectex: No connection could be made because the target machine actively refused it.\"}",
+    "elapsed": 2.149
+  },
+  {
+    "host": "192.168.2.1",
+    "port": 443,
+    "insecure": false,
+    "status": 500,
+    "body": "{\"error\":\"pull model manifest: Get \\\"https://192.168.2.1:443/v2/audit/isolation-audit-20261005-1411/manifests/latest\\\": dial tcp 192.168.2.1:443: connectex: No connection could be made because the target machine actively refused it.\"}",
+    "elapsed": 2.131
+  },
+  {
+    "host": "192.168.3.1",
+    "port": 443,
+    "insecure": false,
+    "status": 500,
+    "body": "{\"error\":\"pull model manifest: Get \\\"https://192.168.3.1:443/v2/audit/isolation-audit-20261005-1411/manifests/latest\\\": dial tcp 192.168.3.1:443: connectex: No connection could be made because the target machine actively refused it.\"}",
+    "elapsed": 2.127
+  },
+  {
+    "host": "192.168.1.43",
+    "port": 22,
+    "insecure": true,
+    "status": 500,
+    "body": "{\"error\":\"pull model manifest: Get \\\"http://192.168.1.43:22/v2/audit/isolation-audit-20261005-1411/manifests/latest\\\": read tcp 192.168.3.189:49616-\\u003e192.168.1.43:22: wsarecv: An existing connection was forcibly closed by the remote host.\"}",
+    "elapsed": 0.102
+  },
+  {
+    "host": "192.168.1.43",
+    "port": 80,
+    "insecure": true,
+    "status": 500,
+    "body": "{\"error\":\"pull model manifest: Get \\\"http://192.168.1.43:80/v2/audit/isolation-audit-20261005-1411/manifests/latest\\\": dial tcp 192.168.1.43:80: connectex: No connection could be made because the target machine actively refused it.\"}",
+    "elapsed": 2.138
+  },
+  {
+    "host": "192.168.1.43",
+    "port": 443,
+    "insecure": false,
+    "status": 500,
+    "body": "{\"error\":\"pull model manifest: Get \\\"https://192.168.1.43:443/v2/audit/isolation-audit-20261005-1411/manifests/latest\\\": dial tcp 192.168.1.43:443: connectex: No connection could be made because the target machine actively refused it.\"}",
+    "elapsed": 2.082
+  },
+  {
+    "host": "192.168.1.43",
+    "port": 8080,
+    "insecure": true,
+    "status": 500,
+    "body": "{\"error\":\"pull model manifest: Get \\\"https://192.168.1.43:8443/v2/audit/isolation-audit-20261005-1411/manifests/latest\\\": tls: failed to verify certificate: x509: certificate signed by unknown authority\"}",
+    "elapsed": 0.121
+  },
+  {
+    "host": "192.168.1.43",
+    "port": 8443,
+    "insecure": false,
+    "status": 500,
+    "body": "{\"error\":\"pull model manifest: Get \\\"https://192.168.1.43:8443/v2/audit/isolation-audit-20261005-1411/manifests/latest\\\": tls: failed to verify certificate: x509: certificate signed by unknown authority\"}",
+    "elapsed": 0.094
+  },
+  {
+    "host": "192.168.1.201",
+    "port": 22,
+    "insecure": true,
+    "status": 500,
+    "body": "{\"error\":\"pull model manifest: Get \\\"http://192.168.1.201:22/v2/audit/isolation-audit-20261005-1411/manifests/latest\\\": dial tcp 192.168.1.201:22: connectex: No connection could be made because the target machine actively refused it.\"}",
+    "elapsed": 2.105
+  },
+  {
+    "host": "192.168.1.201",
+    "port": 443,
+    "insecure": false,
+    "status": 500,
+    "body": "{\"error\":\"pull model manifest: Get \\\"https://192.168.1.201:443/v2/audit/isolation-audit-20261005-1411/manifests/latest\\\": dial tcp 192.168.1.201:443: connectex: No connection could be made because the target machine actively refused it.\"}",
+    "elapsed": 2.118
+  },
+  {
+    "host": "192.168.1.201",
+    "port": 8006,
+    "insecure": false,
+    "status": 500,
+    "body": "{\"error\":\"pull model manifest: Get \\\"https://192.168.1.201:8006/v2/audit/isolation-audit-20261005-1411/manifests/latest\\\": dial tcp 192.168.1.201:8006: connectex: No connection could be made because the target machine actively refused it.\"}",
+    "elapsed": 2.12
+  },
+  {
+    "host": "192.168.1.50",
+    "port": 443,
+    "insecure": false,
+    "error": "timed out",
+    "elapsed": 5.06
+  },
+  {
+    "host": "192.168.3.189",
+    "port": 445,
+    "insecure": true,
+    "status": 500,
+    "body": "{\"error\":\"pull model manifest: Get \\\"http://192.168.3.189:445/v2/audit/isolation-audit-20261005-1411/manifests/latest\\\": read tcp 192.168.3.189:49633-\\u003e192.168.3.189:445: wsarecv: An existing connection was forcibly closed by the remote host.\"}",
+    "elapsed": 0.088
+  },
+  {
+    "host": "127.0.0.1",
+    "port": 22,
+    "insecure": true,
+    "status": 500,
+    "body": "{\"error\":\"pull model manifest: Get \\\"http://127.0.0.1:22/v2/audit/isolation-audit-20261005-1411/manifests/latest\\\": dial tcp 127.0.0.1:22: connectex: No connection could be made because the target machine actively refused it.\"}",
+    "elapsed": 0.088
+  },
+  {
+    "host": "127.0.0.1",
+    "port": 8080,
+    "insecure": true,
+    "status": 500,
+    "body": "{\"error\":\"pull model manifest: Get \\\"http://127.0.0.1:8080/v2/audit/isolation-audit-20261005-1411/manifests/latest\\\": dial tcp 127.0.0.1:8080: connectex: No connection could be made because the target machine actively refused it.\"}",
+    "elapsed": 0.089
+  },
+  {
+    "host": "127.0.0.1",
+    "port": 3000,
+    "insecure": true,
+    "status": 500,
+    "body": "{\"error\":\"pull model manifest: Get \\\"http://127.0.0.1:3000/v2/audit/isolation-audit-20261005-1411/manifests/latest\\\": dial tcp 127.0.0.1:3000: connectex: No connection could be made because the target machine actively refused it.\"}",
+    "elapsed": 0.072
+  }
+]

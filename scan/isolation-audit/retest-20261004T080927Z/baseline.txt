@@ -1,0 +1,43 @@
+$ ['bash', '-c', 'date -u; ip -d link show ens18; ip -d link show ens18.2; ip -br addr; ip route show table all; ip -6 neigh']
+Sun Oct  4 08:09:27 UTC 2026
+2: ens18: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP mode DEFAULT group default qlen 1000
+    link/ether bc:24:11:ac:52:ab brd ff:ff:ff:ff:ff:ff promiscuity 0  allmulti 0 minmtu 68 maxmtu 1500 addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 tso_max_size 65536 tso_max_segs 65535 gro_max_size 65536 parentbus virtio parentdev virtio1 
+    altname enp0s18
+3: ens18.2@ens18: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default qlen 1000
+    link/ether bc:24:11:ac:52:ab brd ff:ff:ff:ff:ff:ff promiscuity 0  allmulti 0 minmtu 0 maxmtu 65535 
+    vlan protocol 802.1Q id 2 <REORDER_HDR> addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535 tso_max_size 65536 tso_max_segs 65535 gro_max_size 65536 
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+ens18            UP             192.168.2.100/24 fe80::be24:11ff:feac:52ab/64 
+ens18.2@ens18    UP             fe80::be24:11ff:feac:52ab/64 
+br-5ec7a81d27aa  UP             172.18.0.1/16 fe80::94f1:b2ff:fe48:2a3f/64 
+docker0          DOWN           172.17.0.1/16 
+veth86c648b@if2  UP             fe80::e0f5:3dff:febc:4e1/64 
+default via 192.168.2.1 dev ens18 proto static 
+172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1 linkdown 
+172.18.0.0/16 dev br-5ec7a81d27aa proto kernel scope link src 172.18.0.1 
+192.168.2.0/24 dev ens18 proto kernel scope link src 192.168.2.100 
+local 127.0.0.0/8 dev lo table local proto kernel scope host src 127.0.0.1 
+local 127.0.0.1 dev lo table local proto kernel scope host src 127.0.0.1 
+broadcast 127.255.255.255 dev lo table local proto kernel scope link src 127.0.0.1 
+local 172.17.0.1 dev docker0 table local proto kernel scope host src 172.17.0.1 
+broadcast 172.17.255.255 dev docker0 table local proto kernel scope link src 172.17.0.1 linkdown 
+local 172.18.0.1 dev br-5ec7a81d27aa table local proto kernel scope host src 172.18.0.1 
+broadcast 172.18.255.255 dev br-5ec7a81d27aa table local proto kernel scope link src 172.18.0.1 
+local 192.168.2.100 dev ens18 table local proto kernel scope host src 192.168.2.100 
+broadcast 192.168.2.255 dev ens18 table local proto kernel scope link src 192.168.2.100 
+fe80::/64 dev ens18 proto kernel metric 256 pref medium
+fe80::/64 dev ens18.2 proto kernel metric 256 pref medium
+fe80::/64 dev veth86c648b proto kernel metric 256 pref medium
+fe80::/64 dev br-5ec7a81d27aa proto kernel metric 256 pref medium
+local ::1 dev lo table local proto kernel metric 0 pref medium
+local fe80::94f1:b2ff:fe48:2a3f dev br-5ec7a81d27aa table local proto kernel metric 0 pref medium
+local fe80::be24:11ff:feac:52ab dev ens18.2 table local proto kernel metric 0 pref medium
+local fe80::be24:11ff:feac:52ab dev ens18 table local proto kernel metric 0 pref medium
+local fe80::e0f5:3dff:febc:4e1 dev veth86c648b table local proto kernel metric 0 pref medium
+multicast ff00::/8 dev ens18 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev ens18.2 table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev veth86c648b table local proto kernel metric 256 pref medium
+multicast ff00::/8 dev br-5ec7a81d27aa table local proto kernel metric 256 pref medium
+fe80::6c63:f8ff:fe15:eaa0 dev ens18 lladdr 6e:63:f8:15:ea:a0 router DELAY 
+
+exit=0

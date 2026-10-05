@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.94SVN scan initiated Mon Oct  5 14:11:45 2026 as: nmap -n -Pn -sS -p- -&#45;reason -&#45;min-rate 300 -&#45;max-rate 600 -&#45;max-retries 1 -oA isolation-audit/retest-20261005T1411Z/ollama-full-tcp 192.168.3.189 -->
+<nmaprun scanner="nmap" args="nmap -n -Pn -sS -p- -&#45;reason -&#45;min-rate 300 -&#45;max-rate 600 -&#45;max-retries 1 -oA isolation-audit/retest-20261005T1411Z/ollama-full-tcp 192.168.3.189" start="1791209505" startstr="Mon Oct  5 14:11:45 2026" version="7.94SVN" xmloutputversion="1.05">
+<scaninfo type="syn" protocol="tcp" numservices="65535" services="1-65535"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1791209505" endtime="1791209724"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="192.168.3.189" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+<ports><extraports state="filtered" count="65534">
+<extrareasons reason="no-response" count="65534" proto="tcp" ports="1-11433,11435-65535"/>
+</extraports>
+<port protocol="tcp" portid="11434"><state state="open" reason="syn-ack" reason_ttl="127"/></port>
+</ports>
+<times srtt="816" rttvar="116" to="100000"/>
+</host>
+<runstats><finished time="1791209724" timestr="Mon Oct  5 14:15:24 2026" summary="Nmap done at Mon Oct  5 14:15:24 2026; 1 IP address (1 host up) scanned in 218.84 seconds" elapsed="218.84" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

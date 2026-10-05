@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.94SVN scan initiated Mon Oct  5 14:12:22 2026 as: nmap -6 -n -Pn -sT -p 22,23,53,80,443,445,2375,3000,4000,5678,8000,8006,8080,8443,9090,11434 -&#45;reason -&#45;max-retries 1 -&#45;max-rate 80 -iL isolation-audit/retest-20261005T1411Z/targets-ipv6.txt -oA isolation-audit/retest-20261005T1411Z/ipv6-services -->
+<nmaprun scanner="nmap" args="nmap -6 -n -Pn -sT -p 22,23,53,80,443,445,2375,3000,4000,5678,8000,8006,8080,8443,9090,11434 -&#45;reason -&#45;max-retries 1 -&#45;max-rate 80 -iL isolation-audit/retest-20261005T1411Z/targets-ipv6.txt -oA isolation-audit/retest-20261005T1411Z/ipv6-services" start="1791209542" startstr="Mon Oct  5 14:12:22 2026" version="7.94SVN" xmloutputversion="1.05">
+<scaninfo type="connect" protocol="tcp" numservices="16" services="22-23,53,80,443,445,2375,3000,4000,5678,8000,8006,8080,8443,9090,11434"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1791209542" endtime="1791209546"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="fe80::4e3:b0fa:4799:dcf8" addrtype="ipv6"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="22"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="ssh" method="table" conf="3"/></port>
+<port protocol="tcp" portid="23"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="telnet" method="table" conf="3"/></port>
+<port protocol="tcp" portid="53"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="domain" method="table" conf="3"/></port>
+<port protocol="tcp" portid="80"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="http" method="table" conf="3"/></port>
+<port protocol="tcp" portid="443"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="https" method="table" conf="3"/></port>
+<port protocol="tcp" portid="445"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="microsoft-ds" method="table" conf="3"/></port>
+<port protocol="tcp" portid="2375"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="docker" method="table" conf="3"/></port>
+<port protocol="tcp" portid="3000"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="ppp" method="table" conf="3"/></port>
+<port protocol="tcp" portid="4000"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="remoteanything" method="table" conf="3"/></port>
+<port protocol="tcp" portid="5678"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="rrac" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8000"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="http-alt" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8006"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="wpl-analytics" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8080"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="http-proxy" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8443"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="https-alt" method="table" conf="3"/></port>
+<port protocol="tcp" portid="9090"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="zeus-admin" method="table" conf="3"/></port>
+<port protocol="tcp" portid="11434"><state state="filtered" reason="no-response" reason_ttl="0"/></port>
+</ports>
+</host>
+<host starttime="1791209543" endtime="1791209543"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="fe80::6c63:f8ff:fe15:eaa0" addrtype="ipv6"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="22"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="ssh" method="table" conf="3"/></port>
+<port protocol="tcp" portid="23"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="telnet" method="table" conf="3"/></port>
+<port protocol="tcp" portid="53"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="domain" method="table" conf="3"/></port>
+<port protocol="tcp" portid="80"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="http" method="table" conf="3"/></port>
+<port protocol="tcp" portid="443"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="https" method="table" conf="3"/></port>
+<port protocol="tcp" portid="445"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="microsoft-ds" method="table" conf="3"/></port>
+<port protocol="tcp" portid="2375"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="docker" method="table" conf="3"/></port>
+<port protocol="tcp" portid="3000"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="ppp" method="table" conf="3"/></port>
+<port protocol="tcp" portid="4000"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="remoteanything" method="table" conf="3"/></port>
+<port protocol="tcp" portid="5678"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="rrac" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8000"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="http-alt" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8006"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="wpl-analytics" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8080"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="http-proxy" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8443"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="https-alt" method="table" conf="3"/></port>
+<port protocol="tcp" portid="9090"><state state="closed" reason="conn-refused" reason_ttl="0"/><service name="zeus-admin" method="table" conf="3"/></port>
+<port protocol="tcp" portid="11434"><state state="closed" reason="conn-refused" reason_ttl="0"/></port>
+</ports>
+<times srtt="591" rttvar="190" to="100000"/>
+</host>
+<host starttime="1791209542" endtime="1791209546"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="fe80::aef2:3cff:feab:af25" addrtype="ipv6"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="22"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="ssh" method="table" conf="3"/></port>
+<port protocol="tcp" portid="23"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="telnet" method="table" conf="3"/></port>
+<port protocol="tcp" portid="53"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="domain" method="table" conf="3"/></port>
+<port protocol="tcp" portid="80"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="http" method="table" conf="3"/></port>
+<port protocol="tcp" portid="443"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="https" method="table" conf="3"/></port>
+<port protocol="tcp" portid="445"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="microsoft-ds" method="table" conf="3"/></port>
+<port protocol="tcp" portid="2375"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="docker" method="table" conf="3"/></port>
+<port protocol="tcp" portid="3000"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="ppp" method="table" conf="3"/></port>
+<port protocol="tcp" portid="4000"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="remoteanything" method="table" conf="3"/></port>
+<port protocol="tcp" portid="5678"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="rrac" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8000"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="http-alt" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8006"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="wpl-analytics" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8080"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="http-proxy" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8443"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="https-alt" method="table" conf="3"/></port>
+<port protocol="tcp" portid="9090"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="zeus-admin" method="table" conf="3"/></port>
+<port protocol="tcp" portid="11434"><state state="filtered" reason="no-response" reason_ttl="0"/></port>
+</ports>
+</host>
+<host starttime="1791209543" endtime="1791209546"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="fe80::be24:11ff:fe4b:3ef5" addrtype="ipv6"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="22"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="ssh" method="table" conf="3"/></port>
+<port protocol="tcp" portid="23"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="telnet" method="table" conf="3"/></port>
+<port protocol="tcp" portid="53"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="domain" method="table" conf="3"/></port>
+<port protocol="tcp" portid="80"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="http" method="table" conf="3"/></port>
+<port protocol="tcp" portid="443"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="https" method="table" conf="3"/></port>
+<port protocol="tcp" portid="445"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="microsoft-ds" method="table" conf="3"/></port>
+<port protocol="tcp" portid="2375"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="docker" method="table" conf="3"/></port>
+<port protocol="tcp" portid="3000"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="ppp" method="table" conf="3"/></port>
+<port protocol="tcp" portid="4000"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="remoteanything" method="table" conf="3"/></port>
+<port protocol="tcp" portid="5678"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="rrac" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8000"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="http-alt" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8006"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="wpl-analytics" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8080"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="http-proxy" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8443"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="https-alt" method="table" conf="3"/></port>
+<port protocol="tcp" portid="9090"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="zeus-admin" method="table" conf="3"/></port>
+<port protocol="tcp" portid="11434"><state state="filtered" reason="no-response" reason_ttl="0"/></port>
+</ports>
+</host>
+<host starttime="1791209543" endtime="1791209545"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="fe80::be24:11ff:febe:aa22" addrtype="ipv6"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="22"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="ssh" method="table" conf="3"/></port>
+<port protocol="tcp" portid="23"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="telnet" method="table" conf="3"/></port>
+<port protocol="tcp" portid="53"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="domain" method="table" conf="3"/></port>
+<port protocol="tcp" portid="80"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="http" method="table" conf="3"/></port>
+<port protocol="tcp" portid="443"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="https" method="table" conf="3"/></port>
+<port protocol="tcp" portid="445"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="microsoft-ds" method="table" conf="3"/></port>
+<port protocol="tcp" portid="2375"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="docker" method="table" conf="3"/></port>
+<port protocol="tcp" portid="3000"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="ppp" method="table" conf="3"/></port>
+<port protocol="tcp" portid="4000"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="remoteanything" method="table" conf="3"/></port>
+<port protocol="tcp" portid="5678"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="rrac" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8000"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="http-alt" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8006"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="wpl-analytics" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8080"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="http-proxy" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8443"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="https-alt" method="table" conf="3"/></port>
+<port protocol="tcp" portid="9090"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="zeus-admin" method="table" conf="3"/></port>
+<port protocol="tcp" portid="11434"><state state="filtered" reason="no-response" reason_ttl="0"/></port>
+</ports>
+</host>
+<host starttime="1791209542" endtime="1791209545"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="fe80::cf:d94:bb18:6099" addrtype="ipv6"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="22"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="ssh" method="table" conf="3"/></port>
+<port protocol="tcp" portid="23"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="telnet" method="table" conf="3"/></port>
+<port protocol="tcp" portid="53"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="domain" method="table" conf="3"/></port>
+<port protocol="tcp" portid="80"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="http" method="table" conf="3"/></port>
+<port protocol="tcp" portid="443"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="https" method="table" conf="3"/></port>
+<port protocol="tcp" portid="445"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="microsoft-ds" method="table" conf="3"/></port>
+<port protocol="tcp" portid="2375"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="docker" method="table" conf="3"/></port>
+<port protocol="tcp" portid="3000"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="ppp" method="table" conf="3"/></port>
+<port protocol="tcp" portid="4000"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="remoteanything" method="table" conf="3"/></port>
+<port protocol="tcp" portid="5678"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="rrac" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8000"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="http-alt" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8006"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="wpl-analytics" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8080"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="http-proxy" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8443"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="https-alt" method="table" conf="3"/></port>
+<port protocol="tcp" portid="9090"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="zeus-admin" method="table" conf="3"/></port>
+<port protocol="tcp" portid="11434"><state state="filtered" reason="no-response" reason_ttl="0"/></port>
+</ports>
+</host>
+<host starttime="1791209542" endtime="1791209546"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="fe80::dab3:70ff:fe9a:a21f" addrtype="ipv6"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="22"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="ssh" method="table" conf="3"/></port>
+<port protocol="tcp" portid="23"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="telnet" method="table" conf="3"/></port>
+<port protocol="tcp" portid="53"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="domain" method="table" conf="3"/></port>
+<port protocol="tcp" portid="80"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="http" method="table" conf="3"/></port>
+<port protocol="tcp" portid="443"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="https" method="table" conf="3"/></port>
+<port protocol="tcp" portid="445"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="microsoft-ds" method="table" conf="3"/></port>
+<port protocol="tcp" portid="2375"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="docker" method="table" conf="3"/></port>
+<port protocol="tcp" portid="3000"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="ppp" method="table" conf="3"/></port>
+<port protocol="tcp" portid="4000"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="remoteanything" method="table" conf="3"/></port>
+<port protocol="tcp" portid="5678"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="rrac" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8000"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="http-alt" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8006"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="wpl-analytics" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8080"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="http-proxy" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8443"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="https-alt" method="table" conf="3"/></port>
+<port protocol="tcp" portid="9090"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="zeus-admin" method="table" conf="3"/></port>
+<port protocol="tcp" portid="11434"><state state="filtered" reason="no-response" reason_ttl="0"/></port>
+</ports>
+</host>
+<host starttime="1791209543" endtime="1791209546"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="fe80::dab3:70ff:feb6:6b87" addrtype="ipv6"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="22"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="ssh" method="table" conf="3"/></port>
+<port protocol="tcp" portid="23"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="telnet" method="table" conf="3"/></port>
+<port protocol="tcp" portid="53"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="domain" method="table" conf="3"/></port>
+<port protocol="tcp" portid="80"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="http" method="table" conf="3"/></port>
+<port protocol="tcp" portid="443"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="https" method="table" conf="3"/></port>
+<port protocol="tcp" portid="445"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="microsoft-ds" method="table" conf="3"/></port>
+<port protocol="tcp" portid="2375"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="docker" method="table" conf="3"/></port>
+<port protocol="tcp" portid="3000"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="ppp" method="table" conf="3"/></port>
+<port protocol="tcp" portid="4000"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="remoteanything" method="table" conf="3"/></port>
+<port protocol="tcp" portid="5678"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="rrac" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8000"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="http-alt" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8006"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="wpl-analytics" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8080"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="http-proxy" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8443"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="https-alt" method="table" conf="3"/></port>
+<port protocol="tcp" portid="9090"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="zeus-admin" method="table" conf="3"/></port>
+<port protocol="tcp" portid="11434"><state state="filtered" reason="no-response" reason_ttl="0"/></port>
+</ports>
+</host>
+<host starttime="1791209542" endtime="1791209546"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="fe80::e4f5:b0ff:fe7a:e8fe" addrtype="ipv6"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="22"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="ssh" method="table" conf="3"/></port>
+<port protocol="tcp" portid="23"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="telnet" method="table" conf="3"/></port>
+<port protocol="tcp" portid="53"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="domain" method="table" conf="3"/></port>
+<port protocol="tcp" portid="80"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="http" method="table" conf="3"/></port>
+<port protocol="tcp" portid="443"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="https" method="table" conf="3"/></port>
+<port protocol="tcp" portid="445"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="microsoft-ds" method="table" conf="3"/></port>
+<port protocol="tcp" portid="2375"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="docker" method="table" conf="3"/></port>
+<port protocol="tcp" portid="3000"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="ppp" method="table" conf="3"/></port>
+<port protocol="tcp" portid="4000"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="remoteanything" method="table" conf="3"/></port>
+<port protocol="tcp" portid="5678"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="rrac" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8000"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="http-alt" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8006"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="wpl-analytics" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8080"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="http-proxy" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8443"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="https-alt" method="table" conf="3"/></port>
+<port protocol="tcp" portid="9090"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="zeus-admin" method="table" conf="3"/></port>
+<port protocol="tcp" portid="11434"><state state="filtered" reason="no-response" reason_ttl="0"/></port>
+</ports>
+</host>
+<host starttime="1791209542" endtime="1791209546"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="fe80::f64d:30ff:fe60:69ad" addrtype="ipv6"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="22"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="ssh" method="table" conf="3"/></port>
+<port protocol="tcp" portid="23"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="telnet" method="table" conf="3"/></port>
+<port protocol="tcp" portid="53"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="domain" method="table" conf="3"/></port>
+<port protocol="tcp" portid="80"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="http" method="table" conf="3"/></port>
+<port protocol="tcp" portid="443"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="https" method="table" conf="3"/></port>
+<port protocol="tcp" portid="445"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="microsoft-ds" method="table" conf="3"/></port>
+<port protocol="tcp" portid="2375"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="docker" method="table" conf="3"/></port>
+<port protocol="tcp" portid="3000"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="ppp" method="table" conf="3"/></port>
+<port protocol="tcp" portid="4000"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="remoteanything" method="table" conf="3"/></port>
+<port protocol="tcp" portid="5678"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="rrac" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8000"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="http-alt" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8006"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="wpl-analytics" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8080"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="http-proxy" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8443"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="https-alt" method="table" conf="3"/></port>
+<port protocol="tcp" portid="9090"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="zeus-admin" method="table" conf="3"/></port>
+<port protocol="tcp" portid="11434"><state state="filtered" reason="no-response" reason_ttl="0"/></port>
+</ports>
+</host>
+<runstats><finished time="1791209546" timestr="Mon Oct  5 14:12:26 2026" summary="Nmap done at Mon Oct  5 14:12:26 2026; 10 IP addresses (10 hosts up) scanned in 3.98 seconds" elapsed="3.98" exit="success"/><hosts up="10" down="0" total="10"/>
+</runstats>
+</nmaprun>

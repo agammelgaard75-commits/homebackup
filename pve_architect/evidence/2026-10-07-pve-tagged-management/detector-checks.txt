@@ -1,0 +1,1 @@
+PASS: tagged VLAN 4 reply accepted; VLAN 2 and untagged replies rejected; NIC-stripped VLAN metadata accepted; wrong target IP rejected.

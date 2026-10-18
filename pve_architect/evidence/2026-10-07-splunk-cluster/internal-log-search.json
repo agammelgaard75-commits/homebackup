@@ -1,0 +1,45 @@
+{
+  "preview": false,
+  "init_offset": 0,
+  "messages": [
+    {
+      "type": "INFO",
+      "text": "Your timerange was substituted based on your search string"
+    }
+  ],
+  "fields": [
+    {
+      "name": "host",
+      "groupby_rank": "0"
+    },
+    {
+      "name": "count"
+    },
+    {
+      "name": "latest_event"
+    }
+  ],
+  "results": [
+    {
+      "host": "splunk-cm",
+      "count": "3139",
+      "latest_event": "1791466267.935"
+    },
+    {
+      "host": "splunk-idx1",
+      "count": "4333",
+      "latest_event": "1791466268.390"
+    },
+    {
+      "host": "splunk-idx2",
+      "count": "7830",
+      "latest_event": "1791466266.104"
+    },
+    {
+      "host": "splunk-sh",
+      "count": "909",
+      "latest_event": "1791466266.309"
+    }
+  ],
+  "highlighted": {}
+}

@@ -1,0 +1,126 @@
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+Thu Oct  8 13:09:02 UTC 2026
+      VMID NAME                 STATUS     MEM(MB)    BOOTDISK(GB) PID       
+       100 splunk-cm            running    2048              16.00 50900     
+       101 splunk-idx1          running    3072              24.00 51126     
+       102 splunk-idx2          running    3072              24.00 51414     
+       103 splunk-sh            running    3072              20.00 51674     
+               total        used        free      shared  buff/cache   available
+Mem:            14Gi        11Gi       535Mi        46Mi       2.4Gi       2.6Gi
+Swap:          8.0Gi          0B       8.0Gi
+Result=success
+ActiveState=inactive
+  Size of logical volume pve/vm-103-disk-0 changed from 3.50 GiB (896 extents) to 20.00 GiB (5120 extents).
+  Logical volume pve/vm-103-disk-0 successfully resized.
+generating cloud-init ISO
+CREATED {'vmid': 103, 'name': 'splunk-sh', 'role': 'searchhead', 'cores': 2, 'memory': 3072, 'disk': 20, 'order': 30}
+[
+   {
+      "hardware-address" : "00:00:00:00:00:00",
+      "ip-addresses" : [
+         {
+            "ip-address" : "127.0.0.1",
+            "ip-address-type" : "ipv4",
+            "prefix" : 8
+         },
+         {
+            "ip-address" : "::1",
+            "ip-address-type" : "ipv6",
+            "prefix" : 128
+         }
+      ],
+      "name" : "lo",
+      "statistics" : {
+         "rx-bytes" : 22833,
+         "rx-dropped" : 0,
+         "rx-errs" : 0,
+         "rx-packets" : 198,
+         "tx-bytes" : 22833,
+         "tx-dropped" : 0,
+         "tx-errs" : 0,
+         "tx-packets" : 198
+      }
+   },
+   {
+      "hardware-address" : "bc:24:11:52:02:01",
+      "ip-addresses" : [
+         {
+            "ip-address" : "192.168.2.168",
+            "ip-address-type" : "ipv4",
+            "prefix" : 24
+         },
+         {
+            "ip-address" : "fe80::be24:11ff:fe52:201",
+            "ip-address-type" : "ipv6",
+            "prefix" : 64
+         }
+      ],
+      "name" : "ens18",
+      "statistics" : {
+         "rx-bytes" : 273133526,
+         "rx-dropped" : 0,
+         "rx-errs" : 0,
+         "rx-packets" : 92088,
+         "tx-bytes" : 1611292,
+         "tx-dropped" : 0,
+         "tx-errs" : 0,
+         "tx-packets" : 21878
+      }
+   }
+]
+[
+   {
+      "hardware-address" : "00:00:00:00:00:00",
+      "ip-addresses" : [
+         {
+            "ip-address" : "127.0.0.1",
+            "ip-address-type" : "ipv4",
+            "prefix" : 8
+         },
+         {
+            "ip-address" : "::1",
+            "ip-address-type" : "ipv6",
+            "prefix" : 128
+         }
+      ],
+      "name" : "lo",
+      "statistics" : {
+         "rx-bytes" : 22325,
+         "rx-dropped" : 0,
+         "rx-errs" : 0,
+         "rx-packets" : 194,
+         "tx-bytes" : 22325,
+         "tx-dropped" : 0,
+         "tx-errs" : 0,
+         "tx-packets" : 194
+      }
+   },
+   {
+      "hardware-address" : "bc:24:11:52:02:04",
+      "ip-addresses" : [
+         {
+            "ip-address" : "192.168.2.171",
+            "ip-address-type" : "ipv4",
+            "prefix" : 24
+         },
+         {
+            "ip-address" : "fe80::be24:11ff:fe52:204",
+            "ip-address-type" : "ipv6",
+            "prefix" : 64
+         }
+      ],
+      "name" : "ens18",
+      "statistics" : {
+         "rx-bytes" : 273185129,
+         "rx-dropped" : 0,
+         "rx-errs" : 0,
+         "rx-packets" : 92641,
+         "tx-bytes" : 1640417,
+         "tx-dropped" : 0,
+         "tx-errs" : 0,
+         "tx-packets" : 21737
+      }
+   }
+]
+
+Remote exit code: 0

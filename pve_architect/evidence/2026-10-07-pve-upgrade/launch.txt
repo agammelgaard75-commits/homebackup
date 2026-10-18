@@ -1,0 +1,5 @@
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+Running as unit: pve-upgrade-20261007.service; invocation ID: 503c706416554da69f36e30bf567fd70
+Upgrade running under systemd; evidence and recovery files: /root/pve-upgrade-20261007
+
+Exit code: 0

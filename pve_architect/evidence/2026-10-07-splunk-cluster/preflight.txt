@@ -1,0 +1,108 @@
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+Wed Oct  7 19:25:39 UTC 2026
+pve-manager/9.2.21/4f6e0ac86f9e8c7f (running kernel: 7.0.14-22-pve)
+               total        used        free      shared  buff/cache   available
+Mem:            14Gi       1.8Gi        12Gi        47Mi       462Mi        12Gi
+Swap:          8.0Gi          0B       8.0Gi
+Name             Type     Status     Total (KiB)      Used (KiB) Available (KiB)        %
+local             dir     active        71017632         6314988        61049424    8.89%
+local-lvm     lvmthin     active       148086784               0       148086784    0.00%
+auto lo
+iface lo inet loopback
+
+iface enp1s0f0 inet manual
+    bridge-allow-untagged no
+
+# Tagged uplink: VLAN 2 guests, VLAN 4 management.
+auto vmbr0
+iface vmbr0 inet manual
+    bridge-ports enp1s0f0
+    bridge-stp off
+    bridge-fd 2
+    bridge-vlan-aware yes
+    bridge-vids 2 4
+
+# Management is tagged VLAN 4; no IPv4 address on vmbr0.
+auto vmbr0.4
+iface vmbr0.4 inet static
+    address 10.10.1.10/24
+    gateway 10.10.1.1
+
+iface wlp2s0 inet manual
+
+source /etc/network/interfaces.d/*
+100
+
+=== Cloud image metadata ===
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+ "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+ <head>
+   <title>Ubuntu 26.04 LTS (Resolute Raccoon) release [20260927]</title>
+  <!-- Main style sheets for CSS2 capable browsers -->
+  <style type="text/css" media="screen">
+  @import url('https://cloud-images.ubuntu.com/include/style.css');
+  pre { background: none; }
+  body { margin: 2em; }
+  table {
+     margin: 0.5em 0;
+     border-collapse: collapse;
+  }
+  td {
+     padding: 0.25em;
+     border: 1pt solid #C1B496; /* ubuntu dark tan */
+  }
+  td p {
+     margin: 0;
+     padding: 0;
+  }
+  </style>
+ </head>
+ <body><div id="pageWrapper">
+
+<div id="header"><a href="http://www.ubuntu.com/"></a></div>
+
+<div id="main">
+
+<h1>Ubuntu 26.04 LTS (Resolute Raccoon) release [20260927]</h1>
+
+<p>The Ubuntu Cloud image can be run on your personal
+<a class="http" href="http://www.ubuntu.com/business/cloud/overview">Ubuntu
+Cloud</a>, or on <a class="http" href="http://www.ubuntu.com/cloud/public-cloud">public clouds that provide Ubuntu Certified Images.</a></p>
+
+<p><h3>To find a listing of our public images on supported Clouds, please use the Cloud Image Locator:</h3></p>
+<ul>
+	<li><a class="http" href="https://cloud-images.ubuntu.com/locator/">Released Image locator</a>
+	<li><a class="http" href="https://cloud-images.ubuntu.com/locator/daily/">Daily Image Locator</a>
+</ul>
+<p>
+Cloud image specific bugs should be filed in the <a class="http" href="https://bugs.launchpad.net/cloud-images/+filebug">cloud-images</a> project on Launchpad.net.
+</p>
+
+<h2>Launching Ubuntu</h2>
+<h3>KVM</h3>
+<p>
+When launching the download image from KVM, you will need to specify the virtio network driver.
+</p>
+<h3>LXD</h3>
+<p>
+First add the new Ubuntu images simplestreams endpoint:
+</p>
+
+<pre>
+  
+    lxc remote add --protocol simplestreams ubuntu https://cloud-images.ubuntu.com/releases/
+  
+</pre>
+
+<p>
+Launch the resolute image:
+</p>
+<pre>
+curl: (23) Failure writing output to destination, passed 7976 returned 2303
+
+=== CPU capabilities ===
+CPU(s):                                  8
+On-line CPU(s) list:                     0-7
+Model name:                              AMD Ryzen 5 2400GE with Radeon Vega Graphics
+CPU(s) scaling MHz:                      85%

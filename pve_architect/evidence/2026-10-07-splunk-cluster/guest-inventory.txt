@@ -1,0 +1,12 @@
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+100 splunk-cm 192.168.2.168 BC:24:11:52:02:01
+ssh: connect to host 192.168.2.168 port 22: Connection timed out
+
+Traceback (most recent call last):
+  File "<stdin>", line 9, in <module>
+  File "/usr/lib/python3.13/subprocess.py", line 508, in check_returncode
+    raise CalledProcessError(self.returncode, self.args, self.stdout,
+                             self.stderr)
+subprocess.CalledProcessError: Command '['ssh', '-i', '/root/splunk-lab/id_ed25519', '-o', 'StrictHostKeyChecking=accept-new', '-o', 'UserKnownHostsFile=/root/splunk-lab/known_hosts', '-o', 'ConnectTimeout=5', 'ubuntu@192.168.2.168', 'cloud-init status; cat /etc/os-release | head -4; free -h; df -h /; ip route; timedatectl show -p NTPSynchronized']' returned non-zero exit status 255.
+
+Remote exit code: 1

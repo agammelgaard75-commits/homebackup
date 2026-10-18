@@ -1,0 +1,156 @@
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+auto lo
+iface lo inet loopback
+
+iface enp1s0f0 inet manual
+
+auto vmbr0
+iface vmbr0 inet static
+	address 10.10.1.10/24
+	gateway 10.10.1.1
+	bridge-ports enp1s0f0
+	bridge-stp off
+	bridge-fd 0
+
+iface wlp2s0 inet manual
+
+
+source /etc/network/interfaces.d/*
+[{"altnames":["wlx28392620361d"],"exists":1,"families":["inet"],"iface":"wlp2s0","method":"manual","method6":"manual","priority":5,"type":"eth"},{"active":1,"altnames":["enx6c4b90a750ec"],"exists":1,"families":["inet"],"iface":"enp1s0f0","method":"manual","method6":"manual","priority":3,"type":"eth"},{"active":1,"address":"10.10.1.10","autostart":1,"bridge_fd":"0","bridge_ports":"enp1s0f0","bridge_stp":"off","cidr":"10.10.1.10/24","families":["inet"],"gateway":"10.10.1.1","iface":"vmbr0","method":"static","method6":"manual","netmask":"24","priority":4,"type":"bridge"}]
+USAGE: pvesh set /nodes/sandboxpve/network/vmbr0 --type <string> [OPTIONS]
+
+  Update network device configuration
+
+  --address  <string>
+	     IP address.
+
+	     Requires option(s): netmask
+
+  --address6 <string>
+	     IP address.
+
+	     Requires option(s): netmask6
+
+  --autostart <boolean>
+	     Automatically start interface on boot.
+
+  --bond-primary <string>
+	     Specify the primary interface for active-backup bond.
+
+  --bond_mode <802.3ad | active-backup | balance-alb | balance-rr |
+	     balance-slb | balance-tlb | balance-xor | broadcast |
+	     lacp-balance-slb | lacp-balance-tcp>
+	     Bonding mode.
+
+  --bond_xmit_hash_policy <layer2 | layer2+3 | layer3+4>
+	     Selects the transmit hash policy to use for slave selection in
+	     balance-xor and 802.3ad modes.
+
+  --bridge_ports <string>
+	     Specify the interfaces you want to add to your bridge.
+
+  --bridge_vids <string>
+	     Specify the allowed VLANs. For example: '2 4 100-200'. Only
+	     used if the bridge is VLAN aware.
+
+  --bridge_vlan_aware <boolean>
+	     Enable bridge vlan support.
+
+  --cidr     <string>
+	     IPv4 CIDR.
+
+  --cidr6    <string>
+	     IPv6 CIDR.
+
+  --comments <string>
+	     Comments
+
+  --comments6 <string>
+	     Comments
+
+  --delete   <string>
+	     A list of settings you want to delete.
+
+  --gateway  <string>
+	     Default gateway address.
+
+  --gateway6 <string>
+	     Default ipv6 gateway address.
+
+  --mtu      <integer> (1280 - 65520)
+	     MTU.
+
+  --netmask  <string>
+	     Network mask.
+
+	     Requires option(s): address
+
+  --netmask6 <integer> (0 - 128)
+	     Network mask.
+
+	     Requires option(s): address6
+
+  --ovs_bonds <string>
+	     Specify the interfaces used by the bonding device.
+
+  --ovs_bridge <string>
+	     The OVS bridge associated with a OVS port. This is required
+	     when you create an OVS port.
+
+  --ovs_options <string>
+	     OVS interface options.
+
+  --ovs_ports <string>
+	     Specify the interfaces you want to add to your bridge.
+
+  --ovs_tag  <integer> (1 - 4094)
+	     Specify a VLan tag (used by OVSPort, OVSIntPort, OVSBond)
+
+  --slaves   <string>
+	     Specify the interfaces used by the bonding device.
+
+  --type     <OVSBond | OVSBridge | OVSIntPort | OVSPort | alias | bond |
+	     bridge | eth | fabric | unknown | vlan | vnet>
+	     Network interface type
+
+  --vlan-id  <integer> (1 - 4094)
+	     vlan-id for a custom named vlan interface (ifupdown2 only).
+
+  --vlan-raw-device <string>
+	     Specify the raw interface for the vlan interface.
+
+usage: ifreload [-h] (-a | -c | --allow CLASS) [-n] [-v] [-d] [-u] [-l]
+                [--systemd] [-f] [-s] [-V] [-L LOCKFILE] [--nldebug]
+
+reload interface configuration.
+
+options:
+  -h, --help            show this help message and exit
+  -a, --all             process all interfaces marked "auto"
+  -c, --currently-up    Reload the configuration for all interfaces which are
+                        currently up regardless of whether an interface has
+                        "auto <interface>" configuration within the
+                        /etc/network/interfaces file.
+  --allow CLASS         ignore non-"allow-CLASS" interfaces
+  -n, --no-act          print out what would happen, but don't do it
+  -v, --verbose         verbose
+  -d, --debug           output debug info
+  -u, --use-current-config
+                        By default ifreload looks at saved state for
+                        interfaces to bring down. With this option ifreload
+                        will only look at the current interfaces file. Useful
+                        when your state file is corrupted or you want down to
+                        use the latest from the interfaces file
+  -l, --syslog
+  --systemd             enable journalctl logging
+  -f, --force           force run all operations
+  -s, --syntax-check    Only run the interfaces file parser
+  -V, --version
+  -L, --lock LOCKFILE   use lock file instead of default /run/network/.lock
+  --nldebug             print netlink debug messages
+port              vlan-id  
+enp1s0f0          1 PVID Egress Untagged
+vmbr0             1 PVID Egress Untagged
+1df567bc253030e69f6fe7ecf15f71076ed5e9abff273bbf3349051dc22caef8  /etc/resolv.conf
+6adcceb1ef90b7ba152120ec31acddd8dab1a743229c21f6f12c63a1d7903a5b  /etc/ssh/sshd_config
+d6c616b623c60a448c751e7f32749434fb858cb4862ae6ec67b940809d36a54e  /etc/pve/storage.cfg

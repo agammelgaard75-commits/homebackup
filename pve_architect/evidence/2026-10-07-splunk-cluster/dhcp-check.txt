@@ -1,0 +1,34 @@
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+version: 1
+config:
+    - type: physical
+      name: eth0
+      mac_address: 'bc:24:11:52:02:01'
+      subnets:
+      - type: dhcp4
+    - type: nameserver
+      address:
+      - '1.1.1.1'
+      - '8.8.8.8'
+      search:
+      - 'home.lab'
+
+port              vlan-id  
+enp1s0f0          2
+                  4
+vmbr0             1 PVID Egress Untagged
+                  4
+tap100i0          2 PVID Egress Untagged
+tap101i0          2 PVID Egress Untagged
+tap102i0          2 PVID Egress Untagged
+tap103i0          2 PVID Egress Untagged
+
+=== VLAN 2 DHCP traffic ===
+tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
+listening on enp1s0f0, link-type EN10MB (Ethernet), snapshot length 262144 bytes
+
+0 packets captured
+0 packets received by filter
+0 packets dropped by kernel
+
+Remote exit code: 0

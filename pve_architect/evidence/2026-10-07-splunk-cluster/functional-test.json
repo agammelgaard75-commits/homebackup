@@ -1,0 +1,43 @@
+{
+  "time_utc": "2026-10-08T13:29:15.735587+00:00",
+  "marker": "pve-lab-34ec376b73ce409aa5b13da99bcf5817",
+  "ingestion": [
+    {
+      "node": "splunk-idx1",
+      "result": {
+        "text": "Success",
+        "code": 0
+      }
+    },
+    {
+      "node": "splunk-idx2",
+      "result": {
+        "text": "Success",
+        "code": 0
+      }
+    }
+  ],
+  "search": {
+    "preview": false,
+    "init_offset": 0,
+    "messages": [],
+    "fields": [
+      {
+        "name": "count"
+      },
+      {
+        "name": "origins"
+      }
+    ],
+    "results": [
+      {
+        "count": "2",
+        "origins": [
+          "splunk-idx1",
+          "splunk-idx2"
+        ]
+      }
+    ],
+    "highlighted": {}
+  }
+}

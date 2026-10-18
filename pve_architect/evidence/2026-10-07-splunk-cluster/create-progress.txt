@@ -1,0 +1,60 @@
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+Result=success
+ActiveState=active
+SubState=running
+ansferred 2.3 GiB of 3.5 GiB (66.16%)
+transferred 2.4 GiB of 3.5 GiB (67.16%)
+transferred 2.4 GiB of 3.5 GiB (68.16%)
+transferred 2.4 GiB of 3.5 GiB (69.16%)
+transferred 2.5 GiB of 3.5 GiB (70.16%)
+transferred 2.5 GiB of 3.5 GiB (71.24%)
+transferred 2.5 GiB of 3.5 GiB (72.24%)
+transferred 2.6 GiB of 3.5 GiB (73.24%)
+transferred 2.6 GiB of 3.5 GiB (74.24%)
+transferred 2.6 GiB of 3.5 GiB (75.24%)
+transferred 2.7 GiB of 3.5 GiB (76.24%)
+transferred 2.7 GiB of 3.5 GiB (77.24%)
+transferred 2.7 GiB of 3.5 GiB (78.24%)
+transferred 2.8 GiB of 3.5 GiB (79.24%)
+transferred 2.8 GiB of 3.5 GiB (80.26%)
+transferred 2.8 GiB of 3.5 GiB (81.26%)
+transferred 2.9 GiB of 3.5 GiB (82.26%)
+transferred 2.9 GiB of 3.5 GiB (83.26%)
+transferred 2.9 GiB of 3.5 GiB (84.26%)
+transferred 3.0 GiB of 3.5 GiB (85.26%)
+transferred 3.0 GiB of 3.5 GiB (86.27%)
+transferred 3.1 GiB of 3.5 GiB (87.27%)
+transferred 3.1 GiB of 3.5 GiB (88.27%)
+transferred 3.1 GiB of 3.5 GiB (89.27%)
+transferred 3.2 GiB of 3.5 GiB (90.27%)
+transferred 3.2 GiB of 3.5 GiB (91.27%)
+transferred 3.2 GiB of 3.5 GiB (92.27%)
+transferred 3.3 GiB of 3.5 GiB (93.27%)
+transferred 3.3 GiB of 3.5 GiB (94.27%)
+transferred 3.3 GiB of 3.5 GiB (95.27%)
+transferred 3.4 GiB of 3.5 GiB (96.27%)
+transferred 3.4 GiB of 3.5 GiB (97.27%)
+transferred 3.4 GiB of 3.5 GiB (98.27%)
+transferred 3.5 GiB of 3.5 GiB (99.27%)
+transferred 3.5 GiB of 3.5 GiB (100.00%)
+transferred 3.5 GiB of 3.5 GiB (100.00%)
+scsi0: successfully created disk 'local-lvm:vm-100-disk-0,discard=on,iothread=1,size=3584M'
+generating cloud-init ISO
+  Size of logical volume pve/vm-100-disk-0 changed from 3.50 GiB (896 extents) to 16.00 GiB (4096 extents).
+  Logical volume pve/vm-100-disk-0 successfully resized.
+generating cloud-init ISO
+CREATED {'vmid': 100, 'name': 'splunk-cm', 'role': 'manager', 'cores': 1, 'memory': 2048, 'disk': 16, 'order': 10}
+update VM 101: -boot order=scsi0 -cicustom user=local:snippets/splunk-101-user.yaml -ide2 local-lvm:cloudinit -ipconfig0 ip=dhcp -nameserver 1.1.1.1 8.8.8.8 -scsi0 local-lvm:0,import-from=/var/lib/vz/template/iso/splunk-lab/ubuntu-26.04-server-cloudimg-amd64.img,discard=on,iothread=1
+  Logical volume "vm-101-cloudinit" created.
+  Logical volume pve/vm-101-cloudinit changed.
+ide2: successfully created disk 'local-lvm:vm-101-cloudinit,media=cdrom'
+  Logical volume "vm-101-disk-0" created.
+  Logical volume pve/vm-101-disk-0 changed.
+      VMID NAME                 STATUS     MEM(MB)    BOOTDISK(GB) PID       
+       100 splunk-cm            running    2048              16.00 50900     
+       101 splunk-idx1          stopped    3072               0.00 0         
+               total        used        free      shared  buff/cache   available
+Mem:            14Gi       2.6Gi       7.6Gi        50Mi       4.8Gi        11Gi
+Swap:          8.0Gi          0B       8.0Gi
+
+Remote exit code: 0

@@ -1,0 +1,18 @@
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+Running as unit: pve-tagged4-cutover-v2.service; invocation ID: 60b38bcfc07541fe922c14b3de051663
+{
+  "state": "armed",
+  "utc": "2026-10-07T19:20:17.998329+00:00",
+  "expires_utc": "2026-10-07T19:35:17.998290+00:00",
+  "trigger": "Tagged VLAN 4 ARP reply from 10.10.1.1"
+}
+ActiveState=active
+SubState=running
+PING 10.10.1.1 (10.10.1.1) 56(84) bytes of data.
+64 bytes from 10.10.1.1: icmp_seq=1 ttl=64 time=0.410 ms
+
+--- 10.10.1.1 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.410/0.410/0.410/0.000 ms
+
+Exit code: 0

@@ -1,0 +1,102 @@
+[
+  {
+    "key": "understanding-actions",
+    "name": "Three Actions and a Reaction",
+    "category": "Actions",
+    "summary": "During an encounter, you can use three single actions on your turn and one reaction per round when its trigger occurs.",
+    "reminders": "Free actions cost no action; an activity uses all of its listed actions together.",
+    "source_book": "Player Core",
+    "source_page": 15,
+    "source_url": "https://2e.aonprd.com/Rules.aspx?ID=2021"
+  },
+  {
+    "key": "multiple-attack-penalty",
+    "name": "Multiple Attack Penalty",
+    "category": "Combat",
+    "summary": "On your turn, the second attack-trait check takes a -5 penalty and the third or later takes -10.",
+    "reminders": "Agile attacks use -4 and -8 instead. Any attack-trait check counts, and the penalty is based on the weapon used for that attack.",
+    "source_book": "Player Core",
+    "source_page": 402,
+    "source_url": "https://2e.aonprd.com/Rules.aspx?ID=2289"
+  },
+  {
+    "key": "cover",
+    "name": "Cover",
+    "category": "Combat",
+    "summary": "Standard cover gives +2 circumstance to AC, Reflex saves against area effects, and Stealth checks to avoid detection.",
+    "reminders": "Lesser cover gives +1 to AC only. Greater cover gives +4 to the standard-cover checks; lesser cover alone is not enough to Hide.",
+    "source_book": "Player Core",
+    "source_page": 424,
+    "source_url": "https://2e.aonprd.com/Rules.aspx?ID=2372"
+  },
+  {
+    "key": "wounded",
+    "name": "Wounded",
+    "category": "Conditions",
+    "summary": "When you lose dying, gain wounded 1 or increase an existing wounded value by 1. If you become dying while wounded, add that wounded value to dying.",
+    "reminders": "Wounded ends after successful Treat Wounds restores HP, or after you reach full HP and rest for 10 minutes.",
+    "source_book": "Player Core",
+    "source_page": 447,
+    "source_url": "https://2e.aonprd.com/Conditions.aspx?ID=99"
+  },
+  {
+    "key": "treat-wounds",
+    "name": "Treat Wounds",
+    "category": "Healing and Death",
+    "summary": "With trained Medicine and a healer's toolkit, spend 10 minutes treating one injured living creature; the usual DC is 15.",
+    "reminders": "The target is temporarily immune for 1 hour, including the treatment time. A success restores 2d8 HP and removes wounded; a critical failure deals 1d8 damage.",
+    "source_book": "Player Core",
+    "source_page": 242,
+    "source_url": "https://2e.aonprd.com/Actions.aspx?ID=2399"
+  },
+  {
+    "key": "recovery-checks",
+    "name": "Recovery Checks",
+    "category": "Healing and Death",
+    "summary": "At the start of each turn while dying, make a flat check with DC 10 plus your dying value.",
+    "reminders": "Critical success lowers dying by 2; success lowers it by 1; failure raises it by 1; critical failure raises it by 2.",
+    "source_book": "Player Core",
+    "source_page": 411,
+    "source_url": "https://2e.aonprd.com/Rules.aspx?ID=2326"
+  },
+  {
+    "key": "recall-knowledge",
+    "name": "Recall Knowledge",
+    "category": "Skills",
+    "summary": "Use a relevant skill to ask the GM a question about a topic; the GM sets the DC and resolves the check secretly.",
+    "reminders": "A success gets an accurate answer. On a critical failure, the GM may give false information or no information.",
+    "source_book": "Player Core",
+    "source_page": 231,
+    "source_url": "https://2e.aonprd.com/Skills.aspx?General=true&ID=5"
+  },
+  {
+    "key": "search-exploration",
+    "name": "Search (Exploration)",
+    "category": "Exploration",
+    "summary": "While exploring, Search lets you look carefully for hidden doors, concealed hazards, and similar things.",
+    "reminders": "You usually move at half speed. When you encounter a hidden feature, the GM makes a free secret Seek check; crowded areas can take longer.",
+    "source_book": "Player Core",
+    "source_page": 439,
+    "source_url": "https://2e.aonprd.com/Actions.aspx?ID=2630"
+  },
+  {
+    "key": "simple-dcs",
+    "name": "Simple DCs",
+    "category": "General GM Rules",
+    "summary": "For a task without a level, choose a DC by the proficiency rank that best matches its difficulty: 10, 15, 20, 30, or 40 from untrained through legendary.",
+    "reminders": "The rank is usually not required to attempt the task. Level-based DCs work better for level-based hazards or high-stakes combat challenges.",
+    "source_book": "GM Core",
+    "source_page": 52,
+    "source_url": "https://2e.aonprd.com/Rules.aspx?ID=2628"
+  },
+  {
+    "key": "monster-darkvision",
+    "name": "Monster Darkvision",
+    "category": "General GM Rules",
+    "summary": "A monster with darkvision sees in darkness and dim light, but only in black and white.",
+    "reminders": "Some magical darkness blocks normal darkvision; greater darkvision can see through those forms.",
+    "source_book": "Monster Core",
+    "source_page": 359,
+    "source_url": "https://2e.aonprd.com/MonsterAbilities.aspx?ID=59"
+  }
+]

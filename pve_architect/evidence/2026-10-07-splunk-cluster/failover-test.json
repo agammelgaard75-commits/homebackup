@@ -1,0 +1,40 @@
+{
+  "time_utc": "2026-10-08T13:29:56.966943+00:00",
+  "stopped_node": "splunk-idx2",
+  "marker": "pve-lab-34ec376b73ce409aa5b13da99bcf5817",
+  "stop_result": "inactive\n",
+  "peer_states": {
+    "splunk-idx2": "ShuttingDown",
+    "splunk-idx1": "Up"
+  },
+  "search": {
+    "preview": false,
+    "init_offset": 0,
+    "messages": [],
+    "fields": [
+      {
+        "name": "count"
+      },
+      {
+        "name": "origins"
+      },
+      {
+        "name": "serving_peer"
+      }
+    ],
+    "results": [
+      {
+        "count": "2",
+        "origins": [
+          "splunk-idx1",
+          "splunk-idx2"
+        ],
+        "serving_peer": "splunk-idx1"
+      }
+    ],
+    "highlighted": {}
+  },
+  "restart": "active\n",
+  "passed": true,
+  "validation_note": "Splunk returns one values() result as a scalar, multiple as an array; corrected test assertion against recorded response. No repeat outage needed."
+}

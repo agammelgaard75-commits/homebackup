@@ -1,0 +1,26 @@
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+
+=== Gateway traffic ===
+tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
+listening on enp1s0f0, link-type EN10MB (Ethernet), snapshot length 262144 bytes
+20:43:43.089855 6c:4b:90:a7:50:ec > 6e:63:f8:15:ea:a0, ethertype IPv4 (0x0800), length 98: 10.10.1.10 > 10.10.1.1: ICMP echo request, id 57270, seq 1, length 64
+20:43:43.090076 6e:63:f8:15:ea:a0 > 6c:4b:90:a7:50:ec, ethertype IPv4 (0x0800), length 98: 10.10.1.1 > 10.10.1.10: ICMP echo reply, id 57270, seq 1, length 64
+20:43:44.109022 6c:4b:90:a7:50:ec > 6e:63:f8:15:ea:a0, ethertype IPv4 (0x0800), length 98: 10.10.1.10 > 10.10.1.1: ICMP echo request, id 57270, seq 2, length 64
+20:43:44.109381 6e:63:f8:15:ea:a0 > 6c:4b:90:a7:50:ec, ethertype IPv4 (0x0800), length 98: 10.10.1.1 > 10.10.1.10: ICMP echo reply, id 57270, seq 2, length 64
+20:43:45.133057 6c:4b:90:a7:50:ec > 6e:63:f8:15:ea:a0, ethertype IPv4 (0x0800), length 98: 10.10.1.10 > 10.10.1.1: ICMP echo request, id 57270, seq 3, length 64
+20:43:45.133429 6e:63:f8:15:ea:a0 > 6c:4b:90:a7:50:ec, ethertype IPv4 (0x0800), length 98: 10.10.1.1 > 10.10.1.10: ICMP echo reply, id 57270, seq 3, length 64
+20:43:46.157413 6c:4b:90:a7:50:ec > 6e:63:f8:15:ea:a0, ethertype IPv4 (0x0800), length 98: 10.10.1.10 > 10.10.1.1: ICMP echo request, id 57270, seq 4, length 64
+20:43:46.157773 6e:63:f8:15:ea:a0 > 6c:4b:90:a7:50:ec, ethertype IPv4 (0x0800), length 98: 10.10.1.1 > 10.10.1.10: ICMP echo reply, id 57270, seq 4, length 64
+8 packets captured
+8 packets received by filter
+0 packets dropped by kernel
+
+
+=== Tagged VLAN 4 ingress ===
+tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
+listening on enp1s0f0, link-type EN10MB (Ethernet), snapshot length 262144 bytes
+
+0 packets captured
+0 packets received by filter
+0 packets dropped by kernel
+

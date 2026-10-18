@@ -1,0 +1,30 @@
+Fresh root API login: HTTP 200
+PVE API confirms management address retained, VLAN-aware bridge, allowed tagged VLAN 2.
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+PING 10.10.1.1 (10.10.1.1) 56(84) bytes of data.
+64 bytes from 10.10.1.1: icmp_seq=1 ttl=64 time=0.410 ms
+
+--- 10.10.1.1 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.410/0.410/0.410/0.000 ms
+Automatic rollback timer cancelled after fresh API/SSH and gateway verification.
+active
+active
+active
+active
+active
+1df567bc253030e69f6fe7ecf15f71076ed5e9abff273bbf3349051dc22caef8  /etc/resolv.conf
+6adcceb1ef90b7ba152120ec31acddd8dab1a743229c21f6f12c63a1d7903a5b  /etc/ssh/sshd_config
+d6c616b623c60a448c751e7f32749434fb858cb4862ae6ec67b940809d36a54e  /etc/pve/storage.cfg
+
+=== Tagged VLAN 2 ingress observation ===
+tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
+listening on enp1s0f0, link-type EN10MB (Ethernet), snapshot length 262144 bytes
+20:57:30.553286 6e:63:f8:15:ea:a0 > ff:ff:ff:ff:ff:ff, ethertype 802.1Q (0x8100), length 62: vlan 2, p 0, ethertype ARP (0x0806), Request who-has 192.168.2.100 tell 192.168.2.1, length 44
+20:57:31.554356 6e:63:f8:15:ea:a0 > ff:ff:ff:ff:ff:ff, ethertype 802.1Q (0x8100), length 62: vlan 2, p 0, ethertype ARP (0x0806), Request who-has 192.168.2.100 tell 192.168.2.1, length 44
+
+2 packets captured
+3 packets received by filter
+0 packets dropped by kernel
+
+Exit code: 0

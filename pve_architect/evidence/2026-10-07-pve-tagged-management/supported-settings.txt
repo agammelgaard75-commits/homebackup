@@ -1,0 +1,132 @@
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+"bridge-allow-untagged": {
+                "help": "indicate if the bridge port accepts "
+                        "untagged packets or not.  Must be "
+                        "specified under the bridge port. "
+                        "Default is \"yes\"",
+                "validvals": ["yes", "no"],
+                "example": ["bridge-allow-untagged yes"],
+                "default": "yes"
+            },
+            "bridge-port-vids": {
+                "help": "bridge vlans",
+                "compat": True,
+                "example": ["bridge-port-vids bond0=1-1000,1010-1020"]
+            },
+            "bridge-port-pvids": {
+                "help": "bridge port vlans",
+                "compat": True,
+                "example": ["bridge-port-pvids bond0=100 bond1=200"]
+            },
+            "bridge-learning": {
+                "help": "bridge port learning flag",
+                "validvals": ["on", "off", "<interface-on-off-list>"],
+                "default": "on",
+                "example": ["bridge-learning off"]
+            },
+            "bridge-igmp-version": {
+                "help": "mcast igmp version",
+                "validvals": ["2", "3"],
+                "default": "2",
+                "example": ["bridge-igmp-version 2"]
+            },
+            "bridge-mld-version": {
+                "help": "mcast mld version",
+                "validvals": ["1", "2"],
+                "default": "1",
+                "example": ["bridge-mld-version 1"]
+            },
+            "bridge-unicast-flood": {
+                "help": "bridge port unicast flood flag",
+                "validvals": ["on", "off", "<interface-on-off-list>"],
+                "default": "on",
+    
+"bridge-pvid": {
+                "help": "bridge port pvid. Must be specified under"
+                        " the bridge port",
+                "validrange": ["0", "4096"],
+                "example": ["bridge-pvid 1"]
+            },
+            "bridge-access": {
+                "help": "bridge port access vlan. Must be "
+                        "specified under the bridge port",
+                "validrange": ["1", "4094"],
+                "example": ["bridge-access 300"]
+            },
+            "bridge-allow-untagged": {
+                "help": "indicate if the bridge port accepts "
+                        "untagged packets or not.  Must be "
+                        "specified under the bridge port. "
+                        "Default is \"yes\"",
+                "validvals": ["yes", "no"],
+                "example": ["bridge-allow-untagged yes"],
+                "default": "yes"
+            },
+            "bridge-port-vids": {
+                "help": "bridge vlans",
+                "compat": True,
+                "example": ["bridge-port-vids bond0=1-1000,1010-1020"]
+            },
+            "bridge-port-pvids": {
+                "help": "bridge port vlans",
+                "compat": True,
+                "example": ["bridge-port-pvids bond0=100 bond1=200"]
+            },
+            "bridge-learning": {
+                "help": "bridge port learning flag",
+                "validvals": ["on", "off", "<interface-on-off-list>"],
+                "default": "on",
+                "example": ["bridge-learning off"]
+            },
+            "bridge-igmp-version": {
+                "help": "mcast igmp version",
+                "validvals": ["2", "3"],
+                "def
+usage: ifquery [-h] [-a] [-v] [-d] [--allow CLASS] [-w] [-X EXCLUDEPATS]
+               [-i INTERFACESFILE] [-t {native,json}] [-T {iface,vlan}] [-l]
+               [-r | -c | -x] [-o {native,json}] [-p {list,dot}] [-s]
+               [--with-defaults] [-V] [-L LOCKFILE] [--nldebug]
+               [IFACE ...]
+
+query interfaces (all or interface list)
+
+positional arguments:
+  IFACE                 interface list separated by spaces. IFACE list is
+                        mutually exclusive with -a option.
+
+options:
+  -h, --help            show this help message and exit
+  -a, --all             process all interfaces marked "auto"
+  -v, --verbose         verbose
+  -d, --debug           output debug info
+  --allow CLASS         ignore non-"allow-CLASS" interfaces
+  -w, --with-depends    run with all dependent interfaces. This option is
+                        redundant when '-a' is specified. With '-a' interfaces
+                        are always executed in dependency order
+  -X, --exclude EXCLUDEPATS
+                        Exclude interfaces from the list of interfaces to
+                        operate on. Can be specified multiple times.
+  -i, --interfaces INTERFACESFILE
+                        Specify interfaces file instead of file defined in
+                        ifupdown2.conf file
+  -t, --interfaces-format {native,json}
+                        interfaces file format
+  -T, --type {iface,vlan}
+                        type of interface entry (iface or vlan). This option
+                        can be used in case of ambiguity between a vlan
+                        interface and an iface interface of the same name
+  -l, --list            list all matching known interfaces
+  -r, --running         query running state of an interface
+  -c, --check           check interface file contents against running state of
+                        an interface
+  -x, --raw             print raw config file entries
+  -o, --format {native,json}
+                        interface display format
+  -p, --print-dependency {list,dot}
+                        print interface dependency
+  -s, --syntax-help     print supported interface config syntax
+  --with-defaults       check policy default file contents, for unconfigured
+                        attributes, against running state of an interface
+  -V, --version
+  -L, --lock LOCKFILE   use lock file instead of default /run/network/.lock
+  --nldebug             print netlink debug messages

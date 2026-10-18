@@ -1,0 +1,5 @@
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+splunk-10.6.0.5-86587d4e3b27-linux-amd64.deb VERIFIED sha512 4cde78040b0fee84aeb06a25debe8e46e5d5fe7d3e5bf0e75562592a46b91b9bef8688f4253f73643474b773a60f9ad49f98f721b8dd6ed1936c1b0cdc1a586c bytes 1411023460
+ubuntu-26.04-server-cloudimg-amd64.img VERIFIED sha256 8800651811af9a85465ad1d552add729947bb16488dddb4a9b5305a3d97332b2 bytes 865115136
+
+Remote exit code: 0

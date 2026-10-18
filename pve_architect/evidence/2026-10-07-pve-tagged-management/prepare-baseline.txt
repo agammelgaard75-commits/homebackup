@@ -1,0 +1,37 @@
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+Wed Oct  7 19:08:59 UTC 2026
+auto lo
+iface lo inet loopback
+
+iface enp1s0f0 inet manual
+
+auto vmbr0
+iface vmbr0 inet static
+	address 10.10.1.10/24
+	gateway 10.10.1.1
+	bridge-ports enp1s0f0
+	bridge-stp off
+	bridge-fd 2
+	bridge-vlan-aware yes
+	bridge-vids 2
+
+iface wlp2s0 inet manual
+
+
+source /etc/network/interfaces.d/*
+port              vlan-id  
+enp1s0f0          1 PVID Egress Untagged
+                  2
+vmbr0             1 PVID Egress Untagged
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+enp1s0f0         UP             
+wlp2s0           DOWN           
+vmbr0            UP             10.10.1.10/24 fe80::6e4b:90ff:fea7:50ec/64 
+10.10.1.1 lladdr 6e:63:f8:15:ea:a0 REACHABLE 
+default via 10.10.1.1 dev vmbr0 proto kernel onlink 
+10.10.1.0/24 dev vmbr0 proto kernel scope link src 10.10.1.10 
+active
+active
+/usr/bin/tcpdump
+
+Exit code: 0

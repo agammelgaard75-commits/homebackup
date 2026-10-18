@@ -1,0 +1,108 @@
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+
+=== Version and boot ===
+Wed Oct  7 14:37:57 UTC 2026
+pve-manager/9.2.21/4f6e0ac86f9e8c7f (running kernel: 7.0.14-22-pve)
+13.7
+7.0.14-22-pve
+8658673f-2db9-4b21-991b-355a991b5e4f
+ 16:37:58 up 1 min,  1 user,  load average: 0.64, 0.27, 0.10
+
+=== Packages ===
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Calculating upgrade...
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+
+=== Services ===
+active
+active
+active
+active
+active
+active
+active
+  UNIT LOAD ACTIVE SUB DESCRIPTION
+
+0 loaded units listed.
+
+=== Storage and virtualization ===
+Name             Type     Status     Total (KiB)      Used (KiB) Available (KiB)        %
+local             dir     active        71017632         6302516        61061896    8.87%
+local-lvm     lvmthin     active       148086784               0       148086784    0.00%
+Filesystem            Size  Used Avail Use% Mounted on
+/dev/mapper/pve-root   68G  6.1G   59G  10% /
+  LV   LSize    Data%  Meta% 
+  data <141.23g 0.00   1.13  
+  root  <69.37g              
+  swap    8.00g              
+KVM-ready
+smartctl 7.5 2025-04-30 r5714 [x86_64-linux-7.0.14-22-pve] (local build)
+Copyright (C) 2002-25, Bruce Allen, Christian Franke, www.smartmontools.org
+
+=== START OF SMART DATA SECTION ===
+SMART overall-health self-assessment test result: PASSED
+
+
+=== DNS, network, and time ===
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+enp1s0f0         UP             
+wlp2s0           DOWN           
+vmbr0            UP             10.10.1.10/24 fe80::6e4b:90ff:fea7:50ec/64 
+default via 10.10.1.1 dev vmbr0 proto kernel onlink 
+10.10.1.0/24 dev vmbr0 proto kernel scope link src 10.10.1.10 
+212.224.123.70  STREAM de.cdn.proxmox.com
+212.224.123.70  DGRAM  
+212.224.123.70  RAW    
+10.10.1.10      STREAM sandboxpve.home.lab
+10.10.1.10      DGRAM  
+10.10.1.10      RAW    
+try: 1, refid: A29FC87B, correction: 0.000000384, skew: 0.508
+Reference ID    : A29FC87B (162.159.200.123)
+Stratum         : 4
+Ref time (UTC)  : Wed Oct 07 14:37:14 2026
+System time     : 0.000000384 seconds slow of NTP time
+Last offset     : -0.000503670 seconds
+RMS offset      : 0.000503670 seconds
+Frequency       : 7.602 ppm slow
+Residual freq   : +48.169 ppm
+Skew            : 0.508 ppm
+Root delay      : 0.013965598 seconds
+Root dispersion : 0.002811850 seconds
+Update interval : 0.9 seconds
+Leap status     : Normal
+Timezone=Europe/Copenhagen
+NTPSynchronized=yes
+
+=== Access and configuration preservation ===
+permitrootlogin yes
+pubkeyauthentication yes
+passwordauthentication yes
+Status: disabled/running
+1df567bc253030e69f6fe7ecf15f71076ed5e9abff273bbf3349051dc22caef8  /etc/resolv.conf
+aa10f446daf64791bee6c1d50367ded685f84b05433919f0f2ba2df748f6e4ca  /etc/network/interfaces
+6adcceb1ef90b7ba152120ec31acddd8dab1a743229c21f6f12c63a1d7903a5b  /etc/ssh/sshd_config
+d6c616b623c60a448c751e7f32749434fb858cb4862ae6ec67b940809d36a54e  /etc/pve/storage.cfg
+343a6c8fcd562068934d97a4b43ea9889539f3f55479112f11b3021a4faf1b5c  /etc/chrony/chrony.conf
+32f0fa9cfb46a327f55b4904f7d6fe2bab55b4113b5fa65b6abb350303a32625  /etc/chrony/sources.d/sandbox-ip.sources
+a081d61f13737225271f848f1141728cb7d339c9d935bbff53cd2e3522c1b9d8  /etc/apt/sources.list.d/ceph.sources
+99bc3972f98cbd81f3ba91d0a98c72e3d9da5a59640f51e071899711e851071e  /etc/apt/sources.list.d/debian.sources
+42c96d29d59f95c8e118739f0bcb9f8127b81f3bd222440ec1aba5d605f9b19a  /etc/apt/sources.list.d/pve-enterprise.sources
+3222b0ac675c603a93b9a3a3a1eae0199f8f208b0508e50a184d205a76200863  /etc/apt/sources.list.d/pve-no-subscription.sources
+
+=== Boot errors ===
+Oct 07 16:36:56 sandboxpve kernel: irq 7: nobody cared (try booting with the "irqpoll" option)
+Oct 07 16:36:56 sandboxpve kernel: handlers:
+Oct 07 16:36:56 sandboxpve kernel: [<000000008d01e510>] amd_gpio_irq_handler
+Oct 07 16:36:56 sandboxpve kernel: Disabling IRQ #7
+Oct 07 16:37:01 sandboxpve blkmapd[702]: open pipe file /run/rpc_pipefs/nfs/blocklayout failed: No such file or directory
+
+Remote exit code: 0
+Recorded configuration checksum comparison: PASS
+PVE web UI HTTP: 200
+Fresh root API login HTTP: 200
+Authenticated API version: 9.2.21

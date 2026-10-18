@@ -1,0 +1,763 @@
+{
+  "links": {
+    "create": "/services/cluster/manager/buckets/_new"
+  },
+  "origin": "https://192.168.2.168:8089/services/cluster/manager/buckets",
+  "updated": "2026-10-08T13:33:33+00:00",
+  "generator": {
+    "build": "86587d4e3b27",
+    "version": "10.6.0.5"
+  },
+  "entry": [
+    {
+      "name": "_audit~0~020C0499-E721-4820-BA11-28AE28FA8939",
+      "id": "https://192.168.2.168:8089/services/cluster/manager/buckets/_audit~0~020C0499-E721-4820-BA11-28AE28FA8939",
+      "updated": "1970-01-01T00:00:00+00:00",
+      "links": {
+        "alternate": "/services/cluster/manager/buckets/_audit~0~020C0499-E721-4820-BA11-28AE28FA8939",
+        "list": "/services/cluster/manager/buckets/_audit~0~020C0499-E721-4820-BA11-28AE28FA8939",
+        "remove": "/services/cluster/manager/buckets/_audit~0~020C0499-E721-4820-BA11-28AE28FA8939"
+      },
+      "author": "system",
+      "acl": {
+        "app": "",
+        "can_list": true,
+        "can_write": true,
+        "modifiable": false,
+        "owner": "system",
+        "perms": {
+          "read": [
+            "admin",
+            "splunk-system-role",
+            "splunk_system_upgrader"
+          ],
+          "write": [
+            "admin",
+            "splunk-system-role",
+            "splunk_system_upgrader"
+          ]
+        },
+        "removable": false,
+        "sharing": "system"
+      },
+      "content": {
+        "bucket_size": 83992,
+        "bucket_stickiness": true,
+        "eai:acl": null,
+        "frozen": false,
+        "index": "_audit",
+        "latest_time": 1791466198,
+        "origin_site": "default",
+        "peers": {
+          "020C0499-E721-4820-BA11-28AE28FA8939": {
+            "bucket_flags": "0xffffffffffffffff",
+            "checksum": "",
+            "checksum_state": "StableCksum",
+            "search_state": "Searchable",
+            "server_name": "splunk-idx2",
+            "status": "Complete"
+          },
+          "FCC895E4-DF8E-4B10-8270-94427E706196": {
+            "bucket_flags": "0x0",
+            "checksum": "",
+            "checksum_state": "StableCksum",
+            "search_state": "Searchable",
+            "server_name": "splunk-idx1",
+            "status": "Complete"
+          }
+        },
+        "rep_count_by_site": {
+          "default": 2
+        },
+        "search_count_by_site": {
+          "default": 2
+        },
+        "service_after_time": 0,
+        "standalone": false,
+        "type": "event"
+      }
+    },
+    {
+      "name": "_audit~0~FCC895E4-DF8E-4B10-8270-94427E706196",
+      "id": "https://192.168.2.168:8089/services/cluster/manager/buckets/_audit~0~FCC895E4-DF8E-4B10-8270-94427E706196",
+      "updated": "1970-01-01T00:00:00+00:00",
+      "links": {
+        "alternate": "/services/cluster/manager/buckets/_audit~0~FCC895E4-DF8E-4B10-8270-94427E706196",
+        "list": "/services/cluster/manager/buckets/_audit~0~FCC895E4-DF8E-4B10-8270-94427E706196",
+        "remove": "/services/cluster/manager/buckets/_audit~0~FCC895E4-DF8E-4B10-8270-94427E706196"
+      },
+      "author": "system",
+      "acl": {
+        "app": "",
+        "can_list": true,
+        "can_write": true,
+        "modifiable": false,
+        "owner": "system",
+        "perms": {
+          "read": [
+            "admin",
+            "splunk-system-role",
+            "splunk_system_upgrader"
+          ],
+          "write": [
+            "admin",
+            "splunk-system-role",
+            "splunk_system_upgrader"
+          ]
+        },
+        "removable": false,
+        "sharing": "system"
+      },
+      "content": {
+        "bucket_size": 23844,
+        "bucket_stickiness": true,
+        "eai:acl": null,
+        "frozen": false,
+        "index": "_audit",
+        "latest_time": 1791466197,
+        "origin_site": "default",
+        "peers": {
+          "020C0499-E721-4820-BA11-28AE28FA8939": {
+            "bucket_flags": "0x0",
+            "checksum": "",
+            "checksum_state": "StableCksum",
+            "search_state": "Searchable",
+            "server_name": "splunk-idx2",
+            "status": "Complete"
+          },
+          "FCC895E4-DF8E-4B10-8270-94427E706196": {
+            "bucket_flags": "0xffffffffffffffff",
+            "checksum": "",
+            "checksum_state": "StableCksum",
+            "search_state": "Searchable",
+            "server_name": "splunk-idx1",
+            "status": "Complete"
+          }
+        },
+        "rep_count_by_site": {
+          "default": 2
+        },
+        "search_count_by_site": {
+          "default": 2
+        },
+        "service_after_time": 0,
+        "standalone": false,
+        "type": "event"
+      }
+    },
+    {
+      "name": "_audit~1~020C0499-E721-4820-BA11-28AE28FA8939",
+      "id": "https://192.168.2.168:8089/services/cluster/manager/buckets/_audit~1~020C0499-E721-4820-BA11-28AE28FA8939",
+      "updated": "1970-01-01T00:00:00+00:00",
+      "links": {
+        "alternate": "/services/cluster/manager/buckets/_audit~1~020C0499-E721-4820-BA11-28AE28FA8939",
+        "list": "/services/cluster/manager/buckets/_audit~1~020C0499-E721-4820-BA11-28AE28FA8939",
+        "remove": "/services/cluster/manager/buckets/_audit~1~020C0499-E721-4820-BA11-28AE28FA8939"
+      },
+      "author": "system",
+      "acl": {
+        "app": "",
+        "can_list": true,
+        "can_write": true,
+        "modifiable": false,
+        "owner": "system",
+        "perms": {
+          "read": [
+            "admin",
+            "splunk-system-role",
+            "splunk_system_upgrader"
+          ],
+          "write": [
+            "admin",
+            "splunk-system-role",
+            "splunk_system_upgrader"
+          ]
+        },
+        "removable": false,
+        "sharing": "system"
+      },
+      "content": {
+        "bucket_size": null,
+        "bucket_stickiness": true,
+        "eai:acl": null,
+        "frozen": false,
+        "index": "_audit",
+        "origin_site": "default",
+        "peers": {
+          "020C0499-E721-4820-BA11-28AE28FA8939": {
+            "bucket_flags": "0xffffffffffffffff",
+            "checksum": "",
+            "checksum_state": "StableCksum",
+            "search_state": "Searchable",
+            "server_name": "splunk-idx2",
+            "status": "StreamingSource"
+          },
+          "FCC895E4-DF8E-4B10-8270-94427E706196": {
+            "bucket_flags": "0x0",
+            "checksum": "",
+            "checksum_state": "StableCksum",
+            "search_state": "Searchable",
+            "server_name": "splunk-idx1",
+            "status": "StreamingTarget"
+          }
+        },
+        "rep_count_by_site": {
+          "default": 2
+        },
+        "search_count_by_site": {
+          "default": 2
+        },
+        "service_after_time": 0,
+        "standalone": false,
+        "type": "event"
+      }
+    },
+    {
+      "name": "_audit~1~FCC895E4-DF8E-4B10-8270-94427E706196",
+      "id": "https://192.168.2.168:8089/services/cluster/manager/buckets/_audit~1~FCC895E4-DF8E-4B10-8270-94427E706196",
+      "updated": "1970-01-01T00:00:00+00:00",
+      "links": {
+        "alternate": "/services/cluster/manager/buckets/_audit~1~FCC895E4-DF8E-4B10-8270-94427E706196",
+        "list": "/services/cluster/manager/buckets/_audit~1~FCC895E4-DF8E-4B10-8270-94427E706196",
+        "remove": "/services/cluster/manager/buckets/_audit~1~FCC895E4-DF8E-4B10-8270-94427E706196"
+      },
+      "author": "system",
+      "acl": {
+        "app": "",
+        "can_list": true,
+        "can_write": true,
+        "modifiable": false,
+        "owner": "system",
+        "perms": {
+          "read": [
+            "admin",
+            "splunk-system-role",
+            "splunk_system_upgrader"
+          ],
+          "write": [
+            "admin",
+            "splunk-system-role",
+            "splunk_system_upgrader"
+          ]
+        },
+        "removable": false,
+        "sharing": "system"
+      },
+      "content": {
+        "bucket_size": null,
+        "bucket_stickiness": true,
+        "eai:acl": null,
+        "frozen": false,
+        "index": "_audit",
+        "origin_site": "default",
+        "peers": {
+          "020C0499-E721-4820-BA11-28AE28FA8939": {
+            "bucket_flags": "0x0",
+            "checksum": "",
+            "checksum_state": "StableCksum",
+            "search_state": "Searchable",
+            "server_name": "splunk-idx2",
+            "status": "StreamingTarget"
+          },
+          "FCC895E4-DF8E-4B10-8270-94427E706196": {
+            "bucket_flags": "0xffffffffffffffff",
+            "checksum": "",
+            "checksum_state": "StableCksum",
+            "search_state": "Searchable",
+            "server_name": "splunk-idx1",
+            "status": "StreamingSource"
+          }
+        },
+        "rep_count_by_site": {
+          "default": 2
+        },
+        "search_count_by_site": {
+          "default": 2
+        },
+        "service_after_time": 0,
+        "standalone": false,
+        "type": "event"
+      }
+    },
+    {
+      "name": "_internal~0~020C0499-E721-4820-BA11-28AE28FA8939",
+      "id": "https://192.168.2.168:8089/services/cluster/manager/buckets/_internal~0~020C0499-E721-4820-BA11-28AE28FA8939",
+      "updated": "1970-01-01T00:00:00+00:00",
+      "links": {
+        "alternate": "/services/cluster/manager/buckets/_internal~0~020C0499-E721-4820-BA11-28AE28FA8939",
+        "list": "/services/cluster/manager/buckets/_internal~0~020C0499-E721-4820-BA11-28AE28FA8939",
+        "remove": "/services/cluster/manager/buckets/_internal~0~020C0499-E721-4820-BA11-28AE28FA8939"
+      },
+      "author": "system",
+      "acl": {
+        "app": "",
+        "can_list": true,
+        "can_write": true,
+        "modifiable": false,
+        "owner": "system",
+        "perms": {
+          "read": [
+            "admin",
+            "splunk-system-role",
+            "splunk_system_upgrader"
+          ],
+          "write": [
+            "admin",
+            "splunk-system-role",
+            "splunk_system_upgrader"
+          ]
+        },
+        "removable": false,
+        "sharing": "system"
+      },
+      "content": {
+        "bucket_size": 972071,
+        "bucket_stickiness": true,
+        "eai:acl": null,
+        "frozen": false,
+        "index": "_internal",
+        "latest_time": 1791466200,
+        "origin_site": "default",
+        "peers": {
+          "020C0499-E721-4820-BA11-28AE28FA8939": {
+            "bucket_flags": "0xffffffffffffffff",
+            "checksum": "",
+            "checksum_state": "StableCksum",
+            "search_state": "Searchable",
+            "server_name": "splunk-idx2",
+            "status": "Complete"
+          },
+          "FCC895E4-DF8E-4B10-8270-94427E706196": {
+            "bucket_flags": "0x0",
+            "checksum": "",
+            "checksum_state": "StableCksum",
+            "search_state": "Searchable",
+            "server_name": "splunk-idx1",
+            "status": "Complete"
+          }
+        },
+        "rep_count_by_site": {
+          "default": 2
+        },
+        "search_count_by_site": {
+          "default": 2
+        },
+        "service_after_time": 0,
+        "standalone": false,
+        "type": "event"
+      }
+    },
+    {
+      "name": "_internal~0~FCC895E4-DF8E-4B10-8270-94427E706196",
+      "id": "https://192.168.2.168:8089/services/cluster/manager/buckets/_internal~0~FCC895E4-DF8E-4B10-8270-94427E706196",
+      "updated": "1970-01-01T00:00:00+00:00",
+      "links": {
+        "alternate": "/services/cluster/manager/buckets/_internal~0~FCC895E4-DF8E-4B10-8270-94427E706196",
+        "list": "/services/cluster/manager/buckets/_internal~0~FCC895E4-DF8E-4B10-8270-94427E706196",
+        "remove": "/services/cluster/manager/buckets/_internal~0~FCC895E4-DF8E-4B10-8270-94427E706196"
+      },
+      "author": "system",
+      "acl": {
+        "app": "",
+        "can_list": true,
+        "can_write": true,
+        "modifiable": false,
+        "owner": "system",
+        "perms": {
+          "read": [
+            "admin",
+            "splunk-system-role",
+            "splunk_system_upgrader"
+          ],
+          "write": [
+            "admin",
+            "splunk-system-role",
+            "splunk_system_upgrader"
+          ]
+        },
+        "removable": false,
+        "sharing": "system"
+      },
+      "content": {
+        "bucket_size": 255036,
+        "bucket_stickiness": true,
+        "eai:acl": null,
+        "frozen": false,
+        "index": "_internal",
+        "latest_time": 1791466198,
+        "origin_site": "default",
+        "peers": {
+          "020C0499-E721-4820-BA11-28AE28FA8939": {
+            "bucket_flags": "0x0",
+            "checksum": "",
+            "checksum_state": "StableCksum",
+            "search_state": "Searchable",
+            "server_name": "splunk-idx2",
+            "status": "Complete"
+          },
+          "FCC895E4-DF8E-4B10-8270-94427E706196": {
+            "bucket_flags": "0xffffffffffffffff",
+            "checksum": "",
+            "checksum_state": "StableCksum",
+            "search_state": "Searchable",
+            "server_name": "splunk-idx1",
+            "status": "Complete"
+          }
+        },
+        "rep_count_by_site": {
+          "default": 2
+        },
+        "search_count_by_site": {
+          "default": 2
+        },
+        "service_after_time": 0,
+        "standalone": false,
+        "type": "event"
+      }
+    },
+    {
+      "name": "_internal~1~020C0499-E721-4820-BA11-28AE28FA8939",
+      "id": "https://192.168.2.168:8089/services/cluster/manager/buckets/_internal~1~020C0499-E721-4820-BA11-28AE28FA8939",
+      "updated": "1970-01-01T00:00:00+00:00",
+      "links": {
+        "alternate": "/services/cluster/manager/buckets/_internal~1~020C0499-E721-4820-BA11-28AE28FA8939",
+        "list": "/services/cluster/manager/buckets/_internal~1~020C0499-E721-4820-BA11-28AE28FA8939",
+        "remove": "/services/cluster/manager/buckets/_internal~1~020C0499-E721-4820-BA11-28AE28FA8939"
+      },
+      "author": "system",
+      "acl": {
+        "app": "",
+        "can_list": true,
+        "can_write": true,
+        "modifiable": false,
+        "owner": "system",
+        "perms": {
+          "read": [
+            "admin",
+            "splunk-system-role",
+            "splunk_system_upgrader"
+          ],
+          "write": [
+            "admin",
+            "splunk-system-role",
+            "splunk_system_upgrader"
+          ]
+        },
+        "removable": false,
+        "sharing": "system"
+      },
+      "content": {
+        "bucket_size": null,
+        "bucket_stickiness": true,
+        "eai:acl": null,
+        "frozen": false,
+        "index": "_internal",
+        "origin_site": "default",
+        "peers": {
+          "020C0499-E721-4820-BA11-28AE28FA8939": {
+            "bucket_flags": "0xffffffffffffffff",
+            "checksum": "",
+            "checksum_state": "StableCksum",
+            "search_state": "Searchable",
+            "server_name": "splunk-idx2",
+            "status": "StreamingSource"
+          },
+          "FCC895E4-DF8E-4B10-8270-94427E706196": {
+            "bucket_flags": "0x0",
+            "checksum": "",
+            "checksum_state": "StableCksum",
+            "search_state": "Searchable",
+            "server_name": "splunk-idx1",
+            "status": "StreamingTarget"
+          }
+        },
+        "rep_count_by_site": {
+          "default": 2
+        },
+        "search_count_by_site": {
+          "default": 2
+        },
+        "service_after_time": 0,
+        "standalone": false,
+        "type": "event"
+      }
+    },
+    {
+      "name": "_internal~1~FCC895E4-DF8E-4B10-8270-94427E706196",
+      "id": "https://192.168.2.168:8089/services/cluster/manager/buckets/_internal~1~FCC895E4-DF8E-4B10-8270-94427E706196",
+      "updated": "1970-01-01T00:00:00+00:00",
+      "links": {
+        "alternate": "/services/cluster/manager/buckets/_internal~1~FCC895E4-DF8E-4B10-8270-94427E706196",
+        "list": "/services/cluster/manager/buckets/_internal~1~FCC895E4-DF8E-4B10-8270-94427E706196",
+        "remove": "/services/cluster/manager/buckets/_internal~1~FCC895E4-DF8E-4B10-8270-94427E706196"
+      },
+      "author": "system",
+      "acl": {
+        "app": "",
+        "can_list": true,
+        "can_write": true,
+        "modifiable": false,
+        "owner": "system",
+        "perms": {
+          "read": [
+            "admin",
+            "splunk-system-role",
+            "splunk_system_upgrader"
+          ],
+          "write": [
+            "admin",
+            "splunk-system-role",
+            "splunk_system_upgrader"
+          ]
+        },
+        "removable": false,
+        "sharing": "system"
+      },
+      "content": {
+        "bucket_size": 26175,
+        "bucket_stickiness": true,
+        "eai:acl": null,
+        "frozen": false,
+        "index": "_internal",
+        "latest_time": 1791466220,
+        "origin_site": "default",
+        "peers": {
+          "020C0499-E721-4820-BA11-28AE28FA8939": {
+            "bucket_flags": "0x0",
+            "checksum": "",
+            "checksum_state": "StableCksum",
+            "search_state": "Searchable",
+            "server_name": "splunk-idx2",
+            "status": "Complete"
+          },
+          "FCC895E4-DF8E-4B10-8270-94427E706196": {
+            "bucket_flags": "0xffffffffffffffff",
+            "checksum": "",
+            "checksum_state": "StableCksum",
+            "search_state": "Searchable",
+            "server_name": "splunk-idx1",
+            "status": "Complete"
+          }
+        },
+        "rep_count_by_site": {
+          "default": 2
+        },
+        "search_count_by_site": {
+          "default": 2
+        },
+        "service_after_time": 1791466363,
+        "standalone": false,
+        "type": "event"
+      }
+    },
+    {
+      "name": "_internal~2~FCC895E4-DF8E-4B10-8270-94427E706196",
+      "id": "https://192.168.2.168:8089/services/cluster/manager/buckets/_internal~2~FCC895E4-DF8E-4B10-8270-94427E706196",
+      "updated": "1970-01-01T00:00:00+00:00",
+      "links": {
+        "alternate": "/services/cluster/manager/buckets/_internal~2~FCC895E4-DF8E-4B10-8270-94427E706196",
+        "list": "/services/cluster/manager/buckets/_internal~2~FCC895E4-DF8E-4B10-8270-94427E706196",
+        "remove": "/services/cluster/manager/buckets/_internal~2~FCC895E4-DF8E-4B10-8270-94427E706196"
+      },
+      "author": "system",
+      "acl": {
+        "app": "",
+        "can_list": true,
+        "can_write": true,
+        "modifiable": false,
+        "owner": "system",
+        "perms": {
+          "read": [
+            "admin",
+            "splunk-system-role",
+            "splunk_system_upgrader"
+          ],
+          "write": [
+            "admin",
+            "splunk-system-role",
+            "splunk_system_upgrader"
+          ]
+        },
+        "removable": false,
+        "sharing": "system"
+      },
+      "content": {
+        "bucket_size": null,
+        "bucket_stickiness": true,
+        "eai:acl": null,
+        "frozen": false,
+        "index": "_internal",
+        "origin_site": "default",
+        "peers": {
+          "020C0499-E721-4820-BA11-28AE28FA8939": {
+            "bucket_flags": "0x0",
+            "checksum": "",
+            "checksum_state": "StableCksum",
+            "search_state": "Searchable",
+            "server_name": "splunk-idx2",
+            "status": "StreamingTarget"
+          },
+          "FCC895E4-DF8E-4B10-8270-94427E706196": {
+            "bucket_flags": "0xffffffffffffffff",
+            "checksum": "",
+            "checksum_state": "StableCksum",
+            "search_state": "Searchable",
+            "server_name": "splunk-idx1",
+            "status": "StreamingSource"
+          }
+        },
+        "rep_count_by_site": {
+          "default": 2
+        },
+        "search_count_by_site": {
+          "default": 2
+        },
+        "service_after_time": 0,
+        "standalone": false,
+        "type": "event"
+      }
+    },
+    {
+      "name": "lab~0~020C0499-E721-4820-BA11-28AE28FA8939",
+      "id": "https://192.168.2.168:8089/services/cluster/manager/buckets/lab~0~020C0499-E721-4820-BA11-28AE28FA8939",
+      "updated": "1970-01-01T00:00:00+00:00",
+      "links": {
+        "alternate": "/services/cluster/manager/buckets/lab~0~020C0499-E721-4820-BA11-28AE28FA8939",
+        "list": "/services/cluster/manager/buckets/lab~0~020C0499-E721-4820-BA11-28AE28FA8939",
+        "remove": "/services/cluster/manager/buckets/lab~0~020C0499-E721-4820-BA11-28AE28FA8939"
+      },
+      "author": "system",
+      "acl": {
+        "app": "",
+        "can_list": true,
+        "can_write": true,
+        "modifiable": false,
+        "owner": "system",
+        "perms": {
+          "read": [
+            "admin",
+            "splunk-system-role",
+            "splunk_system_upgrader"
+          ],
+          "write": [
+            "admin",
+            "splunk-system-role",
+            "splunk_system_upgrader"
+          ]
+        },
+        "removable": false,
+        "sharing": "system"
+      },
+      "content": {
+        "bucket_size": 228,
+        "bucket_stickiness": true,
+        "eai:acl": null,
+        "frozen": false,
+        "index": "lab",
+        "latest_time": 1791466155,
+        "origin_site": "default",
+        "peers": {
+          "020C0499-E721-4820-BA11-28AE28FA8939": {
+            "bucket_flags": "0xffffffffffffffff",
+            "checksum": "",
+            "checksum_state": "StableCksum",
+            "search_state": "Searchable",
+            "server_name": "splunk-idx2",
+            "status": "Complete"
+          },
+          "FCC895E4-DF8E-4B10-8270-94427E706196": {
+            "bucket_flags": "0x0",
+            "checksum": "",
+            "checksum_state": "StableCksum",
+            "search_state": "Searchable",
+            "server_name": "splunk-idx1",
+            "status": "Complete"
+          }
+        },
+        "rep_count_by_site": {
+          "default": 2
+        },
+        "search_count_by_site": {
+          "default": 2
+        },
+        "service_after_time": 0,
+        "standalone": false,
+        "type": "event"
+      }
+    },
+    {
+      "name": "lab~0~FCC895E4-DF8E-4B10-8270-94427E706196",
+      "id": "https://192.168.2.168:8089/services/cluster/manager/buckets/lab~0~FCC895E4-DF8E-4B10-8270-94427E706196",
+      "updated": "1970-01-01T00:00:00+00:00",
+      "links": {
+        "alternate": "/services/cluster/manager/buckets/lab~0~FCC895E4-DF8E-4B10-8270-94427E706196",
+        "list": "/services/cluster/manager/buckets/lab~0~FCC895E4-DF8E-4B10-8270-94427E706196",
+        "remove": "/services/cluster/manager/buckets/lab~0~FCC895E4-DF8E-4B10-8270-94427E706196"
+      },
+      "author": "system",
+      "acl": {
+        "app": "",
+        "can_list": true,
+        "can_write": true,
+        "modifiable": false,
+        "owner": "system",
+        "perms": {
+          "read": [
+            "admin",
+            "splunk-system-role",
+            "splunk_system_upgrader"
+          ],
+          "write": [
+            "admin",
+            "splunk-system-role",
+            "splunk_system_upgrader"
+          ]
+        },
+        "removable": false,
+        "sharing": "system"
+      },
+      "content": {
+        "bucket_size": 227,
+        "bucket_stickiness": true,
+        "eai:acl": null,
+        "frozen": false,
+        "index": "lab",
+        "latest_time": 1791466155,
+        "origin_site": "default",
+        "peers": {
+          "020C0499-E721-4820-BA11-28AE28FA8939": {
+            "bucket_flags": "0x0",
+            "checksum": "",
+            "checksum_state": "StableCksum",
+            "search_state": "Searchable",
+            "server_name": "splunk-idx2",
+            "status": "Complete"
+          },
+          "FCC895E4-DF8E-4B10-8270-94427E706196": {
+            "bucket_flags": "0xffffffffffffffff",
+            "checksum": "",
+            "checksum_state": "StableCksum",
+            "search_state": "Searchable",
+            "server_name": "splunk-idx1",
+            "status": "Complete"
+          }
+        },
+        "rep_count_by_site": {
+          "default": 2
+        },
+        "search_count_by_site": {
+          "default": 2
+        },
+        "service_after_time": 0,
+        "standalone": false,
+        "type": "event"
+      }
+    }
+  ],
+  "paging": {
+    "total": 11,
+    "perPage": 100,
+    "offset": 0
+  },
+  "messages": []
+}

@@ -1,0 +1,197 @@
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+1m*  [0m] Job systemd-networkd-wait-online.se…ice/start running (58s / no limit)
+
+M
+[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] Job systemd-networkd-wait-online.se…ice/start running (58s / no limit)
+
+M
+[K[[0;1;31m*[0m[0;31m*    [0m] Job systemd-networkd-wait-online.se…ice/start running (59s / no limit)
+
+M
+[K[[0m[0;31m*     [0m] Job systemd-networkd-wait-online.se…ice/start running (59s / no limit)
+
+M
+[K[[0;1;31m*[0m[0;31m*    [0m] Job systemd-networkd-wait-online.se…ce/start running (1min / no limit)
+
+M
+[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] Job systemd-networkd-wait-online.se…ce/start running (1min / no limit)
+
+M
+[K[ [0;31m*[0;1;31m*[0m[0;31m*  [0m] Job systemd-networkd-wait-online.se…start running (1min 1s / no limit)
+
+M
+[K[  [0;31m*[0;1;31m*[0m[0;31m* [0m] Job systemd-networkd-wait-online.se…start running (1min 1s / no limit)
+
+M
+[K[   [0;31m*[0;1;31m*[0m[0;31m*[0m] Job systemd-networkd-wait-online.se…start running (1min 2s / no limit)
+
+M
+[K[    [0;31m*[0;1;31m*[0m] Job systemd-networkd-wait-online.se…start running (1min 2s / no limit)
+
+M
+[K[     [0;31m*[0m] Job systemd-networkd-wait-online.se…start running (1min 3s / no limit)
+
+M
+[K[    [0;31m*[0;1;31m*[0m] Job systemd-networkd-wait-online.se…start running (1min 3s / no limit)
+
+M
+[K[   [0;31m*[0;1;31m*[0m[0;31m*[0m] Job systemd-networkd-wait-online.se…start running (1min 4s / no limit)
+
+M
+[K[  [0;31m*[0;1;31m*[0m[0;31m* [0m] Job systemd-networkd-wait-online.se…start running (1min 4s / no limit)
+
+M
+[K[ [0;31m*[0;1;31m*[0m[0;31m*  [0m] Job systemd-networkd-wait-online.se…start running (1min 5s / no limit)
+
+M
+[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] Job systemd-networkd-wait-online.se…start running (1min 5s / no limit)
+
+M
+[K[[0;1;31m*[0m[0;31m*    [0m] Job systemd-networkd-wait-online.se…start running (1min 6s / no limit)
+
+M
+[K[[0m[0;31m*     [0m] Job systemd-networkd-wait-online.se…start running (1min 6s / no limit)
+
+M
+[K[[0;1;31m*[0m[0;31m*    [0m] Job systemd-networkd-wait-online.se…start running (1min 7s / no limit)
+
+M
+[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] Job systemd-networkd-wait-online.se…start running (1min 7s / no limit)
+
+M
+[K[ [0;31m*[0;1;31m*[0m[0;31m*  [0m] Job systemd-networkd-wait-online.se…start running (1min 8s / no limit)
+
+M
+[K[  [0;31m*[0;1;31m*[0m[0;31m* [0m] Job systemd-networkd-wait-online.se…start running (1min 8s / no limit)
+
+M
+[K[   [0;31m*[0;1;31m*[0m[0;31m*[0m] Job systemd-networkd-wait-online.se…start running (1min 9s / no limit)
+
+M
+[K[    [0;31m*[0;1;31m*[0m] Job systemd-networkd-wait-online.se…start running (1min 9s / no limit)
+
+M
+[K[     [0;31m*[0m] Job systemd-networkd-wait-online.se…tart running (1min 10s / no limit)
+
+M
+[K[    [0;31m*[0;1;31m*[0m] Job systemd-networkd-wait-online.se…tart running (1min 10s / no limit)
+
+M
+[K[   [0;31m*[0;1;31m*[0m[0;31m*[0m] Job systemd-networkd-wait-online.se…tart running (1min 11s / no limit)
+
+M
+[K[  [0;31m*[0;1;31m*[0m[0;31m* [0m] Job systemd-networkd-wait-online.se…tart running (1min 11s / no limit)
+
+M
+[K[ [0;31m*[0;1;31m*[0m[0;31m*  [0m] Job systemd-networkd-wait-online.se…tart running (1min 12s / no limit)
+
+M
+[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] Job systemd-networkd-wait-online.se…tart running (1min 12s / no limit)
+
+M
+[K[[0;1;31m*[0m[0;31m*    [0m] Job systemd-networkd-wait-online.se…tart running (1min 13s / no limit)
+
+M
+[K[[0m[0;31m*     [0m] Job systemd-networkd-wait-online.se…tart running (1min 13s / no limit)
+
+M
+[K[[0;1;31m*[0m[0;31m*    [0m] Job systemd-networkd-wait-online.se…tart running (1min 14s / no limit)
+
+M
+[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] Job systemd-networkd-wait-online.se…tart running (1min 14s / no limit)
+
+M
+[K[ [0;31m*[0;1;31m*[0m[0;31m*  [0m] Job systemd-networkd-wait-online.se…tart running (1min 15s / no limit)
+
+M
+[K[  [0;31m*[0;1;31m*[0m[0;31m* [0m] Job systemd-networkd-wait-online.se…tart running (1min 15s / no limit)
+
+M
+[K[   [0;31m*[0;1;31m*[0m[0;31m*[0m] Job systemd-networkd-wait-online.se…tart running (1min 16s / no limit)
+
+M
+[K[    [0;31m*[0;1;31m*[0m] Job systemd-networkd-wait-online.se…tart running (1min 16s / no limit)
+
+M
+[K[     [0;31m*[0m] Job systemd-networkd-wait-online.se…tart running (1min 17s / no limit)
+
+M
+[K[    [0;31m*[0;1;31m*[0m] Job systemd-networkd-wait-online.se…tart running (1min 17s / no limit)
+
+M
+[K[   [0;31m*[0;1;31m*[0m[0;31m*[0m] Job systemd-networkd-wait-online.se…tart running (1min 18s / no limit)
+
+M
+[K[  [0;31m*[0;1;31m*[0m[0;31m* [0m] Job systemd-networkd-wait-online.se…tart running (1min 18s / no limit)
+
+M
+[K[ [0;31m*[0;1;31m*[0m[0;31m*  [0m] Job systemd-networkd-wait-online.se…tart running (1min 19s / no limit)
+
+M
+[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] Job systemd-networkd-wait-online.se…tart running (1min 19s / no limit)
+
+M
+[K[[0;1;31m*[0m[0;31m*    [0m] Job systemd-networkd-wait-online.se…tart running (1min 20s / no limit)
+
+M
+[K[[0m[0;31m*     [0m] Job systemd-networkd-wait-online.se…tart running (1min 20s / no limit)
+
+M
+[K[[0;1;31m*[0m[0;31m*    [0m] Job systemd-networkd-wait-online.se…tart running (1min 21s / no limit)
+
+M
+[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] Job systemd-networkd-wait-online.se…tart running (1min 21s / no limit)
+
+M
+[K[ [0;31m*[0;1;31m*[0m[0;31m*  [0m] Job systemd-networkd-wait-online.se…tart running (1min 22s / no limit)
+
+M
+[K[  [0;31m*[0;1;31m*[0m[0;31m* [0m] Job systemd-networkd-wait-online.se…tart running (1min 22s / no limit)
+
+M
+[K[   [0;31m*[0;1;31m*[0m[0;31m*[0m] Job systemd-networkd-wait-online.se…tart running (1min 23s / no limit)
+
+M
+[K[    [0;31m*[0;1;31m*[0m] Job systemd-networkd-wait-online.se…tart running (1min 23s / no limit)
+
+M
+[K[     [0;31m*[0m] Job systemd-networkd-wait-online.se…tart running (1min 24s / no limit)
+
+M
+[K[    [0;31m*[0;1;31m*[0m] Job systemd-networkd-wait-online.se…tart running (1min 24s / no limit)
+
+M
+[K[   [0;31m*[0;1;31m*[0m[0;31m*[0m] Job systemd-networkd-wait-online.se…tart running (1min 25s / no limit)
+
+M
+[K[  [0;31m*[0;1;31m*[0m[0;31m* [0m] Job systemd-networkd-wait-online.se…tart running (1min 25s / no limit)
+
+M
+[K[ [0;31m*[0;1;31m*[0m[0;31m*  [0m] Job systemd-networkd-wait-online.se…tart running (1min 26s / no limit)
+
+M
+[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] Job systemd-networkd-wait-online.se…tart running (1min 26s / no limit)
+
+M
+[K[[0;1;31m*[0m[0;31m*    [0m] Job systemd-networkd-wait-online.se…tart running (1min 27s / no limit)
+
+M
+[K[[0m[0;31m*     [0m] Job systemd-networkd-wait-online.se…tart running (1min 27s / no limit)
+
+M
+[K         Starting [0;1;39msysstat-collect.service[0m - system activity accounting tool...
+
+[K[[0;32m  OK  [0m] Finished [0;1;39msysstat-collect.service[0m - system activity accounting tool.
+
+
+Result=success
+ActiveState=inactive
+SubState=dead
+      VMID NAME                 STATUS     MEM(MB)    BOOTDISK(GB) PID       
+       100 splunk-cm            running    2048              16.00 50900     
+       101 splunk-idx1          running    3072              24.00 51126     
+       102 splunk-idx2          running    3072              24.00 51414     
+       103 splunk-sh            running    3072              20.00 51674     
+QEMU guest agent is not running
+
+Remote exit code: 0

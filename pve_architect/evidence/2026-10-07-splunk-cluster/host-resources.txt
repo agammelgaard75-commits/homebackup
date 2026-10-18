@@ -1,0 +1,11 @@
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+               total        used        free      shared  buff/cache   available
+Mem:           14914       12912         362          49        1985        2001
+Swap:           8191           0        8191
+      VMID NAME                 STATUS     MEM(MB)    BOOTDISK(GB) PID       
+       100 splunk-cm            running    2048              16.00 50900     
+       101 splunk-idx1          running    3072              24.00 51126     
+       102 splunk-idx2          running    3072              24.00 51414     
+       103 splunk-sh            running    3072              20.00 51674     
+
+Remote exit code: 0

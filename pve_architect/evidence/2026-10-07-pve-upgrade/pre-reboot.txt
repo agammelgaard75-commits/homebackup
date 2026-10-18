@@ -1,0 +1,55 @@
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+
+=== Package consistency ===
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Calculating upgrade...
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+pve-manager/9.2.21/4f6e0ac86f9e8c7f (running kernel: 6.14.8-2-pve)
+
+=== Boot readiness ===
+menuentry 'Proxmox VE GNU/Linux' --class proxmox --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-15ece09e-4246-4a81-a405-124b61549ddd' {
+	linux	/boot/vmlinuz-7.0.14-22-pve root=/dev/mapper/pve-root ro  quiet
+	initrd	/boot/initrd.img-7.0.14-22-pve
+	menuentry 'Proxmox VE GNU/Linux, with Linux 7.0.14-22-pve' --class proxmox --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-7.0.14-22-pve-advanced-15ece09e-4246-4a81-a405-124b61549ddd' {
+		linux	/boot/vmlinuz-7.0.14-22-pve root=/dev/mapper/pve-root ro  quiet
+		initrd	/boot/initrd.img-7.0.14-22-pve
+	menuentry 'Proxmox VE GNU/Linux, with Linux 7.0.14-22-pve (recovery mode)' --class proxmox --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-7.0.14-22-pve-recovery-15ece09e-4246-4a81-a405-124b61549ddd' {
+		linux	/boot/vmlinuz-7.0.14-22-pve root=/dev/mapper/pve-root ro single dis_ucode_ldr 
+		initrd	/boot/initrd.img-7.0.14-22-pve
+	menuentry 'Proxmox VE GNU/Linux, with Linux 6.14.11-9-pve' --class proxmox --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-6.14.11-9-pve-advanced-15ece09e-4246-4a81-a405-124b61549ddd' {
+		linux	/boot/vmlinuz-6.14.11-9-pve root=/dev/mapper/pve-root ro  quiet
+		initrd	/boot/initrd.img-6.14.11-9-pve
+
+=== Preserved configuration ===
+1df567bc253030e69f6fe7ecf15f71076ed5e9abff273bbf3349051dc22caef8  /etc/resolv.conf
+aa10f446daf64791bee6c1d50367ded685f84b05433919f0f2ba2df748f6e4ca  /etc/network/interfaces
+6adcceb1ef90b7ba152120ec31acddd8dab1a743229c21f6f12c63a1d7903a5b  /etc/ssh/sshd_config
+d6c616b623c60a448c751e7f32749434fb858cb4862ae6ec67b940809d36a54e  /etc/pve/storage.cfg
+343a6c8fcd562068934d97a4b43ea9889539f3f55479112f11b3021a4faf1b5c  /etc/chrony/chrony.conf
+32f0fa9cfb46a327f55b4904f7d6fe2bab55b4113b5fa65b6abb350303a32625  /etc/chrony/sources.d/sandbox-ip.sources
+a081d61f13737225271f848f1141728cb7d339c9d935bbff53cd2e3522c1b9d8  /etc/apt/sources.list.d/ceph.sources
+99bc3972f98cbd81f3ba91d0a98c72e3d9da5a59640f51e071899711e851071e  /etc/apt/sources.list.d/debian.sources
+42c96d29d59f95c8e118739f0bcb9f8127b81f3bd222440ec1aba5d605f9b19a  /etc/apt/sources.list.d/pve-enterprise.sources
+3222b0ac675c603a93b9a3a3a1eae0199f8f208b0508e50a184d205a76200863  /etc/apt/sources.list.d/pve-no-subscription.sources
+
+=== Services and access ===
+active
+active
+active
+active
+active
+active
+permitrootlogin yes
+pubkeyauthentication yes
+passwordauthentication yes
+Status: disabled/running
+Name             Type     Status     Total (KiB)      Used (KiB) Available (KiB)        %
+local             dir     active        71017632         6324452        61039960    8.91%
+local-lvm     lvmthin     active       148086784               0       148086784    0.00%
+
+Exit code: 0

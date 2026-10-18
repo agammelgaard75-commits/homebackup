@@ -1,0 +1,15 @@
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+SERIAL:
+
+
+splunk-cm login: 
+TAP NETWORK:
+tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
+listening on tap100i0, link-type EN10MB (Ethernet), snapshot length 262144 bytes
+
+0 packets captured
+0 packets received by filter
+0 packets dropped by kernel
+
+
+Remote exit code: 0

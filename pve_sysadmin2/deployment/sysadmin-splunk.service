@@ -1,0 +1,21 @@
+[Unit]
+Description=Sysadmin logs and health to Splunk
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /usr/local/lib/sysadmin-splunk/collector.py
+User=root
+UMask=0077
+StateDirectory=sysadmin-splunk
+StateDirectoryMode=0700
+TimeoutStartSec=180
+Nice=10
+IOSchedulingClass=idle
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/lib/sysadmin-splunk
+SyslogIdentifier=sysadmin-splunk

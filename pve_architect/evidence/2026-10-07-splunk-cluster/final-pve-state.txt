@@ -1,0 +1,49 @@
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+pve-manager/9.2.21/4f6e0ac86f9e8c7f (running kernel: 7.0.14-22-pve)
+               total        used        free      shared  buff/cache   available
+Mem:           14914       12316         913          49        2033        2597
+Swap:           8191           0        8191
+agent: enabled=1,fstrim_cloned_disks=1
+cores: 1
+cpu: host
+memory: 2048
+name: splunk-cm
+net0: virtio=BC:24:11:52:02:01,bridge=vmbr0,tag=2
+onboot: 1
+scsi0: local-lvm:vm-100-disk-0,discard=on,iothread=1,size=16G
+startup: order=10,up=30
+agent: enabled=1,fstrim_cloned_disks=1
+cores: 2
+cpu: host
+memory: 3072
+name: splunk-idx1
+net0: virtio=BC:24:11:52:02:02,bridge=vmbr0,tag=2
+onboot: 1
+scsi0: local-lvm:vm-101-disk-0,discard=on,iothread=1,size=24G
+startup: order=20,up=30
+agent: enabled=1,fstrim_cloned_disks=1
+cores: 2
+cpu: host
+memory: 3072
+name: splunk-idx2
+net0: virtio=BC:24:11:52:02:03,bridge=vmbr0,tag=2
+onboot: 1
+scsi0: local-lvm:vm-102-disk-0,discard=on,iothread=1,size=24G
+startup: order=20,up=30
+agent: enabled=1,fstrim_cloned_disks=1
+cores: 2
+cpu: host
+memory: 3072
+name: splunk-sh
+net0: virtio=BC:24:11:52:02:04,bridge=vmbr0,tag=2
+onboot: 1
+scsi0: local-lvm:vm-103-disk-0,discard=on,iothread=1,size=20G
+startup: order=30,up=30
+port              vlan-id  
+enp1s0f0          2
+                  4
+6: vmbr0.4@vmbr0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
+    inet 10.10.1.10/24 scope global vmbr0.4
+       valid_lft forever preferred_lft forever
+
+Remote exit code: 0

@@ -1,0 +1,32 @@
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+Running timer as unit: pve-upgrade-reboot-20261007.timer
+Will run service as unit: pve-upgrade-reboot-20261007.service
+
+Request exit code: 0
+Attempt 1: Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+27f17aef-6a61-4810-9d8d-73cd91d8b5c8
+6.14.8-2-pve
+ 16:36:20 up 22:22,  1 user,  load average: 0.50, 0.64, 0.30
+
+Attempt 2: Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+System is going down. Unprivileged users are not permitted to log in anymore. For technical details, see pam_nologin(8).
+
+27f17aef-6a61-4810-9d8d-73cd91d8b5c8
+6.14.8-2-pve
+ 16:36:25 up 22:22,  0 users,  load average: 0.54, 0.64, 0.30
+
+Attempt 3: ssh: connect to host 10.10.1.10 port 22: Connection refused
+
+Attempt 4: ssh: connect to host 10.10.1.10 port 22: Connection timed out
+
+Attempt 5: ssh: connect to host 10.10.1.10 port 22: Connection timed out
+
+Attempt 6: ssh: connect to host 10.10.1.10 port 22: Connection timed out
+
+Attempt 7: ssh: connect to host 10.10.1.10 port 22: Connection timed out
+
+Attempt 8: Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+8658673f-2db9-4b21-991b-355a991b5e4f
+7.0.14-22-pve
+ 16:37:12 up 0 min,  1 user,  load average: 1.31, 0.31, 0.10
+

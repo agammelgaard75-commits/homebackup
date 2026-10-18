@@ -1,0 +1,12 @@
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+Result=success
+ActiveState=active
+SubState=running
+splunk-10.6.0.5-86587d4e3b27-linux-amd64.deb VERIFIED sha512 4cde78040b0fee84aeb06a25debe8e46e5d5fe7d3e5bf0e75562592a46b91b9bef8688f4253f73643474b773a60f9ad49f98f721b8dd6ed1936c1b0cdc1a586c bytes 1411023460
+total 2.0G
+-rw-r--r-- 1 root root 8.6K Oct  7 21:26 SHA256SUMS
+-rw-r--r-- 1 root root 1.4G Oct  7 21:26 splunk-10.6.0.5-86587d4e3b27-linux-amd64.deb
+-rw-r--r-- 1 root root  182 Oct  7 21:26 splunk-10.6.0.5-86587d4e3b27-linux-amd64.deb.sha512
+-rw-r--r-- 1 root root 700M Oct  7 21:26 ubuntu-26.04-server-cloudimg-amd64.img
+
+Remote exit code: 0

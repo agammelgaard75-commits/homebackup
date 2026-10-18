@@ -1,0 +1,746 @@
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+
+=== Baseline ===
+Wed Oct  7 14:30:12 UTC 2026
+pve-manager/9.0.3/025864202ebb6109 (running kernel: 6.14.8-2-pve)
+27f17aef-6a61-4810-9d8d-73cd91d8b5c8
+Name             Type     Status           Total            Used       Available        %
+local             dir     active        71017632         3485780        63878632    4.91%
+local-lvm     lvmthin     active       148086784               0       148086784    0.00%
+Filesystem            Size  Used Avail Use% Mounted on
+/dev/mapper/pve-root   68G  3.4G   61G   6% /
+/dev/mapper/pve-root   68G  3.4G   61G   6% /
+  UNIT LOAD ACTIVE SUB DESCRIPTION
+
+0 loaded units listed.
+
+=== Configuration checksums ===
+1df567bc253030e69f6fe7ecf15f71076ed5e9abff273bbf3349051dc22caef8  /etc/resolv.conf
+aa10f446daf64791bee6c1d50367ded685f84b05433919f0f2ba2df748f6e4ca  /etc/network/interfaces
+6adcceb1ef90b7ba152120ec31acddd8dab1a743229c21f6f12c63a1d7903a5b  /etc/ssh/sshd_config
+d6c616b623c60a448c751e7f32749434fb858cb4862ae6ec67b940809d36a54e  /etc/pve/storage.cfg
+343a6c8fcd562068934d97a4b43ea9889539f3f55479112f11b3021a4faf1b5c  /etc/chrony/chrony.conf
+32f0fa9cfb46a327f55b4904f7d6fe2bab55b4113b5fa65b6abb350303a32625  /etc/chrony/sources.d/sandbox-ip.sources
+a081d61f13737225271f848f1141728cb7d339c9d935bbff53cd2e3522c1b9d8  /etc/apt/sources.list.d/ceph.sources
+99bc3972f98cbd81f3ba91d0a98c72e3d9da5a59640f51e071899711e851071e  /etc/apt/sources.list.d/debian.sources
+42c96d29d59f95c8e118739f0bcb9f8127b81f3bd222440ec1aba5d605f9b19a  /etc/apt/sources.list.d/pve-enterprise.sources
+3222b0ac675c603a93b9a3a3a1eae0199f8f208b0508e50a184d205a76200863  /etc/apt/sources.list.d/pve-no-subscription.sources
+
+=== Boot configuration ===
+BIOS
+# If you change this file or any /etc/default/grub.d/*.cfg file,
+# run 'update-grub' afterwards to update /boot/grub/grub.cfg.
+# For full documentation of the options in these files, see:
+#   info -f grub -n 'Simple configuration'
+
+GRUB_DEFAULT=0
+GRUB_TIMEOUT=5
+GRUB_DISTRIBUTOR=`( . /etc/os-release && echo ${NAME} )`
+GRUB_CMDLINE_LINUX_DEFAULT="quiet"
+GRUB_CMDLINE_LINUX=""
+
+# If your computer has multiple operating systems installed, then you
+# probably want to run os-prober. However, if your computer is a host
+# for guest OSes installed via LVM or raw disk devices, running
+# os-prober can cause damage to those guest OSes as it mounts
+# filesystems to look for things.
+#GRUB_DISABLE_OS_PROBER=false
+
+# Uncomment to enable BadRAM filtering, modify to suit your needs
+# This works with Linux (no patch required) and with any kernel that obtains
+# the memory map information from GRUB (GNU Mach, kernel of FreeBSD ...)
+#GRUB_BADRAM="0x01234567,0xfefefefe,0x89abcdef,0xefefefef"
+
+# Uncomment to disable graphical terminal
+#GRUB_TERMINAL=console
+
+# The resolution used on graphical terminal
+# note that you can use only modes which your graphic card supports via VBE/GOP/UGA
+# you can see them in real GRUB with the command `videoinfo'
+#GRUB_GFXMODE=640x480
+
+# Uncomment if you don't want GRUB to pass "root=UUID=xxx" parameter to Linux
+#GRUB_DISABLE_LINUX_UUID=true
+
+# Uncomment to disable generation of recovery mode menu entries
+#GRUB_DISABLE_RECOVERY="true"
+
+# Uncomment to get a beep at grub start
+#GRUB_INIT_TUNE="480 440 1"
+-rw-r--r-- 1 root root 65M Oct  6 20:01 /boot/initrd.img-6.14.8-2-pve
+-rw-r--r-- 1 root root 15M Jul 22  2025 /boot/vmlinuz-6.14.8-2-pve
+grub-pc	2.12-9+pmx2
+grub-pc-bin	2.12-9+pmx2
+proxmox-ve	9.0.0
+pve-manager	9.0.3
+
+=== Refresh repositories ===
+Hit:1 http://deb.debian.org/debian trixie InRelease
+Hit:2 http://security.debian.org/debian-security trixie-security InRelease
+Hit:3 http://deb.debian.org/debian trixie-updates InRelease
+Hit:4 http://download.proxmox.com/debian/ceph-squid trixie InRelease
+Hit:5 http://download.proxmox.com/debian/pve trixie InRelease
+Reading package lists...
+
+=== Upgrade simulation ===
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Calculating upgrade...
+The following packages will be REMOVED:
+  libzfs6linux
+The following NEW packages will be installed:
+  aardvark-dns containernetworking-plugins golang-github-containers-common
+  golang-github-containers-image gpg-wks-client isc-dhcp-client
+  isc-dhcp-common libgpgme11t64 libzfs7linux libzpool7linux netavark
+  proxmox-enterprise-support-keyring proxmox-firewall-data
+  proxmox-kernel-6.14.11-9-pve-signed proxmox-kernel-7.0
+  proxmox-kernel-7.0.14-22-pve-signed python3-bcrypt python3-cffi-backend
+  python3-cryptography python3-importlib-resources python3-pefile
+  python3-virt-firmware skopeo wireguard-tools
+The following packages will be upgraded:
+  amd64-microcode base-files bash bind9-dnsutils bind9-host bind9-libs
+  bsdextrautils bsdutils busybox ceph-common ceph-fuse chrony console-setup
+  console-setup-linux corosync curl dhcpcd-base dirmngr distro-info-data
+  dmeventd dmsetup dpkg e2fsprogs eject ethtool fdisk frr frr-pythontools
+  gnupg gnupg-l10n gnutls-bin gpg gpg-agent gpgconf gpgsm gzip ifupdown2
+  inetutils-telnet init init-system-helpers initramfs-tools
+  initramfs-tools-bin initramfs-tools-core keyboard-configuration krb5-locales
+  libarchive13t64 libasound2-data libasound2t64 libaudit-common libaudit1
+  libblas3 libblkid1 libbytes-random-secure-perl libc-bin libc-l10n libc6
+  libcap2 libcap2-bin libcares2 libcephfs2 libcfg7 libcmap4 libcom-err2
+  libcorosync-common4 libcpg4 libcurl3t64-gnutls libcurl4t64
+  libdevmapper-event1.02.1 libdevmapper1.02.1 libdpkg-perl libevent-2.1-7t64
+  libevent-core-2.1-7t64 libexpat1 libext2fs2t64 libfdisk1 libfreetype6
+  libgbm1 libgcrypt20 libglib2.0-0t64 libgnutls-dane0t64 libgnutls30t64
+  libgraphite2-3 libgssapi-krb5-2 libgstreamer-plugins-base1.0-0 libharfbuzz0b
+  libhtml-parser-perl libhttp-daemon-perl libjs-extjs libjson-xs-perl
+  libk5crypto3 libknet1t64 libkrb5-3 libkrb5support0 liblastlog2-2 libldb2
+  liblvm2cmd2.03 liblzma5 libmount1 libmpg123-0t64 libnet-dns-perl
+  libnghttp2-14 libngtcp2-16 libngtcp2-crypto-gnutls8 libnozzle1t64
+  libnss-systemd libnss3 libnvpair3linux libopeniscsiusr libpam-systemd
+  libpam-wtmpdb libpcre2-16-0 libpcre2-8-0 libpcre2-posix3 libperl5.40
+  libpng16-16t64 libproxmox-acme-perl libproxmox-acme-plugins
+  libproxmox-backup-qemu0 libpve-access-control libpve-apiclient-perl
+  libpve-cluster-api-perl libpve-cluster-perl libpve-common-perl
+  libpve-guest-common-perl libpve-http-server-perl libpve-network-api-perl
+  libpve-network-perl libpve-notify-perl libpve-rs-perl libpve-storage-perl
+  libpython3.13-minimal libpython3.13-stdlib libqt5core5t64 libqt5dbus5t64
+  libqt5network5t64 libquorum5 librabbitmq4 librados2 librados2-perl
+  libradosstriper1 librbd1 librgw2 librrd8t64 librrds-perl libslirp0
+  libsmartcols1 libsmbclient0 libsndfile1 libsqlite3-0 libss2 libssh2-1t64
+  libssl3t64 libsystemd-shared libsystemd0 libtalloc2 libtasn1-6 libtdb1
+  libtevent0t64 libudev1 libunbound8 libuuid1 libuutil3linux libvotequorum8
+  libwbclient0 libwtmpdb0 libxml-libxml-perl libxml-parser-perl libxml2
+  libxslt1.1 libzpool6linux linux-base linux-sysctl-defaults locales login
+  logsave lvm2 lxc-pve lxcfs mesa-libgallium mount nano novnc-pve open-iscsi
+  openssh-client openssh-server openssh-sftp-server openssl
+  openssl-provider-legacy perl perl-base perl-modules-5.40 postfix
+  proxmox-backup-client proxmox-backup-file-restore proxmox-default-kernel
+  proxmox-firewall proxmox-kernel-6.14 proxmox-kernel-helper
+  proxmox-mail-forward proxmox-mini-journalreader proxmox-offline-mirror-docs
+  proxmox-offline-mirror-helper proxmox-termproxy proxmox-ve
+  proxmox-widget-toolkit pve-cluster pve-container pve-docs pve-edk2-firmware
+  pve-edk2-firmware-legacy pve-edk2-firmware-ovmf pve-firewall pve-firmware
+  pve-ha-manager pve-i18n pve-manager pve-nvidia-vgpu-helper pve-qemu-kvm
+  pve-xtermjs pve-yew-mobile-gui pve-yew-mobile-i18n python3-ceph-argparse
+  python3-ceph-common python3-cephfs python3-idna python3-jaraco.context
+  python3-rados python3-rbd python3-requests python3-rgw python3-urllib3
+  python3.13 python3.13-minimal qemu-server rrdcached rsync samba-common
+  samba-libs sed shim-helpers-amd64-signed shim-signed shim-signed-common
+  shim-unsigned smartmontools smbclient socat spiceterm sqlite3 sqv ssh swtpm
+  swtpm-libs swtpm-tools systemd systemd-boot-efi systemd-boot-tools
+  systemd-sysv tzdata udev util-linux util-linux-extra virtiofsd vncterm
+  wtmpdb xfsprogs xsltproc xz-utils zfs-initramfs zfs-zed zfsutils-linux
+270 upgraded, 24 newly installed, 1 to remove and 0 not upgraded.
+Inst libc6 [2.41-11] (2.41-12+deb13u4 Debian:13.7/stable [amd64])
+Conf libc6 (2.41-12+deb13u4 Debian:13.7/stable [amd64])
+Inst base-files [13.8] (13.8+deb13u7 Debian:13.7/stable [amd64])
+Conf base-files (13.8+deb13u7 Debian:13.7/stable [amd64])
+Inst bash [5.2.37-2+b5] (5.2.37-2+b10 Debian:13.7/stable [amd64])
+Conf bash (5.2.37-2+b10 Debian:13.7/stable [amd64])
+Inst bsdutils [1:2.41-5] (1:2.41.5-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf bsdutils (1:2.41.5-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Inst dpkg [1.22.21] (1.22.22 Debian:13.7/stable [amd64])
+Conf dpkg (1.22.22 Debian:13.7/stable [amd64])
+Inst gzip [1.13-1] (1.13-1+deb13u1 Debian:13.7/stable [amd64])
+Conf gzip (1.13-1+deb13u1 Debian:13.7/stable [amd64])
+Inst libperl5.40 [5.40.1-6] (5.40.1-6+deb13u1 Debian:13.7/stable [amd64]) [perl:amd64 ]
+Inst perl [5.40.1-6] (5.40.1-6+deb13u1 Debian:13.7/stable [amd64]) []
+Inst perl-base [5.40.1-6] (5.40.1-6+deb13u1 Debian:13.7/stable [amd64]) []
+Conf perl-base (5.40.1-6+deb13u1 Debian:13.7/stable [amd64]) []
+Inst perl-modules-5.40 [5.40.1-6] (5.40.1-6+deb13u1 Debian:13.7/stable [all])
+Inst sed [4.9-2] (4.9-2+deb13u1 Debian:13.7/stable [amd64])
+Conf sed (4.9-2+deb13u1 Debian:13.7/stable [amd64])
+Inst liblastlog2-2 [2.41-5] (2.41.5-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64]) [util-linux:amd64 on liblastlog2-2:amd64] [util-linux:amd64 ]
+Conf liblastlog2-2 (2.41.5-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64]) [util-linux:amd64 ]
+Inst eject [2.41-5] (2.41.5-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64]) [util-linux:amd64 on liblastlog2-2:amd64] [util-linux:amd64 ]
+Inst bsdextrautils [2.41-5] (2.41.5-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64]) [util-linux:amd64 on liblastlog2-2:amd64] [util-linux:amd64 ]
+Inst util-linux-extra [2.41-5] (2.41.5-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64]) [util-linux:amd64 on liblastlog2-2:amd64] [util-linux:amd64 ]
+Inst fdisk [2.41-5] (2.41.5-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64]) [util-linux:amd64 on liblastlog2-2:amd64] [util-linux:amd64 ]
+Inst libsmartcols1 [2.41-5] (2.41.5-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64]) [util-linux:amd64 on liblastlog2-2:amd64] [util-linux:amd64 on libsmartcols1:amd64] [mount:amd64 on libsmartcols1:amd64] [util-linux:amd64 mount:amd64 ]
+Conf libsmartcols1 (2.41.5-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64]) [util-linux:amd64 mount:amd64 ]
+Inst libblkid1 [2.41-5] (2.41.5-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64]) [util-linux:amd64 on libblkid1:amd64] [util-linux:amd64 on liblastlog2-2:amd64] [util-linux:amd64 on libsmartcols1:amd64] [mount:amd64 on libblkid1:amd64] [mount:amd64 on libsmartcols1:amd64] [libmount1:amd64 util-linux:amd64 libfdisk1:amd64 mount:amd64 ]
+Conf libblkid1 (2.41.5-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64]) [libmount1:amd64 util-linux:amd64 libfdisk1:amd64 mount:amd64 ]
+Inst libmount1 [2.41-5] (2.41.5-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64]) [util-linux:amd64 on libblkid1:amd64] [util-linux:amd64 on liblastlog2-2:amd64] [util-linux:amd64 on libmount1:amd64] [util-linux:amd64 on libsmartcols1:amd64] [mount:amd64 on libblkid1:amd64] [mount:amd64 on libmount1:amd64] [mount:amd64 on libsmartcols1:amd64] [util-linux:amd64 libfdisk1:amd64 mount:amd64 ]
+Conf libmount1 (2.41.5-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64]) [util-linux:amd64 libfdisk1:amd64 mount:amd64 ]
+Inst mount [2.41-5] (2.41.5-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64]) [util-linux:amd64 on libblkid1:amd64] [util-linux:amd64 on liblastlog2-2:amd64] [util-linux:amd64 on libmount1:amd64] [util-linux:amd64 on libsmartcols1:amd64] [util-linux:amd64 libfdisk1:amd64 ]
+Inst libpam-wtmpdb [0.73.0-3] (0.73.0-3+deb13u1 Debian:13.7/stable [amd64]) [util-linux:amd64 on libblkid1:amd64] [util-linux:amd64 on liblastlog2-2:amd64] [util-linux:amd64 on libmount1:amd64] [util-linux:amd64 on libsmartcols1:amd64] [util-linux:amd64 libfdisk1:amd64 ]
+Inst libwtmpdb0 [0.73.0-3] (0.73.0-3+deb13u1 Debian:13.7/stable [amd64]) [util-linux:amd64 on libblkid1:amd64] [util-linux:amd64 on liblastlog2-2:amd64] [util-linux:amd64 on libmount1:amd64] [util-linux:amd64 on libsmartcols1:amd64] [util-linux:amd64 libfdisk1:amd64 wtmpdb:amd64 ]
+Inst wtmpdb [0.73.0-3] (0.73.0-3+deb13u1 Debian:13.7/stable [amd64]) [util-linux:amd64 on libblkid1:amd64] [util-linux:amd64 on liblastlog2-2:amd64] [util-linux:amd64 on libmount1:amd64] [util-linux:amd64 on libsmartcols1:amd64] [util-linux:amd64 libfdisk1:amd64 ]
+Inst libuuid1 [2.41-5] (2.41.5-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64]) [util-linux:amd64 on libblkid1:amd64] [util-linux:amd64 on liblastlog2-2:amd64] [util-linux:amd64 on libmount1:amd64] [util-linux:amd64 on libsmartcols1:amd64] [util-linux:amd64 on libuuid1:amd64] [util-linux:amd64 libfdisk1:amd64 ]
+Conf libuuid1 (2.41.5-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64]) [util-linux:amd64 libfdisk1:amd64 ]
+Inst util-linux [2.41-5] (2.41.5-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64]) [libfdisk1:amd64 ]
+Conf util-linux (2.41.5-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64]) [libfdisk1:amd64 ]
+Inst libfdisk1 [2.41-5] (2.41.5-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Inst libaudit-common [1:4.0.2-2] (1:4.0.2-2+deb13u1 Debian:13.7/stable [all])
+Conf libaudit-common (1:4.0.2-2+deb13u1 Debian:13.7/stable [all])
+Inst libaudit1 [1:4.0.2-2+b2] (1:4.0.2-2+deb13u1 Debian:13.7/stable [amd64])
+Conf libaudit1 (1:4.0.2-2+deb13u1 Debian:13.7/stable [amd64])
+Inst sqlite3 [3.46.1-7] (3.46.1-7+deb13u2 Debian:13.7/stable [amd64]) []
+Inst libsqlite3-0 [3.46.1-7] (3.46.1-7+deb13u2 Debian:13.7/stable [amd64])
+Conf libsqlite3-0 (3.46.1-7+deb13u2 Debian:13.7/stable [amd64])
+Inst libcap2 [1:2.75-10+b1] (1:2.75-10+deb13u1+b3 Debian:13.7/stable [amd64])
+Conf libcap2 (1:2.75-10+deb13u1+b3 Debian:13.7/stable [amd64])
+Inst libsystemd0 [257.7-1] (257.13-1~deb13u1 Debian:13.7/stable, Proxmox Debian Repository:stable [amd64]) [systemd:amd64 ]
+Conf libsystemd0 (257.13-1~deb13u1 Debian:13.7/stable, Proxmox Debian Repository:stable [amd64]) [systemd:amd64 ]
+Inst systemd-sysv [257.7-1] (257.13-1~deb13u1 Debian:13.7/stable, Proxmox Debian Repository:stable [amd64]) [systemd:amd64 ]
+Inst systemd-boot-efi [257.7-1] (257.13-1~deb13u1 Debian:13.7/stable, Proxmox Debian Repository:stable [amd64]) [systemd:amd64 ]
+Inst libpam-systemd [257.7-1] (257.13-1~deb13u1 Debian:13.7/stable, Proxmox Debian Repository:stable [amd64]) [systemd:amd64 ]
+Inst libnss-systemd [257.7-1] (257.13-1~deb13u1 Debian:13.7/stable, Proxmox Debian Repository:stable [amd64]) [systemd:amd64 ]
+Inst libsystemd-shared [257.7-1] (257.13-1~deb13u1 Debian:13.7/stable, Proxmox Debian Repository:stable [amd64]) [systemd:amd64 on libsystemd-shared:amd64] [udev:amd64 systemd:amd64 systemd-boot-tools:amd64 ]
+Conf libsystemd-shared (257.13-1~deb13u1 Debian:13.7/stable, Proxmox Debian Repository:stable [amd64]) [udev:amd64 systemd:amd64 systemd-boot-tools:amd64 ]
+Inst systemd [257.7-1] (257.13-1~deb13u1 Debian:13.7/stable, Proxmox Debian Repository:stable [amd64]) [udev:amd64 systemd-boot-tools:amd64 ]
+Inst systemd-boot-tools [257.7-1] (257.13-1~deb13u1 Debian:13.7/stable, Proxmox Debian Repository:stable [amd64]) [udev:amd64 ]
+Inst udev [257.7-1] (257.13-1~deb13u1 Debian:13.7/stable, Proxmox Debian Repository:stable [amd64]) []
+Inst libudev1 [257.7-1] (257.13-1~deb13u1 Debian:13.7/stable, Proxmox Debian Repository:stable [amd64])
+Conf libudev1 (257.13-1~deb13u1 Debian:13.7/stable, Proxmox Debian Repository:stable [amd64])
+Inst openssl-provider-legacy [3.5.1-1] (3.5.7-1~deb13u3 Debian-Security:13/stable-security [amd64])
+Conf openssl-provider-legacy (3.5.7-1~deb13u3 Debian-Security:13/stable-security [amd64])
+Inst libssl3t64 [3.5.1-1] (3.5.7-1~deb13u3 Debian-Security:13/stable-security [amd64])
+Conf libssl3t64 (3.5.7-1~deb13u3 Debian-Security:13/stable-security [amd64])
+Inst init-system-helpers [1.68] (1.69~deb13u1 Debian:13.7/stable [all])
+Conf init-system-helpers (1.69~deb13u1 Debian:13.7/stable [all])
+Inst libc-bin [2.41-11] (2.41-12+deb13u4 Debian:13.7/stable [amd64])
+Conf libc-bin (2.41-12+deb13u4 Debian:13.7/stable [amd64])
+Inst busybox [1:1.37.0-6+b3] (1:1.37.0-6+b9 Debian:13.7/stable [amd64])
+Inst initramfs-tools-bin [0.148.3] (0.148.4 Debian:13.7/stable [amd64])
+Inst logsave [1.47.2-3+b3] (1.47.2-3+b12 Debian:13.7/stable [amd64])
+Inst initramfs-tools [0.148.3] (0.148.4 Debian:13.7/stable [all]) []
+Inst initramfs-tools-core [0.148.3] (0.148.4 Debian:13.7/stable [all])
+Inst linux-base [4.12] (4.12.1 Debian:13.7/stable [all])
+Inst zfs-initramfs [2.3.3-pve1] (2.4.4-pve1 Proxmox Debian Repository:stable [all]) []
+Inst libnvpair3linux [2.3.3-pve1] (2.4.4-pve1 Proxmox Debian Repository:stable [amd64]) []
+Inst libuutil3linux [2.3.3-pve1] (2.4.4-pve1 Proxmox Debian Repository:stable [amd64]) []
+Inst zfsutils-linux [2.3.3-pve1] (2.4.4-pve1 Proxmox Debian Repository:stable [amd64]) []
+Inst zfs-zed [2.3.3-pve1] (2.4.4-pve1 Proxmox Debian Repository:stable [amd64]) []
+Remv libzfs6linux [2.3.3-pve1] []
+Inst libzfs7linux (2.4.4-pve1 Proxmox Debian Repository:stable [amd64]) []
+Inst libzpool7linux (2.4.4-pve1 Proxmox Debian Repository:stable [amd64])
+Inst login [1:4.16.0-2+really2.41-5] (1:4.16.0-2+really2.41.5-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Inst libext2fs2t64 [1.47.2-3+b3] (1.47.2-3+b12 Debian:13.7/stable [amd64]) [e2fsprogs:amd64 on libext2fs2t64:amd64] [e2fsprogs:amd64 ]
+Conf libext2fs2t64 (1.47.2-3+b12 Debian:13.7/stable [amd64]) [e2fsprogs:amd64 ]
+Inst e2fsprogs [1.47.2-3+b3] (1.47.2-3+b12 Debian:13.7/stable [amd64])
+Conf mount (2.41.5-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf systemd (257.13-1~deb13u1 Debian:13.7/stable, Proxmox Debian Repository:stable [amd64])
+Conf systemd-sysv (257.13-1~deb13u1 Debian:13.7/stable, Proxmox Debian Repository:stable [amd64])
+Inst init [1.68] (1.69~deb13u1 Debian:13.7/stable [amd64])
+Inst console-setup-linux [1.240] (1.242~deb13u1 Debian:13.7/stable [all]) []
+Inst console-setup [1.240] (1.242~deb13u1 Debian:13.7/stable [all]) []
+Inst keyboard-configuration [1.240] (1.242~deb13u1 Debian:13.7/stable [all])
+Inst frr-pythontools [10.3.1-1+pve4] (10.6.1-1+pve3 Proxmox Debian Repository:stable [all]) []
+Inst libcares2 [1.34.5-1] (1.34.5-1+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64]) []
+Inst libpcre2-8-0 [10.45-1] (10.46-1~deb13u3 Debian-Security:13/stable-security [amd64]) []
+Conf libpcre2-8-0 (10.46-1~deb13u3 Debian-Security:13/stable-security [amd64]) []
+Inst libpcre2-posix3 [10.45-1] (10.46-1~deb13u3 Debian-Security:13/stable-security [amd64]) []
+Inst frr [10.3.1-1+pve4] (10.6.1-1+pve3 Proxmox Debian Repository:stable [amd64])
+Inst libexpat1 [2.7.1-2] (2.8.3-1~deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Inst open-iscsi [2.1.11-1] (2.1.11-1+deb13u2 Debian:13.7/stable [amd64]) []
+Inst libopeniscsiusr [2.1.11-1] (2.1.11-1+deb13u2 Debian:13.7/stable [amd64])
+Inst libgssapi-krb5-2 [1.21.3-5] (1.21.3-5+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64]) []
+Inst libkrb5-3 [1.21.3-5] (1.21.3-5+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64]) []
+Inst libkrb5support0 [1.21.3-5] (1.21.3-5+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64]) [libk5crypto3:amd64 ]
+Inst libk5crypto3 [1.21.3-5] (1.21.3-5+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Inst libcom-err2 [1.47.2-3+b3] (1.47.2-3+b12 Debian:13.7/stable [amd64])
+Inst openssh-sftp-server [1:10.0p1-7] (1:10.0p1-7+deb13u4 Debian:13.7/stable [amd64]) []
+Inst openssh-server [1:10.0p1-7] (1:10.0p1-7+deb13u4 Debian:13.7/stable [amd64]) []
+Inst openssh-client [1:10.0p1-7] (1:10.0p1-7+deb13u4 Debian:13.7/stable [amd64])
+Inst postfix [3.10.3-2] (3.10.13-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Inst python3.13 [3.13.5-2] (3.13.5-2+deb13u5 Debian:13.7/stable [amd64]) []
+Inst libpython3.13-stdlib [3.13.5-2] (3.13.5-2+deb13u5 Debian:13.7/stable [amd64]) []
+Inst python3.13-minimal [3.13.5-2] (3.13.5-2+deb13u5 Debian:13.7/stable [amd64]) []
+Inst libpython3.13-minimal [3.13.5-2] (3.13.5-2+deb13u5 Debian:13.7/stable [amd64])
+Inst tzdata [2025b-4] (2026c-0+deb13u1 Debian:13.7/stable [all])
+Inst liblzma5 [5.8.1-1] (5.8.1-1+deb13u1 Debian:13.7/stable [amd64])
+Conf liblzma5 (5.8.1-1+deb13u1 Debian:13.7/stable [amd64])
+Inst rsync [3.4.1+ds1-5] (3.5.0+ds1-0+deb13u1 Debian-Security:13/stable-security [amd64])
+Inst openssl [3.5.1-1] (3.5.7-1~deb13u3 Debian-Security:13/stable-security [amd64])
+Inst shim-signed-common [1.47+pmx1+15.8-1+pmx1] (1.51+pmx1+16.1-2+pmx1 Proxmox Debian Repository:stable [all])
+Inst shim-unsigned [15.8-1+pmx1] (16.1-2+pmx1 Proxmox Debian Repository:stable [amd64])
+Inst shim-helpers-amd64-signed [1+15.8+1+pmx1] (1+16.1+2+pmx1 Proxmox Debian Repository:stable [amd64])
+Inst shim-signed [1.47+pmx1+15.8-1+pmx1] (1.51+pmx1+16.1-2+pmx1 Proxmox Debian Repository:stable [amd64])
+Inst libdpkg-perl [1.22.21] (1.22.22 Debian:13.7/stable [all])
+Inst sqv [1.3.0-3] (1.3.0-3+b2 Debian:13.7/stable [amd64])
+Conf sqv (1.3.0-3+b2 Debian:13.7/stable [amd64])
+Inst dhcpcd-base [1:10.1.0-11] (1:10.1.0-11+deb13u4 Debian:13.7/stable [amd64])
+Inst linux-sysctl-defaults [4.12] (4.12.1 Debian:13.7/stable [all])
+Inst nano [8.4-1] (8.4-1+deb13u1 Debian:13.7/stable [amd64])
+Inst amd64-microcode [3.20250311.1] (3.20251202.1~bpo13+1 Proxmox Debian Repository:stable [amd64])
+Inst libnghttp2-14 [1.64.0-1.1] (1.64.0-1.1+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Inst libxml2 [2.12.7+dfsg+really2.9.14-2.1] (2.12.7+dfsg+really2.9.14-2.1+deb13u3 Debian:13.7/stable [amd64])
+Inst bind9-dnsutils [1:9.20.11-4] (1:9.20.29-1~deb13u1 Debian-Security:13/stable-security [amd64]) []
+Inst bind9-host [1:9.20.11-4] (1:9.20.29-1~deb13u1 Debian-Security:13/stable-security [amd64]) []
+Inst bind9-libs [1:9.20.11-4] (1:9.20.29-1~deb13u1 Debian-Security:13/stable-security [amd64])
+Inst inetutils-telnet [2:2.6-3] (2:2.6-3+deb13u3 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Inst krb5-locales [1.21.3-5] (1.21.3-5+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [all])
+Inst libc-l10n [2.41-11] (2.41-12+deb13u4 Debian:13.7/stable [all])
+Inst locales [2.41-11] (2.41-12+deb13u4 Debian:13.7/stable [all])
+Inst xz-utils [5.8.1-1] (5.8.1-1+deb13u1 Debian:13.7/stable [amd64])
+Inst netavark (1.14.0-2 Debian:13.7/stable [amd64])
+Inst aardvark-dns (1.14.0-3 Debian:13.7/stable [amd64])
+Inst curl [8.14.1-2] (8.14.1-2+deb13u5 Debian:13.7/stable [amd64]) []
+Inst libssh2-1t64 [1.11.1-1] (1.11.1-1+deb13u2 Debian:13.7/stable [amd64]) []
+Inst libcurl4t64 [8.14.1-2] (8.14.1-2+deb13u5 Debian:13.7/stable [amd64])
+Inst librabbitmq4 [0.15.0-1] (0.15.0-1+deb13u2 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Inst librgw2 [19.2.3-pve1] (19.2.6-pve4 Proxmox Ceph 19 Squid Debian Repository:stable, Proxmox Debian Repository:stable [amd64]) []
+Inst libradosstriper1 [19.2.3-pve1] (19.2.6-pve4 Proxmox Ceph 19 Squid Debian Repository:stable, Proxmox Debian Repository:stable [amd64]) []
+Inst ceph-common [19.2.3-pve1] (19.2.6-pve4 Proxmox Ceph 19 Squid Debian Repository:stable, Proxmox Debian Repository:stable [amd64]) []
+Inst librbd1 [19.2.3-pve1] (19.2.6-pve4 Proxmox Ceph 19 Squid Debian Repository:stable, Proxmox Debian Repository:stable [amd64]) []
+Inst librados2 [19.2.3-pve1] (19.2.6-pve4 Proxmox Ceph 19 Squid Debian Repository:stable, Proxmox Debian Repository:stable [amd64]) []
+Inst python3-cephfs [19.2.3-pve1] (19.2.6-pve4 Proxmox Ceph 19 Squid Debian Repository:stable, Proxmox Debian Repository:stable [amd64]) []
+Inst libcephfs2 [19.2.3-pve1] (19.2.6-pve4 Proxmox Ceph 19 Squid Debian Repository:stable, Proxmox Debian Repository:stable [amd64]) []
+Inst python3-rgw [19.2.3-pve1] (19.2.6-pve4 Proxmox Ceph 19 Squid Debian Repository:stable, Proxmox Debian Repository:stable [amd64]) []
+Inst python3-rados [19.2.3-pve1] (19.2.6-pve4 Proxmox Ceph 19 Squid Debian Repository:stable, Proxmox Debian Repository:stable [amd64]) []
+Inst python3-ceph-argparse [19.2.3-pve1] (19.2.6-pve4 Proxmox Ceph 19 Squid Debian Repository:stable, Proxmox Debian Repository:stable [all]) []
+Inst python3-ceph-common [19.2.3-pve1] (19.2.6-pve4 Proxmox Ceph 19 Squid Debian Repository:stable, Proxmox Debian Repository:stable [all]) []
+Inst python3-rbd [19.2.3-pve1] (19.2.6-pve4 Proxmox Ceph 19 Squid Debian Repository:stable, Proxmox Debian Repository:stable [amd64])
+Inst ceph-fuse [19.2.3-pve1] (19.2.6-pve4 Proxmox Ceph 19 Squid Debian Repository:stable, Proxmox Debian Repository:stable [amd64])
+Inst libevent-2.1-7t64 [2.1.12-stable-10+b1] (2.1.13-stable-1~deb13u1 Debian-Security:13/stable-security [amd64])
+Inst libunbound8 [1.22.0-2] (1.26.1-0+deb13u1 Debian-Security:13/stable-security [amd64])
+Inst libgnutls-dane0t64 [3.8.9-3] (3.8.9-3+deb13u4 Debian:13.7/stable, Debian-Security:13/stable-security [amd64]) []
+Inst libtasn1-6 [4.20.0-2] (4.20.0-2+deb13u1 Debian:13.7/stable [amd64]) []
+Inst libgnutls30t64 [3.8.9-3] (3.8.9-3+deb13u4 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Inst chrony [4.6.1-3] (4.8-4~bpo13+2 Proxmox Debian Repository:stable [amd64])
+Inst containernetworking-plugins (1.1.1+ds1-3+b17 Debian:13.7/stable [amd64])
+Inst libcorosync-common4 [3.1.9-pve2] (3.1.10-pve3 Proxmox Debian Repository:stable [amd64])
+Inst libcfg7 [3.1.9-pve2] (3.1.10-pve3 Proxmox Debian Repository:stable [amd64])
+Inst libcmap4 [3.1.9-pve2] (3.1.10-pve3 Proxmox Debian Repository:stable [amd64])
+Inst libcpg4 [3.1.9-pve2] (3.1.10-pve3 Proxmox Debian Repository:stable [amd64])
+Inst libnss3 [2:3.110-1] (2:3.110-1+deb13u4 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Inst libknet1t64 [1.31-pve1] (1.35-pve2 Proxmox Debian Repository:stable [amd64])
+Inst libnozzle1t64 [1.31-pve1] (1.35-pve2 Proxmox Debian Repository:stable [amd64])
+Inst libquorum5 [3.1.9-pve2] (3.1.10-pve3 Proxmox Debian Repository:stable [amd64])
+Inst libvotequorum8 [3.1.9-pve2] (3.1.10-pve3 Proxmox Debian Repository:stable [amd64])
+Inst libgcrypt20 [1.11.0-7] (1.11.0-7+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Inst libxslt1.1 [1.1.35-1.2] (1.1.35-1.2+deb13u3 Debian:13.7/stable [amd64])
+Inst xsltproc [1.1.35-1.2] (1.1.35-1.2+deb13u3 Debian:13.7/stable [amd64])
+Inst corosync [3.1.9-pve2] (3.1.10-pve3 Proxmox Debian Repository:stable [amd64])
+Inst gpgsm [2.4.7-21+b3] (2.4.7-21+deb13u1+b5 Debian:13.7/stable [amd64]) []
+Inst gpg [2.4.7-21+b3] (2.4.7-21+deb13u1+b5 Debian:13.7/stable [amd64]) []
+Inst dirmngr [2.4.7-21+b3] (2.4.7-21+deb13u1+b5 Debian:13.7/stable [amd64]) []
+Inst gnupg [2.4.7-21] (2.4.7-21+deb13u1 Debian:13.7/stable [all]) []
+Inst gpgconf [2.4.7-21+b3] (2.4.7-21+deb13u1+b5 Debian:13.7/stable [amd64]) [gpg-agent:amd64 ]
+Inst gpg-agent [2.4.7-21+b3] (2.4.7-21+deb13u1+b5 Debian:13.7/stable [amd64]) []
+Inst gnupg-l10n [2.4.7-21] (2.4.7-21+deb13u1 Debian:13.7/stable [all])
+Inst distro-info-data [0.66] (0.66+deb13u2 Debian:13.7/stable [all])
+Inst dmsetup [2:1.02.205-2] (2:1.02.205-2+pmx1 Proxmox Debian Repository:stable [amd64])
+Inst libdevmapper1.02.1 [2:1.02.205-2] (2:1.02.205-2+pmx1 Proxmox Debian Repository:stable [amd64])
+Inst libdevmapper-event1.02.1 [2:1.02.205-2] (2:1.02.205-2+pmx1 Proxmox Debian Repository:stable [amd64])
+Inst liblvm2cmd2.03 [2.03.31-2] (2.03.31-2+pmx1 Proxmox Debian Repository:stable [amd64])
+Inst dmeventd [2:1.02.205-2] (2:1.02.205-2+pmx1 Proxmox Debian Repository:stable [amd64])
+Inst ethtool [1:6.14.1-1] (1:6.14.2-1 Debian:13.7/stable [amd64])
+Inst gnutls-bin [3.8.9-3] (3.8.9-3+deb13u4 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Inst golang-github-containers-image (5.34.2-1 Debian:13.7/stable [all])
+Inst golang-github-containers-common (0.62.2+ds1-2 Debian:13.7/stable [all])
+Inst gpg-wks-client (2.4.7-21+deb13u1+b5 Debian:13.7/stable [amd64])
+Inst libproxmox-backup-qemu0 [2.0.1] (2.0.3 Proxmox Debian Repository:stable [amd64])
+Inst libasound2t64 [1.2.14-1] (1.2.14-1+deb13u1 Debian:13.7/stable [amd64]) []
+Inst libasound2-data [1.2.14-1] (1.2.14-1+deb13u1 Debian:13.7/stable [all])
+Inst libngtcp2-16 [1.11.0-1] (1.11.0-1+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Inst libngtcp2-crypto-gnutls8 [1.11.0-1] (1.11.0-1+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Inst libcurl3t64-gnutls [8.14.1-2] (8.14.1-2+deb13u5 Debian:13.7/stable [amd64])
+Inst libgbm1 [25.0.7-2] (25.0.7-2+deb13u1 Debian:13.7/stable [amd64]) []
+Inst mesa-libgallium [25.0.7-2] (25.0.7-2+deb13u1 Debian:13.7/stable [amd64])
+Inst libglib2.0-0t64 [2.84.3-1] (2.84.4-3~deb13u5 Debian:13.7/stable [amd64])
+Inst libpng16-16t64 [1.6.48-1] (1.6.48-1+deb13u6 Debian-Security:13/stable-security [amd64])
+Inst libslirp0 [4.8.0-1+b1] (4.8.0-1+deb13u1 Debian:13.7/stable [amd64])
+Inst pve-qemu-kvm [10.0.2-4] (11.0.3-4 Proxmox Debian Repository:stable [amd64])
+Inst libjson-xs-perl [4.030-2+b5] (4.040-1~deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Inst libpve-http-server-perl [6.0.3] (6.0.5 Proxmox Debian Repository:stable [all])
+Inst qemu-server [9.0.16] (9.2.10 Proxmox Debian Repository:stable [amd64]) []
+Inst libpve-storage-perl [9.0.13] (9.1.12 Proxmox Debian Repository:stable [all]) []
+Inst libproxmox-acme-plugins [1.7.0] (1.7.2 Proxmox Debian Repository:stable [all]) []
+Inst libproxmox-acme-perl [1.7.0] (1.7.2 Proxmox Debian Repository:stable [all]) []
+Inst pve-manager [9.0.3] (9.2.21 Proxmox Debian Repository:stable [all]) []
+Inst libpve-common-perl [9.0.9] (9.2.3 Proxmox Debian Repository:stable [all]) []
+Inst libpve-guest-common-perl [6.0.2] (6.0.5 Proxmox Debian Repository:stable [all]) []
+Inst libpve-network-api-perl [1.1.6] (1.6.7 Proxmox Debian Repository:stable [all]) []
+Inst libpve-network-perl [1.1.6] (1.6.7 Proxmox Debian Repository:stable [all]) []
+Inst pve-ha-manager [5.0.4] (5.2.5 Proxmox Debian Repository:stable [amd64]) []
+Inst libpve-rs-perl [0.10.7] (0.15.3 Proxmox Debian Repository:stable [amd64]) []
+Inst libpve-notify-perl [9.0.6] (9.1.6 Proxmox Debian Repository:stable [all]) []
+Inst libpve-cluster-api-perl [9.0.6] (9.1.6 Proxmox Debian Repository:stable [all]) []
+Inst libpve-cluster-perl [9.0.6] (9.1.6 Proxmox Debian Repository:stable [all]) []
+Inst pve-cluster [9.0.6] (9.1.6 Proxmox Debian Repository:stable [amd64]) []
+Inst libpve-access-control [9.0.3] (9.1.2 Proxmox Debian Repository:stable [all]) []
+Inst proxmox-firewall-data (0.1 Proxmox Debian Repository:stable [all]) []
+Inst pve-firewall [6.0.3] (6.0.6 Proxmox Debian Repository:stable [amd64]) []
+Inst lxcfs [6.0.4-pve1] (7.0.0-pve1 Proxmox Debian Repository:stable [amd64]) []
+Inst lxc-pve [6.0.4-2] (7.0.0-2 Proxmox Debian Repository:stable [amd64]) []
+Inst libhtml-parser-perl [3.83-1+b2] (3.83-2~deb13u1 Debian:13.7/stable [amd64]) []
+Inst libpve-apiclient-perl [3.4.0] (3.4.3 Proxmox Debian Repository:stable [all]) []
+Inst librados2-perl [1.5.0] (1.5.1 Proxmox Debian Repository:stable [amd64]) []
+Inst libxml-libxml-perl [2.0207+dfsg+really+2.0134-5+b2] (2.0207+dfsg+really+2.0134-5+deb13u1 Debian:13.7/stable [amd64]) []
+Inst lvm2 [2.03.31-2] (2.03.31-2+pmx1 Proxmox Debian Repository:stable [amd64]) []
+Inst proxmox-backup-client [4.0.9-1] (4.2.8-1 Proxmox Debian Repository:stable [amd64]) []
+Inst proxmox-backup-file-restore [4.0.9-1] (4.2.8-1 Proxmox Debian Repository:stable [amd64]) []
+Inst smartmontools [7.4-pve1] (7.5-pve2 Proxmox Debian Repository:stable [amd64]) []
+Inst samba-common [2:4.22.3+dfsg-4] (2:4.22.11+dfsg-0+deb13u1 Debian:13.7/stable [all]) []
+Inst libtalloc2 [2:2.4.3+samba4.22.3+dfsg-4] (2:2.4.3+samba4.22.11+dfsg-0+deb13u1 Debian:13.7/stable [amd64]) []
+Inst libtevent0t64 [2:0.16.2+samba4.22.3+dfsg-4] (2:0.16.2+samba4.22.11+dfsg-0+deb13u1 Debian:13.7/stable [amd64]) []
+Inst libsmbclient0 [2:4.22.3+dfsg-4] (2:4.22.11+dfsg-0+deb13u1 Debian:13.7/stable [amd64]) []
+Inst libtdb1 [2:1.4.13+samba4.22.3+dfsg-4] (2:1.4.13+samba4.22.11+dfsg-0+deb13u1 Debian:13.7/stable [amd64]) []
+Inst smbclient [2:4.22.3+dfsg-4] (2:4.22.11+dfsg-0+deb13u1 Debian:13.7/stable [amd64]) []
+Inst samba-libs [2:4.22.3+dfsg-4] (2:4.22.11+dfsg-0+deb13u1 Debian:13.7/stable [amd64]) []
+Inst libldb2 [2:2.11.0+samba4.22.3+dfsg-4] (2:2.11.0+samba4.22.11+dfsg-0+deb13u1 Debian:13.7/stable [amd64]) []
+Inst libwbclient0 [2:4.22.3+dfsg-4] (2:4.22.11+dfsg-0+deb13u1 Debian:13.7/stable [amd64]) []
+Inst libarchive13t64 [3.7.4-4] (3.7.4-4+deb13u1 Debian:13.7/stable [amd64]) []
+Inst isc-dhcp-client (4.4.3-P1-8 Debian:13.7/stable [amd64]) []
+Inst proxmox-termproxy [2.0.2] (2.1.0 Proxmox Debian Repository:stable [amd64]) []
+Inst pve-container [6.0.9] (6.1.14 Proxmox Debian Repository:stable [all]) []
+Inst librrd8t64 [1.7.2-4.2+pve2] (1.7.2-4.2+pve4 Proxmox Debian Repository:stable [amd64]) []
+Inst librrds-perl [1.7.2-4.2+pve2] (1.7.2-4.2+pve4 Proxmox Debian Repository:stable [amd64]) []
+Inst rrdcached [1.7.2-4.2+pve2] (1.7.2-4.2+pve4 Proxmox Debian Repository:stable [amd64]) []
+Inst pve-edk2-firmware-legacy [4.2025.02-4] (4.2026.08-1 Proxmox Debian Repository:stable [all]) []
+Inst pve-edk2-firmware-ovmf [4.2025.02-4] (4.2026.08-1 Proxmox Debian Repository:stable [all]) []
+Inst python3-bcrypt (4.2.0-2.1+b1 Debian:13.7/stable [amd64]) []
+Inst python3-cffi-backend (1.17.1-3 Debian:13.7/stable [amd64]) []
+Inst python3-cryptography (43.0.0-3+deb13u1 Debian:13.7/stable [amd64]) []
+Inst python3-importlib-resources (6.5.2-1 Debian:13.7/stable [all]) []
+Inst python3-pefile (2024.8.26-2.1 Debian:13.7/stable [all]) []
+Inst python3-virt-firmware (24.11-2 Debian:13.7/stable [all]) []
+Inst socat [1.8.0.3-1] (1.8.0.3-1+deb13u1 Debian:13.7/stable [amd64]) []
+Inst swtpm-tools [0.8.0+pve2] (0.8.0+pve3 Proxmox Debian Repository:stable [amd64]) []
+Inst swtpm [0.8.0+pve2] (0.8.0+pve3 Proxmox Debian Repository:stable [amd64]) []
+Inst swtpm-libs [0.8.0+pve2] (0.8.0+pve3 Proxmox Debian Repository:stable [amd64]) []
+Inst libjs-extjs [7.0.0-5] (7.0.0-7 Proxmox Debian Repository:stable [all]) []
+Inst libnet-dns-perl [1.50-1] (1.56-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [all]) []
+Inst novnc-pve [1.6.0-3] (1.7.0-2 Proxmox Debian Repository:stable [all]) []
+Inst proxmox-enterprise-support-keyring (1.1 Proxmox Debian Repository:stable [all]) []
+Inst proxmox-mail-forward [1.0.2] (1.0.3 Proxmox Debian Repository:stable [amd64]) []
+Inst proxmox-mini-journalreader [1.6] (1.7 Proxmox Debian Repository:stable [amd64]) []
+Inst proxmox-widget-toolkit [5.0.4] (5.2.10 Proxmox Debian Repository:stable [all]) []
+Inst pve-docs [9.0.7] (9.2.13 Proxmox Debian Repository:stable [all]) []
+Inst pve-i18n [3.5.2] (3.10.0 Proxmox Debian Repository:stable [all]) []
+Inst pve-xtermjs [5.5.0-2] (6.0.0-2 Proxmox Debian Repository:stable [all]) []
+Inst pve-yew-mobile-i18n [3.5.2] (3.10.0 Proxmox Debian Repository:stable [all]) []
+Inst pve-yew-mobile-gui [0.6.2] (0.8.0 Proxmox Debian Repository:stable [amd64]) []
+Inst spiceterm [3.4.0] (3.4.2 Proxmox Debian Repository:stable [amd64]) []
+Inst vncterm [1.9.0] (1.9.2 Proxmox Debian Repository:stable [amd64])
+Inst libhttp-daemon-perl [6.16-1] (6.16-1+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [all])
+Inst ifupdown2 [3.3.0-1+pmx9] (3.3.0-1+pmx12 Proxmox Debian Repository:stable [all])
+Inst isc-dhcp-common (4.4.3-P1-8 Debian:13.7/stable [amd64])
+Inst libblas3 [3.12.1-4] (3.12.1-6 Debian:13.7/stable [amd64])
+Inst libbytes-random-secure-perl [0.29-3] (0.29-4~deb13u1 Debian:13.7/stable [all])
+Inst libcap2-bin [1:2.75-10+b1] (1:2.75-10+deb13u1+b3 Debian:13.7/stable [amd64])
+Inst libevent-core-2.1-7t64 [2.1.12-stable-10+b1] (2.1.13-stable-1~deb13u1 Debian-Security:13/stable-security [amd64])
+Inst libfreetype6 [2.13.3+dfsg-1] (2.13.3+dfsg-1+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Inst libgpgme11t64 (1.24.2-3 Debian:13.7/stable [amd64])
+Inst libgraphite2-3 [1.3.14-2+b1] (1.3.14-2+deb13u1 Debian:13.7/stable [amd64])
+Inst libgstreamer-plugins-base1.0-0 [1.26.2-1] (1.26.2-1+deb13u2 Debian-Security:13/stable-security [amd64])
+Inst libharfbuzz0b [10.2.0-1+b1] (10.2.0-1+deb13u1 Debian:13.7/stable [amd64])
+Inst libmpg123-0t64 [1.32.10-1] (1.32.10-1+deb13u1 Debian:13.7/stable [amd64])
+Inst libpcre2-16-0 [10.45-1] (10.46-1~deb13u3 Debian-Security:13/stable-security [amd64])
+Inst libqt5core5t64 [5.15.15+dfsg-6] (5.15.15+dfsg-6+deb13u1 Debian:13.7/stable [amd64])
+Inst libqt5dbus5t64 [5.15.15+dfsg-6] (5.15.15+dfsg-6+deb13u1 Debian:13.7/stable [amd64])
+Inst libqt5network5t64 [5.15.15+dfsg-6] (5.15.15+dfsg-6+deb13u1 Debian:13.7/stable [amd64])
+Inst libsndfile1 [1.2.2-2+b1] (1.2.2-2+deb13u1 Debian:13.7/stable [amd64])
+Inst libss2 [1.47.2-3+b3] (1.47.2-3+b12 Debian:13.7/stable [amd64])
+Inst libxml-parser-perl [2.47-1+b3] (2.47-2~deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Inst libzpool6linux [2.3.3-pve1] (2.3.9-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Inst pve-firmware [3.16-3] (3.18-7 Proxmox Debian Repository:stable [all])
+Inst proxmox-kernel-7.0.14-22-pve-signed (7.0.14-22 Proxmox Debian Repository:stable [amd64])
+Inst proxmox-kernel-7.0 (7.0.14-22 Proxmox Debian Repository:stable [amd64])
+Inst proxmox-default-kernel [2.0.0] (2.1.0 Proxmox Debian Repository:stable [all])
+Inst proxmox-firewall [1.1.1] (1.2.3 Proxmox Debian Repository:stable [amd64])
+Inst proxmox-kernel-6.14.11-9-pve-signed (6.14.11-9 Proxmox Debian Repository:stable [amd64])
+Inst proxmox-kernel-6.14 [6.14.8-2] (6.14.11-9 Proxmox Debian Repository:stable [all])
+Inst proxmox-kernel-helper [9.0.3] (9.2.0 Proxmox Debian Repository:stable [all])
+Inst proxmox-offline-mirror-docs [0.7.0] (0.7.4 Proxmox Debian Repository:stable [all])
+Inst proxmox-offline-mirror-helper [0.7.0] (0.7.4 Proxmox Debian Repository:stable [amd64])
+Inst proxmox-ve [9.0.0] (9.2.0 Proxmox Debian Repository:stable [all])
+Inst pve-edk2-firmware [4.2025.02-4] (4.2026.08-1 Proxmox Debian Repository:stable [all])
+Inst pve-nvidia-vgpu-helper [0.2.0] (0.3.1 Proxmox Debian Repository:stable [all])
+Inst python3-idna [3.10-1] (3.10-1+deb13u1 Debian:13.7/stable [all])
+Inst python3-jaraco.context [6.0.1-1] (6.0.1-1+deb13u1 Debian:13.7/stable [all])
+Inst python3-urllib3 [2.3.0-3] (2.3.0-3+deb13u2 Debian:13.7/stable, Debian-Security:13/stable-security [all])
+Inst python3-requests [2.32.3+dfsg-5] (2.32.3+dfsg-5+deb13u1 Debian:13.7/stable [all])
+Inst skopeo (1.18.0+ds1-1+b5 Debian:13.7/stable [amd64])
+Inst ssh [1:10.0p1-7] (1:10.0p1-7+deb13u4 Debian:13.7/stable [all])
+Inst virtiofsd [1.13.2-1] (1.13.2-1+deb13u1 Debian:13.7/stable [amd64])
+Inst wireguard-tools (1.0.20210914-3 Debian:13.7/stable [amd64])
+Inst xfsprogs [6.13.0-2+b1] (6.13.0-2+deb13u1 Debian:13.7/stable [amd64])
+Conf libperl5.40 (5.40.1-6+deb13u1 Debian:13.7/stable [amd64])
+Conf perl (5.40.1-6+deb13u1 Debian:13.7/stable [amd64])
+Conf perl-modules-5.40 (5.40.1-6+deb13u1 Debian:13.7/stable [all])
+Conf eject (2.41.5-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf bsdextrautils (2.41.5-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf util-linux-extra (2.41.5-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf fdisk (2.41.5-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf libpam-wtmpdb (0.73.0-3+deb13u1 Debian:13.7/stable [amd64])
+Conf libwtmpdb0 (0.73.0-3+deb13u1 Debian:13.7/stable [amd64])
+Conf wtmpdb (0.73.0-3+deb13u1 Debian:13.7/stable [amd64])
+Conf libfdisk1 (2.41.5-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf sqlite3 (3.46.1-7+deb13u2 Debian:13.7/stable [amd64])
+Conf systemd-boot-efi (257.13-1~deb13u1 Debian:13.7/stable, Proxmox Debian Repository:stable [amd64])
+Conf libpam-systemd (257.13-1~deb13u1 Debian:13.7/stable, Proxmox Debian Repository:stable [amd64])
+Conf libnss-systemd (257.13-1~deb13u1 Debian:13.7/stable, Proxmox Debian Repository:stable [amd64])
+Conf systemd-boot-tools (257.13-1~deb13u1 Debian:13.7/stable, Proxmox Debian Repository:stable [amd64])
+Conf udev (257.13-1~deb13u1 Debian:13.7/stable, Proxmox Debian Repository:stable [amd64])
+Conf busybox (1:1.37.0-6+b9 Debian:13.7/stable [amd64])
+Conf initramfs-tools-bin (0.148.4 Debian:13.7/stable [amd64])
+Conf logsave (1.47.2-3+b12 Debian:13.7/stable [amd64])
+Conf initramfs-tools (0.148.4 Debian:13.7/stable [all])
+Conf initramfs-tools-core (0.148.4 Debian:13.7/stable [all])
+Conf linux-base (4.12.1 Debian:13.7/stable [all])
+Conf zfs-initramfs (2.4.4-pve1 Proxmox Debian Repository:stable [all])
+Conf libnvpair3linux (2.4.4-pve1 Proxmox Debian Repository:stable [amd64])
+Conf libuutil3linux (2.4.4-pve1 Proxmox Debian Repository:stable [amd64])
+Conf zfsutils-linux (2.4.4-pve1 Proxmox Debian Repository:stable [amd64])
+Conf zfs-zed (2.4.4-pve1 Proxmox Debian Repository:stable [amd64])
+Conf libzfs7linux (2.4.4-pve1 Proxmox Debian Repository:stable [amd64])
+Conf libzpool7linux (2.4.4-pve1 Proxmox Debian Repository:stable [amd64])
+Conf login (1:4.16.0-2+really2.41.5-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf e2fsprogs (1.47.2-3+b12 Debian:13.7/stable [amd64])
+Conf init (1.69~deb13u1 Debian:13.7/stable [amd64])
+Conf console-setup-linux (1.242~deb13u1 Debian:13.7/stable [all])
+Conf console-setup (1.242~deb13u1 Debian:13.7/stable [all])
+Conf keyboard-configuration (1.242~deb13u1 Debian:13.7/stable [all])
+Conf frr-pythontools (10.6.1-1+pve3 Proxmox Debian Repository:stable [all])
+Conf libcares2 (1.34.5-1+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf libpcre2-posix3 (10.46-1~deb13u3 Debian-Security:13/stable-security [amd64])
+Conf frr (10.6.1-1+pve3 Proxmox Debian Repository:stable [amd64])
+Conf libexpat1 (2.8.3-1~deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf open-iscsi (2.1.11-1+deb13u2 Debian:13.7/stable [amd64])
+Conf libopeniscsiusr (2.1.11-1+deb13u2 Debian:13.7/stable [amd64])
+Conf libgssapi-krb5-2 (1.21.3-5+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf libkrb5-3 (1.21.3-5+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf libkrb5support0 (1.21.3-5+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf libk5crypto3 (1.21.3-5+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf libcom-err2 (1.47.2-3+b12 Debian:13.7/stable [amd64])
+Conf openssh-sftp-server (1:10.0p1-7+deb13u4 Debian:13.7/stable [amd64])
+Conf openssh-server (1:10.0p1-7+deb13u4 Debian:13.7/stable [amd64])
+Conf openssh-client (1:10.0p1-7+deb13u4 Debian:13.7/stable [amd64])
+Conf postfix (3.10.13-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf python3.13 (3.13.5-2+deb13u5 Debian:13.7/stable [amd64])
+Conf libpython3.13-stdlib (3.13.5-2+deb13u5 Debian:13.7/stable [amd64])
+Conf python3.13-minimal (3.13.5-2+deb13u5 Debian:13.7/stable [amd64])
+Conf libpython3.13-minimal (3.13.5-2+deb13u5 Debian:13.7/stable [amd64])
+Conf tzdata (2026c-0+deb13u1 Debian:13.7/stable [all])
+Conf rsync (3.5.0+ds1-0+deb13u1 Debian-Security:13/stable-security [amd64])
+Conf openssl (3.5.7-1~deb13u3 Debian-Security:13/stable-security [amd64])
+Conf shim-signed-common (1.51+pmx1+16.1-2+pmx1 Proxmox Debian Repository:stable [all])
+Conf shim-unsigned (16.1-2+pmx1 Proxmox Debian Repository:stable [amd64])
+Conf shim-helpers-amd64-signed (1+16.1+2+pmx1 Proxmox Debian Repository:stable [amd64])
+Conf shim-signed (1.51+pmx1+16.1-2+pmx1 Proxmox Debian Repository:stable [amd64])
+Conf libdpkg-perl (1.22.22 Debian:13.7/stable [all])
+Conf dhcpcd-base (1:10.1.0-11+deb13u4 Debian:13.7/stable [amd64])
+Conf linux-sysctl-defaults (4.12.1 Debian:13.7/stable [all])
+Conf nano (8.4-1+deb13u1 Debian:13.7/stable [amd64])
+Conf amd64-microcode (3.20251202.1~bpo13+1 Proxmox Debian Repository:stable [amd64])
+Conf libnghttp2-14 (1.64.0-1.1+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf libxml2 (2.12.7+dfsg+really2.9.14-2.1+deb13u3 Debian:13.7/stable [amd64])
+Conf bind9-dnsutils (1:9.20.29-1~deb13u1 Debian-Security:13/stable-security [amd64])
+Conf bind9-host (1:9.20.29-1~deb13u1 Debian-Security:13/stable-security [amd64])
+Conf bind9-libs (1:9.20.29-1~deb13u1 Debian-Security:13/stable-security [amd64])
+Conf inetutils-telnet (2:2.6-3+deb13u3 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf krb5-locales (1.21.3-5+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [all])
+Conf libc-l10n (2.41-12+deb13u4 Debian:13.7/stable [all])
+Conf locales (2.41-12+deb13u4 Debian:13.7/stable [all])
+Conf xz-utils (5.8.1-1+deb13u1 Debian:13.7/stable [amd64])
+Conf netavark (1.14.0-2 Debian:13.7/stable [amd64])
+Conf aardvark-dns (1.14.0-3 Debian:13.7/stable [amd64])
+Conf curl (8.14.1-2+deb13u5 Debian:13.7/stable [amd64])
+Conf libssh2-1t64 (1.11.1-1+deb13u2 Debian:13.7/stable [amd64])
+Conf libcurl4t64 (8.14.1-2+deb13u5 Debian:13.7/stable [amd64])
+Conf librabbitmq4 (0.15.0-1+deb13u2 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf librgw2 (19.2.6-pve4 Proxmox Ceph 19 Squid Debian Repository:stable, Proxmox Debian Repository:stable [amd64])
+Conf libradosstriper1 (19.2.6-pve4 Proxmox Ceph 19 Squid Debian Repository:stable, Proxmox Debian Repository:stable [amd64])
+Conf ceph-common (19.2.6-pve4 Proxmox Ceph 19 Squid Debian Repository:stable, Proxmox Debian Repository:stable [amd64])
+Conf librbd1 (19.2.6-pve4 Proxmox Ceph 19 Squid Debian Repository:stable, Proxmox Debian Repository:stable [amd64])
+Conf librados2 (19.2.6-pve4 Proxmox Ceph 19 Squid Debian Repository:stable, Proxmox Debian Repository:stable [amd64])
+Conf python3-cephfs (19.2.6-pve4 Proxmox Ceph 19 Squid Debian Repository:stable, Proxmox Debian Repository:stable [amd64])
+Conf libcephfs2 (19.2.6-pve4 Proxmox Ceph 19 Squid Debian Repository:stable, Proxmox Debian Repository:stable [amd64])
+Conf python3-rgw (19.2.6-pve4 Proxmox Ceph 19 Squid Debian Repository:stable, Proxmox Debian Repository:stable [amd64])
+Conf python3-rados (19.2.6-pve4 Proxmox Ceph 19 Squid Debian Repository:stable, Proxmox Debian Repository:stable [amd64])
+Conf python3-ceph-argparse (19.2.6-pve4 Proxmox Ceph 19 Squid Debian Repository:stable, Proxmox Debian Repository:stable [all])
+Conf python3-ceph-common (19.2.6-pve4 Proxmox Ceph 19 Squid Debian Repository:stable, Proxmox Debian Repository:stable [all])
+Conf python3-rbd (19.2.6-pve4 Proxmox Ceph 19 Squid Debian Repository:stable, Proxmox Debian Repository:stable [amd64])
+Conf ceph-fuse (19.2.6-pve4 Proxmox Ceph 19 Squid Debian Repository:stable, Proxmox Debian Repository:stable [amd64])
+Conf libevent-2.1-7t64 (2.1.13-stable-1~deb13u1 Debian-Security:13/stable-security [amd64])
+Conf libunbound8 (1.26.1-0+deb13u1 Debian-Security:13/stable-security [amd64])
+Conf libgnutls-dane0t64 (3.8.9-3+deb13u4 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf libtasn1-6 (4.20.0-2+deb13u1 Debian:13.7/stable [amd64])
+Conf libgnutls30t64 (3.8.9-3+deb13u4 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf chrony (4.8-4~bpo13+2 Proxmox Debian Repository:stable [amd64])
+Conf containernetworking-plugins (1.1.1+ds1-3+b17 Debian:13.7/stable [amd64])
+Conf libcorosync-common4 (3.1.10-pve3 Proxmox Debian Repository:stable [amd64])
+Conf libcfg7 (3.1.10-pve3 Proxmox Debian Repository:stable [amd64])
+Conf libcmap4 (3.1.10-pve3 Proxmox Debian Repository:stable [amd64])
+Conf libcpg4 (3.1.10-pve3 Proxmox Debian Repository:stable [amd64])
+Conf libnss3 (2:3.110-1+deb13u4 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf libknet1t64 (1.35-pve2 Proxmox Debian Repository:stable [amd64])
+Conf libnozzle1t64 (1.35-pve2 Proxmox Debian Repository:stable [amd64])
+Conf libquorum5 (3.1.10-pve3 Proxmox Debian Repository:stable [amd64])
+Conf libvotequorum8 (3.1.10-pve3 Proxmox Debian Repository:stable [amd64])
+Conf libgcrypt20 (1.11.0-7+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf libxslt1.1 (1.1.35-1.2+deb13u3 Debian:13.7/stable [amd64])
+Conf xsltproc (1.1.35-1.2+deb13u3 Debian:13.7/stable [amd64])
+Conf corosync (3.1.10-pve3 Proxmox Debian Repository:stable [amd64])
+Conf gpgsm (2.4.7-21+deb13u1+b5 Debian:13.7/stable [amd64])
+Conf gpg (2.4.7-21+deb13u1+b5 Debian:13.7/stable [amd64])
+Conf dirmngr (2.4.7-21+deb13u1+b5 Debian:13.7/stable [amd64])
+Conf gnupg (2.4.7-21+deb13u1 Debian:13.7/stable [all])
+Conf gpgconf (2.4.7-21+deb13u1+b5 Debian:13.7/stable [amd64])
+Conf gpg-agent (2.4.7-21+deb13u1+b5 Debian:13.7/stable [amd64])
+Conf gnupg-l10n (2.4.7-21+deb13u1 Debian:13.7/stable [all])
+Conf distro-info-data (0.66+deb13u2 Debian:13.7/stable [all])
+Conf dmsetup (2:1.02.205-2+pmx1 Proxmox Debian Repository:stable [amd64])
+Conf libdevmapper1.02.1 (2:1.02.205-2+pmx1 Proxmox Debian Repository:stable [amd64])
+Conf libdevmapper-event1.02.1 (2:1.02.205-2+pmx1 Proxmox Debian Repository:stable [amd64])
+Conf liblvm2cmd2.03 (2.03.31-2+pmx1 Proxmox Debian Repository:stable [amd64])
+Conf dmeventd (2:1.02.205-2+pmx1 Proxmox Debian Repository:stable [amd64])
+Conf ethtool (1:6.14.2-1 Debian:13.7/stable [amd64])
+Conf gnutls-bin (3.8.9-3+deb13u4 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf golang-github-containers-image (5.34.2-1 Debian:13.7/stable [all])
+Conf golang-github-containers-common (0.62.2+ds1-2 Debian:13.7/stable [all])
+Conf gpg-wks-client (2.4.7-21+deb13u1+b5 Debian:13.7/stable [amd64])
+Conf libproxmox-backup-qemu0 (2.0.3 Proxmox Debian Repository:stable [amd64])
+Conf libasound2t64 (1.2.14-1+deb13u1 Debian:13.7/stable [amd64])
+Conf libasound2-data (1.2.14-1+deb13u1 Debian:13.7/stable [all])
+Conf libngtcp2-16 (1.11.0-1+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf libngtcp2-crypto-gnutls8 (1.11.0-1+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf libcurl3t64-gnutls (8.14.1-2+deb13u5 Debian:13.7/stable [amd64])
+Conf libgbm1 (25.0.7-2+deb13u1 Debian:13.7/stable [amd64])
+Conf mesa-libgallium (25.0.7-2+deb13u1 Debian:13.7/stable [amd64])
+Conf libglib2.0-0t64 (2.84.4-3~deb13u5 Debian:13.7/stable [amd64])
+Conf libpng16-16t64 (1.6.48-1+deb13u6 Debian-Security:13/stable-security [amd64])
+Conf libslirp0 (4.8.0-1+deb13u1 Debian:13.7/stable [amd64])
+Conf pve-qemu-kvm (11.0.3-4 Proxmox Debian Repository:stable [amd64])
+Conf libjson-xs-perl (4.040-1~deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf libpve-http-server-perl (6.0.5 Proxmox Debian Repository:stable [all])
+Conf qemu-server (9.2.10 Proxmox Debian Repository:stable [amd64])
+Conf libpve-storage-perl (9.1.12 Proxmox Debian Repository:stable [all])
+Conf libproxmox-acme-plugins (1.7.2 Proxmox Debian Repository:stable [all])
+Conf libproxmox-acme-perl (1.7.2 Proxmox Debian Repository:stable [all])
+Conf pve-manager (9.2.21 Proxmox Debian Repository:stable [all])
+Conf libpve-common-perl (9.2.3 Proxmox Debian Repository:stable [all])
+Conf libpve-guest-common-perl (6.0.5 Proxmox Debian Repository:stable [all])
+Conf libpve-network-api-perl (1.6.7 Proxmox Debian Repository:stable [all])
+Conf libpve-network-perl (1.6.7 Proxmox Debian Repository:stable [all])
+Conf pve-ha-manager (5.2.5 Proxmox Debian Repository:stable [amd64])
+Conf libpve-rs-perl (0.15.3 Proxmox Debian Repository:stable [amd64])
+Conf libpve-notify-perl (9.1.6 Proxmox Debian Repository:stable [all])
+Conf libpve-cluster-api-perl (9.1.6 Proxmox Debian Repository:stable [all])
+Conf libpve-cluster-perl (9.1.6 Proxmox Debian Repository:stable [all])
+Conf pve-cluster (9.1.6 Proxmox Debian Repository:stable [amd64])
+Conf libpve-access-control (9.1.2 Proxmox Debian Repository:stable [all])
+Conf proxmox-firewall-data (0.1 Proxmox Debian Repository:stable [all])
+Conf pve-firewall (6.0.6 Proxmox Debian Repository:stable [amd64])
+Conf lxcfs (7.0.0-pve1 Proxmox Debian Repository:stable [amd64])
+Conf lxc-pve (7.0.0-2 Proxmox Debian Repository:stable [amd64])
+Conf libhtml-parser-perl (3.83-2~deb13u1 Debian:13.7/stable [amd64])
+Conf libpve-apiclient-perl (3.4.3 Proxmox Debian Repository:stable [all])
+Conf librados2-perl (1.5.1 Proxmox Debian Repository:stable [amd64])
+Conf libxml-libxml-perl (2.0207+dfsg+really+2.0134-5+deb13u1 Debian:13.7/stable [amd64])
+Conf lvm2 (2.03.31-2+pmx1 Proxmox Debian Repository:stable [amd64])
+Conf proxmox-backup-client (4.2.8-1 Proxmox Debian Repository:stable [amd64])
+Conf proxmox-backup-file-restore (4.2.8-1 Proxmox Debian Repository:stable [amd64])
+Conf smartmontools (7.5-pve2 Proxmox Debian Repository:stable [amd64])
+Conf samba-common (2:4.22.11+dfsg-0+deb13u1 Debian:13.7/stable [all])
+Conf libtalloc2 (2:2.4.3+samba4.22.11+dfsg-0+deb13u1 Debian:13.7/stable [amd64])
+Conf libtevent0t64 (2:0.16.2+samba4.22.11+dfsg-0+deb13u1 Debian:13.7/stable [amd64])
+Conf libsmbclient0 (2:4.22.11+dfsg-0+deb13u1 Debian:13.7/stable [amd64])
+Conf libtdb1 (2:1.4.13+samba4.22.11+dfsg-0+deb13u1 Debian:13.7/stable [amd64])
+Conf smbclient (2:4.22.11+dfsg-0+deb13u1 Debian:13.7/stable [amd64])
+Conf samba-libs (2:4.22.11+dfsg-0+deb13u1 Debian:13.7/stable [amd64])
+Conf libldb2 (2:2.11.0+samba4.22.11+dfsg-0+deb13u1 Debian:13.7/stable [amd64])
+Conf libwbclient0 (2:4.22.11+dfsg-0+deb13u1 Debian:13.7/stable [amd64])
+Conf libarchive13t64 (3.7.4-4+deb13u1 Debian:13.7/stable [amd64])
+Conf isc-dhcp-client (4.4.3-P1-8 Debian:13.7/stable [amd64])
+Conf proxmox-termproxy (2.1.0 Proxmox Debian Repository:stable [amd64])
+Conf pve-container (6.1.14 Proxmox Debian Repository:stable [all])
+Conf librrd8t64 (1.7.2-4.2+pve4 Proxmox Debian Repository:stable [amd64])
+Conf librrds-perl (1.7.2-4.2+pve4 Proxmox Debian Repository:stable [amd64])
+Conf rrdcached (1.7.2-4.2+pve4 Proxmox Debian Repository:stable [amd64])
+Conf pve-edk2-firmware-legacy (4.2026.08-1 Proxmox Debian Repository:stable [all])
+Conf pve-edk2-firmware-ovmf (4.2026.08-1 Proxmox Debian Repository:stable [all])
+Conf python3-bcrypt (4.2.0-2.1+b1 Debian:13.7/stable [amd64])
+Conf python3-cffi-backend (1.17.1-3 Debian:13.7/stable [amd64])
+Conf python3-cryptography (43.0.0-3+deb13u1 Debian:13.7/stable [amd64])
+Conf python3-importlib-resources (6.5.2-1 Debian:13.7/stable [all])
+Conf python3-pefile (2024.8.26-2.1 Debian:13.7/stable [all])
+Conf python3-virt-firmware (24.11-2 Debian:13.7/stable [all])
+Conf socat (1.8.0.3-1+deb13u1 Debian:13.7/stable [amd64])
+Conf swtpm-tools (0.8.0+pve3 Proxmox Debian Repository:stable [amd64])
+Conf swtpm (0.8.0+pve3 Proxmox Debian Repository:stable [amd64])
+Conf swtpm-libs (0.8.0+pve3 Proxmox Debian Repository:stable [amd64])
+Conf libjs-extjs (7.0.0-7 Proxmox Debian Repository:stable [all])
+Conf libnet-dns-perl (1.56-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [all])
+Conf novnc-pve (1.7.0-2 Proxmox Debian Repository:stable [all])
+Conf proxmox-enterprise-support-keyring (1.1 Proxmox Debian Repository:stable [all])
+Conf proxmox-mail-forward (1.0.3 Proxmox Debian Repository:stable [amd64])
+Conf proxmox-mini-journalreader (1.7 Proxmox Debian Repository:stable [amd64])
+Conf proxmox-widget-toolkit (5.2.10 Proxmox Debian Repository:stable [all])
+Conf pve-docs (9.2.13 Proxmox Debian Repository:stable [all])
+Conf pve-i18n (3.10.0 Proxmox Debian Repository:stable [all])
+Conf pve-xtermjs (6.0.0-2 Proxmox Debian Repository:stable [all])
+Conf pve-yew-mobile-i18n (3.10.0 Proxmox Debian Repository:stable [all])
+Conf pve-yew-mobile-gui (0.8.0 Proxmox Debian Repository:stable [amd64])
+Conf spiceterm (3.4.2 Proxmox Debian Repository:stable [amd64])
+Conf vncterm (1.9.2 Proxmox Debian Repository:stable [amd64])
+Conf libhttp-daemon-perl (6.16-1+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [all])
+Conf ifupdown2 (3.3.0-1+pmx12 Proxmox Debian Repository:stable [all])
+Conf isc-dhcp-common (4.4.3-P1-8 Debian:13.7/stable [amd64])
+Conf libblas3 (3.12.1-6 Debian:13.7/stable [amd64])
+Conf libbytes-random-secure-perl (0.29-4~deb13u1 Debian:13.7/stable [all])
+Conf libcap2-bin (1:2.75-10+deb13u1+b3 Debian:13.7/stable [amd64])
+Conf libevent-core-2.1-7t64 (2.1.13-stable-1~deb13u1 Debian-Security:13/stable-security [amd64])
+Conf libfreetype6 (2.13.3+dfsg-1+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf libgpgme11t64 (1.24.2-3 Debian:13.7/stable [amd64])
+Conf libgraphite2-3 (1.3.14-2+deb13u1 Debian:13.7/stable [amd64])
+Conf libgstreamer-plugins-base1.0-0 (1.26.2-1+deb13u2 Debian-Security:13/stable-security [amd64])
+Conf libharfbuzz0b (10.2.0-1+deb13u1 Debian:13.7/stable [amd64])
+Conf libmpg123-0t64 (1.32.10-1+deb13u1 Debian:13.7/stable [amd64])
+Conf libpcre2-16-0 (10.46-1~deb13u3 Debian-Security:13/stable-security [amd64])
+Conf libqt5core5t64 (5.15.15+dfsg-6+deb13u1 Debian:13.7/stable [amd64])
+Conf libqt5dbus5t64 (5.15.15+dfsg-6+deb13u1 Debian:13.7/stable [amd64])
+Conf libqt5network5t64 (5.15.15+dfsg-6+deb13u1 Debian:13.7/stable [amd64])
+Conf libsndfile1 (1.2.2-2+deb13u1 Debian:13.7/stable [amd64])
+Conf libss2 (1.47.2-3+b12 Debian:13.7/stable [amd64])
+Conf libxml-parser-perl (2.47-2~deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf libzpool6linux (2.3.9-0+deb13u1 Debian:13.7/stable, Debian-Security:13/stable-security [amd64])
+Conf pve-firmware (3.18-7 Proxmox Debian Repository:stable [all])
+Conf proxmox-kernel-7.0.14-22-pve-signed (7.0.14-22 Proxmox Debian Repository:stable [amd64])
+Conf proxmox-kernel-7.0 (7.0.14-22 Proxmox Debian Repository:stable [amd64])
+Conf proxmox-default-kernel (2.1.0 Proxmox Debian Repository:stable [all])
+Conf proxmox-firewall (1.2.3 Proxmox Debian Repository:stable [amd64])
+Conf proxmox-kernel-6.14.11-9-pve-signed (6.14.11-9 Proxmox Debian Repository:stable [amd64])
+Conf proxmox-kernel-6.14 (6.14.11-9 Proxmox Debian Repository:stable [all])
+Conf proxmox-kernel-helper (9.2.0 Proxmox Debian Repository:stable [all])
+Conf proxmox-offline-mirror-docs (0.7.4 Proxmox Debian Repository:stable [all])
+Conf proxmox-offline-mirror-helper (0.7.4 Proxmox Debian Repository:stable [amd64])
+Conf proxmox-ve (9.2.0 Proxmox Debian Repository:stable [all])
+Conf pve-edk2-firmware (4.2026.08-1 Proxmox Debian Repository:stable [all])
+Conf pve-nvidia-vgpu-helper (0.3.1 Proxmox Debian Repository:stable [all])
+Conf python3-idna (3.10-1+deb13u1 Debian:13.7/stable [all])
+Conf python3-jaraco.context (6.0.1-1+deb13u1 Debian:13.7/stable [all])
+Conf python3-urllib3 (2.3.0-3+deb13u2 Debian:13.7/stable, Debian-Security:13/stable-security [all])
+Conf python3-requests (2.32.3+dfsg-5+deb13u1 Debian:13.7/stable [all])
+Conf skopeo (1.18.0+ds1-1+b5 Debian:13.7/stable [amd64])
+Conf ssh (1:10.0p1-7+deb13u4 Debian:13.7/stable [all])
+Conf virtiofsd (1.13.2-1+deb13u1 Debian:13.7/stable [amd64])
+Conf wireguard-tools (1.0.20210914-3 Debian:13.7/stable [amd64])
+Conf xfsprogs (6.13.0-2+deb13u1 Debian:13.7/stable [amd64])
+
+Remote exit code: 0

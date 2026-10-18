@@ -1,0 +1,177 @@
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+Result=success
+ActiveState=active
+SubState=running
+Get:241 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 pve-ha-manager amd64 5.2.5 [101 kB]
+Get:242 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 libpve-rs-perl amd64 0.15.3 [4588 kB]
+Get:243 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 libpve-notify-perl all 9.1.6 [9860 B]
+Get:244 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 libpve-cluster-api-perl all 9.1.6 [48.2 kB]
+Get:245 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 libpve-cluster-perl all 9.1.6 [28.7 kB]
+Get:246 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 pve-cluster amd64 9.1.6 [118 kB]
+Get:247 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 libpve-access-control all 9.1.2 [77.5 kB]
+Get:248 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 proxmox-firewall-data all 0.1 [7888 B]
+Get:249 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 pve-firewall amd64 6.0.6 [80.4 kB]
+Get:250 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 lxcfs amd64 7.0.0-pve1 [69.9 kB]
+Get:251 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 lxc-pve amd64 7.0.0-2 [1131 kB]
+Get:252 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 libpve-apiclient-perl all 3.4.3 [9052 B]
+Get:253 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 librados2-perl amd64 1.5.1 [9364 B]
+Get:254 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 lvm2 amd64 2.03.31-2+pmx1 [1289 kB]
+Get:255 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 proxmox-backup-client amd64 4.2.8-1 [3449 kB]
+Get:256 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 proxmox-backup-file-restore amd64 4.2.8-1 [3141 kB]
+Get:257 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 smartmontools amd64 7.5-pve2 [679 kB]
+Get:258 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 proxmox-termproxy amd64 2.1.0 [200 kB]
+
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+Result=success
+ActiveState=active
+SubState=running
+Setting up libsmartcols1:amd64 (2.41.5-0+deb13u1) ...
+(Reading database ... 
+(Reading database ... 5%
+(Reading database ... 10%
+(Reading database ... 15%
+(Reading database ... 20%
+(Reading database ... 25%
+(Reading database ... 30%
+(Reading database ... 35%
+(Reading database ... 40%
+(Reading database ... 45%
+(Reading database ... 50%
+(Reading database ... 55%
+(Reading database ... 60%
+(Reading database ... 65%
+(Reading database ... 70%
+(Reading database ... 75%
+(Reading database ... 80%
+(Reading database ... 85%
+(Reading database ... 90%
+(Reading database ... 95%
+(Reading database ... 100%
+(Reading database ... 51311 files and directories currently installed.)
+Preparing to unpack .../libblkid1_2.41.5-0+deb13u1_amd64.deb ...
+Unpacking libblkid1:amd64 (2.41.5-0+deb13u1) over (2.41-5) ...
+Setting up libblkid1:amd64 (2.41.5-0+deb13u1) ...
+(Reading database ... 
+(Reading database ... 5%
+(Reading database ... 10%
+(Reading database ... 15%
+(Reading database ... 20%
+(Reading database ... 25%
+(Reading database ... 30%
+(Reading database ... 35%
+(Reading database ... 40%
+(Reading database ... 45%
+(Reading database ... 50%
+(Reading database ... 55%
+(Reading database ... 60%
+(Reading database ... 65%
+(Reading database ... 70%
+(Reading database ... 75%
+(Reading database ... 80%
+(Reading database ... 85%
+(Reading database ... 90%
+(Reading database ... 95%
+(Reading database ... 100%
+(Reading database ... 51311 files and directories currently installed.)
+Preparing to unpack .../libmount1_2.41.5-0+deb13u1_amd64.deb ...
+Unpacking libmount1:amd64 (2.41.5-0+deb13u1) over (2.41-5) ...
+Setting up libmount1:amd64 (2.41.5-0+deb13u1) ...
+(Reading database ... 
+(Reading database ... 5%
+(Reading database ... 10%
+(Reading database ... 15%
+(Reading database ... 20%
+(Reading database ... 25%
+(Reading database ... 30%
+(Reading database ... 35%
+(Reading database ... 40%
+(Reading database ... 45%
+(Reading database ... 50%
+(Reading database ... 55%
+(Reading database ... 60%
+(Reading database ... 65%
+(Reading database ... 70%
+(Reading database ... 75%
+(Reading database ... 80%
+(Reading database ... 85%
+(Reading database ... 90%
+(Reading database ... 95%
+(Reading database ... 100%
+(Reading database ... 51311 files and directories currently installed.)
+Preparing to unpack .../mount_2.41.5-0+deb13u1_amd64.deb ...
+Unpacking mount (2.41.5-0+deb13u1) over (2.41-5) ...
+Preparing to unpack .../libpam-wtmpdb_0.73.0-3+deb13u1_amd64.deb ...
+Unpacking libpam-wtmpdb:amd64 (0.73.0-3+deb13u1) over (0.73.0-3) ...
+
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+Result=success
+ActiveState=active
+SubState=running
+Setting up proxmox-backup-client (4.2.8-1) ...
+Setting up libradosstriper1 (19.2.6-pve4) ...
+Setting up gnupg-l10n (2.4.7-21+deb13u1) ...
+Setting up containernetworking-plugins (1.1.1+ds1-3+b17) ...
+Setting up socat (1.8.0.3-1+deb13u1) ...
+Setting up systemd-boot-tools (257.13-1~deb13u1) ...
+Setting up xz-utils (5.8.1-1+deb13u1) ...
+Setting up python3-ceph-common (19.2.6-pve4) ...
+Setting up netavark (1.14.0-2) ...
+Created symlink '/etc/systemd/system/default.target.wants/netavark-dhcp-proxy.service' -> '/usr/lib/systemd/system/netavark-dhcp-proxy.service'.
+Created symlink '/etc/systemd/system/sockets.target.wants/netavark-dhcp-proxy.socket' -> '/usr/lib/systemd/system/netavark-dhcp-proxy.socket'.
+Created symlink '/etc/systemd/system/firewalld.service.wants/netavark-firewalld-reload.service' -> '/usr/lib/systemd/system/netavark-firewalld-reload.service'.
+Unit /usr/lib/systemd/system/netavark-firewalld-reload.service is added as a dependency to a non-existent unit firewalld.service.
+Setting up libpng16-16t64:amd64 (1.6.48-1+deb13u6) ...
+Setting up libcares2:amd64 (1.34.5-1+deb13u1) ...
+Setting up udev (257.13-1~deb13u1) ...
+
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+Result=success
+ActiveState=active
+SubState=running
+Setting up smbclient (2:4.22.11+dfsg-0+deb13u1) ...
+Setting up bind9-dnsutils (1:9.20.29-1~deb13u1) ...
+Setting up python3-rgw (19.2.6-pve4) ...
+Setting up ssh (1:10.0p1-7+deb13u4) ...
+Setting up ceph-common (19.2.6-pve4) ...
+Setting system user ceph properties..usermod: no changes
+usermod: unlocking the user's password would result in a passwordless account.
+You should set a password with usermod -p to unlock this user's password.
+..done
+chown: cannot access '/var/log/ceph/*.log*': No such file or directory
+Fixing /var/run/ceph ownership....done
+/usr/lib/tmpfiles.d/legacy.conf:14: Duplicate line for path "/run/lock", ignoring.
+Setting up pve-qemu-kvm (11.0.3-4) ...
+Setting up spiceterm (3.4.2) ...
+Setting up dmsetup (2:1.02.205-2+pmx1) ...
+Setting up libproxmox-acme-perl (1.7.2) ...
+Setting up libdevmapper1.02.1:amd64 (2:1.02.205-2+pmx1) ...
+Setting up libdevmapper-event1.02.1:amd64 (2:1.02.205-2+pmx1) ...
+Setting up libpve-common-perl (9.2.3) ...
+Setting up pve-cluster (9.1.6) ...
+
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+Result=success
+ActiveState=inactive
+SubState=dead
+0
+proxmox-offline-mirror-helper: 0.7.4
+proxmox-widget-toolkit: 5.2.10
+pve-cluster: 9.1.6
+pve-container: 6.1.14
+pve-docs: 9.2.13
+pve-edk2-firmware: 4.2026.08-1
+pve-esxi-import-tools: 1.0.1
+pve-firewall: 6.0.6
+pve-firmware: 3.18-7
+pve-ha-manager: 5.2.5
+pve-i18n: 3.10.0
+pve-qemu-kvm: 11.0.3-4
+pve-xtermjs: 6.0.0-2
+qemu-server: 9.2.10
+smartmontools: 7.5-pve2
+spiceterm: 3.4.2
+swtpm: 0.8.0+pve3
+vncterm: 1.9.2
+zfsutils-linux: 2.4.4-pve1
+Wed Oct  7 14:35:05 UTC 2026
+

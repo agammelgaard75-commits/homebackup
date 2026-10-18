@@ -1,0 +1,37 @@
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+
+=== DNS baseline ===
+Wed Oct  7 14:11:24 UTC 2026
+-rw-r--r-- 1 root root 37 Oct  6 19:59 /etc/resolv.conf
+search home.lab
+nameserver 127.0.0.1
+{"dns1":"127.0.0.1","search":"home.lab"}
+
+=== PVE DNS configuration schema ===
+USAGE: pvesh set /nodes/sandboxpve/dns --search <string> [OPTIONS]
+
+  Write DNS settings.
+
+  --dns1     <string>
+	     First name server IP address.
+
+  --dns2     <string>
+	     Second name server IP address.
+
+  --dns3     <string>
+	     Third name server IP address.
+
+  --search   <string>
+	     Search domain for host-name lookup.
+
+
+=== Protected configuration baseline ===
+aa10f446daf64791bee6c1d50367ded685f84b05433919f0f2ba2df748f6e4ca  /etc/network/interfaces
+6adcceb1ef90b7ba152120ec31acddd8dab1a743229c21f6f12c63a1d7903a5b  /etc/ssh/sshd_config
+d6c616b623c60a448c751e7f32749434fb858cb4862ae6ec67b940809d36a54e  /etc/pve/storage.cfg
+
+=== Resolver probes ===
+1.1.1.1 PASS: download.proxmox.com resolved; 4 answer records
+8.8.8.8 PASS: download.proxmox.com resolved; 4 answer records
+
+Exit code: 0

@@ -1,0 +1,18 @@
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+Running timer as unit: pve-vlan2-rollback.timer
+Will run service as unit: pve-vlan2-rollback.service
+--- interfaces.before
++++ interfaces.after
+@@ -10,6 +10,8 @@
+ 	bridge-ports enp1s0f0
+ 	bridge-stp off
+ 	bridge-fd 0
++	bridge-vlan-aware yes
++	bridge-vids 2
+ 
+ iface wlp2s0 inet manual
+ 
+
+warning: vmbr0: bridge-fd: value of out range "0": valid attribute range: 2-255
+
+Exit code: 1

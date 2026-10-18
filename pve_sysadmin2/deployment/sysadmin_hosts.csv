@@ -1,0 +1,7 @@
+host,role,vmid
+sandboxpve,pve,
+splunk-cm,vm,100
+splunk-idx1,vm,101
+splunk-idx2,vm,102
+splunk-sh,vm,103
+dns01,container,104

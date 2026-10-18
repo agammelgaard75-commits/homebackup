@@ -1,0 +1,134 @@
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+
+=== Cutover outcome ===
+Wed Oct  7 19:22:05 UTC 2026
+{
+  "state": "complete",
+  "utc": "2026-10-07T19:21:13.450334+00:00",
+  "management": "10.10.1.10/24 on vmbr0.4",
+  "uplink_tagged_vlans": [
+    2,
+    4
+  ]
+}
+{"state": "armed", "utc": "2026-10-07T19:20:17.998329+00:00", "expires_utc": "2026-10-07T19:35:17.998290+00:00", "trigger": "Tagged VLAN 4 ARP reply from 10.10.1.1"}
+{"state": "applying", "utc": "2026-10-07T19:21:10.585569+00:00", "reason": "Verified tagged VLAN 4 ARP reply from the management gateway"}
+$ systemd-run --unit=pve-tagged4-rollback-v2 --on-active=180s /bin/bash /root/pve-network-tagged4-20261007/rollback.sh
+Running timer as unit: pve-tagged4-rollback-v2.timer
+Will run service as unit: pve-tagged4-rollback-v2.service
+
+$ ifreload -a -s
+warning: vmbr0.4: interface not recognized - please check interface configuration
+
+$ ifreload -a
+
+$ ping -I vmbr0.4 -c 3 -W 2 10.10.1.1
+PING 10.10.1.1 (10.10.1.1) from 10.10.1.10 vmbr0.4: 56(84) bytes of data.
+64 bytes from 10.10.1.1: icmp_seq=1 ttl=64 time=0.300 ms
+64 bytes from 10.10.1.1: icmp_seq=2 ttl=64 time=0.320 ms
+64 bytes from 10.10.1.1: icmp_seq=3 ttl=64 time=0.348 ms
+
+--- 10.10.1.1 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2073ms
+rtt min/avg/max/mdev = 0.300/0.322/0.348/0.019 ms
+
+$ ip -j route get 10.10.1.1
+[{"dst":"10.10.1.1","dev":"vmbr0.4","prefsrc":"10.10.1.10","flags":[],"uid":0,"cache":[]}]
+
+$ ip -j -4 address show dev vmbr0.4
+[{"ifindex":6,"link":"vmbr0","ifname":"vmbr0.4","flags":["BROADCAST","MULTICAST","UP","LOWER_UP"],"mtu":1500,"qdisc":"noqueue","operstate":"UP","group":"default","txqlen":1000,"addr_info":[{"family":"inet","local":"10.10.1.10","prefixlen":24,"scope":"global","label":"vmbr0.4","valid_life_time":4294967295,"preferred_life_time":4294967295}]}]
+
+$ ip -j -4 address show dev vmbr0
+[]
+
+$ bridge -j vlan show dev enp1s0f0
+[{"ifname":"enp1s0f0","vlans":[{"vlan":2},{"vlan":4}]}]
+
+$ systemctl is-active pveproxy pvedaemon pvestatd pve-cluster ssh
+active
+active
+active
+active
+active
+
+$ curl --fail --silent --insecure --max-time 8 --output /dev/null https://127.0.0.1:8006/
+
+$ systemctl stop pve-tagged4-rollback-v2.timer
+
+{"state": "complete", "utc": "2026-10-07T19:21:13.450334+00:00", "management": "10.10.1.10/24 on vmbr0.4", "uplink_tagged_vlans": [2, 4]}
+
+=== Persistent and runtime network ===
+auto lo
+iface lo inet loopback
+
+iface enp1s0f0 inet manual
+    bridge-allow-untagged no
+
+# Tagged uplink: VLAN 2 guests, VLAN 4 management.
+auto vmbr0
+iface vmbr0 inet manual
+    bridge-ports enp1s0f0
+    bridge-stp off
+    bridge-fd 2
+    bridge-vlan-aware yes
+    bridge-vids 2 4
+
+# Management is tagged VLAN 4; no IPv4 address on vmbr0.
+auto vmbr0.4
+iface vmbr0.4 inet static
+    address 10.10.1.10/24
+    gateway 10.10.1.1
+
+iface wlp2s0 inet manual
+
+source /etc/network/interfaces.d/*
+port              vlan-id  
+enp1s0f0          2
+                  4
+vmbr0             1 PVID Egress Untagged
+                  4
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+enp1s0f0         UP             
+wlp2s0           DOWN           
+vmbr0            UP             fe80::6e4b:90ff:fea7:50ec/64 
+vmbr0.4@vmbr0    UP             10.10.1.10/24 fe80::6e4b:90ff:fea7:50ec/64 
+default via 10.10.1.1 dev vmbr0.4 proto kernel onlink 
+10.10.1.0/24 dev vmbr0.4 proto kernel scope link src 10.10.1.10 
+
+=== Assertions ===
+PASS: cutover complete; management on VLAN 4; uplink only tagged VLANs 2 and 4; no untagged uplink VLAN.
+
+=== Connectivity and services ===
+PING 10.10.1.1 (10.10.1.1) from 10.10.1.10 vmbr0.4: 56(84) bytes of data.
+64 bytes from 10.10.1.1: icmp_seq=1 ttl=64 time=0.361 ms
+64 bytes from 10.10.1.1: icmp_seq=2 ttl=64 time=0.361 ms
+64 bytes from 10.10.1.1: icmp_seq=3 ttl=64 time=0.458 ms
+
+--- 10.10.1.1 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2086ms
+rtt min/avg/max/mdev = 0.361/0.393/0.458/0.045 ms
+45.144.208.36   STREAM at1.cdn.proxmox.com
+45.144.208.36   DGRAM  
+45.144.208.36   RAW    
+active
+active
+active
+active
+active
+active
+  UNIT LOAD ACTIVE SUB DESCRIPTION
+
+0 loaded units listed.
+NTPSynchronized=yes
+
+=== Cutover and rollback jobs ===
+Result=success
+ActiveState=inactive
+SubState=dead
+ActiveState=inactive
+SubState=dead
+
+Remote exit code: 0
+Fresh root API login HTTP: 200
+PVE API: {'iface': 'vmbr0', 'type': 'bridge', 'bridge_vlan_aware': 1, 'bridge_vids': '2 4'}
+PVE API: {'iface': 'vmbr0.4', 'type': 'vlan', 'address': '10.10.1.10', 'gateway': '10.10.1.1'}

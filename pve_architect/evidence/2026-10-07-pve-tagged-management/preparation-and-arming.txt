@@ -1,0 +1,38 @@
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+Cutover configuration and rollback saved on PVE.
+PING 10.10.1.1 (10.10.1.1) 56(84) bytes of data.
+64 bytes from 10.10.1.1: icmp_seq=1 ttl=64 time=0.423 ms
+
+--- 10.10.1.1 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.423/0.423/0.423/0.000 ms
+Running as unit: pve-tagged4-cutover.service; invocation ID: 5b24cbec4be3495c8d883d4102547cdd
+{
+  "state": "armed",
+  "utc": "2026-10-07T19:14:08.636070+00:00",
+  "expires_utc": "2026-10-07T19:29:08.636031+00:00",
+  "trigger": "Tagged VLAN 4 ARP reply from 10.10.1.1"
+}
+ActiveState=active
+SubState=running
+auto lo
+iface lo inet loopback
+
+iface enp1s0f0 inet manual
+
+auto vmbr0
+iface vmbr0 inet static
+	address 10.10.1.10/24
+	gateway 10.10.1.1
+	bridge-ports enp1s0f0
+	bridge-stp off
+	bridge-fd 2
+	bridge-vlan-aware yes
+	bridge-vids 2
+
+iface wlp2s0 inet manual
+
+
+source /etc/network/interfaces.d/*
+
+Exit code: 0

@@ -1,0 +1,288 @@
+{
+  "time_utc": "2026-10-08T13:33:16.816978+00:00",
+  "nodes": {
+    "splunk-cm": {
+      "serverName": "splunk-cm",
+      "version": "10.6.0.5",
+      "licenseState": "OK",
+      "activeLicenseGroup": "Trial",
+      "isTrial": true,
+      "server_roles": [
+        "license_master",
+        "license_manager",
+        "cluster_master",
+        "cluster_manager",
+        "search_head"
+      ],
+      "kvStoreStatus": "unavailable",
+      "health_info": "red",
+      "os": "Ubuntu 26.04.1 LTS\nenabled\nactive\n               total        used        free      shared  buff/cache   available\nMem:            1962         629          61           0        1311        1333\nSwap:           1023          29         994\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/sda1        15G  8.7G  5.8G  61% /\nReference ID    : B97DBE7B (ntp-nts-3.ps5.canonical.com)\nStratum         : 3\nRef time (UTC)  : Thu Oct 08 13:22:06 2026\nSystem time     : 0.000017107 seconds fast of NTP time\nLast offset     : -0.000033471 seconds\nRMS offset      : 0.000308147 seconds\n",
+      "trial": [
+        {
+          "label": "Splunk Enterprise   Splunk Analytics for Hadoop Download Trial",
+          "expiration_time": 1796649658,
+          "quota": 524288000,
+          "status": "VALID"
+        }
+      ]
+    },
+    "splunk-idx1": {
+      "serverName": "splunk-idx1",
+      "version": "10.6.0.5",
+      "licenseState": "OK",
+      "activeLicenseGroup": "Trial",
+      "isTrial": true,
+      "server_roles": [
+        "indexer",
+        "license_master",
+        "license_manager",
+        "cluster_slave",
+        "cluster_peer",
+        "search_peer"
+      ],
+      "kvStoreStatus": "unavailable",
+      "health_info": "yellow",
+      "os": "Ubuntu 26.04.1 LTS\nenabled\nactive\n               total        used        free      shared  buff/cache   available\nMem:            2902         712         136           0        2108        2189\nSwap:           1023           0        1023\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/sda1        23G  8.7G   14G  40% /\nReference ID    : B97DBE7B (ntp-nts-3.ps5.canonical.com)\nStratum         : 3\nRef time (UTC)  : Thu Oct 08 13:25:19 2026\nSystem time     : 0.000243923 seconds fast of NTP time\nLast offset     : +0.000037148 seconds\nRMS offset      : 0.000329342 seconds\n",
+      "trial": [
+        {
+          "label": "Splunk Enterprise   Splunk Analytics for Hadoop Download Trial",
+          "expiration_time": 1796650137,
+          "quota": 524288000,
+          "status": "VALID"
+        }
+      ]
+    },
+    "splunk-idx2": {
+      "serverName": "splunk-idx2",
+      "version": "10.6.0.5",
+      "licenseState": "OK",
+      "activeLicenseGroup": "Trial",
+      "isTrial": true,
+      "server_roles": [
+        "indexer",
+        "license_master",
+        "license_manager",
+        "cluster_slave",
+        "cluster_peer",
+        "search_peer"
+      ],
+      "kvStoreStatus": "unavailable",
+      "health_info": "yellow",
+      "os": "Ubuntu 26.04.1 LTS\nenabled\nactive\n               total        used        free      shared  buff/cache   available\nMem:            2902         685          61           0        2210        2217\nSwap:           1023           0        1023\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/sda1        23G  8.7G   14G  40% /\nReference ID    : B97DBE7B (ntp-nts-3.ps5.canonical.com)\nStratum         : 3\nRef time (UTC)  : Thu Oct 08 13:20:51 2026\nSystem time     : 0.000139120 seconds fast of NTP time\nLast offset     : +0.000117524 seconds\nRMS offset      : 0.000288765 seconds\n",
+      "trial": [
+        {
+          "label": "Splunk Enterprise   Splunk Analytics for Hadoop Download Trial",
+          "expiration_time": 1796649937,
+          "quota": 524288000,
+          "status": "VALID"
+        }
+      ]
+    },
+    "splunk-sh": {
+      "serverName": "splunk-sh",
+      "version": "10.6.0.5",
+      "licenseState": "OK",
+      "activeLicenseGroup": "Trial",
+      "isTrial": true,
+      "server_roles": [
+        "license_master",
+        "license_manager",
+        "cluster_search_head",
+        "search_head",
+        "kv_store"
+      ],
+      "kvStoreStatus": "ready",
+      "health_info": "red",
+      "os": "Ubuntu 26.04.1 LTS\nenabled\nactive\n               total        used        free      shared  buff/cache   available\nMem:            2902         981          62          78        1991        1921\nSwap:           1023           0        1023\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/sda1        19G  8.8G  9.5G  49% /\nReference ID    : B97DBE7B (ntp-nts-3.ps5.canonical.com)\nStratum         : 3\nRef time (UTC)  : Thu Oct 08 13:20:09 2026\nSystem time     : 0.000210107 seconds fast of NTP time\nLast offset     : +0.000102708 seconds\nRMS offset      : 0.000276184 seconds\n",
+      "trial": [
+        {
+          "label": "Splunk Enterprise   Splunk Analytics for Hadoop Download Trial",
+          "expiration_time": 1796649939,
+          "quota": 524288000,
+          "status": "VALID"
+        }
+      ]
+    }
+  },
+  "health": [
+    {
+      "name": "master",
+      "all_data_is_searchable": "1",
+      "all_peers_are_up": "1",
+      "cm_version_is_compatible": "1",
+      "multisite": "0",
+      "no_fixup_tasks_in_progress": "1",
+      "pre_flight_check": "1",
+      "ready_for_searchable_rolling_restart": "0",
+      "replication_factor_met": "1",
+      "search_factor_met": "1",
+      "site_replication_factor_met": "1",
+      "site_search_factor_met": "1",
+      "splunk_version_peer_count": "{ 10.6.0.5: 5 }"
+    }
+  ],
+  "peers": [
+    {
+      "name": "020C0499-E721-4820-BA11-28AE28FA8939",
+      "active_bundle_id": "A7E4DD87363DED872467CC334B8CDA87",
+      "apply_bundle_status": {
+        "invalid_bundle": {
+          "bundle_validation_errors": [],
+          "invalid_bundle_id": ""
+        },
+        "reasons_for_restart": [],
+        "restart_required_for_apply_bundle": false,
+        "status": "None"
+      },
+      "base_generation_id": 6,
+      "batched_replication_count": 0,
+      "bucket_count": 11,
+      "bucket_count_by_index": {
+        "_audit": 4,
+        "_internal": 5,
+        "lab": 2
+      },
+      "buckets_rf_by_origin_site": {
+        "default": 11
+      },
+      "buckets_sf_by_origin_site": {
+        "default": 11
+      },
+      "data_move_operation_in_progress": false,
+      "fixup_set": [],
+      "heartbeat_started": true,
+      "host_port_pair": "192.168.2.170:8089",
+      "indexing_disk_space": 23760863232,
+      "is_searchable": true,
+      "is_valid_bundle": true,
+      "label": "splunk-idx2",
+      "last_dry_run_bundle": "",
+      "last_heartbeat": 1791466398,
+      "last_validated_bundle": "A7E4DD87363DED872467CC334B8CDA87",
+      "latest_bundle_id": "A7E4DD87363DED872467CC334B8CDA87",
+      "peer_registered_summaries": true,
+      "pending_job_count": 0,
+      "primary_count": 5,
+      "primary_count_remote": 0,
+      "register_search_address": "192.168.2.170:8089",
+      "replication_count": 0,
+      "replication_port": 9887,
+      "replication_use_ssl": false,
+      "restart_required_for_applying_dry_run_bundle": false,
+      "search_state_counter": {
+        "PendingSearchable": 0,
+        "PendingUnsearchable": 0,
+        "Searchable": 11,
+        "SearchablePendingMask": 0,
+        "Unknown": 0,
+        "Unsearchable": 0
+      },
+      "site": "default",
+      "splunk_version": "10.6.0.5",
+      "status": "Up",
+      "status_counter": {
+        "Complete": 7,
+        "NonStreamingTarget": 0,
+        "PendingDiscard": 0,
+        "PendingTruncate": 0,
+        "StreamingError": 0,
+        "StreamingSource": 2,
+        "StreamingTarget": 2,
+        "Unset": 0
+      },
+      "summary_replication_count": 0,
+      "transient_job_count": 0,
+      "usage": 0
+    },
+    {
+      "name": "FCC895E4-DF8E-4B10-8270-94427E706196",
+      "active_bundle_id": "A7E4DD87363DED872467CC334B8CDA87",
+      "apply_bundle_status": {
+        "invalid_bundle": {
+          "bundle_validation_errors": [],
+          "invalid_bundle_id": ""
+        },
+        "reasons_for_restart": [],
+        "restart_required_for_apply_bundle": false,
+        "status": "None"
+      },
+      "base_generation_id": 3,
+      "batched_replication_count": 0,
+      "bucket_count": 11,
+      "bucket_count_by_index": {
+        "_audit": 4,
+        "_internal": 5,
+        "lab": 2
+      },
+      "buckets_rf_by_origin_site": {
+        "default": 11
+      },
+      "buckets_sf_by_origin_site": {
+        "default": 11
+      },
+      "data_move_operation_in_progress": false,
+      "fixup_set": [],
+      "heartbeat_started": true,
+      "host_port_pair": "192.168.2.169:8089",
+      "indexing_disk_space": 23760863232,
+      "is_searchable": true,
+      "is_valid_bundle": true,
+      "label": "splunk-idx1",
+      "last_dry_run_bundle": "",
+      "last_heartbeat": 1791466398,
+      "last_validated_bundle": "A7E4DD87363DED872467CC334B8CDA87",
+      "latest_bundle_id": "A7E4DD87363DED872467CC334B8CDA87",
+      "peer_registered_summaries": true,
+      "pending_job_count": 0,
+      "primary_count": 6,
+      "primary_count_remote": 0,
+      "register_search_address": "192.168.2.169:8089",
+      "replication_count": 0,
+      "replication_port": 9887,
+      "replication_use_ssl": false,
+      "restart_required_for_applying_dry_run_bundle": false,
+      "search_state_counter": {
+        "PendingSearchable": 0,
+        "PendingUnsearchable": 0,
+        "Searchable": 11,
+        "SearchablePendingMask": 0,
+        "Unknown": 0,
+        "Unsearchable": 0
+      },
+      "site": "default",
+      "splunk_version": "10.6.0.5",
+      "status": "Up",
+      "status_counter": {
+        "Complete": 7,
+        "NonStreamingTarget": 0,
+        "PendingDiscard": 0,
+        "PendingTruncate": 0,
+        "StreamingError": 0,
+        "StreamingSource": 2,
+        "StreamingTarget": 2,
+        "Unset": 0
+      },
+      "summary_replication_count": 0,
+      "transient_job_count": 0,
+      "usage": 0
+    }
+  ],
+  "searchheads": [
+    {
+      "name": "1C2F0423-3729-4496-914C-6D24C3CF9F6D",
+      "host_port_pair": "192.168.2.171:8089",
+      "label": "splunk-sh",
+      "site": "default",
+      "splunk_version": "10.6.0.5",
+      "status": "Connected"
+    },
+    {
+      "name": "343FEE4F-9929-4DE0-B79F-58193026AF69",
+      "host_port_pair": "splunk-cm:8089",
+      "label": "splunk-cm",
+      "site": "default",
+      "splunk_version": "10.6.0.5",
+      "status": "Connected"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+200 OK
+
+=== Final synchronization ===
+Reference ID    : A29FC87B (162.159.200.123)
+Stratum         : 4
+Ref time (UTC)  : Wed Oct 07 14:05:41 2026
+System time     : 0.000000292 seconds fast of NTP time
+Last offset     : -0.000270336 seconds
+RMS offset      : 0.000270336 seconds
+Frequency       : 0.000 ppm slow
+Residual freq   : +30.740 ppm
+Skew            : 1000000.000 ppm
+Root delay      : 0.013501871 seconds
+Root dispersion : 47.182449341 seconds
+Update interval : 2.0 seconds
+Leap status     : Normal
+MS Name/IP address         Stratum Poll Reach LastRx Last sample               
+===============================================================================
+^+ 162.159.200.1                 3   6    17    47   -299us[ -569us] +/- 6879us
+^* 162.159.200.123               3   6    17    47   +274us[+4070ns] +/- 7463us
+Timezone=Europe/Copenhagen
+NTP=yes
+NTPSynchronized=yes
+
+=== Clock correction journal ===
+Oct 07 18:05:39 sandboxpve chronyd[208510]: Added source 162.159.200.1
+Oct 07 18:05:39 sandboxpve chronyd[208510]: Added source 162.159.200.123
+Oct 07 18:05:39 sandboxpve systemd[1]: Started chrony.service - chrony, an NTP client/server.
+Oct 07 18:05:43 sandboxpve chronyd[208510]: Selected source 162.159.200.123
+Oct 07 18:05:43 sandboxpve chronyd[208510]: System clock wrong by -7204.170623 seconds
+Oct 07 16:05:39 sandboxpve chronyd[208510]: System clock was stepped by -7204.170623 seconds
+Oct 07 16:05:39 sandboxpve chronyd[208510]: Leap second list /usr/share/zoneinfo/leap-seconds.list needs update
+Oct 07 16:05:39 sandboxpve chronyd[208510]: System clock TAI offset set to 37 seconds
+
+=== Enabled repository validation ===
+PASS: PVE and Ceph no-subscription repositories; no enterprise targets
+
+=== DNS retained ===
+search home.lab
+nameserver 127.0.0.1
+
+Remote exit code: 0
+Fresh PVE API login HTTP: 200
+Authenticated API version HTTP: 200
+API version: 9.0.3

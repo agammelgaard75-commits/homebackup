@@ -1,0 +1,12 @@
+[
+  {
+    "node": "splunk-cm",
+    "status": 200,
+    "url": "https://192.168.2.168:8000/en-US/account/login?return_to=%2Fen-US%2F"
+  },
+  {
+    "node": "splunk-sh",
+    "status": 200,
+    "url": "https://192.168.2.171:8000/en-US/account/login?return_to=%2Fen-US%2F"
+  }
+]

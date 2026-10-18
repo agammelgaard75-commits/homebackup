@@ -1,0 +1,52 @@
+{
+  "splunk-cm": {
+    "health": "red",
+    "issues": [
+      {
+        "feature": "/Resource Usage/IOWait",
+        "severity": "red",
+        "reason": "System iowait reached red threshold of 3"
+      },
+      {
+        "feature": "/Resource Usage/IOWait",
+        "severity": "red",
+        "reason": "Maximum per-cpu iowait reached red threshold of 10"
+      },
+      {
+        "feature": "/Resource Usage/IOWait",
+        "severity": "red",
+        "reason": "Sum of 3 highest per-cpu iowaits reached red threshold of 15"
+      }
+    ]
+  },
+  "splunk-idx1": {
+    "health": "yellow",
+    "issues": [
+      {
+        "feature": "/Resource Usage/IOWait",
+        "severity": "yellow",
+        "reason": "System iowait reached yellow threshold of 1"
+      }
+    ]
+  },
+  "splunk-idx2": {
+    "health": "yellow",
+    "issues": [
+      {
+        "feature": "/Resource Usage/IOWait",
+        "severity": "yellow",
+        "reason": "System iowait reached yellow threshold of 1"
+      }
+    ]
+  },
+  "splunk-sh": {
+    "health": "red",
+    "issues": [
+      {
+        "feature": "/Resource Usage/IOWait",
+        "severity": "red",
+        "reason": "System iowait reached red threshold of 3"
+      }
+    ]
+  }
+}

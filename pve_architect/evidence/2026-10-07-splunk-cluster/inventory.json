@@ -1,0 +1,46 @@
+[
+  {
+    "vmid": 100,
+    "name": "splunk-cm",
+    "role": "manager",
+    "cores": 1,
+    "memory": 2048,
+    "disk": 16,
+    "order": 10,
+    "ip": "192.168.2.168",
+    "mac": "BC:24:11:52:02:01"
+  },
+  {
+    "vmid": 101,
+    "name": "splunk-idx1",
+    "role": "indexer",
+    "cores": 2,
+    "memory": 3072,
+    "disk": 24,
+    "order": 20,
+    "ip": "192.168.2.169",
+    "mac": "BC:24:11:52:02:02"
+  },
+  {
+    "vmid": 102,
+    "name": "splunk-idx2",
+    "role": "indexer",
+    "cores": 2,
+    "memory": 3072,
+    "disk": 24,
+    "order": 20,
+    "ip": "192.168.2.170",
+    "mac": "BC:24:11:52:02:03"
+  },
+  {
+    "vmid": 103,
+    "name": "splunk-sh",
+    "role": "searchhead",
+    "cores": 2,
+    "memory": 3072,
+    "disk": 20,
+    "order": 30,
+    "ip": "192.168.2.171",
+    "mac": "BC:24:11:52:02:04"
+  }
+]

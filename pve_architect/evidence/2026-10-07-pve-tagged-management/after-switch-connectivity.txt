@@ -1,0 +1,6 @@
+2026-10-07 19:17:12.472573+00:00
+22: TimeoutError: timed out
+8006: TimeoutError: timed out
+ssh: connect to host 10.10.1.10 port 22: Connection timed out
+
+SSH exit code: 255

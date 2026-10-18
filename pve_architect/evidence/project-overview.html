@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PVE sandbox — project overview</title>
+<style>
+:root { color-scheme: light; font-family: Arial, Helvetica, sans-serif; color: #172b3a; background: #eef2f5; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 28px 18px; }
+main { max-width: 1080px; margin: auto; background: white; padding: 30px 34px; border-top: 5px solid #166775; }
+header { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 18px; }
+h1 { font-size: 27px; margin: 0 0 7px; letter-spacing: -.5px; }
+p { margin: 0; }
+.meta { color: #536675; font-size: 13px; line-height: 1.5; }
+.label { color: #166775; font-size: 12px; font-weight: bold; letter-spacing: 1px; white-space: nowrap; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; line-height: 1.4; }
+th, td { text-align: left; vertical-align: top; padding: 9px 10px; border-bottom: 1px solid #e1e7eb; }
+th { width: 24%; padding-left: 0; font-weight: 600; }
+td { padding-right: 0; }
+a { color: #166775; text-decoration: none; }
+a:hover, a:focus-visible { text-decoration: underline; }
+footer { font-size: 12px; line-height: 1.5; margin-top: 16px; color: #536675; }
+footer p + p { margin-top: 5px; }
+@media(max-width: 640px) { body { padding: 0; } main { padding: 22px 16px; } header { display: block; } .label { margin-top: 10px; } th { width: 31%; } }
+@page { size: A4 portrait; margin: 12mm; }
+@media print { body { background: white; padding: 0; } main { padding: 12px 0 0; max-width: none; } header { margin-bottom: 12px; } h1 { font-size: 23px; } table { font-size: 10px; line-height: 1.35; } th,td { padding-top: 7px; padding-bottom: 7px; } th { width: 24%; } .meta, .label, footer { font-size: 10px; } tr, footer { break-inside: avoid; } a { color: inherit; } }
+</style>
+</head>
+<body><main>
+<header><div><h1>PVE sandbox · project overview</h1><p class="meta">7–8 October 2026 · sandboxpve / 10.10.1.10 · Recorded changes and test results</p></div><p class="label">TASK &amp; TEST RECORD</p></header>
+<table aria-label="Completed project tasks and validation"><tbody>
+<tr><th scope="row"><a href="2026-10-07-pve-upgrade/preflight.txt">Initial checkup</a></th><td>Checked host version, hardware, storage, services and networking; baseline PVE 9.0.3, Debian 13.0, no guests.</td></tr>
+<tr><th scope="row"><a href="2026-10-07-pve-community-time/README.md">Time synchronization</a></th><td>Corrected a 7,204-second clock error; configured persistent NTP sources. Chrony synchronization and fresh API login passed.</td></tr>
+<tr><th scope="row"><a href="2026-10-07-pve-community-time/README.md">Community repositories</a></th><td>Disabled enterprise repositories; enabled signed PVE and Ceph no-subscription sources. Source checks and later downloads passed.</td></tr>
+<tr><th scope="row"><a href="2026-10-07-pve-dns/README.md">DNS repair</a></th><td>Replaced the broken localhost resolver with 1.1.1.1 / 8.8.8.8. DNS probes, repository resolution and apt update passed.</td></tr>
+<tr><th scope="row"><a href="2026-10-07-pve-upgrade/README.md">PVE upgrade &amp; reboot</a></th><td>Upgraded to PVE 9.2.21, Debian 13.7 and kernel 7.0.14-22-pve. Package checks, SMART, storage, services and API passed after reboot.</td></tr>
+<tr><th scope="row"><a href="2026-10-07-pve-vlan2-guests/README.md">VLAN assessment &amp; staging</a></th><td>Captured untagged management traffic; enabled VLAN-aware bridging and tagged guest VLAN 2. Gateway, API and VLAN 2 capture passed.</td></tr>
+<tr><th scope="row"><a href="2026-10-07-pve-tagged-management/README.md">Tagged management cutover</a></th><td>Moved management to vmbr0.4; uplink carries tagged VLANs 2 and 4 only. Gateway, SSH, API, DNS and syntax checks passed.</td></tr>
+<tr><th scope="row"><a href="2026-10-07-pve-tagged-management/validation-regression.txt">Cutover recovery &amp; regression</a></th><td>Corrected a validation bug that triggered rollback; tested empty bridge-IP handling in an isolated namespace. Second cutover succeeded.</td></tr>
+<tr><th scope="row"><a href="2026-10-07-splunk-cluster/README.md">Four Ubuntu VMs</a></th><td>Created Ubuntu 26.04.1 VMs on VLAN 2: 7 vCPU, 11 GiB RAM, 84 GiB disk total. Image checksums, DHCP, SSH and guest agents verified.</td></tr>
+<tr><th scope="row"><a href="2026-10-07-splunk-cluster/validation.json">Splunk installation</a></th><td>Installed Splunk 10.6.0.5: two indexers, manager and search head. Services, autostart, KV Store and both web login pages verified.</td></tr>
+<tr><th scope="row"><a href="2026-10-07-splunk-cluster/README.md">Licensing &amp; startup fixes</a></th><td>Replaced rejected shared trial licensing with per-node trials; all valid through 7 Dec 2026. First indexer recovered after stop timeout.</td></tr>
+<tr><th scope="row"><a href="2026-10-07-splunk-cluster/functional-test.json">Ingestion &amp; distributed search</a></th><td>Sent an HEC event to each indexer; search head found both. Recent internal logs from all four nodes were also searchable.</td></tr>
+<tr><th scope="row"><a href="2026-10-07-splunk-cluster/failover-test.json">Replication &amp; failover</a></th><td>Stopped indexer 2; both events remained searchable on indexer 1. Restored it: all 11 buckets had two searchable copies, no pending repairs.</td></tr>
+<tr><th scope="row"><a href="2026-10-07-splunk-cluster/final-pve-state.txt">Final resources &amp; evidence</a></th><td>Confirmed VLAN tags, VM autostart and 2,597 MiB host RAM available with zero host swap use. Evidence/scripts passed generated-secret scan.</td></tr>
+</tbody></table>
+<footer>
+<p><strong>Open items:</strong> I/O-wait warnings remain; reserve guest DHCP leases and arrange licensing before trial expiry.</p>
+<p><strong>Scope:</strong> Backups and access hardening deferred. Switch changes performed by user; Splunk VM/host reboot not tested.</p>
+<p>Task titles link to local evidence · <a href="README.md">Full evidence index</a> · Snapshot of recorded results, not a live status page.</p>
+</footer>
+</main></body></html>

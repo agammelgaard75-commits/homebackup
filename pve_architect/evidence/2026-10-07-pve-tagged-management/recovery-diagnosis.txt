@@ -1,0 +1,77 @@
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+Wed Oct  7 19:19:00 UTC 2026
+{
+  "state": "rolled_back",
+  "utc": "2026-10-07T19:15:23.549717+00:00",
+  "reason": "Validation failed; switch may need native VLAN 4 restored",
+  "error": "list index out of range"
+}
+{"state": "armed", "utc": "2026-10-07T19:14:08.636070+00:00", "expires_utc": "2026-10-07T19:29:08.636031+00:00", "trigger": "Tagged VLAN 4 ARP reply from 10.10.1.1"}
+{"state": "applying", "utc": "2026-10-07T19:15:20.337666+00:00", "reason": "Verified tagged VLAN 4 ARP reply from the management gateway"}
+$ systemd-run --unit=pve-tagged4-rollback --on-active=180s /bin/bash /root/pve-network-tagged4-20261007/rollback.sh
+Running timer as unit: pve-tagged4-rollback.timer
+Will run service as unit: pve-tagged4-rollback.service
+
+$ ifreload -a -s
+warning: vmbr0.4: interface not recognized - please check interface configuration
+
+$ ifreload -a
+
+$ ping -I vmbr0.4 -c 3 -W 2 10.10.1.1
+PING 10.10.1.1 (10.10.1.1) from 10.10.1.10 vmbr0.4: 56(84) bytes of data.
+64 bytes from 10.10.1.1: icmp_seq=1 ttl=64 time=0.551 ms
+64 bytes from 10.10.1.1: icmp_seq=2 ttl=64 time=0.234 ms
+64 bytes from 10.10.1.1: icmp_seq=3 ttl=64 time=0.337 ms
+
+--- 10.10.1.1 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2042ms
+rtt min/avg/max/mdev = 0.234/0.374/0.551/0.132 ms
+
+$ ip -j route get 10.10.1.1
+[{"dst":"10.10.1.1","dev":"vmbr0.4","prefsrc":"10.10.1.10","flags":[],"uid":0,"cache":[]}]
+
+$ ip -j -4 address show dev vmbr0.4
+[{"ifindex":5,"link":"vmbr0","ifname":"vmbr0.4","flags":["BROADCAST","MULTICAST","UP","LOWER_UP"],"mtu":1500,"qdisc":"noqueue","operstate":"UP","group":"default","txqlen":1000,"addr_info":[{"family":"inet","local":"10.10.1.10","prefixlen":24,"scope":"global","label":"vmbr0.4","valid_life_time":4294967295,"preferred_life_time":4294967295}]}]
+
+$ ip -j -4 address show dev vmbr0
+[]
+
+{"state": "rolling_back", "utc": "2026-10-07T19:15:23.127269+00:00", "error": "list index out of range"}
+$ /bin/bash /root/pve-network-tagged4-20261007/rollback.sh
+
+$ systemctl stop pve-tagged4-rollback.timer
+
+{"state": "rolled_back", "utc": "2026-10-07T19:15:23.549717+00:00", "reason": "Validation failed; switch may need native VLAN 4 restored", "error": "list index out of range"}
+Result=success
+ActiveState=inactive
+SubState=dead
+auto lo
+iface lo inet loopback
+
+iface enp1s0f0 inet manual
+
+auto vmbr0
+iface vmbr0 inet static
+	address 10.10.1.10/24
+	gateway 10.10.1.1
+	bridge-ports enp1s0f0
+	bridge-stp off
+	bridge-fd 2
+	bridge-vlan-aware yes
+	bridge-vids 2
+
+iface wlp2s0 inet manual
+
+
+source /etc/network/interfaces.d/*
+port              vlan-id  
+enp1s0f0          1 PVID Egress Untagged
+                  2
+vmbr0             1 PVID Egress Untagged
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+enp1s0f0         UP             
+wlp2s0           DOWN           
+vmbr0            UP             10.10.1.10/24 fe80::6e4b:90ff:fea7:50ec/64 
+default via 10.10.1.1 dev vmbr0 proto kernel onlink 
+10.10.1.0/24 dev vmbr0 proto kernel scope link src 10.10.1.10 
+91f6d4c0124ad6db393fa856945bc05e36c242e6cdfb952ff6dcc0add77ee2ec

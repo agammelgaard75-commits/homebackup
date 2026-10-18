@@ -1,0 +1,221 @@
+Warning: Permanently added '10.10.1.10' (ED25519) to the list of known hosts.
+Rollback copy: /root/pve-change-backups/dns-20261007T141212Z/resolv.conf
+
+=== DNS after ===
+search home.lab
+nameserver 1.1.1.1
+nameserver 8.8.8.8
+{"dns1":"1.1.1.1","dns2":"8.8.8.8","search":"home.lab"}
+
+=== Resolver verification ===
+185.219.221.167 STREAM de2.cdn.proxmox.com
+185.219.221.167 DGRAM  
+185.219.221.167 RAW    
+151.101.2.132   STREAM debian.map.fastlydns.net
+151.101.2.132   DGRAM  
+151.101.2.132   RAW    
+151.101.194.132 STREAM security.debian.org
+151.101.194.132 DGRAM  
+151.101.194.132 RAW    
+10.10.1.10      STREAM sandboxpve.home.lab
+10.10.1.10      DGRAM  
+10.10.1.10      RAW    
+download.proxmox.com PASS
+deb.debian.org PASS
+security.debian.org PASS
+PVE hostname PASS
+
+=== Repository refresh (no package upgrades) ===
+Get:1 http://deb.debian.org/debian trixie InRelease [140 kB]
+Get:2 http://security.debian.org/debian-security trixie-security InRelease [43.4 kB]
+Get:3 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]
+Get:4 http://security.debian.org/debian-security trixie-security/main amd64 Packages [264 kB]
+Get:5 http://deb.debian.org/debian trixie/main amd64 Packages [9678 kB]
+Get:6 http://security.debian.org/debian-security trixie-security/main Translation-en [162 kB]
+Get:7 http://security.debian.org/debian-security trixie-security/contrib amd64 Packages [3152 B]
+Get:8 http://security.debian.org/debian-security trixie-security/contrib Translation-en [2564 B]
+Get:9 http://security.debian.org/debian-security trixie-security/non-free-firmware amd64 Packages [544 B]
+Get:10 http://security.debian.org/debian-security trixie-security/non-free-firmware Translation-en [352 B]
+Get:11 http://download.proxmox.com/debian/ceph-squid trixie InRelease [2736 B]
+Get:12 http://download.proxmox.com/debian/pve trixie InRelease [4357 B]
+Get:13 http://download.proxmox.com/debian/ceph-squid trixie/no-subscription amd64 Packages [95.8 kB]
+Get:14 http://deb.debian.org/debian trixie/main Translation-en [6486 kB]
+Get:15 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages [396 kB]
+Get:16 http://deb.debian.org/debian trixie/contrib amd64 Packages [53.9 kB]
+Get:17 http://deb.debian.org/debian trixie/contrib Translation-en [49.6 kB]
+Get:18 http://deb.debian.org/debian trixie/non-free-firmware amd64 Packages [6884 B]
+Get:19 http://deb.debian.org/debian trixie/non-free-firmware Translation-en [4704 B]
+Get:20 http://deb.debian.org/debian trixie-updates/main amd64 Packages [4412 B]
+Get:21 http://deb.debian.org/debian trixie-updates/main Translation-en [2496 B]
+Fetched 17.4 MB in 1s (14.7 MB/s)
+Reading package lists...
+
+=== Installed and available PVE versions ===
+pve-manager:
+  Installed: 9.0.3
+  Candidate: 9.2.21
+  Version table:
+     9.2.21 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.2.20 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.2.19 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.2.18 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.2.17 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.2.16 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.2.15 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.2.14 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.2.13 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.2.12 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.2.11 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.2.10 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.2.9 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.2.7 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.2.6 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.2.5 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.2.4 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.2.3 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.2.2 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.1.19 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.1.18 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.1.17 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.1.16 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.1.15 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.1.14 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.1.13 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.1.12 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.1.11 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.1.9 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.1.8 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.1.7 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.1.6 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.1.5 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.1.4 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.1.3 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.1.2 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.1.1 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.0.18 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.0.17 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.0.16 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.0.15 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.0.14 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.0.13 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.0.12 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.0.11 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.0.10 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.0.9 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.0.7 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.0.6 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.0.5 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.0.4 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+ *** 9.0.3 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+        100 /var/lib/dpkg/status
+     9.0.0~22 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.0.0~21 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.0.0~20 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.0.0~19 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.0.0~18 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.0.0~17 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.0.0~16 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.0.0~15 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.0.0~14 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.0.0~12 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.0.0~11 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.0.0~10 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.0.0~9 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.0.0~8 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+proxmox-ve:
+  Installed: 9.0.0
+  Candidate: 9.2.0
+  Version table:
+     9.2.0 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+     9.1.0 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+ *** 9.0.0 500
+        500 http://download.proxmox.com/debian/pve trixie/pve-no-subscription amd64 Packages
+        100 /var/lib/dpkg/status
+
+=== Health and preserved configuration ===
+aa10f446daf64791bee6c1d50367ded685f84b05433919f0f2ba2df748f6e4ca  /etc/network/interfaces
+6adcceb1ef90b7ba152120ec31acddd8dab1a743229c21f6f12c63a1d7903a5b  /etc/ssh/sshd_config
+d6c616b623c60a448c751e7f32749434fb858cb4862ae6ec67b940809d36a54e  /etc/pve/storage.cfg
+active
+active
+active
+active
+active
+active
+  UNIT LOAD ACTIVE SUB DESCRIPTION
+
+0 loaded units listed.
+NTPSynchronized=yes
+Status: disabled/running
+
+Remote exit code: 0
+Protected configuration checksum comparison: PASS
+PVE web UI: HTTP 200, Proxmox page present

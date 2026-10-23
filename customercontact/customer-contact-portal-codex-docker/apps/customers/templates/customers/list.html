@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Customers · Customer Portal{% endblock %}
+{% block content %}
+<div class="page-heading">
+  <div><p class="eyebrow">Customer directory</p><h1>Customers</h1><p>Find and maintain your team's customer records.</p></div>
+  {% if perms.accounts.edit_portal and perms.customers.add_customer %}<a class="button" href="{% url 'customers:create' %}">Add customer</a>{% endif %}
+</div>
+<section class="panel" aria-label="Customer directory">
+  <form class="filters" method="get" action="{% url 'customers:list' %}" role="search">
+    {% for field in filter_form %}<div class="field">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>{% endfor %}
+    <div class="actions"><button type="submit">Apply filters</button><a href="{% url 'customers:list' %}">Reset</a></div>
+  </form>
+  {% if filter_form.is_valid %}
+    <p class="muted">{{ page_obj.paginator.count }} customer{{ page_obj.paginator.count|pluralize }}</p>
+    {% if page_obj.object_list %}
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Customer results">
+        <table>
+          <thead><tr><th scope="col">Customer</th><th scope="col">CVR / company ID</th><th scope="col">Status</th><th scope="col">Last updated</th></tr></thead>
+          <tbody>{% for customer in page_obj %}<tr>
+            <td><a href="{{ customer.get_absolute_url }}">{{ customer.name }}</a></td>
+            <td>{{ customer.reference_code|default:'—' }}</td>
+            <td><span class="badge {% if customer.status == 'inactive' %}archived{% endif %}">{{ customer.get_status_display }}</span></td>
+            <td><time datetime="{{ customer.updated_at|date:'c' }}">{{ customer.updated_at|date:'j M Y, H:i' }}</time></td>
+          </tr>{% endfor %}</tbody>
+        </table>
+      </div>
+      {% if page_obj.has_other_pages %}<nav class="pagination" aria-label="Customer pages">
+        {% if page_obj.has_previous %}<a href="?{{ filter_query }}&amp;page={{ page_obj.previous_page_number }}">Previous</a>{% endif %}
+        <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+        {% if page_obj.has_next %}<a href="?{{ filter_query }}&amp;page={{ page_obj.next_page_number }}">Next</a>{% endif %}
+      </nav>{% endif %}
+    {% else %}<div class="empty-state"><h2>No customers found</h2><p>Try another search or status filter.{% if perms.accounts.edit_portal and perms.customers.add_customer %} You can also <a href="{% url 'customers:create' %}">add a customer</a>.{% endif %}</p></div>{% endif %}
+  {% endif %}
+</section>
+{% endblock %}

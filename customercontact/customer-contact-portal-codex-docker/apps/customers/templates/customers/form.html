@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}{% if customer %}Edit customer{% else %}Add customer{% endif %} · Customer Portal{% endblock %}
+{% block content %}
+<a class="back-link" href="{% if customer %}{{ customer.get_absolute_url }}{% else %}{% url 'customers:list' %}{% endif %}">← {% if customer %}Customer details{% else %}Customers{% endif %}</a>
+<div class="page-intro"><p class="eyebrow">Customer directory</p><h1>{% if customer %}Edit customer{% else %}Add customer{% endif %}</h1><p>A customer name is required. Add other details as they become available.</p></div>
+<form class="panel customer-form" method="post">{% csrf_token %}
+  {% if form.errors %}<div class="form-errors" role="alert"><p>Please correct the errors below.</p>{{ form.non_field_errors }}</div>{% endif %}
+  {% for field in form %}<div class="field">
+    {{ field.label_tag }}{{ field }}
+    {% if field.help_text %}<p class="help-text" id="{{ field.auto_id }}_helptext">{{ field.help_text }}</p>{% endif %}
+    {% if field.errors %}<div class="form-errors" id="{{ field.auto_id }}_error">{{ field.errors }}</div>{% endif %}
+  </div>{% endfor %}
+  <div class="actions"><button type="submit">{% if customer %}Save changes{% else %}Create customer{% endif %}</button><a href="{% if customer %}{{ customer.get_absolute_url }}{% else %}{% url 'customers:list' %}{% endif %}">Cancel</a></div>
+</form>
+{% endblock %}

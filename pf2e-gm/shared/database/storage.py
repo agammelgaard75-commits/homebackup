@@ -23,4 +23,15 @@ def initialize_database(database_path: Path) -> None:
                 campaign_id INTEGER NOT NULL REFERENCES campaigns(id) ON DELETE CASCADE,
                 name TEXT NOT NULL
             );
+            CREATE TABLE IF NOT EXISTS party_members (
+                id INTEGER PRIMARY KEY,
+                party_id INTEGER NOT NULL REFERENCES parties(id) ON DELETE CASCADE,
+                name TEXT NOT NULL,
+                class_name TEXT NOT NULL DEFAULT '',
+                max_hp INTEGER CHECK (max_hp IS NULL OR max_hp > 0),
+                current_hp INTEGER CHECK (current_hp IS NULL OR current_hp >= 0),
+                speed INTEGER CHECK (speed IS NULL OR speed > 0),
+                notes TEXT NOT NULL DEFAULT '',
+                CHECK (current_hp IS NULL OR (max_hp IS NOT NULL AND current_hp <= max_hp))
+            );
         """)

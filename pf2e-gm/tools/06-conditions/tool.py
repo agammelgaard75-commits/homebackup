@@ -3,6 +3,8 @@
 Integration contract: combatants are addressed by (combat_id, combatant_id), where
 combatant_id is the stable id inside Phase 5 state_json. No combatant is copied.
 The /api/conditions/combat/{id}/summary endpoint is the Phase 5 read interface.
+The app.state.condition_round_tick callback is the write interface used by Phase 5
+within the same SQLite turn-command transaction.
 """
 
 from contextlib import closing
@@ -51,7 +53,7 @@ class ConditionInput(Target):
     duration_kind: str = "manual"
     controller_id: int | None = Field(default=None, strict=True, gt=0)
     duration_event: str = "end"
-    rounds_remaining: int | None = Field(default=None, strict=True, ge=1, le=999)
+    rounds_remaining: int | None = Field(default=None, strict=True, ge=0, le=999)
     custom_duration: str = Field(default="", max_length=160)
     quickened_restriction: str = Field(default="", max_length=160)
     damage_type: str = Field(default="", max_length=60)
@@ -68,7 +70,7 @@ class ConditionEdit(BaseModel):
     duration_kind: str | None = None
     controller_id: int | None = Field(default=None, strict=True, gt=0)
     duration_event: str | None = None
-    rounds_remaining: int | None = Field(default=None, strict=True, ge=1, le=999)
+    rounds_remaining: int | None = Field(default=None, strict=True, ge=0, le=999)
     custom_duration: str | None = Field(default=None, max_length=160)
     quickened_restriction: str | None = Field(default=None, max_length=160)
     damage_type: str | None = Field(default=None, max_length=60)
@@ -167,7 +169,7 @@ def _validate(row: dict, db) -> None:
     if row["duration_kind"] in {"start_turn", "end_turn", "rounds"} and row["controller_id"] is None:
         raise HTTPException(422, "Choose the creature controlling this duration")
     if row["duration_kind"] == "rounds" and row["rounds_remaining"] is None:
-        raise HTTPException(422, "Enter a positive round count")
+        raise HTTPException(422, "Enter a round count")
     if row["duration_kind"] == "custom" and not row["custom_duration"].strip():
         raise HTTPException(422, "Describe the custom duration")
     if row["slug"] == "persistent-damage":
@@ -191,10 +193,10 @@ def page() -> str:
     body = """
     <link rel="stylesheet" href="/tools/conditions/style.css">
     <nav><a class="back-link" href="/">← All tools</a> · <a href="/tools/combat-tracker">Combat Tracker</a> · <a href="/tools/healing-death">Healing &amp; Death Helper</a></nav>
-    <h1>Conditions Tracker</h1><p>Keep condition reminders close at hand during play.</p><p>Record sources and durations; confirm changes at the table.</p>
+    <h1>Conditions Tracker</h1><p>Keep condition reminders close at hand during play.</p><p>Record sources and durations; confirm changes at the table.</p><p class="hint">For a round duration, choose whose turn controls the countdown and whether it ticks at the start or end. The affected combatant keeps a review reminder at 0 until you remove the condition.</p>
     <div class="condition-grid">
       <section class="condition-card"><h2>Combatant</h2><label>Saved combat<select id="combat"><option value="">Standalone</option></select></label><label>Character or monster<select id="target"></select></label><div class="inline"><input id="subject-name" maxlength="120" placeholder="Temporary character name"><button id="add-subject" type="button">Add</button></div><button id="delete-subject" type="button">Remove standalone character</button><p id="turn-context" class="hint"></p><div id="turn-reminders"></div><h3>Current conditions</h3><div id="active"></div><h3>Penalty and action guidance</h3><div id="guidance"></div><h3>Persistent damage recovery record</h3><div id="recovery-history"></div></section>
-      <section class="condition-card"><h2>Apply condition</h2><label>Find condition<input id="search" type="search" placeholder="Search name or effect"></label><label>Condition<select id="condition"></select></label><div id="rule-detail"></div><div class="form-grid"><label>Value<input id="value" type="number" min="1" max="99" value="1"></label><label>Source<input id="source" maxlength="120" placeholder="Spell, creature, or rule"></label><label>Duration<select id="duration"><option value="manual">Until manually removed</option><option value="start_turn">Until start of a creature's turn</option><option value="end_turn">Until end of a creature's turn</option><option value="rounds">Number of rounds</option><option value="recovery">Until recovery succeeds</option><option value="custom">Custom</option></select></label><label>Controlling creature<select id="controller"></select></label><label>Round tick<select id="duration-event"><option value="end">End of turn</option><option value="start">Start of turn</option></select></label><label>Rounds<input id="rounds" type="number" min="1" value="1"></label><label>Custom duration<input id="custom-duration" maxlength="160"></label><label>Notes<input id="notes" maxlength="500"></label><label>Quickened action restriction<input id="quickened-restriction" maxlength="160" placeholder="e.g. Stride or Strike"></label><label>Persistent damage type<input id="damage-type" maxlength="60" placeholder="fire"></label><label>Persistent amount<input id="damage-expression" maxlength="40" placeholder="1d6"></label><label>Recovery DC<input id="recovery-dc" type="number" min="1" value="15"></label></div><label class="check"><input id="temporary" type="checkbox" checked> Temporary</label><button id="apply" type="button">Apply condition</button><p id="message" role="status"></p></section>
+      <section class="condition-card"><h2>Apply condition</h2><label>Find condition<input id="search" type="search" placeholder="Search name or effect"></label><label>Condition<select id="condition"></select></label><div id="rule-detail"></div><div class="form-grid"><label>Value<input id="value" type="number" min="1" max="99" value="1"></label><label>Source<input id="source" maxlength="120" placeholder="Spell, creature, or rule"></label><label>Duration<select id="duration"><option value="manual">Until manually removed</option><option value="start_turn">Until start of a creature's turn</option><option value="end_turn">Until end of a creature's turn</option><option value="rounds">Number of rounds</option><option value="recovery">Until recovery succeeds</option><option value="custom">Custom</option></select></label><label>Controlling creature<select id="controller"></select></label><label>Round tick<select id="duration-event"><option value="end">End of turn</option><option value="start">Start of turn</option></select></label><label>Rounds<input id="rounds" type="number" min="0" value="1"></label><label>Custom duration<input id="custom-duration" maxlength="160"></label><label>Notes<input id="notes" maxlength="500"></label><label>Quickened action restriction<input id="quickened-restriction" maxlength="160" placeholder="e.g. Stride or Strike"></label><label>Persistent damage type<input id="damage-type" maxlength="60" placeholder="fire"></label><label>Persistent amount<input id="damage-expression" maxlength="40" placeholder="1d6"></label><label>Recovery DC<input id="recovery-dc" type="number" min="1" value="15"></label></div><label class="check"><input id="temporary" type="checkbox" checked> Temporary</label><button id="apply" type="button">Apply condition</button><p id="message" role="status"></p></section>
     </div>
     <section class="condition-card"><h2>Rules reference</h2><p>Penalties of the same type generally use the worst applicable value. A condition with multiple sources uses the highest value; reducing a valued condition reduces each source. Derived conditions are shown without extra stored records. Durations and recovery remain GM decisions.</p><p><a href="/tools/rules-reference">Rules Quick Reference</a> · <a href="https://2e.aonprd.com/Conditions.aspx" target="_blank" rel="noopener noreferrer">Player Core conditions</a> · <a href="https://2e.aonprd.com/Rules.aspx?ID=2428" target="_blank" rel="noopener noreferrer">Start of turn</a> · <a href="https://2e.aonprd.com/Rules.aspx?ID=2430" target="_blank" rel="noopener noreferrer">End of turn</a></p></section>
     <script src="/tools/conditions/app.js" defer></script>
@@ -203,6 +205,17 @@ def page() -> str:
 
 
 def register(app: FastAPI, database_path: Path) -> None:
+    def tick_round_durations(db: sqlite3.Connection, combat_id: int, controller_id: int, event: str) -> None:
+        """Count one controller turn event; keep conditions at zero for GM removal."""
+        if event not in {"start", "end"}:
+            raise ValueError("Turn event must be start or end")
+        db.execute("""UPDATE active_conditions SET rounds_remaining=rounds_remaining-1
+                   WHERE active=1 AND combat_id=? AND duration_kind='rounds'
+                   AND controller_id=? AND duration_event=? AND rounds_remaining>0""",
+                   (combat_id, controller_id, event))
+
+    app.state.condition_round_tick = tick_round_durations
+
     @app.get("/tools/conditions", response_class=HTMLResponse)
     def conditions_page() -> str:
         return page()
@@ -356,6 +369,7 @@ def register(app: FastAPI, database_path: Path) -> None:
             for actor in state["combatants"]:
                 rows = _rows(db, "combat_id=? AND combatant_id=?", (combat_id, actor["id"]))
                 result[str(actor["id"])] = {"visible": logic.visible(rows), "actions": logic.action_guidance(rows),
+                                            "zero_rounds": logic.zero_round_reminders(rows),
                                             "reminders_start": logic.reminders(rows, "start", actor["id"], actor["id"]),
                                             "reminders_end": logic.reminders(rows, "end", actor["id"], actor["id"])}
             return result

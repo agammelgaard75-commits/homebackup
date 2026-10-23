@@ -1,0 +1,229 @@
+
+{
+  "version": 1,
+  "adventure": {
+    "title": "The Missing Bell",
+    "description": "A town bell vanished before the festival.",
+    "starting_situation": "The mayor asks the party to help.",
+    "main_objective": "Find the bell.",
+    "suggested_level": 3,
+    "expected_players": 4,
+    "estimated_hours": 5,
+    "secrets": "The bell was hidden, not stolen.",
+    "outcomes": "The party may return the bell or expose the mayor.",
+    "gm_notes": "Keep descriptions brief.",
+    "campaign_id": null,
+    "party_id": null,
+    "current_scene_id": null
+  },
+  "scenes": [
+    {
+      "id": 1,
+      "title": "Market rumors",
+      "type": "investigation",
+      "location": "Market square",
+      "purpose": "Learn where the bell went.",
+      "description": "Busy stalls; one broken cart.",
+      "complications": "A witness is afraid to speak.",
+      "duration_minutes": 45,
+      "notes": "Offer more than one way to find the clue.",
+      "status": "not_started"
+    },
+    {
+      "id": 2,
+      "title": "Old tower",
+      "type": "exploration",
+      "location": "North hill",
+      "purpose": "Find the hidden bell.",
+      "description": "Dusty stairs and fresh tracks.",
+      "complications": "The stairs are unstable.",
+      "duration_minutes": 60,
+      "notes": "",
+      "status": "not_started"
+    }
+  ],
+  "npcs": [
+    {
+      "id": 1,
+      "name": "Mira",
+      "role": "Witness",
+      "personality": "Cautious",
+      "motivation": "Protect her family",
+      "knows": "A cart went north.",
+      "wants": "Privacy",
+      "secret": "She helped move the bell.",
+      "status": "Available",
+      "notes": "",
+      "external_url": "",
+      "scene_ids": [1, 2]
+    }
+  ],
+  "clues": [
+    {
+      "id": 1,
+      "name": "Fresh cart tracks",
+      "description": "Tracks lead north.",
+      "location": "Market square",
+      "reveals": "The cart went toward the tower.",
+      "alternatives": "Mira can tell the party; tracks also appear near the tower.",
+      "discovered": false,
+      "discovered_scene_id": null,
+      "discovered_session_id": null,
+      "notes": "No required skill check.",
+      "scene_ids": [1, 2]
+    }
+  ],
+  "items": [
+    {
+      "id": 1,
+      "name": "Brass key",
+      "kind": "item",
+      "description": "Opens the tower door.",
+      "starting_location": "Market cart",
+      "current_location": "Market cart",
+      "required": false,
+      "obtained": false,
+      "obtained_session_id": null,
+      "notes": "",
+      "scene_ids": [1]
+    }
+  ],
+  "connections": [
+    {
+      "from_scene_id": 1,
+      "to_scene_id": 2,
+      "kind": "clue_points_to"
+    }
+  ],
+  "encounters": [],
+  "sessions": [
+    {
+      "id": 1,
+      "title": "Session 1",
+      "number": 1,
+      "planned_minutes": 300,
+      "scene_ids": [1, 2],
+      "objectives": "Investigate the missing bell.",
+      "prep_notes": "Review Mira and the tower.",
+      "actual_notes": "",
+      "next_session_notes": "",
+      "status": "planned",
+      "summary_markdown": "",
+      "events": []
+    }
+  ]
+}
+{
+	  "version": 1,
+	    "adventure": {
+		        "title": "The Missing Bell",
+			    "description": "A town bell vanished before the festival.",
+			        "starting_situation": "The mayor asks the party to help.",
+				    "main_objective": "Find the bell.",
+				        "suggested_level": 3,
+					    "expected_players": 4,
+					        "estimated_hours": 5,
+						    "secrets": "The bell was hidden, not stolen.",
+						        "outcomes": "The party may return the bell or expose the mayor.",
+							    "gm_notes": "Keep descriptions brief.",
+							        "campaign_id": null,
+								    "party_id": null,
+								        "current_scene_id": null
+									  },
+									    "scenes": [
+										        {
+												      "id": 1,
+												            "title": "Market rumors",
+													          "type": "investigation",
+														        "location": "Market square",
+															      "purpose": "Learn where the bell went.",
+															            "description": "Busy stalls; one broken cart.",
+																          "complications": "A witness is afraid to speak.",
+																	        "duration_minutes": 45,
+																		      "notes": "Offer more than one way to find the clue.",
+																		            "status": "not_started"
+																			        },
+																				    {
+																					          "id": 2,
+																						        "title": "Old tower",
+																							      "type": "exploration",
+																							            "location": "North hill",
+																								          "purpose": "Find the hidden bell.",
+																									        "description": "Dusty stairs and fresh tracks.",
+																										      "complications": "The stairs are unstable.",
+																										            "duration_minutes": 60,
+																											          "notes": "",
+																												        "status": "not_started"
+																													    }
+																													      ],
+																													        "npcs": [
+																															    {
+																																          "id": 1,
+																																	        "name": "Mira",
+																																		      "role": "Witness",
+																																		            "personality": "Cautious",
+																																			          "motivation": "Protect her family",
+																																				        "knows": "A cart went north.",
+																																					      "wants": "Privacy",
+																																					            "secret": "She helped move the bell.",
+																																						          "status": "Available",
+																																							        "notes": "",
+																																								      "external_url": "",
+																																								            "scene_ids": [1, 2]
+																																									        }
+																																										  ],
+																																										    "clues": [
+																																											        {
+																																													      "id": 1,
+																																													            "name": "Fresh cart tracks",
+																																														          "description": "Tracks lead north.",
+																																															        "location": "Market square",
+																																																      "reveals": "The cart went toward the tower.",
+																																																            "alternatives": "Mira can tell the party; tracks also appear near the tower.",
+																																																	          "discovered": false,
+																																																		        "discovered_scene_id": null,
+																																																			      "discovered_session_id": null,
+																																																			            "notes": "No required skill check.",
+																																																				          "scene_ids": [1, 2]
+																																																					      }
+																																																					        ],
+																																																						  "items": [
+																																																							      {
+																																																								            "id": 1,
+																																																									          "name": "Brass key",
+																																																										        "kind": "item",
+																																																											      "description": "Opens the tower door.",
+																																																											            "starting_location": "Market cart",
+																																																												          "current_location": "Market cart",
+																																																													        "required": false,
+																																																														      "obtained": false,
+																																																														            "obtained_session_id": null,
+																																																															          "notes": "",
+																																																																        "scene_ids": [1]
+																																																																	    }
+																																																																	      ],
+																																																																	        "connections": [
+																																																																			    {
+																																																																				          "from_scene_id": 1,
+																																																																					        "to_scene_id": 2,
+																																																																						      "kind": "clue_points_to"
+																																																																						          }
+																																																																							    ],
+																																																																							      "encounters": [],
+																																																																							        "sessions": [
+																																																																									    {
+																																																																										          "id": 1,
+																																																																											        "title": "Session 1",
+																																																																												      "number": 1,
+																																																																												            "planned_minutes": 300,
+																																																																													          "scene_ids": [1, 2],
+																																																																														        "objectives": "Investigate the missing bell.",
+																																																																															      "prep_notes": "Review Mira and the tower.",
+																																																																															            "actual_notes": "",
+																																																																																          "next_session_notes": "",
+																																																																																	        "status": "planned",
+																																																																																		      "summary_markdown": "",
+																																																																																		            "events": []
+																																																																																			        }
+																																																																																				  ]
+}

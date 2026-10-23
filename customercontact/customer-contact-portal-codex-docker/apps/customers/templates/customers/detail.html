@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}{{ customer.name }} · Customer Portal{% endblock %}
+{% block content %}
+<a class="back-link" href="{% url 'customers:list' %}">← Customers</a>
+<div class="page-heading">
+  <div><p class="eyebrow">Customer overview</p><h1>{{ customer.name }}</h1><span class="badge {% if customer.status == 'inactive' %}archived{% endif %}">{{ customer.get_status_display }}</span></div>
+  {% if perms.accounts.edit_portal and perms.customers.change_customer %}<div class="actions">
+    <a class="button" href="{% url 'customers:edit' customer.pk %}">Edit customer</a>
+    {% if customer.status == 'active' %}<a class="button secondary" href="{% url 'customers:archive' customer.pk %}">Archive customer</a>{% endif %}
+  </div>{% endif %}
+</div>
+{% if customer.status == 'inactive' %}<p class="notice">This customer is archived. Its details are retained.{% if perms.accounts.edit_portal and perms.customers.change_customer %} To reactivate it, edit the customer and select Active.{% endif %}</p>{% endif %}
+<section class="panel"><h2>Overview</h2><dl class="details">
+  <div><dt>CVR / company ID</dt><dd>{{ customer.reference_code|default:'Not provided' }}</dd></div>
+  <div><dt>Address</dt><dd class="preserve-lines">{{ customer.address|default:'Not provided' }}</dd></div>
+  <div><dt>Internal notes</dt><dd class="preserve-lines">{{ customer.notes|default:'No notes added' }}</dd></div>
+  <div><dt>Created</dt><dd><time datetime="{{ customer.created_at|date:'c' }}">{{ customer.created_at|date:'j M Y, H:i' }}</time></dd></div>
+  <div><dt>Last updated</dt><dd><time datetime="{{ customer.updated_at|date:'c' }}">{{ customer.updated_at|date:'j M Y, H:i' }}</time></dd></div>
+</dl></section>
+{% endblock %}

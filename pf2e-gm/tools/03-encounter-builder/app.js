@@ -3,6 +3,7 @@ const $ = (id) => document.getElementById(id);
 let currentId = null;
 let templates = [];
 let calculationSequence = 0;
+let libraryMonsters = [];
 
 function input(label, type, value, options = {}) {
   const wrapper = document.createElement("label");
@@ -19,6 +20,7 @@ function input(label, type, value, options = {}) {
 function addCreature(data = {}) {
   const row = document.createElement("div");
   row.className = "creature-row";
+  row.monsterId = data.monster_id ?? null;
   const [nameLabel, name] = input("Creature name", "text", data.name ?? "", { maxlength: 120, placeholder: "Creature name" });
   const [levelLabel, level] = input("Level", "number", data.level ?? Number($("party-level").value), { min: -1, max: 25, step: 1 });
   const [quantityLabel, quantity] = input("Quantity", "number", data.quantity ?? 1, { min: 1, step: 1 });
@@ -26,6 +28,11 @@ function addCreature(data = {}) {
   const [urlLabel, url] = input("Creature URL", "url", data.url ?? "", { maxlength: 500, placeholder: "Optional https://…" });
   const xp = document.createElement("output");
   xp.className = "creature-xp";
+  const completeness = document.createElement("span");
+  completeness.className = "creature-completeness";
+  const linked = libraryMonsters.find(item => item.id === row.monsterId);
+  completeness.textContent = linked ? linked.completeness.level : row.monsterId ? "Library monster unavailable" : "";
+  for (const field of [name, level]) field.addEventListener("input", () => {row.monsterId = null; completeness.textContent = "";});
   const reference = document.createElement("a");
   reference.textContent = "Open creature reference";
   reference.target = "_blank";
@@ -44,7 +51,7 @@ function addCreature(data = {}) {
   remove.type = "button";
   remove.textContent = "Remove";
   remove.addEventListener("click", () => { row.remove(); calculate(); });
-  row.append(nameLabel, levelLabel, quantityLabel, notesLabel, urlLabel, xp, reference, remove);
+  row.append(nameLabel, levelLabel, quantityLabel, notesLabel, urlLabel, xp, completeness, reference, remove);
   row.fields = { name, level, quantity, notes, url };
   row.xp = xp;
   $("creature-list").append(row);
@@ -62,6 +69,7 @@ function creatureValues() {
     quantity: integer(row.fields.quantity.value),
     notes: row.fields.notes.value,
     url: row.fields.url.value.trim(),
+    ...(row.monsterId ? {monster_id:row.monsterId} : {}),
   }));
 }
 
@@ -193,6 +201,17 @@ async function save(method, path) {
 for (const id of ["party-level", "party-size", "target"]) $(id).addEventListener("change", calculate);
 $("party-level").addEventListener("change", updateTemplates);
 $("add-creature").addEventListener("click", () => addCreature());
+async function refreshLibrary() {
+  const response = await fetch('/api/monster-reference/monsters');
+  if (!response.ok) return;
+  libraryMonsters = await response.json();
+  $("monster-library").replaceChildren(new Option('Choose saved monster',''));
+  for (const monster of libraryMonsters) $("monster-library").append(new Option(`${monster.name} (level ${monster.level}, ${monster.completeness.level})`,String(monster.id)));
+}
+$("add-library-monster").addEventListener("click", () => {
+  const monster = libraryMonsters.find(item => String(item.id) === $("monster-library").value);
+  if (monster) addCreature({name:monster.name, level:monster.level, quantity:1, url:monster.source_url||'', monster_id:monster.id});
+});
 $("apply-template").addEventListener("click", () => {
   const template = templates.find((item) => item.id === $("template").value);
   if (!template) return;
@@ -218,4 +237,5 @@ $("delete-encounter").addEventListener("click", async () => {
 });
 updateTemplates();
 refreshSaved().catch((error) => setText("save-status", error.message));
+refreshLibrary().catch((error) => setText("save-status", error.message));
 calculate();

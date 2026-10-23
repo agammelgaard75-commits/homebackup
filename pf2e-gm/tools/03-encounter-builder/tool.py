@@ -26,6 +26,7 @@ class Creature(BaseModel):
     quantity: int = Field(strict=True, ge=1)
     notes: str = Field(default="", max_length=1000)
     url: str = Field(default="", max_length=500)
+    monster_id: int | None = Field(default=None, strict=True, gt=0)
 
     @field_validator("name")
     @classmethod
@@ -88,8 +89,11 @@ def initialize(database_path: Path) -> None:
                 quantity INTEGER NOT NULL,
                 notes TEXT NOT NULL DEFAULT '',
                 url TEXT NOT NULL DEFAULT ''
+                ,monster_id INTEGER
             );
         """)
+        if "monster_id" not in {row[1] for row in connection.execute("PRAGMA table_info(encounter_creatures)")}:
+            connection.execute("ALTER TABLE encounter_creatures ADD COLUMN monster_id INTEGER")
 
 
 def page() -> str:
@@ -112,10 +116,11 @@ def page() -> str:
       </section>
       <section class="encounter-card" aria-labelledby="creatures-heading">
         <h2 id="creatures-heading">Creatures</h2>
+        <div class="template-row"><label>Monster Library<select id="monster-library"><option value="">Choose saved monster</option></select></label><button id="add-library-monster" type="button">Add from library</button><a href="/tools/monster-reference">Open Monster Library</a></div>
         <div class="template-row"><label>Quick template<select id="template"><option value="">Choose a template</option></select></label><button id="apply-template" type="button">Use template</button></div>
         <div id="creature-list" class="creature-list"></div>
         <button id="add-creature" type="button">Add creature</button>
-        <p class="muted">Enter creatures manually. Levels outside party level −4 to +4 have no supported XP value.</p>
+        <p class="muted">Enter creatures manually or choose a library monster. Completeness is informational only. Levels outside party level −4 to +4 have no supported XP value.</p>
       </section>
       <section class="encounter-card summary-card" aria-labelledby="summary-heading">
         <h2 id="summary-heading">Encounter XP</h2>
@@ -153,20 +158,20 @@ def page() -> str:
 
 def _row_to_encounter(connection, row) -> dict:
     creatures = connection.execute(
-        "SELECT name, level, quantity, notes, url FROM encounter_creatures WHERE encounter_id = ? ORDER BY position, id",
+        "SELECT name, level, quantity, notes, url, monster_id FROM encounter_creatures WHERE encounter_id = ? ORDER BY position, id",
         (row[0],),
     ).fetchall()
     return {
         "id": row[0], "name": row[1], "party_level": row[2], "party_size": row[3],
         "target": row[4], "notes": row[5],
-        "creatures": [dict(zip(("name", "level", "quantity", "notes", "url"), item)) for item in creatures],
+        "creatures": [{**dict(zip(("name", "level", "quantity", "notes", "url"), item[:5])), **({"monster_id": item[5]} if item[5] is not None else {})} for item in creatures],
     }
 
 
 def _insert_creatures(connection, encounter_id: int, creatures: list[Creature]) -> None:
     connection.executemany(
-        "INSERT INTO encounter_creatures (encounter_id, position, name, level, quantity, notes, url) VALUES (?, ?, ?, ?, ?, ?, ?)",
-        [(encounter_id, index, item.name, item.level, item.quantity, item.notes, item.url) for index, item in enumerate(creatures)],
+        "INSERT INTO encounter_creatures (encounter_id, position, name, level, quantity, notes, url, monster_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        [(encounter_id, index, item.name, item.level, item.quantity, item.notes, item.url, item.monster_id) for index, item in enumerate(creatures)],
     )
 
 

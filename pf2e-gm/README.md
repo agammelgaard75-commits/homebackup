@@ -1,6 +1,8 @@
 # PF2e GM Toolkit
 
-A local, modular workspace for Pathfinder Second Edition Remaster Game Masters. The dashboard lists ten tools. Rules Quick Reference, Skill & DC Helper, Encounter Builder, Combat Tracker, Conditions Tracker, Healing & Death Helper, Exploration Helper, and Treasure & XP Helper are available; the other tools remain placeholders.
+A local, modular workspace for Pathfinder Second Edition Remaster Game Masters. The dashboard lists ten working tools, including the Adventure & Session Planner. The toolkit runs entirely on your computer.
+
+Monster Reference is a local Monster Library. Add a monster with only name, level, and maximum HP, then fill in optional details when useful. The library starts empty. Its Basic, Combat Ready, and Detailed labels are informational and never limit encounter or combat use. See the [Monster Library README](tools/04-monster-reference/README.md) and [JSON schema guide](tools/04-monster-reference/MONSTER_SCHEMA.md).
 
 ## Install and start
 
@@ -20,4 +22,8 @@ The final line is the single command to start the application after installation
 .venv/bin/python -m pytest
 ```
 
-See [docs/architecture.md](docs/architecture.md) for the module layout and tool registration interface. Each implemented tool has its own README under `tools/`; the [Treasure & XP Helper README](tools/09-treasure-xp/README.md) explains reward planning, XP progression, and corrections.
+See [docs/architecture.md](docs/architecture.md) for the module layout and tool registration interface. Each tool has its own README under `tools/`; the [Adventure Planner README](tools/10-adventure-planner/README.md) explains preparation, play mode, notes, and backups.
+
+## Reusable party PCs
+
+Open Adventure Planner and use **Party PCs** to create a campaign and party, then add PCs with name, class, HP, Speed, and a short note. Link that party in **Edit adventure**. From the adventure, open Combat Tracker and create an empty combat or one based on a saved encounter; the selected party PCs are copied in with initiative blank. You can also use **Add missing party PCs** in an existing combat. Combat HP stays in that combat until you explicitly choose **Update party HP from combat** and confirm the values.

@@ -1,0 +1,9 @@
+# Baseline dependency pins for Codex Phase 1. Review and update deliberately.
+Django==5.2.18
+psycopg[binary]==3.3.6
+gunicorn==26.2.0
+whitenoise==6.12.0
+# Transitive runtime dependencies locked from the Python 3.12 container build.
+asgiref==3.13.0
+sqlparse==0.6.0
+typing_extensions==4.16.0

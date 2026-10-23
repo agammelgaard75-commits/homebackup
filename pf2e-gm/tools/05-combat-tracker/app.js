@@ -6,6 +6,7 @@ let queue = Promise.resolve();
 let conditionSummary = {};
 let conditionLibrary = [];
 let conditionReminders = [];
+let libraryMonsters = [];
 async function conditionRequest(path, method = "GET", data = null) {
   const response = await fetch(`/api/conditions${path}`, {method, headers: data === null ? {} : {"Content-Type":"application/json"}, body: data === null ? undefined : JSON.stringify(data)});
   if (!response.ok) { const body = await response.json().catch(() => ({})); throw new Error(typeof body.detail === "string" ? body.detail : `Condition request failed (${response.status})`); }
@@ -13,24 +14,56 @@ async function conditionRequest(path, method = "GET", data = null) {
 }
 async function refreshConditions() {
   if (!combat) { conditionSummary = {}; return; }
-  conditionSummary = await conditionRequest(`/combat/${combat.id}/summary`);
+  const combatId = combat.id;
+  const summary = await conditionRequest(`/combat/${combatId}/summary`);
+  if (combat?.id !== combatId) return;
+  conditionSummary = summary;
   render();
 }
-function conditionLabel(row) { return (conditionLibrary.find(def => def.slug === row.slug)?.name || row.slug) + (row.value ? ` ${row.value}` : ""); }
+function conditionLabel(row) {
+  const name = (conditionLibrary.find(def => def.slug === row.slug)?.name || row.slug) + (row.value ? ` ${row.value}` : "");
+  const counts = (row.round_counts || []).map(String);
+  if (counts.length && row.other_duration_sources) counts.push("other source");
+  return name + (counts.length ? ` (${counts.join(", ")})` : "");
+}
+async function resolveReminder(row, operation) {
+  try {
+    await operation();
+    conditionReminders = conditionReminders.filter(item => item !== row);
+    await refreshConditions();
+  } catch (error) { message(error.message, true); }
+}
+function reminderElement(row) {
+  const line = element("div", row.text, `condition-reminder${row.kind === "round_expired" ? " round-expired" : ""}`);
+  if (row.kind === "round_expired") {
+    const controller = actor(row.controller_id)?.name || "the controlling creature";
+    const timing = row.duration_event === "start" ? "start" : "end";
+    line.append(element("small", `Source: ${row.source || "not entered"}. Counter ticks at the ${timing} of ${controller}'s turn.`, "reminder-context"));
+    line.append(button("Remove condition source", () => resolveReminder(row, () => conditionRequest(`/active/${row.instance_id}`, "DELETE"))));
+  }
+  if (row.kind === "reduce") line.append(button("Confirm reduction", () => resolveReminder(row, () => conditionRequest(`/active/${row.instance_id}/reduce`, "POST", {amount:1}))));
+  if (row.kind === "stunned_reduce") line.append(button("Confirm Stunned action loss", () => resolveReminder(row, () => conditionRequest(`/active/${row.instance_id}/reduce`, "POST", {amount:row.amount}))));
+  if (row.kind === "persistent") for (const [label, success] of [["Recovery failed",false],["Recovery succeeded",true]]) line.append(button(label, () => resolveReminder(row, () => conditionRequest(`/active/${row.instance_id}/recovery`, "POST", {success}))));
+  if (row.kind === "persistent_choice") line.append(button("Choose source", () => { location.href = `/tools/conditions?combat_id=${combat.id}&combatant_id=${row.combatant_id}&condition=persistent-damage`; }));
+  if (row.kind === "expiration") line.append(button("Confirm end", () => resolveReminder(row, () => conditionRequest(`/active/${row.instance_id}`, "DELETE"))));
+  if (row.kind === "healing_recovery") line.append(button("Open recovery check", () => { location.href = `/tools/healing-death?combat_id=${combat.id}&combatant_id=${row.combatant_id}`; }));
+  return line;
+}
 function renderConditionReminders() {
-  const box = $("condition-reminders"); if (!box) return;
-  box.replaceChildren();
-  if (!conditionReminders.length) { box.append(element("p", "No turn reminders.", "hint")); return; }
-  for (const row of conditionReminders) {
-    const line = element("div", row.text, "condition-reminder");
-    if (row.kind === "reduce") line.append(button("Confirm reduction", async () => { try { await conditionRequest(`/active/${row.instance_id}/reduce`, "POST", {amount:1}); conditionReminders = conditionReminders.filter(item => item !== row); await refreshConditions(); renderConditionReminders(); } catch(error) { message(error.message,true); } }));
-    if (row.kind === "stunned_reduce") line.append(button("Confirm Stunned action loss", async () => { try { await conditionRequest(`/active/${row.instance_id}/reduce`, "POST", {amount:row.amount}); conditionReminders = conditionReminders.filter(item => item !== row); await refreshConditions(); renderConditionReminders(); } catch(error) { message(error.message,true); } }));
-    if (row.kind === "persistent") for (const [label, success] of [["Recovery failed",false],["Recovery succeeded",true]]) line.append(button(label, async () => { try { await conditionRequest(`/active/${row.instance_id}/recovery`, "POST", {success}); conditionReminders = conditionReminders.filter(item => item !== row); await refreshConditions(); renderConditionReminders(); } catch(error) { message(error.message,true); } }));
-    if (row.kind === "persistent_choice") line.append(button("Choose source", () => { location.href = `/tools/conditions?combat_id=${combat.id}&combatant_id=${row.combatant_id}&condition=persistent-damage`; }));
-    if (row.kind === "expiration") line.append(button("Confirm end", async () => { try { await conditionRequest(`/active/${row.instance_id}`, "DELETE"); conditionReminders = conditionReminders.filter(item => item !== row); await refreshConditions(); renderConditionReminders(); } catch(error) { message(error.message,true); } }));
-    if (row.kind === "round") line.append(button("Review in Conditions Tracker", () => { location.href = `/tools/conditions?combat_id=${combat.id}&combatant_id=${row.combatant_id}`; }));
-    if (row.kind === "healing_recovery") line.append(button("Open recovery check", () => { location.href = `/tools/healing-death?combat_id=${combat.id}&combatant_id=${row.combatant_id}`; }));
-    box.append(line);
+  if (!combat) return;
+  for (const item of combat.combatants) {
+    const box = document.querySelector(`.combatant-reminders[data-combatant-id="${item.id}"]`);
+    if (!box) continue;
+    box.replaceChildren();
+    const rows = [...(conditionSummary[String(item.id)]?.zero_rounds || []),
+      ...conditionReminders.filter(row => (row.combatant_id ?? combat.active_id) === item.id)];
+    for (const row of rows) box.append(reminderElement(row));
+    if (item.id === combat.active_id) {
+      const guidance = conditionSummary[String(item.id)]?.actions;
+      if (guidance && (guidance.slowed || guidance.stunned || guidance.quickened_extra)) {
+        box.append(element("div", `Action guidance: ${guidance.total_guidance} action(s) after ${guidance.actions_lost} lost; Quickened can add at most ${guidance.quickened_extra} restricted action. Adjust action counters manually.`, "condition-reminder"));
+      }
+    }
   }
 }
 async function collectTurnReminders(event, actorId) {
@@ -72,6 +105,15 @@ function numberOrNull(value) {
 }
 
 function actor(id) { return combat?.combatants.find((item) => item.id === id); }
+function monsterDetailsLink(item) {
+  if (item.type !== "monster" && !item.monster_id) return null;
+  const link = element("a", "Monster details", "monster-detail-link");
+  link.href = `/tools/combat-tracker/combats/${combat.id}/monsters/${item.id}`;
+  link.target = "_blank";
+  link.rel = "noopener";
+  link.title = `Open read-only details for ${item.name} in a new tab`;
+  return link;
+}
 function element(tag, text = "", className = "") {
   const node = document.createElement(tag);
   node.textContent = text;
@@ -106,9 +148,9 @@ function send(command) {
       const updated = await request(`/combats/${id}/command`, "POST", command);
       if (combat?.id === id) {
         combat = updated;
-        if (transition) conditionReminders = endPrompts;
+        if (transition) conditionReminders = endPrompts.filter(row => row.kind !== "round");
         const incoming = updated.active_id;
-        if (transition && incoming !== null) conditionReminders.push(...await collectTurnReminders("start", incoming).catch(() => []));
+        if (transition && incoming !== null) conditionReminders.push(...(await collectTurnReminders("start", incoming).catch(() => [])).filter(row => row.kind !== "round"));
         render();
         renderConditionReminders();
         await refreshConditions();
@@ -131,14 +173,31 @@ async function refreshSources() {
   $("source-list").replaceChildren(new Option("Choose saved encounter", ""));
   for (const row of rows) $("source-list").append(new Option(row.name, String(row.id)));
 }
+async function refreshParties() {
+  const response = await fetch('/api/party-roster/parties');
+  if (!response.ok) throw new Error('Could not load parties.');
+  const rows = await response.json();
+  const selected = $("party-list").value;
+  $("party-list").replaceChildren(new Option("No party selected", ""));
+  for (const row of rows) $("party-list").append(new Option(row.name, String(row.id)));
+  if (rows.some(row => String(row.id) === selected)) $("party-list").value = selected;
+}
+async function refreshMonsterLibrary() {
+  const response = await fetch('/api/monster-reference/monsters');
+  if (!response.ok) return;
+  libraryMonsters = await response.json();
+  $("monster-library").replaceChildren(new Option("Choose saved monster", ""));
+  for (const item of libraryMonsters) $("monster-library").append(new Option(`${item.name} (level ${item.level}, ${item.completeness.level})`, String(item.id)));
+}
 
 function loadState(data) {
   combat = data;
+  if (data.party_id) $("party-list").value = String(data.party_id);
   conditionSummary = {};
+  conditionReminders = [];
   selectedId = data.active_id ?? data.combatants[0]?.id ?? null;
   localStorage.setItem("pf2e-current-combat", String(data.id));
   render();
-  conditionReminders = [];
   refreshConditions().catch((error) => message(error.message, true));
   if (data.active_id !== null) {
     fetch(`/api/healing-death/combat/${data.id}/reminders?actor_id=${data.active_id}`).then(response => response.ok ? response.json() : []).then(rows => { if (combat?.id === data.id) { conditionReminders.push(...rows); renderConditionReminders(); } }).catch(() => {});
@@ -159,6 +218,9 @@ function render() {
   $("combat-rewards").hidden = !ended;
   $("combat-rewards").href = `/tools/treasure-xp?combat_id=${combat.id}`;
   for (const id of ["next-turn", "add-combatant", "save-combat", "rename-combat"]) $(id).disabled = ended;
+  $("add-party").disabled = ended || !$("party-list").value;
+  $("add-library-monster").disabled = ended;
+  $("sync-party-hp").disabled = !combat.party_id || !combat.combatants.some(item => item.party_member_id && item.current_hp !== null);
   $("next-turn").disabled = ended || combat.active_id === null;
   renderOrder(ended);
   renderActive(ended);
@@ -178,6 +240,9 @@ function renderOrder(ended) {
     const select = button(item.name, () => { selectedId = id; render(); }, "actor-name");
     select.setAttribute("aria-label", `Select ${item.name}`);
     head.append(select, element("span", item.type, "kind"));
+    const monsterLink = monsterDetailsLink(item);
+    if (monsterLink) head.append(monsterLink);
+    if (item.class_name) head.append(element("span", item.class_name, "kind"));
     if (id === combat.active_id) head.append(element("strong", "Active", "active-tag"));
     if (item.current_hp === 0) head.append(element("strong", "0 HP — review knockout/dying", "zero-tag"));
     const fields = element("div", "", "row-fields");
@@ -195,10 +260,13 @@ function renderOrder(ended) {
       link.title = "Open condition details";
       detail.append(link);
     }
+    const reminders = element("div", "", "combatant-reminders");
+    reminders.dataset.combatantId = String(id);
+    reminders.setAttribute("aria-live", "polite");
     const actions = element("div", "", "row-buttons");
     actions.append(button("↑", () => send({ op: "move", combatant_id: id, direction: "up" })), button("↓", () => send({ op: "move", combatant_id: id, direction: "down" })), button("Remove", () => send({ op: "remove", combatant_id: id })));
     for (const child of actions.children) child.disabled = ended;
-    row.append(head, fields, detail, actions);
+    row.append(head, fields, detail, reminders, actions);
     list.append(row);
   }
   const delayed = $("delayed-list");
@@ -207,6 +275,8 @@ function renderOrder(ended) {
   for (const id of combat.delayed) {
     const row = element("div", "", "delay-row");
     row.append(element("strong", actor(id).name));
+    const monsterLink = monsterDetailsLink(actor(id));
+    if (monsterLink) row.append(monsterLink);
     const select = document.createElement("select");
     const originalIndex = combat.pending.indexOf(id);
     const choices = originalIndex < 0 ? combat.pending : combat.pending.slice(0, originalIndex);
@@ -214,6 +284,10 @@ function renderOrder(ended) {
     const reenter = button("Reenter at chosen point", () => send({ op: "reenter", combatant_id: id, after_id: Number(select.value) }));
     reenter.disabled = ended || !choices.length;
     row.append(select, reenter);
+    const reminders = element("div", "", "combatant-reminders");
+    reminders.dataset.combatantId = String(id);
+    reminders.setAttribute("aria-live", "polite");
+    row.append(reminders);
     delayed.append(row);
   }
 }
@@ -225,10 +299,6 @@ function renderActive(ended) {
   if (!current) { container.append(element("p", "Add combatants to begin.")); return; }
   const actions = element("p", `Actions: ${"●".repeat(Math.min(current.actions_remaining, 3))}${"○".repeat(Math.max(0, 3 - current.actions_remaining))}${current.actions_remaining > 3 ? ` +${current.actions_remaining - 3}` : ""} (${current.actions_remaining} available)`, "action-indicators");
   const reaction = element("p", `Reaction: ${current.reaction_remaining > 0 ? "●" : "○"} (${current.reaction_remaining} available)`, "reaction-indicator");
-  const conditionActions = conditionSummary[String(current.id)]?.actions;
-  if (conditionActions && (conditionActions.slowed || conditionActions.stunned || conditionActions.quickened_extra)) {
-    container.append(element("p", `Condition guidance at turn start: ${conditionActions.total_guidance} action(s) after ${conditionActions.actions_lost} lost; Quickened can add at most ${conditionActions.quickened_extra} restricted action. Choose which action is lost and adjust counters manually.`, "condition-reminder"));
-  }
   const controls = element("div", "", "control-buttons");
   controls.append(
     button("Spend action", () => send({ op: "actions", combatant_id: current.id, amount: -1 })),
@@ -262,7 +332,8 @@ function renderSelected(ended) {
   type.disabled = ended;
   type.addEventListener("change", () => send({ op: "set_type", combatant_id: item.id, type: type.value }));
   typeLabel.append(type);
-  const hp = element("p", `HP ${item.current_hp ?? "?"} / ${item.max_hp ?? "?"} · Temporary ${item.temp_hp}`);
+  const hp = element("p", `${item.class_name ? `${item.class_name} · ` : ""}HP ${item.current_hp ?? "?"} / ${item.max_hp ?? "?"} · Temporary ${item.temp_hp}`);
+  const monsterStats = item.monster_stats ? element("p", `Library stats: AC ${item.monster_stats.ac ?? "—"} · Fort ${item.monster_stats.fortitude ?? "—"} · Ref ${item.monster_stats.reflex ?? "—"} · Will ${item.monster_stats.will ?? "—"} · Speed ${(item.monster_stats.speeds||[]).map(s=>`${s.type} ${s.feet} ft`).join(", ")||"—"} · Attacks ${(item.monster_stats.attacks||[]).map(a=>a.name).join(", ")||"—"}`) : null;
   if (item.current_hp === 0) hp.append(element("strong", " · 0 HP: check knockout/dying rules", "zero-tag"));
   const healingLink = element("a", "Open Healing & Death Helper"); healingLink.href = `/tools/healing-death?combat_id=${combat.id}&combatant_id=${item.id}`;
   const amountLabel = element("label", "Damage or healing amount");
@@ -314,18 +385,40 @@ function renderSelected(ended) {
   effectFields.append(label, duration, button("Add effect", () => send({ op: "add_effect", combatant_id: item.id, label: label.value, duration: duration.value })));
   for (const group of [hpButtons, reactions, effects, effectFields]) for (const child of group.querySelectorAll("button")) child.disabled = ended;
   for (const field of [amount, notes, label, duration]) field.disabled = ended;
-  box.append(name, typeLabel, hp, healingLink, amountLabel, hpButtons, reactions, notesLabel, conditions, effects, effectFields);
+  box.append(name, typeLabel, hp);
+  const monsterLink = monsterDetailsLink(item);
+  if (monsterLink) box.append(monsterLink);
+  if (monsterStats) box.append(monsterStats);
+  box.append(healingLink, amountLabel, hpButtons, reactions, notesLabel, conditions, effects, effectFields);
   box.append(element("p", "Effects are labels only. Check each duration and apply its rules manually.", "hint"));
 }
 
 $("new-combat").addEventListener("click", async () => {
-  try { const data = await request("/combats", "POST", { name: $("new-name").value }); loadState(data); await refreshCombats(data.id); message("Created and saved new combat."); }
+  try { const data = await request("/combats", "POST", { name: $("new-name").value, party_id: numberOrNull($("party-list").value) }); loadState(data); await refreshCombats(data.id); message("Created and saved new combat."); }
   catch (error) { message(error.message, true); }
 });
 $("import-combat").addEventListener("click", async () => {
   if (!$("source-list").value) { message("Choose a saved Phase 4 encounter.", true); return; }
-  try { const data = await request("/combats", "POST", { source_encounter_id: Number($("source-list").value) }); loadState(data); await refreshCombats(data.id); message("Copied creature groups into a new combat. Enter HP and initiative."); }
+  try { const data = await request("/combats", "POST", { source_encounter_id: Number($("source-list").value), party_id: numberOrNull($("party-list").value) }); loadState(data); await refreshCombats(data.id); message("Copied encounter creatures and selected party PCs. Enter initiative and any missing HP."); }
   catch (error) { message(error.message, true); }
+});
+$("party-list").addEventListener("change", () => { if (combat) render(); });
+$("add-party").addEventListener("click", async () => {
+  if (!combat || !$("party-list").value) {message("Choose a party first.", true); return;}
+  try {const result = await request(`/combats/${combat.id}/party/${$("party-list").value}`, "POST"); loadState(result.combat); message(`${result.added} PC(s) added from the party roster.`);}
+  catch (error) {message(error.message, true);}
+});
+$("add-library-monster").addEventListener("click", async () => {
+  if (!combat || !$("monster-library").value) {message("Choose a library monster first.", true);return;}
+  try {const data=await request(`/combats/${combat.id}/monsters`, "POST", {monster_id:Number($("monster-library").value)});loadState(data);message("Library monster copied into this combat at full HP.");}
+  catch(error){message(error.message,true);}
+});
+$("sync-party-hp").addEventListener("click", async () => {
+  if (!combat) return;
+  const rows = combat.combatants.filter(item => item.party_member_id && item.type === "PC" && item.current_hp !== null && item.max_hp !== null);
+  if (!rows.length || !confirm(`Copy these HP values to the party roster?\n${rows.map(item=>`${item.name}: ${item.current_hp}/${item.max_hp}`).join("\n")}\n\nThis replaces the roster's current and maximum HP.`)) return;
+  try {const result=await request(`/combats/${combat.id}/sync-party-hp`, "POST"); message(`Updated ${result.updated.length} PC(s) in the party roster.`);}
+  catch (error) {message(error.message, true);}
 });
 $("load-combat").addEventListener("click", async () => {
   if (!$("combat-list").value) return;
@@ -351,8 +444,10 @@ conditionRequest("/library").then((rules) => {
   conditionLibrary = rules;
   if (combat) render();
 }).catch(() => {});
-Promise.all([refreshCombats(), refreshSources()]).then(async () => {
+Promise.all([refreshCombats(), refreshSources(), refreshParties(), refreshMonsterLibrary()]).then(async () => {
   const link = new URLSearchParams(location.search);
+  if (link.get("party_id") && [...$("party-list").options].some(option => option.value === link.get("party_id"))) $("party-list").value = link.get("party_id");
+  if (link.get("encounter_id") && [...$("source-list").options].some(option => option.value === link.get("encounter_id"))) $("source-list").value = link.get("encounter_id");
   const explorationId = Number(link.get("exploration_id"));
   if (explorationId > 0) {
     try {
@@ -365,7 +460,7 @@ Promise.all([refreshCombats(), refreshSources()]).then(async () => {
     } catch (_) { /* Combat remains usable without an exploration session. */ }
   }
   const linked = Number(link.get("combat_id"));
-  const last = linked > 0 ? linked : Number(localStorage.getItem("pf2e-current-combat"));
+  const last = linked > 0 ? linked : (link.has("party_id") || link.has("encounter_id") ? 0 : Number(localStorage.getItem("pf2e-current-combat")));
   if (last > 0) { try { loadState(await request(`/combats/${last}`)); await refreshCombats(last); } catch (_) { if (!linked) localStorage.removeItem("pf2e-current-combat"); } }
 }).catch((error) => message(error.message, true));
 window.addEventListener("focus", () => { if (combat) refreshConditions().catch(() => {}); });

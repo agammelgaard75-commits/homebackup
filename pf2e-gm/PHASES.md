@@ -10,4 +10,5 @@ Phase	Work
 7	Healing & Death Helper — Complete (2026-10-17)
 8	Exploration Helper — Complete (2026-10-17)
 9	Treasure & XP Helper — Complete (2026-10-17)
-10	Adventure Planner
+10	Adventure Planner — Complete (2026-10-18)
+11	Monster Library — Minimum fields and completeness amendments implemented (2026-10-18)

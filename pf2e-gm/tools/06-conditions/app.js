@@ -13,7 +13,12 @@ function status(message, error = false) { $("message").textContent = message; $(
 function currentCombat() { return targets.combats.find(row => String(row.id) === $("combat").value); }
 function target() { const id = Number($("target").value); return id ? (currentCombat() ? {combat_id: Number($("combat").value), combatant_id:id} : {subject_id:id}) : null; }
 function query(object) { return new URLSearchParams(object).toString(); }
-function label(row) { const name = definitions.find(x => x.slug === row.slug)?.name || row.slug; return name + (row.value ? ` ${row.value}` : ""); }
+function label(row) {
+  const name = (definitions.find(x => x.slug === row.slug)?.name || row.slug) + (row.value ? ` ${row.value}` : "");
+  const counts = row.round_counts ? row.round_counts.map(String) : row.duration_kind === "rounds" ? [String(row.rounds_remaining)] : [];
+  if (counts.length && row.other_duration_sources) counts.push("other source");
+  return name + (counts.length ? ` (${counts.join(", ")})` : "");
+}
 function selectedDefinition() { return definitions.find(row => row.slug === $("condition").value); }
 async function refreshTargets() {
   const oldCombat = $("combat").value, oldTarget = $("target").value;
@@ -95,7 +100,7 @@ function renderActive() {
   if (view.persistent_groups.some(row => row.gm_choice_needed)) guide.append(el("p", "Overlapping same-type persistent damage has incomparable amounts. GM chooses which source applies; do not add them.", "warning"));
   for (const row of view.upcoming) {
     const controller = (currentCombat()?.combatants || targets.subjects).find(actor => actor.id === row.controller_id)?.name || `creature ${row.controller_id}`;
-    guide.append(el("p", `Upcoming: ${row.slug.replaceAll("-", " ")} · ${row.event} of ${controller}'s turn${row.rounds_remaining ? ` · ${row.rounds_remaining} round(s)` : ""}.`, "warning"));
+    guide.append(el("p", row.rounds_remaining === 0 ? `${row.slug.replaceAll("-", " ")}: counter at 0; review and remove manually when appropriate.` : `Upcoming: ${row.slug.replaceAll("-", " ")} · ${row.event} of ${controller}'s turn${row.rounds_remaining != null ? ` · ${row.rounds_remaining} round(s)` : ""}.`, "warning"));
   }
   guide.append(el("p", p.notes, "hint"));
 }
@@ -119,7 +124,10 @@ async function showReminders(event) {
     if (row.kind === "stunned_reduce") item.append(btn("Confirm Stunned action loss", () => reduce(row.instance_id, row.amount)));
     if (row.kind === "persistent") item.append(btn("Recovery failed", () => recovery(row.instance_id, false)), btn("Recovery succeeded", () => recovery(row.instance_id, true)));
     if (row.kind === "persistent_choice") item.append(el("span", "Choose the stronger source in the active list below.", "hint"));
-    if (row.kind === "round") item.append(btn("Confirm round tick", async () => { const entry = view.instances.find(x => x.id === row.instance_id); if (entry.rounds_remaining <= 1) await remove(entry.id); else await change(entry.id, {rounds_remaining:entry.rounds_remaining - 1}); }));
+    if (row.kind === "round") {
+      if (currentCombat()) item.append(el("span", "Counts down when this turn advances in Combat Tracker.", "hint"));
+      else item.append(btn("Confirm round tick", async () => { const entry = view.instances.find(x => x.id === row.instance_id); await change(entry.id, {rounds_remaining:Math.max(0, entry.rounds_remaining - 1)}); }));
+    }
     if (row.kind === "expiration") item.append(btn("Confirm end", () => remove(row.instance_id)));
     box.append(item); });
 }

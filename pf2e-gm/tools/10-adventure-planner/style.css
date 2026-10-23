@@ -1,0 +1,37 @@
+#planner { max-width: 1200px; margin: 0 auto; padding: 1rem 0 3rem; color: #203344; }
+#planner h1 { margin: .3rem 0; }
+#planner h2 { margin: .1rem 0 .55rem; font-size: 1.2rem; }
+#planner h3 { margin: .7rem 0 .3rem; }
+#planner p { margin: .4rem 0; }
+#planner .card { background: #fff; border: 1px solid #c9d3db; border-radius: .65rem; padding: 1rem; margin: .8rem 0; }
+#planner .card.is-done { background: #e4f5e9; border-color: #a5d6b1; }
+#planner .row { display: flex; justify-content: space-between; align-items: flex-start; gap: .8rem; flex-wrap: wrap; }
+#planner .toolbar { align-items: center; }
+#planner .actions, #planner .tool-links { display: flex; gap: .35rem; flex-wrap: wrap; align-items: center; }
+#planner button, #planner input, #planner select, #planner textarea { font: inherit; }
+#planner button { border: 1px solid #43718c; color: #153d55; background: #eaf3f7; border-radius: .4rem; padding: .4rem .65rem; cursor: pointer; }
+#planner button:hover { background: #d6e8f0; }
+#planner button:disabled { opacity: .5; cursor: default; }
+#planner button.danger { border-color: #a65c58; color: #7b2520; background: #fff5f3; }
+#planner label { display: inline-flex; flex-direction: column; gap: .2rem; font-weight: 600; min-width: 10rem; }
+#planner label.inline, #planner .checkgrid label { flex-direction: row; align-items: center; font-weight: 400; min-width: auto; }
+#planner input:not([type=checkbox]):not([type=file]), #planner select, #planner textarea { box-sizing: border-box; width: 100%; padding: .45rem; border: 1px solid #9dabb5; border-radius: .3rem; background: white; color: #152c3b; }
+#planner textarea { min-height: 3.5rem; }
+#planner .editor form { display: grid; grid-template-columns: repeat(auto-fit,minmax(230px,1fr)); gap: .7rem; }
+#planner .editor fieldset, #planner .editor .actions { grid-column: 1 / -1; }
+#planner fieldset { border: 1px solid #c9d3db; border-radius: .4rem; }
+#planner .checkgrid { display: flex; flex-wrap: wrap; gap: .5rem 1rem; }
+#planner .compact-form { display: flex; flex-wrap: wrap; align-items: end; gap: .5rem; margin: .6rem 0; }
+#planner .compact-form label { flex: 1 1 150px; }
+#planner .quick-notes { display: flex; width: 100%; margin: .7rem 0; }
+#planner .list article, #planner section.card > article { padding: .65rem 0; border-top: 1px solid #e0e6ea; }
+#planner .list article.is-done, #planner section.card > article.is-done { background: #e4f5e9; border: 1px solid #a5d6b1; border-radius: .45rem; padding: .65rem; margin: .45rem 0; }
+#planner .pill.is-done { background: #c5eacf; color: #154b2b; }
+#planner small, #planner .muted { color: #536875; }
+#planner small { display: block; }
+#planner .pill { background: #e7edf1; border-radius: 2rem; padding: .15rem .5rem; font-size: .8rem; white-space: nowrap; }
+#planner .warning { color: #9b330c; }
+#planner .event-list { margin: .5rem 0; }
+#planner .event-list > div { border-top: 1px solid #e0e6ea; padding: .3rem 0; }
+#planner .tool-links a { display: inline-block; padding: .4rem .6rem; background: #eaf3f7; border-radius: .4rem; }
+@media (max-width: 700px) { #planner .actions { width: 100%; } #planner .compact-form label { flex-basis: 100%; } }

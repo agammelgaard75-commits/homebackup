@@ -7,11 +7,11 @@ import re
 KINDS = {"PC", "NPC", "monster"}
 
 
-def new_combat(name: str, source_encounter_id: int | None = None) -> dict:
+def new_combat(name: str, source_encounter_id: int | None = None, party_id: int | None = None) -> dict:
     if not name.strip() or len(name.strip()) > 120:
         raise ValueError("Enter a combat name of at most 120 characters")
     return {
-        "name": name.strip(), "status": "active", "source_encounter_id": source_encounter_id,
+        "name": name.strip(), "status": "active", "source_encounter_id": source_encounter_id, "party_id": party_id,
         "round": 1, "turns_started": False, "active_id": None,
         "order": [], "pending": [], "delayed": [], "delayed_since_round": {},
         "next_combatant_id": 1, "combatants": [],
@@ -75,7 +75,8 @@ def _number_duplicates(state: dict, base_name: str) -> str:
 
 def add_combatant(state: dict, name: str, kind: str, initiative: int | None = None,
                   max_hp: int | None = None, current_hp: int | None = None,
-                  notes: str = "") -> dict:
+                  notes: str = "", party_member_id: int | None = None,
+                  class_name: str = "") -> dict:
     if not name.strip() or len(name.strip()) > 120 or kind not in KINDS:
         raise ValueError("Enter a name and choose PC, NPC, or monster")
     if initiative is not None and (not isinstance(initiative, int) or isinstance(initiative, bool)):
@@ -91,6 +92,7 @@ def add_combatant(state: dict, name: str, kind: str, initiative: int | None = No
     state["next_combatant_id"] += 1
     actor = {
         "id": ident, "name": actual_name, "type": kind, "initiative": initiative,
+        "party_member_id": party_member_id, "class_name": class_name,
         "max_hp": max_hp, "current_hp": current_hp, "temp_hp": 0,
         "actions_remaining": 0, "reaction_remaining": 0, "attack_count": 0,
         "notes": notes, "effects": [],
@@ -101,6 +103,41 @@ def add_combatant(state: dict, name: str, kind: str, initiative: int | None = No
         state["pending"].append(ident)
     _resort(state)
     return actor
+
+
+def import_party_members(state: dict, party_id: int, members: list[dict]) -> int:
+    """Copy missing roster PCs into one running combat; repeated imports are safe."""
+    if state.get("party_id") not in (None, party_id):
+        raise ValueError("This combat is already linked to another party")
+    if state["status"] == "ended":
+        raise ValueError("Resume this combat before adding PCs")
+    existing = {actor.get("party_member_id") for actor in state["combatants"] if actor.get("party_member_id") is not None}
+    added = 0
+    for member in members:
+        if member["id"] in existing:
+            continue
+        add_combatant(state, member["name"], "PC", max_hp=member["max_hp"],
+                      current_hp=member["current_hp"], notes=member["notes"],
+                      party_member_id=member["id"], class_name=member["class_name"])
+        added += 1
+    state["party_id"] = party_id
+    return added
+
+
+def import_monster(state: dict, monster_id: int, monster: dict, quantity: int = 1, notes: str = "") -> None:
+    """Copy a library monster as independent combat instances."""
+    if state["status"] == "ended":
+        raise ValueError("Resume this combat before adding monsters")
+    if not 1 <= quantity <= 100:
+        raise ValueError("Quantity must be from 1 to 100")
+    optional = {key: value for key, value in monster.items()
+                if key not in {"name", "level", "max_hp"} and value not in (None, "", [], {})}
+    for _ in range(quantity):
+        actor = add_combatant(state, monster["name"], "monster", max_hp=monster["max_hp"],
+                              current_hp=monster["max_hp"], notes=notes or monster.get("notes", ""))
+        actor["monster_id"] = monster_id
+        actor["monster_level"] = monster["level"]
+        actor["monster_stats"] = optional
 
 
 def next_turn(state: dict) -> None:

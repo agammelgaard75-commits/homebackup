@@ -1,12 +1,18 @@
 # Combat Tracker
 
+Round-duration conditions from Conditions Tracker appear in combatant labels, such as `Blinded (3)`. Advancing a turn decreases each count at its selected controller's start or end of turn. The count stops at 0 and the condition stays in place until the GM removes it.
+
 A local Pathfinder 2e Remaster combat bookkeeping tool. Open **Combat Tracker** from the dashboard.
 
 ## Start and resume
 
 - **Create empty combat** starts a named combat with no combatants. Add PCs, NPCs, and monsters manually. Name, type, initiative, maximum HP, and current HP can be entered when adding; initiative and HP may be left blank until known. Quantity adds multiple combatants and numbers duplicate names, such as Spider 1 and Spider 2.
 - **Create from encounter** copies the name, creature names, quantities, and notes from a saved Phase 4 encounter into a separate combat. Imported creatures have no initiative or HP. Editing combat never changes the saved encounter definition.
+- **Party PCs** selects a shared roster created in Adventure Planner. Creating an empty combat or importing an encounter copies those PCs with their names, classes, HP, and notes; initiative remains blank. **Add missing party PCs** adds new roster members to an existing combat without duplicating previously imported PCs. Existing manually added PCs are not changed.
+- **Monster Library** copies any saved monster into the current combat at full HP, including available optional statistics. Missing AC, saves, or attacks remain unknown and never prevent use. Encounter imports also copy full HP for creature groups linked to a library monster. These are independent combat snapshots; damage never changes the library.
 - **Saved combats** loads any combat history. The browser also reopens its most recently used combat when available. Every edit is saved to SQLite automatically. **Save now** explicitly writes the current state, **End encounter** keeps its history, **Resume** makes an ended combat editable again, and **Delete saved combat** removes that history.
+
+Combat HP is independent of roster HP. After reviewing current and maximum HP, use **Update party HP from combat** and confirm to copy those values to the roster. This can be done after an encounter ends. A deleted roster PC remains in any existing combat snapshot.
 
 ## During a round
 
@@ -18,7 +24,11 @@ The optional attack counter shows the next standard and agile multiple attack pe
 
 Select any combatant to apply damage or healing, spend an off-turn reaction, edit notes, and add or remove short effect labels with optional duration text. Damage consumes temporary HP before regular HP. Healing stops at maximum HP and damage stops at 0 HP. At 0 HP the page highlights the combatant and reminds the GM to consult the knockout and dying rules. Effects and duration text never expire automatically. Maximum, current, and temporary HP can also be edited directly in the initiative row.
 
-The selected combatant panel also has a quick **Add condition** picker. Structured rules conditions appear as labels beside combatants and link to the [Conditions Tracker](../06-conditions/README.md), where you can edit sources, values, and durations. The Combat Tracker can remove a selected condition source. Turn transitions show advisory condition reminders, including Frightened reduction and persistent damage recovery; confirm those changes explicitly. Other manual effect labels and notes remain separate from structured conditions.
+**Monster details** links appear beside monster combatants in the initiative list and selected panel. They open a read-only page in a new tab with all available statistics, attacks, abilities, spells, source, and notes from that combat's saved monster copy. A manual monster shows the information entered for it. The page links back to the same saved combat and, when available, to the current Monster Library record. Library edits do not change the combat copy.
+
+The selected combatant panel also has a quick **Add condition** picker. Structured rules conditions appear as labels beside combatants and link to the [Conditions Tracker](../06-conditions/README.md), where you can edit sources, values, and durations. The Combat Tracker can remove a selected condition source. Turn reminders now appear inside the **affected combatant's initiative row**, including Frightened reduction and persistent damage recovery. Confirm those changes explicitly. Other manual effect labels and notes remain separate from structured conditions.
+
+For a condition set to **Number of rounds**, choose the creature whose turn controls the countdown and whether it ticks at the start or end of that creature's turn. The count does not change just because the round number advances. When it reaches **0**, a highlighted reminder appears on the affected combatant and remains after reload until the GM removes that condition source. Reaching 0 never removes the condition automatically. Start/end turn prompts are shown on the affected combatant when their chosen event occurs.
 
 The selected panel also links to the [Healing & Death Helper](../07-healing-death/README.md). At the start of a Dying combatant's turn, the tracker displays its recovery DC and a link to preview and confirm the check. HP and death-related conditions changed in that helper appear here when the combat is refreshed. A knocked-out character's initiative move is an optional confirmed action in the helper.
 

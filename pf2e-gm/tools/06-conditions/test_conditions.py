@@ -226,3 +226,84 @@ def test_multiple_turns_keep_reminders_manual(client):
     state = c.get(f"/api/combat-tracker/combats/{combat_id}").json()
     assert state["round"] >= 4
     assert not any(row["slug"] == "frightened" for row in active(c,combat_id,actor_id)["instances"])
+
+
+def test_round_duration_counts_on_controller_turn_and_stays_at_zero(client):
+    c, path = client
+    combat_id, hero_id = combatant(c)
+    c.post(f"/api/combat-tracker/combats/{combat_id}/command",
+           json={"op": "set_initiative", "combatant_id": hero_id, "initiative": 10})
+    opponent = c.post(f"/api/combat-tracker/combats/{combat_id}/command",
+                      json={"op": "add", "name": "Spider", "type": "monster", "initiative": 1}).json()["combatants"][-1]["id"]
+    condition_id = add(c, combat_id, hero_id, "blinded", source="Spell", duration_kind="rounds",
+                       controller_id=hero_id, duration_event="end", rounds_remaining=3)
+    add(c, combat_id, hero_id, "dazzled", source="Web", duration_kind="rounds",
+        controller_id=opponent, duration_event="start", rounds_remaining=2)
+    add(c, combat_id, hero_id, "blinded", source="Other spell", duration_kind="rounds",
+        controller_id=opponent, duration_event="end", rounds_remaining=5)
+    add(c, combat_id, hero_id, "blinded", source="Ongoing curse")
+
+    def rounds(slug, source):
+        return next(row["rounds_remaining"] for row in active(c, combat_id, hero_id)["instances"]
+                    if row["slug"] == slug and row["source"] == source)
+
+    summary = c.get(f"/api/conditions/combat/{combat_id}/summary").json()[str(hero_id)]
+    blinded = next(row for row in summary["visible"] if row["slug"] == "blinded")
+    assert blinded["round_counts"] == [3, 5]
+    assert blinded["other_duration_sources"] == 1
+    assert rounds("blinded", "Spell") == 3
+    # Hero end and Spider start each tick their own controlled durations once.
+    c.post(f"/api/combat-tracker/combats/{combat_id}/command", json={"op": "next_turn"})
+    assert (rounds("blinded", "Spell"), rounds("dazzled", "Web"), rounds("blinded", "Other spell")) == (2, 1, 5)
+    c.post(f"/api/combat-tracker/combats/{combat_id}/command", json={"op": "next_turn"})
+    assert (rounds("blinded", "Spell"), rounds("dazzled", "Web"), rounds("blinded", "Other spell")) == (2, 1, 4)
+    assert c.post(f"/api/combat-tracker/combats/{combat_id}/command", json={"op":"actions","combatant_id":hero_id,"amount":99}).status_code == 422
+    assert rounds("blinded", "Spell") == 2
+    for _ in range(4):
+        c.post(f"/api/combat-tracker/combats/{combat_id}/command", json={"op": "next_turn"})
+    assert rounds("blinded", "Spell") == 0
+    assert rounds("dazzled", "Web") == 0
+    zero = c.get(f"/api/conditions/combat/{combat_id}/summary").json()[str(hero_id)]["zero_rounds"]
+    assert {row["slug"] for row in zero} == {"blinded", "dazzled"}
+    assert next(row for row in zero if row["instance_id"] == condition_id)["source"] == "Spell"
+    assert all(row["kind"] == "round_expired" and "0 rounds" in row["text"] for row in zero)
+    for _ in range(4):
+        c.post(f"/api/combat-tracker/combats/{combat_id}/command", json={"op": "next_turn"})
+    assert rounds("blinded", "Spell") == 0
+    assert rounds("dazzled", "Web") == 0
+    assert any(row["id"] == condition_id for row in active(c, combat_id, hero_id)["instances"])
+    assert not any(row["kind"] == "round" and row["instance_id"] == condition_id
+                   for row in c.get("/api/conditions/reminders", params={"combat_id":combat_id,"combatant_id":hero_id,
+                                                                          "event":"end","actor_id":hero_id}).json())
+    with TestClient(create_app(db_path=path)) as restarted:
+        assert next(row["rounds_remaining"] for row in active(restarted, combat_id, hero_id)["instances"]
+                    if row["id"] == condition_id) == 0
+        persisted = restarted.get(f"/api/conditions/combat/{combat_id}/summary").json()[str(hero_id)]["zero_rounds"]
+        assert any(row["instance_id"] == condition_id for row in persisted)
+        assert restarted.delete(f"/api/conditions/active/{condition_id}").status_code == 204
+        assert not any(row["instance_id"] == condition_id for row in restarted.get(
+            f"/api/conditions/combat/{combat_id}/summary").json()[str(hero_id)]["zero_rounds"])
+
+
+def test_combat_reminders_are_presented_on_combatants(client):
+    c, _ = client
+    page = c.get("/tools/combat-tracker").text
+    script = c.get("/tools/combat-tracker/app.js").text
+    assert 'id="condition-reminders"' not in page
+    assert "Turn reminders appear on the affected combatant" in page
+    assert 'reminders.dataset.combatantId = String(id)' in script
+    assert "conditionSummary[String(item.id)]?.zero_rounds" in script
+    assert "Remove condition source" in script
+
+
+def test_standalone_round_counter_can_be_set_to_zero(client):
+    c, _ = client
+    subject = c.post("/api/conditions/subjects", json={"name":"Scout"}).json()["id"]
+    row = c.post("/api/conditions/active", json={"subject_id":subject,"slug":"blinded",
+                   "duration_kind":"rounds","controller_id":subject,"rounds_remaining":1})
+    assert row.status_code == 201, row.text
+    ident = row.json()["id"]
+    assert c.patch(f"/api/conditions/active/{ident}", json={"rounds_remaining":0}).status_code == 200
+    current = c.get("/api/conditions/active", params={"subject_id":subject}).json()
+    assert current["instances"][0]["rounds_remaining"] == 0
+    assert current["visible"][0]["round_counts"] == [0]

@@ -23,8 +23,8 @@ def test_dashboard_and_every_tool_page(tmp_path: Path) -> None:
             assert page.status_code == 200
             assert tool.name in unescape(page.text)
             assert tool.purpose in unescape(page.text)
-            if tool.slug in {"rules-reference", "dc-helper", "encounter-builder", "combat-tracker", "conditions", "healing-death", "exploration", "treasure-xp"}:
-                marker = {"rules-reference": "Search rules", "dc-helper": "Final DC", "encounter-builder": "Total creature XP", "combat-tracker": "Next Turn", "conditions": "Apply condition", "healing-death": "Recovery check", "exploration": "Travel calculator", "treasure-xp": "Treasure overview"}[tool.slug]
+            if tool.slug in {"rules-reference", "dc-helper", "encounter-builder", "monster-reference", "combat-tracker", "conditions", "healing-death", "exploration", "treasure-xp", "adventure-planner"}:
+                marker = {"rules-reference": "Search rules", "dc-helper": "Final DC", "encounter-builder": "Total creature XP", "monster-reference": "Quick Add", "combat-tracker": "Next Turn", "conditions": "Apply condition", "healing-death": "Recovery check", "exploration": "Travel calculator", "treasure-xp": "Treasure overview", "adventure-planner": "Adventure Planner"}[tool.slug]
                 assert marker in page.text
                 assert "Not implemented yet" not in page.text
             else:

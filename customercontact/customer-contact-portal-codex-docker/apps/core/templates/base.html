@@ -1,0 +1,31 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Customer Portal{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/portal.css' %}">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="{% url 'core:home' %}"><span class="brand-mark" aria-hidden="true">CP</span> Customer Portal</a>
+    {% if user.is_authenticated %}
+    <nav aria-label="Main navigation">
+      <a href="{% url 'core:home' %}" {% if request.path == '/' %}aria-current="page"{% endif %}>Home</a>
+      {% if perms.customers.view_customer %}<a href="{% url 'customers:list' %}" {% if request.resolver_match.app_name == 'customers' %}aria-current="page"{% endif %}>Customers</a>{% endif %}
+      <span class="planned" title="Available in a future phase">Services <small>Planned</small></span>
+      <span class="planned" title="Available in a future phase">Search <small>Planned</small></span>
+      {% if perms.accounts.administer_portal %}<a href="{% url 'admin:index' %}">Administration</a>{% endif %}
+    </nav>
+    <div class="account"><span>{{ user.get_username }}</span><form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<button class="secondary" type="submit">Sign out</button></form></div>
+    {% endif %}
+  </header>
+  <main id="main" tabindex="-1">
+    {% for message in messages %}<p class="notice" role="status">{{ message }}</p>{% endfor %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer>Customer Contact Portal <span>Internal staff access</span></footer>
+</body>
+</html>

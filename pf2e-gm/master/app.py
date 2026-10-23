@@ -11,6 +11,7 @@ from fastapi.staticfiles import StaticFiles
 from master.pages import dashboard, placeholder
 from master.registry import discover_tools
 from shared.database.storage import initialize_database
+from shared.party_roster import register as register_party_roster
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -39,6 +40,7 @@ def create_app(db_path: Path | None = None, tool_root: Path | None = None) -> Fa
 
     app = FastAPI(title="PF2e GM Toolkit", lifespan=lifespan)
     app.state.database_path = database_path
+    register_party_roster(app, database_path)
     app.mount("/static", StaticFiles(directory=PROJECT_ROOT / "shared" / "ui"), name="static")
     for module in tool_modules:
         module.register(app, database_path)

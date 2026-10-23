@@ -11,6 +11,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from master.pages import layout
 from shared.database.storage import connect
+from shared.party_roster import members, require_party
 
 
 FOLDER = Path(__file__).resolve().parent
@@ -24,6 +25,12 @@ spec.loader.exec_module(logic)
 class NewCombat(BaseModel):
     name: str = Field(default="New combat", max_length=120)
     source_encounter_id: int | None = Field(default=None, strict=True, gt=0)
+    party_id: int | None = Field(default=None, strict=True, gt=0)
+
+
+class MonsterImport(BaseModel):
+    monster_id: int = Field(strict=True, gt=0)
+    quantity: int = Field(default=1, strict=True, ge=1, le=100)
 
 
 class Command(BaseModel):
@@ -80,6 +87,7 @@ def page() -> str:
         <button id="new-combat" type="button">Create empty combat</button>
         <label>Phase 4 encounter<select id="source-list"><option value="">Choose saved encounter</option></select></label>
         <button id="import-combat" type="button">Create from encounter</button>
+        <label>Party PCs<select id="party-list"><option value="">No party selected</option></select></label>
         <label>Saved combats<select id="combat-list"><option value="">Choose saved combat</option></select></label>
         <button id="load-combat" type="button">Load combat</button>
       </div>
@@ -95,16 +103,19 @@ def page() -> str:
         <div><span>Active combatant</span><strong id="active-name">—</strong></div>
         <button id="next-turn" type="button" class="next-turn">Next Turn</button>
       </section>
-      <section class="combat-card" aria-live="polite"><h2>Turn and condition reminders</h2><div id="condition-reminders"><p class="hint">No turn reminders.</p></div></section>
       <div class="combat-grid">
         <div>
           <section class="combat-card">
-            <h2>Initiative order</h2><p class="hint">Highest first. Enemies normally win ties against PCs. Use arrows for manual order changes; edits save automatically.</p>
+            <h2>Initiative order</h2><p class="hint">Highest first. Enemies normally win ties against PCs. Use arrows for manual order changes; edits save automatically. Turn reminders appear on the affected combatant. Round counters tick at the chosen creature's start or end of turn, not when the round number changes. At 0, a review reminder stays until you remove the condition.</p>
             <div id="initiative-list"></div>
             <h3>Delayed combatants</h3><div id="delayed-list"></div>
           </section>
           <section class="combat-card">
             <h2>Add combatants</h2>
+            <div class="control-buttons"><button id="add-party" type="button">Add missing party PCs</button><button id="sync-party-hp" type="button">Update party HP from combat</button></div>
+            <p class="hint">Party PCs are copied into this combat. Initiative starts blank. HP changes here update the roster only when you choose to copy them back.</p>
+            <div class="control-buttons"><label>Monster Library<select id="monster-library"><option value="">Choose saved monster</option></select></label><button id="add-library-monster" type="button">Add library monster</button></div>
+            <p class="hint">Library monsters start at full HP. Their combat HP changes do not alter the library.</p>
             <div class="add-grid"><label>Name<input id="add-name" maxlength="120" placeholder="Spider"></label><label>Type<select id="add-type"><option>PC</option><option>NPC</option><option selected>monster</option></select></label><label>Quantity<input id="add-quantity" type="number" min="1" max="100" value="1"></label><label>Initiative<input id="add-initiative" type="number" placeholder="Optional"></label><label>Max HP<input id="add-max-hp" type="number" min="1" placeholder="Optional"></label><label>Current HP<input id="add-current-hp" type="number" min="0" placeholder="Optional"></label></div>
             <button id="add-combatant" type="button">Add combatant</button>
           </section>
@@ -131,6 +142,34 @@ def register(app: FastAPI, database_path: Path) -> None:
     def combat_page() -> str:
         return page()
 
+    @app.get("/tools/combat-tracker/combats/{combat_id}/monsters/{combatant_id}", response_class=HTMLResponse)
+    def combat_monster_detail(combat_id: int, combatant_id: int) -> str:
+        with closing(connect(database_path)) as connection:
+            row = connection.execute("SELECT state_json FROM combat_sessions WHERE id=?", (combat_id,)).fetchone()
+            if row is None:
+                raise HTTPException(404, "Combat not found")
+            state = json.loads(row[0])
+            actor = next((item for item in state["combatants"] if item["id"] == combatant_id), None)
+            if actor is None or (actor.get("type") != "monster" and actor.get("monster_id") is None):
+                raise HTTPException(404, "Monster combatant not found")
+            monster_id = actor.get("monster_id")
+            lookup = getattr(app.state, "monster_lookup", None)
+            library_href = (f"/tools/monster-reference/monsters/{monster_id}"
+                            if monster_id and lookup and lookup(connection, monster_id) else "")
+        render = getattr(app.state, "monster_detail_page", None)
+        if render is None:
+            raise HTTPException(404, "Monster details are unavailable")
+        snapshot = {**(actor.get("monster_stats") or {}), "name": actor["name"],
+                    "level": actor.get("monster_level"), "max_hp": actor.get("max_hp")}
+        if not monster_id:
+            snapshot["notes"] = actor.get("notes", "")
+        context = (f"Combat snapshot from {state['name']}. Current HP: {actor.get('current_hp') if actor.get('current_hp') is not None else '—'}. "
+                   "Changes to the Monster Library do not alter this saved combatant."
+                   if monster_id else f"Manual monster in {state['name']}. No library stat block was copied for this combatant.")
+        return render(snapshot, back_href=f"/tools/combat-tracker?combat_id={combat_id}",
+                      back_label="Combat Tracker", context=context, library_href=library_href,
+                      combat_notes=actor.get("notes", "") if monster_id and actor.get("notes") != snapshot.get("notes") else "")
+
     @app.get("/tools/combat-tracker/style.css")
     def style() -> FileResponse:
         return FileResponse(FOLDER / "style.css", media_type="text/css")
@@ -154,25 +193,89 @@ def register(app: FastAPI, database_path: Path) -> None:
     @app.post("/api/combat-tracker/combats", status_code=201)
     def create_combat(values: NewCombat) -> dict:
         try:
-            state = logic.new_combat(values.name, values.source_encounter_id)
+            state = logic.new_combat(values.name, values.source_encounter_id, values.party_id)
         except ValueError as error:
             raise HTTPException(status_code=422, detail=str(error)) from error
         with closing(connect(database_path)) as connection, connection:
+            if values.party_id is not None:
+                require_party(connection, values.party_id)
             if values.source_encounter_id is not None:
                 row = connection.execute("SELECT name FROM encounters WHERE id = ?", (values.source_encounter_id,)).fetchone()
                 if row is None:
                     raise HTTPException(status_code=404, detail="Saved encounter not found")
                 state["name"] = row[0]
-                groups = connection.execute("SELECT name, quantity, notes FROM encounter_creatures WHERE encounter_id = ? ORDER BY position, id", (values.source_encounter_id,)).fetchall()
-                for name, quantity, notes in groups:
-                    for _ in range(quantity):
-                        logic.add_combatant(state, name, "monster", notes=notes)
+                groups = connection.execute("SELECT name, quantity, notes, monster_id FROM encounter_creatures WHERE encounter_id = ? ORDER BY position, id", (values.source_encounter_id,)).fetchall()
+                monster_lookup = getattr(app.state, "monster_lookup", None)
+                for name, quantity, notes, monster_id in groups:
+                    monster = monster_lookup(connection, monster_id) if monster_id is not None and monster_lookup else None
+                    if monster:
+                        logic.import_monster(state, monster_id, monster, quantity, notes)
+                    else:
+                        for _ in range(quantity):
+                            logic.add_combatant(state, name, "monster", notes=notes)
+            if values.party_id is not None:
+                logic.import_party_members(state, values.party_id, members(connection, values.party_id))
             cursor = connection.execute(
                 "INSERT INTO combat_sessions (name, status, source_encounter_id, state_json) VALUES (?, ?, ?, ?)",
                 (state["name"], state["status"], state["source_encounter_id"], json.dumps(state)),
             )
             ident = cursor.lastrowid
         return _view(ident, state)
+
+    @app.post("/api/combat-tracker/combats/{combat_id}/monsters")
+    def add_library_monster(combat_id: int, values: MonsterImport) -> dict:
+        with closing(connect(database_path)) as connection, connection:
+            row = connection.execute("SELECT state_json FROM combat_sessions WHERE id=?", (combat_id,)).fetchone()
+            if row is None:
+                raise HTTPException(404, "Combat not found")
+            monster_lookup = getattr(app.state, "monster_lookup", None)
+            monster = monster_lookup(connection, values.monster_id) if monster_lookup else None
+            if monster is None:
+                raise HTTPException(404, "Monster not found")
+            state = json.loads(row[0])
+            try:
+                logic.import_monster(state, values.monster_id, monster, values.quantity)
+            except ValueError as error:
+                raise HTTPException(422, str(error)) from error
+            connection.execute("UPDATE combat_sessions SET state_json=?,updated_at=CURRENT_TIMESTAMP WHERE id=?", (json.dumps(state), combat_id))
+            return _view(combat_id, state)
+
+    @app.post("/api/combat-tracker/combats/{combat_id}/party/{party_id}")
+    def add_party_to_combat(combat_id: int, party_id: int) -> dict:
+        with closing(connect(database_path)) as connection, connection:
+            require_party(connection, party_id)
+            row = connection.execute("SELECT state_json FROM combat_sessions WHERE id=?", (combat_id,)).fetchone()
+            if row is None:
+                raise HTTPException(404, "Combat not found")
+            state = json.loads(row[0])
+            try:
+                added = logic.import_party_members(state, party_id, members(connection, party_id))
+            except ValueError as error:
+                raise HTTPException(422, str(error)) from error
+            connection.execute("UPDATE combat_sessions SET state_json=?,updated_at=CURRENT_TIMESTAMP WHERE id=?", (json.dumps(state), combat_id))
+            return {"added": added, "combat": _view(combat_id, state)}
+
+    @app.post("/api/combat-tracker/combats/{combat_id}/sync-party-hp")
+    def sync_party_hp(combat_id: int) -> dict:
+        """Explicit GM action; combat never updates shared roster HP automatically."""
+        with closing(connect(database_path)) as connection, connection:
+            row = connection.execute("SELECT state_json FROM combat_sessions WHERE id=?", (combat_id,)).fetchone()
+            if row is None:
+                raise HTTPException(404, "Combat not found")
+            state = json.loads(row[0])
+            party_id = state.get("party_id")
+            if party_id is None:
+                raise HTTPException(422, "This combat has no linked party")
+            updated = []
+            for actor in state["combatants"]:
+                member_id = actor.get("party_member_id")
+                if actor["type"] != "PC" or member_id is None or actor["current_hp"] is None or actor["max_hp"] is None:
+                    continue
+                cursor = connection.execute("UPDATE party_members SET max_hp=?,current_hp=? WHERE id=? AND party_id=?",
+                                            (actor["max_hp"], actor["current_hp"], member_id, party_id))
+                if cursor.rowcount:
+                    updated.append({"id": member_id, "name": actor["name"], "max_hp": actor["max_hp"], "current_hp": actor["current_hp"]})
+            return {"updated": updated}
 
     @app.get("/api/combat-tracker/combats/{combat_id}")
     def get_combat(combat_id: int) -> dict:
@@ -190,7 +293,13 @@ def register(app: FastAPI, database_path: Path) -> None:
                 row = connection.execute("SELECT state_json FROM combat_sessions WHERE id = ?", (combat_id,)).fetchone()
                 if row is None:
                     raise HTTPException(status_code=404, detail="Combat not found")
-                state = logic.apply(json.loads(row[0]), values.model_dump(exclude_unset=True))
+                before = json.loads(row[0])
+                state = logic.apply(before, values.model_dump(exclude_unset=True))
+                tick = getattr(app.state, "condition_round_tick", None)
+                if tick is not None and values.op in {"next_turn", "ready", "delay"} and before["active_id"] is not None:
+                    tick(connection, combat_id, before["active_id"], "end")
+                    if state["active_id"] is not None:
+                        tick(connection, combat_id, state["active_id"], "start")
                 if values.op == "remove" and connection.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='active_conditions'").fetchone():
                     connection.execute("DELETE FROM active_conditions WHERE combat_id=? AND combatant_id=?", (combat_id, values.combatant_id))
                 if values.op == "remove" and connection.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='healing_profiles'").fetchone():

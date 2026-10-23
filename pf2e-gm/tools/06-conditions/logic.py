@@ -23,8 +23,11 @@ def visible(instances: list[dict]) -> list[dict]:
     result = {}
     for slug, sources in groups.items():
         chosen = max(sources, key=lambda row: row.get("value") or 0)
+        round_sources = [row for row in sources if row.get("duration_kind") == "rounds" and row.get("rounds_remaining") is not None]
         result[slug] = {"slug": slug, "value": chosen.get("value"),
                         "source_ids": [row["id"] for row in sources],
+                        "round_counts": [row["rounds_remaining"] for row in round_sources],
+                        "other_duration_sources": len(sources) - len(round_sources),
                         "implied_by": [], "overridden": False}
     if "restrained" in result and "grabbed" in result:
         result["grabbed"]["overridden"] = True
@@ -39,7 +42,8 @@ def visible(instances: list[dict]) -> list[dict]:
         visited.add(parent)
         for child in IMPLIES.get(parent, ()):
             row = result.setdefault(child, {"slug": child, "value": 1 if child == "clumsy" else None,
-                                            "source_ids": [], "implied_by": [], "overridden": False})
+                                            "source_ids": [], "round_counts": [], "other_duration_sources": 0,
+                                            "implied_by": [], "overridden": False})
             if parent not in row["implied_by"]:
                 row["implied_by"].append(parent)
             if child == "clumsy":
@@ -83,6 +87,15 @@ def upcoming(instances: list[dict]) -> list[dict]:
                            "controller_id": row.get("controller_id"), "event": event,
                            "rounds_remaining": row.get("rounds_remaining")})
     return result
+
+
+def zero_round_reminders(instances: list[dict]) -> list[dict]:
+    """Keep finished round counters visible until their source is removed."""
+    return [{"instance_id": row["id"], "kind": "round_expired", "slug": row["slug"],
+             "source": row.get("source") or "", "controller_id": row.get("controller_id"),
+             "duration_event": row.get("duration_event"),
+             "text": f"{row['slug'].replace('-', ' ').title()} (0 rounds): counter finished. Review the effect; remove it manually when it ends."}
+            for row in instances if row.get("duration_kind") == "rounds" and row.get("rounds_remaining") == 0]
 
 
 def action_guidance(instances: list[dict]) -> dict:
@@ -130,8 +143,8 @@ def reminders(instances: list[dict], event: str, actor_id: int | None, target_id
         kind = row.get("duration_kind")
         if kind == f"{event}_turn" and row.get("controller_id") == actor_id:
             prompts.append({"instance_id": row["id"], "kind": "expiration", "text": f"Review {slug.replace('-', ' ').title()}: duration reaches {event} of controller's turn."})
-        if kind == "rounds" and row.get("controller_id") == actor_id and row.get("duration_event") == event:
-            prompts.append({"instance_id": row["id"], "kind": "round", "text": f"Review {slug.replace('-', ' ').title()}: {row.get('rounds_remaining')} round(s) remaining; confirm a decrement."})
+        if kind == "rounds" and row.get("rounds_remaining", 0) > 0 and row.get("controller_id") == actor_id and row.get("duration_event") == event:
+            prompts.append({"instance_id": row["id"], "kind": "round", "text": f"Review {slug.replace('-', ' ').title()}: {row['rounds_remaining']} round(s) remaining; tick at this turn event."})
     if actor_id == target_id and event == "start":
         for slug in {row["slug"] for row in instances} & {"slowed", "quickened"}:
             row = next(item for item in instances if item["slug"] == slug)

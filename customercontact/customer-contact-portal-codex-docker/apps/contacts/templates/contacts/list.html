@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Contacts · {{ customer.name }} · Customer Portal{% endblock %}
+{% block content %}
+<a class="back-link" href="{{ customer.get_absolute_url }}">← {{ customer.name }}</a>
+<div class="page-heading"><div><p class="eyebrow">{{ customer.name }}</p><h1>Contacts</h1></div>{% if perms.accounts.edit_portal and perms.contacts.add_contact %}<a class="button" href="{% url 'contacts:create' customer.pk %}">Add contact</a>{% endif %}</div>
+<nav class="customer-tabs" aria-label="Customer sections"><a href="{{ customer.get_absolute_url }}">Overview</a><a href="{% url 'contacts:list' customer.pk %}" aria-current="page">Contacts</a></nav>
+{% if customer.status == 'inactive' %}<p class="notice">This customer is archived. Its contacts and details remain available.</p>{% endif %}
+<section class="panel">
+<form class="filters" method="get" role="search">{% for field in filter_form %}<div class="field">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>{% endfor %}<div class="actions"><button type="submit">Apply filters</button><a href="{% url 'contacts:list' customer.pk %}">Reset</a></div></form>
+{% if filter_form.is_valid %}
+<p class="muted">{{ page_obj.paginator.count }} contact{{ page_obj.paginator.count|pluralize }}</p>
+{% if page_obj.object_list %}<div class="table-scroll" tabindex="0" role="region" aria-label="Customer contacts"><table>
+<thead><tr><th scope="col">Name</th><th scope="col">Role / department</th><th scope="col">Type</th><th scope="col">Email / phone</th><th scope="col">Status</th></tr></thead>
+<tbody>{% for person in page_obj %}<tr>
+<td><a href="{{ person.get_absolute_url }}">{{ person.full_name }}</a></td>
+<td>{{ person.job_title|default:'—' }}{% if person.department %}<br>{{ person.department }}{% endif %}</td>
+<td>{{ person.get_contact_type_display }}</td>
+<td>{% for point in person.active_points %}<div class="contact-value">{{ point.value }} <small>{{ point.get_label_display }}{% if point.is_primary %} · Primary{% endif %}</small></div>{% empty %}No details added{% endfor %}</td>
+<td>{% if person.is_active %}Active{% else %}Archived{% endif %}</td>
+</tr>{% endfor %}</tbody></table></div>
+{% else %}<div class="empty-state"><h2>No contacts found</h2><p>Try another search or status filter, or add a contact if you have editing access.</p></div>{% endif %}
+{% if page_obj.has_other_pages %}<nav class="pagination" aria-label="Contact pages">{% if page_obj.has_previous %}<a href="?{{ filter_query }}&amp;page={{ page_obj.previous_page_number }}">Previous</a>{% endif %}<span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>{% if page_obj.has_next %}<a href="?{{ filter_query }}&amp;page={{ page_obj.next_page_number }}">Next</a>{% endif %}</nav>{% endif %}
+{% endif %}</section>
+{% if filter_form.is_valid %}{% include 'contacts/general.html' %}{% endif %}
+{% endblock %}

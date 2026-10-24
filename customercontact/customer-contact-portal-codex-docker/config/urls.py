@@ -6,5 +6,6 @@ urlpatterns = [
     path("admin/", portal_admin.urls),
     path("accounts/", include("apps.accounts.urls")),
     path("customers/", include("apps.customers.urls")),
+    path("customers/<uuid:customer_pk>/contacts/", include("apps.contacts.urls")),
     path("", include("apps.core.urls")),
 ]

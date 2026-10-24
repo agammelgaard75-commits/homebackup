@@ -20,7 +20,7 @@ Staff browser --HTTPS--> Caddy container --> Django/Gunicorn container --> Postg
 
 Prerequisites: Linux with recent Docker Engine and Docker Compose v2, free TCP ports 80 and 443 on selected bind IP, and local DNS mapping the chosen hostname (e.g. `portal.home.lab`) to the server. Allow HTTPS traffic only from the intended internal networks/VPN. The server will require internet access for pulling images/packages during install, unless these are prepared offline.
 
-**Phases 1 and 2 are implemented:** the Django foundation and customer management run in the existing Docker stack. Contacts and services follow later phases. Production deployment still requires the separate production-readiness approval.
+**Phases 1–3 are implemented:** the Django foundation, customer management and contact management run in the existing Docker stack. Services follow a later phase. Production deployment still requires the separate production-readiness approval.
 
 1. Copy/clone the finished repository to your internal server (e.g. `/opt/customer-contact-portal`). Never copy actual customer data in Git.
 2. `cd /opt/customer-contact-portal`
@@ -106,3 +106,9 @@ During Phase 1 Codex must ensure:
 Use the existing `./scripts/update.sh`; no Compose, Dockerfile, proxy, image-major, volume, or port changes are required. It backs up before applying `customers.0001_initial` and runs `setup_roles` to add customer permissions. Existing staff credentials, group memberships and sessions remain intact. The migration is additive and does not transform existing Phase 1 records. The customer module requires no additional runtime service or dependency.
 
 Customer access is available at `/customers/`. Viewer can read; Editor and Administrator can create, change, archive and reactivate records. The admin customer registration is read-only and links to the main customer UI so writes consistently use the owning app's validated services. Do not manually drop the customer table as a rollback: it contains the new data. Retain the pre-update backup and use the documented matching-code restore procedure if a rollback is needed.
+
+## Phase 3 contact upgrade
+
+Use the unchanged `./scripts/update.sh` to back up, build, explicitly apply the two additive contact migrations and reconcile contact permissions. `contacts.0001_initial` adds people and email/phone detail tables, indexes and primary constraints. `contacts.0002_contact_point_customer_integrity` adds a composite PostgreSQL foreign key protecting customer/person consistency. Neither migration rewrites existing customer or account data. All application writes use the ORM services in the contacts app.
+
+The same three containers, image major versions, published ports, volumes, dependencies and production configuration remain in place. Contact pages are available from each customer's **Contacts** link, with general details also shown on Overview. Details are archived rather than deleted. Viewer can read; Editor and Administrator can add/change/archive/restore. Admin contact inspection is read-only. Review [Phase 3 verification](PHASE3_VERIFICATION.md) before requesting Phase 4.

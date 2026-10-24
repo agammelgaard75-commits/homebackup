@@ -10,6 +10,8 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods, require_safe
 
 from apps.accounts.permissions import permission_required
+from apps.contacts.permissions import READ_PERMISSIONS
+from apps.contacts.selectors import general_contact_points
 
 from .forms import CustomerFilterForm, CustomerForm
 from .models import Customer
@@ -48,7 +50,12 @@ def customer_list(request):
 @require_safe
 @never_cache
 def customer_detail(request, pk):
-    return render(request, "customers/detail.html", {"customer": get_object_or_404(Customer, pk=pk)})
+    customer = get_object_or_404(Customer, pk=pk)
+    contacts_enabled = request.user.has_perms(READ_PERMISSIONS)
+    return render(request, "customers/detail.html", {
+        "customer": customer, "contacts_enabled": contacts_enabled,
+        "general_points": general_contact_points(customer) if contacts_enabled else [],
+    })
 
 
 def _customer_form(request, customer=None):

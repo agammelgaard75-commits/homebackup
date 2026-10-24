@@ -1,0 +1,17 @@
+{% if points %}
+<div class="table-scroll" tabindex="0" role="region" aria-label="Email addresses and phone numbers"><table>
+<thead><tr><th scope="col">Kind</th><th scope="col">Label</th><th scope="col">Value</th><th scope="col">Status</th>{% if perms.accounts.edit_portal and perms.contacts.change_contactpoint %}<th scope="col">Actions</th>{% endif %}</tr></thead>
+<tbody>{% for point in points %}<tr>
+  <td>{{ point.get_kind_display }}</td><td>{{ point.get_label_display }}</td><td class="contact-value">{{ point.value }}{% if point.is_primary and point.is_active %} <span class="badge">Primary</span>{% endif %}</td>
+  <td>{% if point.is_active %}Active{% else %}Archived{% endif %}</td>
+  {% if perms.accounts.edit_portal and perms.contacts.change_contactpoint %}<td><div class="actions">
+    {% if point.contact_id %}
+      <a href="{% url 'contacts:point_edit' customer.pk point.contact_id point.pk %}">Edit</a>
+      {% if point.is_active %}<a href="{% url 'contacts:point_archive' customer.pk point.contact_id point.pk %}">Archive</a>{% else %}<a href="{% url 'contacts:point_restore' customer.pk point.contact_id point.pk %}">Restore</a>{% endif %}
+    {% else %}
+      <a href="{% url 'contacts:general_edit' customer.pk point.pk %}">Edit</a>
+      {% if point.is_active %}<a href="{% url 'contacts:general_archive' customer.pk point.pk %}">Archive</a>{% else %}<a href="{% url 'contacts:general_restore' customer.pk point.pk %}">Restore</a>{% endif %}
+    {% endif %}
+  </div></td>{% endif %}
+</tr>{% endfor %}</tbody></table></div>
+{% else %}<p>No contact details to display.</p>{% endif %}

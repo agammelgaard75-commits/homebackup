@@ -151,3 +151,10 @@ dd { margin: 0; overflow-wrap: anywhere; }
   .details > div { grid-template-columns: minmax(0, 1fr); gap: .3rem; }
   .filters .actions { width: 100%; }
 }
+
+/* Contact pages share the customer layout. */
+.customer-tabs { margin: 0 0 1.5rem; border-bottom: 1px solid #dce4e9; padding: .5rem 0 1rem; }
+.contact-section { margin-top: 1.5rem; }
+.contact-value { overflow-wrap: anywhere; min-width: 10rem; white-space: normal; }
+.contact-value small { display: block; color: #4b6170; }
+.checkbox-field input { width: 1.2rem; height: 1.2rem; }

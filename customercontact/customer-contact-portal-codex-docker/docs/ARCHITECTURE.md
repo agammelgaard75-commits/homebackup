@@ -108,3 +108,21 @@ These functions require an active actor with `accounts.access_portal`, `accounts
 The customer UI owns forms and mutations; its read-only Django admin registration links to the customer pages. Viewer receives `view_customer`; Editor and Administrator also receive `add_customer` and `change_customer`. Managed roles never receive `delete_customer`. All customer routes enforce portal access and model permissions on the server, including direct POST requests. Customer responses disable caching.
 
 `/customers/` defaults to active records, supports name/identifier search, Active/Archived/All status filters, name/recent-update sorting, and 25 records per page. Query parameters survive page navigation. Global cross-module search remains Phase 5.
+
+## Contacts module (Phase 3)
+
+`apps.contacts.services` is the public write boundary:
+
+- `create_contact(actor, customer_id, full_name, job_title="", department="", contact_type="other", notes="")`
+- `update_contact(actor, customer_id, contact_id, full_name, ...)`
+- `set_contact_active(actor, customer_id, contact_id, is_active)`
+- `save_contact_point(actor, customer_id, kind, value, contact_id=None, point_id=None, label="other", is_primary=False)`
+- `set_point_active(actor, customer_id, point_id, is_active, contact_id=None)`
+
+Arguments are keyword-only. Services require an active actor, portal access, customer-view and both contact-view permissions. Mutations additionally require portal-edit and the relevant add/change model permission. Replacing another primary also requires change-contactpoint permission. Managed Viewer has read grants; Editor and Administrator have add/change grants; no managed role gets delete grants. Admin inspection is read-only.
+
+Services lock the owning customer row first to serialize writes/primary selection, but never modify customer records. They validate ownership on every call and preserve immutable owners; point updates cannot move a detail to another person or turn it into a general detail. Validation precedes primary demotion; all changes are atomic, and database uniqueness provides a final safeguard. No business rules run through signals.
+
+Customer-scoped routes live under `/customers/<customer_uuid>/contacts/` and check the full customer/person/detail relationship before rendering or mutating. Contacts templates own both the standalone pages and the general-details partial included in customer overview. The customer view uses read-only selectors and hides contact information from users missing contact permissions. No reverse app-to-app writes are needed.
+
+The customer Contacts page offers name/email/phone search, Active/Archived/All filters, and 25-person pagination with filter preservation. Email/phone search matches active details only; archived people can be found with the Archived filter, and archived individual details remain on the person's details page. General details use the same status/search filters. Cross-module global search and services remain later phases.

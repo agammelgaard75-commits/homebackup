@@ -1,6 +1,6 @@
 # Customer Contact Portal
 
-An internal staff portal built as a Django modular monolith with PostgreSQL and Caddy HTTPS. **Phases 1–4 are implemented.** Customer, contact and service management are available. Global search and audit remain future phases; their Django apps are registered without business models or routes.
+An internal staff portal built as a Django modular monolith with PostgreSQL and Caddy HTTPS. **Phases 1–5 are implemented.** Customer, contact and service management, global search, transactional audit history and a database-backed dashboard are available.
 
 The foundation includes staff login/logout, a responsive home page, a custom User model, Viewer/Editor/Administrator groups, restricted Django user administration, database-aware health checks, and Docker installation/maintenance scripts. There is no public registration.
 
@@ -58,19 +58,20 @@ docker compose down
 - `apps/customers/`: customer model, forms, service API, directory, detail/edit/archive pages, read-only admin, migration and tests.
 - `apps/contacts/`: people, multiple email/phone details, general customer details, validation, primary selection, search and archive/restore.
 - `apps/services/`: central catalog, customer service agreements, status/date validation, permissions and retained history.
-- `apps/search/`, `apps/audit/`: future feature app registrations.
+- `apps/search/`: permission-scoped global search and grouped pagination.
+- `apps/audit/`: transactional metadata-only history, global audit and customer Activity.
 - `compose.yaml`, `Dockerfile`, `deploy/Caddyfile`, `scripts/`: the three-container deployment and operational contract.
 - [Architecture](docs/ARCHITECTURE.md), [product specification](docs/PROJECT_SPEC.md), [data model](docs/DATA_MODEL.md), [implementation plan](docs/IMPLEMENTATION_PLAN.md), [Docker operations](docs/DOCKER_OPERATIONS.md).
 
-Review Phase 4 before requesting Phase 5 (Search, audit and polish). Production readiness, offsite backups, network restrictions and managed TLS trust remain the separately approved Phase 6 checkpoint. Do not import real personal data or expose this portal publicly before that review.
+Review Phase 5 before separately requesting the Phase 6 production-readiness checkpoint. Production readiness, offsite backups, network restrictions and managed TLS trust remain the separately approved Phase 6 checkpoint. Do not import real personal data or expose this portal publicly before that review.
 
-## Updating an existing Phase 1–3 installation
+## Updating an existing Phase 1–4 installation
 
-Run `./scripts/update.sh` (with `sudo` if needed). It backs up the database, builds the application, explicitly applies the additive customer, contact and service migrations, reconciles group permissions, checks deployment settings, and restarts the stack. Existing accounts, memberships and credentials remain intact. Run `./scripts/test.sh` to verify all implemented phases.
+Run `./scripts/update.sh` (with `sudo` if needed). It backs up the database, builds the application, explicitly applies the additive customer, contact, service and audit migrations, reconciles group permissions, checks deployment settings, and restarts the stack. Existing accounts, memberships and credentials remain intact. Run `./scripts/test.sh` to verify all implemented phases.
 
 Customers default to Active in the directory. Select Archived or All statuses to find archived records. A name is required; the CVR / company ID is optional and unique when supplied. Use the detail page's Archive action to retain a record, or edit its status to reactivate it. Contacts and Services are available from each customer. See [customer data rules](docs/DATA_MODEL.md#phase-2-customer-implementation) and the [module service API](docs/ARCHITECTURE.md#customer-module-write-api-phase-2).
 
-Verification evidence: [Phase 1](docs/PHASE1_VERIFICATION.md), [Phase 2](docs/PHASE2_VERIFICATION.md), [Phase 3](docs/PHASE3_VERIFICATION.md), and [Phase 4](docs/PHASE4_VERIFICATION.md).
+Verification evidence: [Phase 1](docs/PHASE1_VERIFICATION.md), [Phase 2](docs/PHASE2_VERIFICATION.md), [Phase 3](docs/PHASE3_VERIFICATION.md), [Phase 4](docs/PHASE4_VERIFICATION.md), and [Phase 5](docs/PHASE5_VERIFICATION.md).
 
 ## Working with contacts
 
@@ -84,4 +85,12 @@ Open **Services** in the main navigation to browse the central catalog. Administ
 
 Open a customer's **Services** tab to add or edit an agreement. Editors and Administrators can assign active catalog services, including multiple agreements for the same service/customer. Each agreement has its own UUID, optional dates/notes, and Active, Suspended, Expired or Terminated status. End date cannot precede start date. Customer and service links are fixed after creation; create another agreement to change them. Terminate retains the record, and editing status can reactivate it.
 
-Status is maintained manually; dates never trigger automatic changes. Archiving a catalog service blocks new assignments while retaining existing agreements and their statuses. Customer Overview counts active agreements, including those referencing archived catalog entries. Viewer has read-only access. No service names are seeded or hardcoded; no billing, integrations or Phase 5 functionality is included.
+Status is maintained manually; dates never trigger automatic changes. Archiving a catalog service blocks new assignments while retaining existing agreements and their statuses. Customer Overview counts active agreements, including those referencing archived catalog entries. Viewer has read-only access. No service names are seeded or hardcoded; no billing or external integrations are included.
+
+## Search, activity and dashboard
+
+Use **Search** in the main navigation for partial, case-insensitive customer names/company IDs, contact names/job titles/emails/phones, general contact details, catalog names/descriptions and customer service agreements. Results are grouped by Customers, Contacts and Services with independent pagination. Archived records remain discoverable and are labeled; only records allowed by your existing read permissions are searched. Formatting is removed for phone comparison without guessing country codes.
+
+The dashboard shows live active customer/contact/agreement counts and recent customer/contact records. Counts follow each record's own status, including active people/agreements under archived customers. Customer tabs consistently expose **Overview**, **Contacts**, **Services** and **Activity** according to read permissions.
+
+Customer **Activity** is read-only for authorized customer readers. Administrators also have **Audit history** in the main navigation. Filter by UTC dates, responsible user and action. Events contain action metadata, object IDs and changed field names, not copied contact values or notes. The audit event and business change are saved in one transaction; an audit failure prevents the change. History starts with Phase 5 and does not reconstruct earlier actions. Archive retains records and events; no audit-edit/delete controls exist.

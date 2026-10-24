@@ -32,7 +32,7 @@ Header: `Customers | Services | Search` and user/profile/logout. The `Administra
 - Retired catalog services remain visible on customers with historical assignments.
 
 ### 4. Global search (`/search/`)
-- One search input with results grouped as Customers, People, Contact details, Services.
+- One search input with results grouped as Customers, Contacts (people and general details), Services.
 - Search by customer name, contact name, email address, phone number, service name.
 - Results lead to relevant customer or record page.
 - All searches are scoped to records the logged-in user may view.

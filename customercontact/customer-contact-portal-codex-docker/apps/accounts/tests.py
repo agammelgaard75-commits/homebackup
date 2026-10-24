@@ -111,7 +111,7 @@ class AccountsTests(TestCase):
         call_command("setup_roles", verbosity=0)
         self.assertEqual(Group.objects.count(), 3)
         self.assertTrue(self.users["Viewer"].groups.filter(pk=group.pk).exists())
-        self.assertEqual(set(group.permissions.values_list("codename", flat=True)), {"access_portal", "view_customer", "view_contact", "view_contactpoint", "view_service", "view_customerservice"})
+        self.assertEqual(set(group.permissions.values_list("codename", flat=True)), {"access_portal", "view_customer", "view_contact", "view_contactpoint", "view_service", "view_customerservice", "view_customer_activity"})
 
     def test_administrator_can_create_user_with_role_but_not_superuser(self):
         self.client.force_login(self.users["Administrator"])

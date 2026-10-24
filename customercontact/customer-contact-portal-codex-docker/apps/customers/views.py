@@ -64,8 +64,11 @@ def customer_detail(request, pk):
 
 
 def _customer_form(request, customer=None):
+    was_active = customer is not None and customer.status == Customer.Status.ACTIVE
     form = CustomerForm(request.POST if request.method == "POST" else None, instance=customer)
     if request.method == "POST" and form.is_valid():
+        if was_active and form.cleaned_data["status"] == Customer.Status.INACTIVE and request.POST.get("confirm_archive") != "yes":
+            return render(request, "customers/confirm_edit_archive.html", {"customer": customer, "form": form})
         try:
             if customer is None:
                 saved = create_customer(actor=request.user, **form.cleaned_data)

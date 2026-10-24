@@ -6,9 +6,9 @@ Owners are immutable; all IDs are checked against their customer on every call.
 """
 from django.core.exceptions import ValidationError
 from django.db import transaction
-from django.utils import timezone
 
 from apps.customers.models import Customer
+from apps.audit import services as audit
 
 from .models import Contact, ContactPoint
 from .permissions import require_access
@@ -40,6 +40,7 @@ def create_contact(*, actor, customer_id, full_name, job_title="", department=""
                       department=department, contact_type=contact_type, notes=notes)
     contact.full_clean()
     contact.save()
+    audit.record_change(actor=actor, instance=contact)
     return contact
 
 
@@ -48,10 +49,12 @@ def update_contact(*, actor, customer_id, contact_id, full_name, job_title="", d
     require_access(actor, "contacts.change_contact")
     _lock_customer(customer_id)
     contact = _contact(customer_id, contact_id)
+    before = audit.snapshot(contact)
     contact.full_name, contact.job_title, contact.department = full_name, job_title, department
     contact.contact_type, contact.notes = contact_type, notes
     contact.full_clean()
     contact.save()
+    audit.record_change(actor=actor, instance=contact, before=before)
     return contact
 
 
@@ -61,9 +64,11 @@ def set_contact_active(*, actor, customer_id, contact_id, is_active):
     _lock_customer(customer_id)
     contact = _contact(customer_id, contact_id)
     if contact.is_active != is_active:
+        before = audit.snapshot(contact)
         contact.is_active = is_active
         contact.full_clean()
         contact.save(update_fields=["is_active", "updated_at"])
+        audit.record_change(actor=actor, instance=contact, before=before)
     return contact
 
 
@@ -75,6 +80,7 @@ def save_contact_point(*, actor, customer_id, contact_id=None, point_id=None,
     if contact_id:
         _contact(customer_id, contact_id)
     point = _point(customer_id, contact_id, point_id) if point_id else ContactPoint(customer_id=customer_id, contact_id=contact_id)
+    before = audit.snapshot(point) if point_id else None
     point.kind, point.value, point.label, point.is_primary = kind, value, label, is_primary
     # Validate content/ownership before demoting any existing primary.
     point.full_clean(validate_constraints=False)
@@ -83,9 +89,14 @@ def save_contact_point(*, actor, customer_id, contact_id=None, point_id=None,
                                                is_active=True, is_primary=True).exclude(pk=point.pk)
         if previous.exists():
             require_access(actor, "contacts.change_contactpoint")
-            previous.update(is_primary=False, updated_at=timezone.now())
+            for old_primary in previous:
+                previous_state = audit.snapshot(old_primary)
+                old_primary.is_primary = False
+                old_primary.save(update_fields=["is_primary", "updated_at"])
+                audit.record_change(actor=actor, instance=old_primary, before=previous_state)
     point.full_clean()
     point.save()
+    audit.record_change(actor=actor, instance=point, before=before)
     return point
 
 
@@ -97,9 +108,11 @@ def set_point_active(*, actor, customer_id, point_id, contact_id=None, is_active
         _contact(customer_id, contact_id)
     point = _point(customer_id, contact_id, point_id)
     if point.is_active != is_active:
+        before = audit.snapshot(point)
         point.is_active = is_active
         # Retire the primary designation; restoring does not replace a new primary.
         point.is_primary = False
         point.full_clean()
         point.save(update_fields=["is_active", "is_primary", "updated_at"])
+        audit.record_change(actor=actor, instance=point, before=before)
     return point

@@ -5,6 +5,7 @@
 <div class="page-heading"><div><p class="eyebrow"><a href="{{ customer.get_absolute_url }}">{{ customer.name }}</a></p><h1>{{ contact.full_name }}</h1><span class="badge {% if not contact.is_active %}archived{% endif %}">{% if contact.is_active %}Active{% else %}Archived{% endif %}</span></div>
 {% if perms.accounts.edit_portal and perms.contacts.change_contact %}<div class="actions"><a class="button" href="{% url 'contacts:edit' customer.pk contact.pk %}">Edit contact</a>{% if contact.is_active %}<a class="button secondary" href="{% url 'contacts:archive' customer.pk contact.pk %}">Archive contact</a>{% else %}<a class="button secondary" href="{% url 'contacts:restore' customer.pk contact.pk %}">Restore contact</a>{% endif %}</div>{% endif %}</div>
 {% if not contact.is_active %}<p class="notice">This contact is archived. Its details have been retained.</p>{% endif %}
+{% include 'components/customer_tabs.html' with current='contacts' %}
 <section class="panel"><h2>Contact overview</h2><dl class="details">
 <div><dt>Job title</dt><dd>{{ contact.job_title|default:'Not provided' }}</dd></div>
 <div><dt>Department</dt><dd>{{ contact.department|default:'Not provided' }}</dd></div>

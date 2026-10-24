@@ -20,7 +20,7 @@ Staff browser --HTTPS--> Caddy container --> Django/Gunicorn container --> Postg
 
 Prerequisites: Linux with recent Docker Engine and Docker Compose v2, free TCP ports 80 and 443 on selected bind IP, and local DNS mapping the chosen hostname (e.g. `portal.home.lab`) to the server. Allow HTTPS traffic only from the intended internal networks/VPN. The server will require internet access for pulling images/packages during install, unless these are prepared offline.
 
-**Phases 1–4 are implemented:** the Django foundation, customer management, contact management and service catalog/assignments run in the existing Docker stack. Production deployment still requires the separate production-readiness approval.
+**Phases 1–5 are implemented:** the Django foundation, customer management, contact management and service catalog/assignments, search, audit and dashboard run in the existing Docker stack. Production deployment still requires the separate production-readiness approval.
 
 1. Copy/clone the finished repository to your internal server (e.g. `/opt/customer-contact-portal`). Never copy actual customer data in Git.
 2. `cd /opt/customer-contact-portal`
@@ -118,3 +118,9 @@ The same three containers, image major versions, published ports, volumes, depen
 Use the existing `./scripts/update.sh`. It backs up before applying additive `services.0001_initial` and reconciles catalog/assignment grants without replacing accounts or memberships. The migration adds two tables with foreign keys to existing customers; existing customer/contact tables are unchanged. The catalog starts empty and is managed by Administrators through `/services/`. Editors manage customer agreements from the customer Services tab.
 
 Compose, images, runtime services, secrets, ports, named volumes and dependencies are unchanged. There are no automatic date/status jobs. Archive/terminate actions retain data; do not drop service tables to roll back a populated installation. Use the documented matching-code backup/restore procedure if rollback is required. See [Phase 4 verification](PHASE4_VERIFICATION.md).
+
+## Phase 5 search/audit/dashboard upgrade
+
+Use the unchanged `./scripts/update.sh` to back up, build, explicitly apply `audit.0001_initial`, reconcile view grants and recreate app/proxy. The audit migration is additive and does not transform business records. Both the business change and its audit event commit together; database/audit failures return failure instead of an unaudited success. An unavailable audit table therefore blocks writes: never run Phase 5 code against an unmigrated database.
+
+Existing `backup.sh` includes the audit table in the complete PostgreSQL dump. Preserve the matching application revision when restoring. The same three containers, dependencies, settings, secrets, ports and named volumes remain in use. There are no workers, host jobs, external search APIs or cloud dependencies. `/search/`, `/audit/` (Administrator only) and customer Activity are available after upgrade. Audit begins at upgrade, with no reconstruction of earlier actions. See [Phase 5 verification](PHASE5_VERIFICATION.md).

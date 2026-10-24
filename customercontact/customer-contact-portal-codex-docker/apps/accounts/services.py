@@ -4,10 +4,12 @@ from django.db import transaction
 
 ROLE_PERMISSIONS = {
     "Viewer": {
+        "audit.view_customer_activity",
         "accounts.access_portal", "customers.view_customer", "contacts.view_contact", "contacts.view_contactpoint",
         "services.view_service", "services.view_customerservice",
     },
     "Editor": {
+        "audit.view_customer_activity",
         "services.view_service", "services.view_customerservice", "services.add_customerservice", "services.change_customerservice",
         "accounts.access_portal", "accounts.edit_portal",
         "customers.view_customer", "customers.add_customer", "customers.change_customer",
@@ -15,6 +17,7 @@ ROLE_PERMISSIONS = {
         "contacts.view_contactpoint", "contacts.add_contactpoint", "contacts.change_contactpoint",
     },
     "Administrator": {
+        "audit.view_customer_activity", "audit.view_auditevent",
         "services.view_service", "services.add_service", "services.change_service",
         "services.view_customerservice", "services.add_customerservice", "services.change_customerservice",
         "accounts.access_portal", "accounts.edit_portal", "accounts.administer_portal",
@@ -32,7 +35,7 @@ def setup_roles():
     permissions = {
         f"{permission.content_type.app_label}.{permission.codename}": permission
         for permission in Permission.objects.filter(
-            content_type__app_label__in=["accounts", "customers", "contacts", "services"],
+            content_type__app_label__in=["accounts", "customers", "contacts", "services", "audit"],
         ).select_related("content_type")
     }
     for name, permission_names in ROLE_PERMISSIONS.items():

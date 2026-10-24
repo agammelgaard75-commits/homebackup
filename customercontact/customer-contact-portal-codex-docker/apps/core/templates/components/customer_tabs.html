@@ -1,0 +1,6 @@
+<nav class="customer-tabs" aria-label="Customer sections">
+<a href="{{ customer.get_absolute_url }}" {% if current == 'overview' %}aria-current="page"{% endif %}>Overview</a>
+{% if perms.contacts.view_contact and perms.contacts.view_contactpoint %}<a href="{% url 'contacts:list' customer.pk %}" {% if current == 'contacts' %}aria-current="page"{% endif %}>Contacts</a>{% endif %}
+{% if perms.services.view_service and perms.services.view_customerservice %}<a href="{% url 'customer_services:list' customer.pk %}" {% if current == 'services' %}aria-current="page"{% endif %}>Services</a>{% endif %}
+{% if perms.audit.view_customer_activity %}<a href="{% url 'customer_activity:list' customer.pk %}" {% if current == 'activity' %}aria-current="page"{% endif %}>Activity</a>{% endif %}
+</nav>

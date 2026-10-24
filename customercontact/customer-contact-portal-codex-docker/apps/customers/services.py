@@ -6,6 +6,7 @@ use transactions, and never log submitted values. Archiving preserves the row.
 """
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import IntegrityError, transaction
+from apps.audit import services as audit
 
 from .models import Customer
 
@@ -33,21 +34,26 @@ def _save_validated(customer):
 @transaction.atomic
 def create_customer(*, actor, name, reference_code="", status=Customer.Status.ACTIVE, address="", notes=""):
     require_customer_write(actor, "customers.add_customer")
-    return _save_validated(Customer(
+    customer = _save_validated(Customer(
         name=name, reference_code=reference_code, status=status, address=address, notes=notes,
     ))
+    audit.record_change(actor=actor, instance=customer)
+    return customer
 
 
 @transaction.atomic
 def update_customer(*, actor, customer_id, name, reference_code, status, address, notes):
     require_customer_write(actor, "customers.change_customer")
     customer = Customer.objects.select_for_update().get(pk=customer_id)
+    before = audit.snapshot(customer)
     customer.name = name
     customer.reference_code = reference_code
     customer.status = status
     customer.address = address
     customer.notes = notes
-    return _save_validated(customer)
+    _save_validated(customer)
+    audit.record_change(actor=actor, instance=customer, before=before)
+    return customer
 
 
 @transaction.atomic
@@ -55,6 +61,8 @@ def archive_customer(*, actor, customer_id):
     require_customer_write(actor, "customers.change_customer")
     customer = Customer.objects.select_for_update().get(pk=customer_id)
     if customer.status != Customer.Status.INACTIVE:
+        before = audit.snapshot(customer)
         customer.status = Customer.Status.INACTIVE
         customer.save(update_fields=["status", "updated_at"])
+        audit.record_change(actor=actor, instance=customer, before=before)
     return customer

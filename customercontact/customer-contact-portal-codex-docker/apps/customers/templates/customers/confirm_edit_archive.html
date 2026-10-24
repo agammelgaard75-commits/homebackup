@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}Confirm archive · Customer Portal{% endblock %}
+{% block content %}
+<section class="panel customer-form"><h1>Archive customer and save changes?</h1><p>{{ customer.name }} will be archived. Its contacts, service agreements and activity history will be retained.</p>
+<form method="post">{% csrf_token %}{% for field in form %}{{ field.as_hidden }}{% endfor %}<input type="hidden" name="confirm_archive" value="yes"><div class="actions"><button type="submit">Archive and save</button><a href="{{ customer.get_absolute_url }}">Cancel</a></div></form></section>
+{% endblock %}

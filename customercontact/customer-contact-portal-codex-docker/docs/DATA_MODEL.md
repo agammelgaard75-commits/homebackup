@@ -68,12 +68,13 @@ Rules:
 
 ## AuditEvent (`audit` app)
 - `id` UUID PK
-- `actor_id` FK -> User (nullable if account subsequently removed)
-- `customer_id` nullable FK -> Customer (preserve relevant link)
-- `verb`: created | updated | archived | assigned | ended | status_changed
-- `entity_type` short identifier
-- `entity_id` UUID or safe text identifier
-- `summary` brief, non-sensitive action description
+- `actor_id` required protected FK -> User (disable accounts instead of losing attribution)
+- `customer_id` nullable protected FK -> Customer (required except for catalog events)
+- `action`: created | updated | archived | restored | assigned | activated | suspended | expired | terminated
+- `object_type` allowlisted entity type
+- `object_id` UUID
+- `description` fixed, non-sensitive action description
+- `changed_fields` JSON list of allowlisted field names; no values
 - `created_at`
 
 Audit history is append-only through application code. Avoid logging contact emails, phone numbers or free-text notes in audit summaries.
@@ -123,3 +124,11 @@ The Phase 4 request supersedes the original unique-customer/service rule and thr
 Only active catalog entries can be newly assigned, checked inside a transaction holding the catalog row lock. Archiving a catalog entry leaves all existing agreements unchanged and editable. Termination retains dates, notes and relationships and is idempotent. Status can subsequently be edited, including on a terminated agreement. Dates are descriptive: no scheduler automatically expires or activates agreements. The overview count is the number of agreements with Active status, including repeated services and archived catalog entries. Archiving a customer does not erase or alter assignments.
 
 `services/0001_initial.py` is additive: two new tables, constraints and indexes, with no existing table/data rewrites. No uniqueness constraint is applied to the customer/service pair. There is no application/admin delete action and no billing, contract document management or audit/event schema in this phase.
+
+## Phase 5 audit implementation
+
+`audit.AuditEvent` is an append-only application record with UUID, UTC `created_at`, required protected actor FK, action, allowlisted object type, object UUID, optional protected customer FK, fixed human-readable description and JSON list of changed field names. Actor and customer links use PROTECT so history cannot lose attribution or customer association through application deletion; accounts can still be disabled. Catalog events have no customer; all other event types require one. The object UUID is deliberately not a cascading foreign key to the mutable business object.
+
+Supported object types are Customer, Contact, Contact detail (including general details), Catalog service and Service assignment. Actions are Created, Updated, Archived, Restored, Assigned, Activated, Suspended, Expired and Terminated. PostgreSQL constraints validate action/type and customer scope. Indexes cover newest-first global/customer activity, object lookups, actor and action. No field values or personal-data snapshots are stored; descriptions are generated from enums, never user-submitted free text.
+
+Migration `audit.0001_initial` adds only this table, indexes, constraints and view permissions. Existing business schemas/data are unchanged. Historical activity before Phase 5 is **not** fabricated/backfilled. All supported subsequent business mutations use transactional recording; archive preserves history. No search/dashboard schema or additional runtime service is needed.

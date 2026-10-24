@@ -1,7 +1,7 @@
 {% if points %}
 <div class="table-scroll" tabindex="0" role="region" aria-label="Email addresses and phone numbers"><table>
 <thead><tr><th scope="col">Kind</th><th scope="col">Label</th><th scope="col">Value</th><th scope="col">Status</th>{% if perms.accounts.edit_portal and perms.contacts.change_contactpoint %}<th scope="col">Actions</th>{% endif %}</tr></thead>
-<tbody>{% for point in points %}<tr>
+<tbody>{% for point in points %}<tr id="detail-{{ point.pk }}">
   <td>{{ point.get_kind_display }}</td><td>{{ point.get_label_display }}</td><td class="contact-value">{{ point.value }}{% if point.is_primary and point.is_active %} <span class="badge">Primary</span>{% endif %}</td>
   <td>{% if point.is_active %}Active{% else %}Archived{% endif %}</td>
   {% if perms.accounts.edit_portal and perms.contacts.change_contactpoint %}<td><div class="actions">

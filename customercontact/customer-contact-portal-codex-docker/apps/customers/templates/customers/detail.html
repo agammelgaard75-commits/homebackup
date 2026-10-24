@@ -9,7 +9,7 @@
     {% if customer.status == 'active' %}<a class="button secondary" href="{% url 'customers:archive' customer.pk %}">Archive customer</a>{% endif %}
   </div>{% endif %}
 </div>
-{% if contacts_enabled or services_enabled %}<nav class="customer-tabs" aria-label="Customer sections"><a href="{{ customer.get_absolute_url }}" aria-current="page">Overview</a>{% if contacts_enabled %}<a href="{% url 'contacts:list' customer.pk %}">Contacts</a>{% endif %}{% if services_enabled %}<a href="{% url 'customer_services:list' customer.pk %}">Services</a>{% endif %}</nav>{% endif %}
+{% include 'components/customer_tabs.html' with current='overview' %}
 {% if customer.status == 'inactive' %}<p class="notice">This customer is archived. Its details are retained.{% if perms.accounts.edit_portal and perms.customers.change_customer %} To reactivate it, edit the customer and select Active.{% endif %}</p>{% endif %}
 <section class="panel"><h2>Overview</h2><dl class="details">
   {% if services_enabled %}<div><dt>Active service assignments</dt><dd><a href="{% url 'customer_services:list' customer.pk %}?status=active">{{ active_service_count }}</a><p class="help-text">Counts active agreements, including agreements for archived catalog services.</p></dd></div>{% endif %}

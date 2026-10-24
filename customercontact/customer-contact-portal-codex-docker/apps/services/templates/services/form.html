@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }} · Customer Portal{% endblock %}
+{% block content %}
+<a class="back-link" href="{{ back_url }}">← Back</a>
+<div class="page-intro">{% if customer %}<p class="eyebrow"><a href="{{ customer.get_absolute_url }}">{{ customer.name }}</a></p>{% endif %}<h1>{{ title }}</h1></div>
+<form class="panel customer-form" method="post">{% csrf_token %}
+{% if form.errors %}<div class="form-errors" role="alert"><p>Please correct the errors below.</p>{{ form.non_field_errors }}</div>{% endif %}
+{% for field in form %}<div class="field">{{ field.label_tag }}{{ field }}{% if field.help_text %}<p class="help-text" id="{{ field.auto_id }}_helptext">{{ field.help_text }}</p>{% endif %}{% if field.errors %}<div class="form-errors" id="{{ field.auto_id }}_error">{{ field.errors }}</div>{% endif %}</div>{% endfor %}
+<div class="actions"><button type="submit">Save</button><a href="{{ back_url }}">Cancel</a></div>
+</form>
+{% endblock %}

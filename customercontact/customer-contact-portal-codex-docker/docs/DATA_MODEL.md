@@ -44,8 +44,8 @@ Validation:
 ## Service (`services` app)
 - `id` UUID PK
 - `name` required, unique
-- `code` optional, unique when present
 - `description` optional
+- `category` optional
 - `is_active` bool (whether new assignments are allowed)
 - `created_at`, `updated_at`
 
@@ -54,14 +54,14 @@ Join/assignment entity, not a plain unqualified many-to-many relationship.
 - `id` UUID PK
 - `customer_id` required FK -> Customer
 - `service_id` required FK -> Service
-- `status`: active | suspended | ended
+- `status`: active | suspended | expired | terminated
 - `start_date` optional
 - `end_date` optional
 - `notes` optional
 - `created_at`, `updated_at`
 
 Rules:
-- Unique `(customer_id, service_id)` for MVP; edit/reopen the assignment rather than create duplicate rows.
+- Multiple assignments for the same customer/service are allowed as separate agreements or service periods, per the Phase 4 request. Each has its own UUID.
 - `end_date >= start_date` when both provided.
 - Inactive catalog services cannot be newly assigned; existing assignments remain visible.
 - Deactivating a customer does not automatically erase service history.
@@ -113,3 +113,13 @@ At most one **active primary** per owner and kind is enforced with separate Post
 Email values are validated locally with Django and normalized to lowercase for search while preserving displayed case. Phone values retain formatting, permit 7–15 digits, a leading `+` or `00`, spaces, parentheses, dots and hyphens. Search strips formatting and the international `00` prefix; `+45 12 34 56 78` and `0045 12345678` normalize to `4512345678`. Local Danish eight-digit numbers are accepted; no country code is guessed. Country-code searches therefore match stored international forms; local suffix searches also match those international numbers. Extensions and registry verification are not supported; no external lookup occurs.
 
 `contacts/0001_initial.py` adds only Contact/ContactPoint tables, indexes and constraints. `0002_contact_point_customer_integrity.py` adds a composite foreign key from `(contact_id, customer_id)` to Contact's declared unique `(id, customer_id)` key. This narrow schema migration uses PostgreSQL DDL because Django CheckConstraint cannot compare related rows; all application CRUD remains Django ORM. It prevents mismatched customer/person pairs and invalid reparenting even if model validation is bypassed. General details remain valid with a null contact. Neither migration changes existing customer/account records or their schemas.
+
+## Phase 4 service implementation
+
+The Phase 4 request supersedes the original unique-customer/service rule and three-status proposal. `services.Service` has a UUID, trimmed required name (maximum 200), optional description (maximum 1,000), optional trimmed category (maximum 100), active flag and timestamps. A PostgreSQL functional unique constraint reserves names ignoring case and surrounding spaces even after archive. Category is free text; names/categories are managed through the GUI, with no seeded catalog or unused service-code field.
+
+`services.CustomerService` has its own UUID, protected customer/catalog foreign keys, Active/Suspended/Expired/Terminated status, nullable start/end dates, optional notes (maximum 10,000) and timestamps. Repeated customer/service pairs are intentionally allowed. Customer and catalog links are immutable in forms and the public write API. PostgreSQL enforces valid status and end date >= start date when both exist. Foreign-key indexes and a composite customer/status index support history and overview queries; catalog category/active fields are indexed.
+
+Only active catalog entries can be newly assigned, checked inside a transaction holding the catalog row lock. Archiving a catalog entry leaves all existing agreements unchanged and editable. Termination retains dates, notes and relationships and is idempotent. Status can subsequently be edited, including on a terminated agreement. Dates are descriptive: no scheduler automatically expires or activates agreements. The overview count is the number of agreements with Active status, including repeated services and archived catalog entries. Archiving a customer does not erase or alter assignments.
+
+`services/0001_initial.py` is additive: two new tables, constraints and indexes, with no existing table/data rewrites. No uniqueness constraint is applied to the customer/service pair. There is no application/admin delete action and no billing, contract document management or audit/event schema in this phase.

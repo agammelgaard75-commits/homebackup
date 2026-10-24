@@ -12,6 +12,8 @@ from django.views.decorators.http import require_http_methods, require_safe
 from apps.accounts.permissions import permission_required
 from apps.contacts.permissions import READ_PERMISSIONS
 from apps.contacts.selectors import general_contact_points
+from apps.services.permissions import READ_PERMISSIONS as SERVICE_READ_PERMISSIONS
+from apps.services.selectors import active_service_count
 
 from .forms import CustomerFilterForm, CustomerForm
 from .models import Customer
@@ -52,9 +54,12 @@ def customer_list(request):
 def customer_detail(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
     contacts_enabled = request.user.has_perms(READ_PERMISSIONS)
+    services_enabled = request.user.has_perms(SERVICE_READ_PERMISSIONS)
     return render(request, "customers/detail.html", {
         "customer": customer, "contacts_enabled": contacts_enabled,
         "general_points": general_contact_points(customer) if contacts_enabled else [],
+        "services_enabled": services_enabled,
+        "active_service_count": active_service_count(customer) if services_enabled else None,
     })
 
 

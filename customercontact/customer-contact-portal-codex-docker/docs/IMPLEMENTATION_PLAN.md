@@ -72,7 +72,7 @@ Do not connect to external systems or deploy anything.
 ## Suggested subsequent tasks
 - `Implement Phase 2 only, following AGENTS.md and all docs. Verify roles and tests.`
 - `Implement Phase 3 only. Emphasize multiple contact points and relationship validation.`
-- `Implement Phase 4 only. Enforce assignment uniqueness and dates; test permissions.`
+- `Implement Phase 4 only. Allow separate agreements for the same customer/service, enforce valid dates, and test permissions.`
 - `Implement Phase 5 only. Add search, audit and end-to-end tests.`
 
 ## Verification commands (everything must run in containers)

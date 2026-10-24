@@ -125,4 +125,21 @@ Services lock the owning customer row first to serialize writes/primary selectio
 
 Customer-scoped routes live under `/customers/<customer_uuid>/contacts/` and check the full customer/person/detail relationship before rendering or mutating. Contacts templates own both the standalone pages and the general-details partial included in customer overview. The customer view uses read-only selectors and hides contact information from users missing contact permissions. No reverse app-to-app writes are needed.
 
-The customer Contacts page offers name/email/phone search, Active/Archived/All filters, and 25-person pagination with filter preservation. Email/phone search matches active details only; archived people can be found with the Archived filter, and archived individual details remain on the person's details page. General details use the same status/search filters. Cross-module global search and services remain later phases.
+The customer Contacts page offers name/email/phone search, Active/Archived/All filters, and 25-person pagination with filter preservation. Email/phone search matches active details only; archived people can be found with the Archived filter, and archived individual details remain on the person's details page. General details use the same status/search filters. Cross-module global search remains Phase 5; services are implemented in Phase 4 below.
+
+## Services module (Phase 4)
+
+The keyword-only public write API in `apps.services.services` owns all catalog/assignment mutations:
+
+- `create_service(actor, name, description="", category="")`
+- `update_service(actor, service_id, name, description="", category="")`
+- `set_service_active(actor, service_id, is_active)`
+- `create_assignment(actor, customer_id, service_id, status="active", start_date=None, end_date=None, notes="")`
+- `update_assignment(actor, customer_id, assignment_id, status, start_date=None, end_date=None, notes="")`
+- `terminate_assignment(actor, customer_id, assignment_id)`
+
+Catalog reads require portal access and `services.view_service`. Catalog writes additionally require portal-edit, portal-administration, and the relevant catalog add/change permission. Assignment reads require portal access, customer-view and both service model view permissions; mutations additionally require portal-edit and the relevant assignment add/change permission. Viewer reads; Editor manages assignments; Administrator also manages the catalog. No managed role receives delete permissions. Admin model registrations are read-only; GUI writes use the same public API.
+
+All writes are transactional. Catalog writes lock catalog rows; assignment creation uses the same lock to serialize against catalog archive. Catalog uniqueness races become validation errors. Assignment updates/termination lock the assignment and scope lookup by customer ID. Neither writes to customer/contact records. Forms and model validation enforce content, immutable links and dates, with database constraints for name uniqueness, dates/status and protected foreign keys. A new agreement uses a separate UUID; no pair-uniqueness constraint exists.
+
+Catalog routes are `/services/`; assignment routes are `/customers/<customer_uuid>/services/`. Lists and catalog customer usage use 25-row pagination. Catalog supports name/description/category search and status/exact-category filters; customer agreements support status filtering. Catalog detail includes historical customer agreements only when the user has all assignment read permissions. Read-only selectors supply the customer Overview's active agreement count. The contacts change is limited to adding a Services navigation link. No runtime architecture/dependency changes, JavaScript, global search or audit writes are introduced.

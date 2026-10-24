@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}{{ service.name }} · Customer Portal{% endblock %}
+{% block content %}
+<a class="back-link" href="{% url 'services:list' %}">← Service catalog</a>
+<div class="page-heading"><div><p class="eyebrow">Catalog service</p><h1>{{ service.name }}</h1><span class="badge {% if not service.is_active %}archived{% endif %}">{% if service.is_active %}Active{% else %}Archived{% endif %}</span></div>
+{% if perms.accounts.administer_portal and perms.accounts.edit_portal and perms.services.change_service %}<div class="actions"><a class="button" href="{% url 'services:edit' service.pk %}">Edit service</a>{% if service.is_active %}<a class="button secondary" href="{% url 'services:archive' service.pk %}">Archive</a>{% else %}<a class="button secondary" href="{% url 'services:restore' service.pk %}">Restore</a>{% endif %}</div>{% endif %}</div>
+{% if not service.is_active %}<p class="notice">This catalog service is archived. Existing assignments remain available; new assignments are disabled.</p>{% endif %}
+<section class="panel"><dl class="details"><div><dt>Description</dt><dd class="preserve-lines">{{ service.description|default:'Not provided' }}</dd></div><div><dt>Category</dt><dd>{{ service.category|default:'Not provided' }}</dd></div><div><dt>Created</dt><dd>{{ service.created_at|date:'j M Y, H:i' }}</dd></div><div><dt>Updated</dt><dd>{{ service.updated_at|date:'j M Y, H:i' }}</dd></div></dl></section>
+{% if can_view_assignments %}<section class="panel section-gap"><h2>Customers and agreements</h2><p>{{ page_obj.paginator.count }} assignment{{ page_obj.paginator.count|pluralize }}, including suspended, expired and terminated agreements.</p>{% include 'services/assignments.html' with show_customer=True %}</section>{% endif %}
+{% endblock %}

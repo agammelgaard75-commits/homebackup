@@ -3,7 +3,7 @@
 {% block content %}
 <a class="back-link" href="{{ customer.get_absolute_url }}">← {{ customer.name }}</a>
 <div class="page-heading"><div><p class="eyebrow">{{ customer.name }}</p><h1>Contacts</h1></div>{% if perms.accounts.edit_portal and perms.contacts.add_contact %}<a class="button" href="{% url 'contacts:create' customer.pk %}">Add contact</a>{% endif %}</div>
-<nav class="customer-tabs" aria-label="Customer sections"><a href="{{ customer.get_absolute_url }}">Overview</a><a href="{% url 'contacts:list' customer.pk %}" aria-current="page">Contacts</a></nav>
+<nav class="customer-tabs" aria-label="Customer sections"><a href="{{ customer.get_absolute_url }}">Overview</a><a href="{% url 'contacts:list' customer.pk %}" aria-current="page">Contacts</a>{% if perms.services.view_service and perms.services.view_customerservice %}<a href="{% url 'customer_services:list' customer.pk %}">Services</a>{% endif %}</nav>
 {% if customer.status == 'inactive' %}<p class="notice">This customer is archived. Its contacts and details remain available.</p>{% endif %}
 <section class="panel">
 <form class="filters" method="get" role="search">{% for field in filter_form %}<div class="field">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>{% endfor %}<div class="actions"><button type="submit">Apply filters</button><a href="{% url 'contacts:list' customer.pk %}">Reset</a></div></form>

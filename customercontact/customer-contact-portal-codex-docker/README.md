@@ -1,6 +1,6 @@
 # Customer Contact Portal
 
-An internal staff portal built as a Django modular monolith with PostgreSQL and Caddy HTTPS. **Phases 1–3 are implemented.** Customer and contact management are available. Services, global search and audit remain future phases; their Django apps are registered without business models or routes.
+An internal staff portal built as a Django modular monolith with PostgreSQL and Caddy HTTPS. **Phases 1–4 are implemented.** Customer, contact and service management are available. Global search and audit remain future phases; their Django apps are registered without business models or routes.
 
 The foundation includes staff login/logout, a responsive home page, a custom User model, Viewer/Editor/Administrator groups, restricted Django user administration, database-aware health checks, and Docker installation/maintenance scripts. There is no public registration.
 
@@ -57,22 +57,31 @@ docker compose down
 - `apps/core/`: shared layout, home page, health endpoint, safe logging and tests.
 - `apps/customers/`: customer model, forms, service API, directory, detail/edit/archive pages, read-only admin, migration and tests.
 - `apps/contacts/`: people, multiple email/phone details, general customer details, validation, primary selection, search and archive/restore.
-- `apps/services/`, `search/`, `audit/`: future feature app registrations.
+- `apps/services/`: central catalog, customer service agreements, status/date validation, permissions and retained history.
+- `apps/search/`, `apps/audit/`: future feature app registrations.
 - `compose.yaml`, `Dockerfile`, `deploy/Caddyfile`, `scripts/`: the three-container deployment and operational contract.
 - [Architecture](docs/ARCHITECTURE.md), [product specification](docs/PROJECT_SPEC.md), [data model](docs/DATA_MODEL.md), [implementation plan](docs/IMPLEMENTATION_PLAN.md), [Docker operations](docs/DOCKER_OPERATIONS.md).
 
-Review Phase 3 before requesting Phase 4 (Service catalog and assignments). Production readiness, offsite backups, network restrictions and managed TLS trust remain the separately approved Phase 6 checkpoint. Do not import real personal data or expose this portal publicly before that review.
+Review Phase 4 before requesting Phase 5 (Search, audit and polish). Production readiness, offsite backups, network restrictions and managed TLS trust remain the separately approved Phase 6 checkpoint. Do not import real personal data or expose this portal publicly before that review.
 
-## Updating an existing Phase 1 or 2 installation
+## Updating an existing Phase 1–3 installation
 
-Run `./scripts/update.sh` (with `sudo` if needed). It backs up the database, builds the application, explicitly applies the additive customer and contact migrations, reconciles group permissions, checks deployment settings, and restarts the stack. Existing accounts, memberships and credentials remain intact. Run `./scripts/test.sh` to verify all implemented phases.
+Run `./scripts/update.sh` (with `sudo` if needed). It backs up the database, builds the application, explicitly applies the additive customer, contact and service migrations, reconciles group permissions, checks deployment settings, and restarts the stack. Existing accounts, memberships and credentials remain intact. Run `./scripts/test.sh` to verify all implemented phases.
 
-Customers default to Active in the directory. Select Archived or All statuses to find archived records. A name is required; the CVR / company ID is optional and unique when supplied. Use the detail page's Archive action to retain a record, or edit its status to reactivate it. Contacts are available from each customer; services are not yet available. See [customer data rules](docs/DATA_MODEL.md#phase-2-customer-implementation) and the [module service API](docs/ARCHITECTURE.md#customer-module-write-api-phase-2).
+Customers default to Active in the directory. Select Archived or All statuses to find archived records. A name is required; the CVR / company ID is optional and unique when supplied. Use the detail page's Archive action to retain a record, or edit its status to reactivate it. Contacts and Services are available from each customer. See [customer data rules](docs/DATA_MODEL.md#phase-2-customer-implementation) and the [module service API](docs/ARCHITECTURE.md#customer-module-write-api-phase-2).
 
-Verification evidence: [Phase 1](docs/PHASE1_VERIFICATION.md), [Phase 2](docs/PHASE2_VERIFICATION.md), and [Phase 3](docs/PHASE3_VERIFICATION.md).
+Verification evidence: [Phase 1](docs/PHASE1_VERIFICATION.md), [Phase 2](docs/PHASE2_VERIFICATION.md), [Phase 3](docs/PHASE3_VERIFICATION.md), and [Phase 4](docs/PHASE4_VERIFICATION.md).
 
 ## Working with contacts
 
 Open a customer and choose **Contacts**. Add a person with only a name, then add as many labeled email addresses and phone numbers as needed from that person's page. Job title, department, type and notes are optional. Use the same pages to edit, archive or restore people and details. Selecting Primary replaces the current primary of that kind for the same owner; email and phone have separate primary choices.
 
 Use **Add general detail** on the customer Overview or Contacts page for a company address or reception number with no person attached. Search a customer's contacts by name, email or phone; switch to Archived or All statuses to include archived people and general details. Archive preserves records and relationships. These features use the existing Viewer/Editor/Administrator permissions and require no JavaScript or new runtime dependency.
+
+## Working with services
+
+Open **Services** in the main navigation to browse the central catalog. Administrators can create/edit services and archive/restore them. Names are unique ignoring case and surrounding spaces, including archived names. Description and category are optional. The catalog shows all statuses by default and supports search, status/category filtering and pagination. Open a service to see its customers and agreement history.
+
+Open a customer's **Services** tab to add or edit an agreement. Editors and Administrators can assign active catalog services, including multiple agreements for the same service/customer. Each agreement has its own UUID, optional dates/notes, and Active, Suspended, Expired or Terminated status. End date cannot precede start date. Customer and service links are fixed after creation; create another agreement to change them. Terminate retains the record, and editing status can reactivate it.
+
+Status is maintained manually; dates never trigger automatic changes. Archiving a catalog service blocks new assignments while retaining existing agreements and their statuses. Customer Overview counts active agreements, including those referencing archived catalog entries. Viewer has read-only access. No service names are seeded or hardcoded; no billing, integrations or Phase 5 functionality is included.

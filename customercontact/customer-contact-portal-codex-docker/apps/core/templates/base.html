@@ -15,7 +15,7 @@
     <nav aria-label="Main navigation">
       <a href="{% url 'core:home' %}" {% if request.path == '/' %}aria-current="page"{% endif %}>Home</a>
       {% if perms.customers.view_customer %}<a href="{% url 'customers:list' %}" {% if request.resolver_match.app_name == 'customers' %}aria-current="page"{% endif %}>Customers</a>{% endif %}
-      <span class="planned" title="Available in a future phase">Services <small>Planned</small></span>
+      {% if perms.services.view_service %}<a href="{% url 'services:list' %}" {% if request.resolver_match.app_name == 'services' %}aria-current="page"{% endif %}>Services</a>{% endif %}
       <span class="planned" title="Available in a future phase">Search <small>Planned</small></span>
       {% if perms.accounts.administer_portal %}<a href="{% url 'admin:index' %}">Administration</a>{% endif %}
     </nav>

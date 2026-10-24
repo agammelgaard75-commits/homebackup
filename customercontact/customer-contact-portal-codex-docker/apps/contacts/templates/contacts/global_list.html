@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Contacts · Customer Portal{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">People across customers</p><h1>Contacts</h1></div>{% if perms.accounts.edit_portal and perms.contacts.add_contact %}<a class="button" href="{% url 'global_contacts:create' %}">Add contact</a>{% endif %}</div>
+<section class="panel"><form method="get" class="filters" role="search">{% for field in filter_form %}<div class="field">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>{% endfor %}<div class="actions"><button type="submit">Apply filters</button><a href="{% url 'global_contacts:list' %}">Reset</a></div></form>
+{% if filter_form.is_valid %}<p class="muted">{{ page_obj.paginator.count }} contact{{ page_obj.paginator.count|pluralize }}</p>
+{% if page_obj.object_list %}<div class="table-scroll" tabindex="0" role="region" aria-label="Global contacts"><table><thead><tr><th scope="col">Name</th><th scope="col">Customers</th><th scope="col">Type / job title</th><th scope="col">Email / phone</th><th scope="col">Status</th><th scope="col">Actions</th></tr></thead><tbody>{% for contact in page_obj %}<tr>
+<td><a href="{% url 'global_contacts:detail' contact.pk %}">{{ contact.full_name }}</a></td>
+<td>{% for link in contact.active_customer_links %}<a href="{{ link.customer.get_absolute_url }}">{{ link.customer.name }}</a>{% if not forloop.last %}, {% endif %}{% empty %}<a href="{{ contact.customer.get_absolute_url }}">{{ contact.customer.name }}</a>{% endfor %}</td>
+<td>{{ contact.get_contact_type_display }}{% if contact.job_title %}<br>{{ contact.job_title }}{% endif %}</td>
+<td>{% for point in contact.active_points %}<div class="contact-value">{{ point.value }} <small>{{ point.get_kind_display }}</small></div>{% empty %}No details added{% endfor %}</td><td>{% if contact.is_active %}Active{% else %}Archived{% endif %}</td><td>{% if perms.accounts.edit_portal and perms.contacts.change_contact %}<a href="{% url 'global_contacts:edit' contact.pk %}">Edit</a> · {% if contact.is_active %}<a href="{% url 'global_contacts:archive' contact.pk %}">Archive</a>{% else %}<a href="{% url 'global_contacts:restore' contact.pk %}">Restore</a>{% endif %}{% else %}—{% endif %}</td></tr>{% endfor %}</tbody></table></div>
+{% else %}<div class="empty-state"><h2>No contacts found</h2><p>Try another search or filter, or add a contact if you have editing access.</p></div>{% endif %}
+{% include 'components/pagination.html' %}{% endif %}</section>
+{% endblock %}

@@ -7,6 +7,7 @@
 {% if not contact.is_active %}<p class="notice">This contact is archived. Its details have been retained.</p>{% endif %}
 {% include 'components/customer_tabs.html' with current='contacts' %}
 <section class="panel"><h2>Contact overview</h2><dl class="details">
+<div><dt>Associated customers</dt><dd>{% for linked in linked_customers %}<a href="{{ linked.get_absolute_url }}">{{ linked.name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}{% if perms.accounts.edit_portal and perms.contacts.change_contact %}<br><a href="{% url 'contacts:edit' customer.pk contact.pk %}">Manage associations</a>{% endif %}</dd></div>
 <div><dt>Job title</dt><dd>{{ contact.job_title|default:'Not provided' }}</dd></div>
 <div><dt>Department</dt><dd>{{ contact.department|default:'Not provided' }}</dd></div>
 <div><dt>Contact type</dt><dd>{{ contact.get_contact_type_display }}</dd></div>

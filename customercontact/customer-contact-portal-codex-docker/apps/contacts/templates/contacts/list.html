@@ -2,7 +2,7 @@
 {% block title %}Contacts · {{ customer.name }} · Customer Portal{% endblock %}
 {% block content %}
 <a class="back-link" href="{{ customer.get_absolute_url }}">← {{ customer.name }}</a>
-<div class="page-heading"><div><p class="eyebrow">{{ customer.name }}</p><h1>Contacts</h1></div>{% if perms.accounts.edit_portal and perms.contacts.add_contact %}<a class="button" href="{% url 'contacts:create' customer.pk %}">Add contact</a>{% endif %}</div>
+<div class="page-heading"><div><p class="eyebrow">{{ customer.name }}</p><h1>Contacts</h1><p><a href="{% url 'global_contacts:list' %}">Browse all contacts</a> to find a person to associate with this customer.</p></div>{% if perms.accounts.edit_portal and perms.contacts.add_contact %}<a class="button" href="{% url 'contacts:create' customer.pk %}">Add contact</a>{% endif %}</div>
 {% include 'components/customer_tabs.html' with current='contacts' %}
 {% if customer.status == 'inactive' %}<p class="notice">This customer is archived. Its contacts and details remain available.</p>{% endif %}
 <section class="panel">
@@ -12,7 +12,7 @@
 {% if page_obj.object_list %}<div class="table-scroll" tabindex="0" role="region" aria-label="Customer contacts"><table>
 <thead><tr><th scope="col">Name</th><th scope="col">Role / department</th><th scope="col">Type</th><th scope="col">Email / phone</th><th scope="col">Status</th></tr></thead>
 <tbody>{% for person in page_obj %}<tr>
-<td><a href="{{ person.get_absolute_url }}">{{ person.full_name }}</a></td>
+<td><a href="{% url 'contacts:detail' customer.pk person.pk %}">{{ person.full_name }}</a></td>
 <td>{{ person.job_title|default:'—' }}{% if person.department %}<br>{{ person.department }}{% endif %}</td>
 <td>{{ person.get_contact_type_display }}</td>
 <td>{% for point in person.active_points %}<div class="contact-value">{{ point.value }} <small>{{ point.get_label_display }}{% if point.is_primary %} · Primary{% endif %}</small></div>{% empty %}No details added{% endfor %}</td>

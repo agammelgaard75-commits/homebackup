@@ -13,7 +13,7 @@ def visible_events(actor):
     if actor.has_perm("customers.view_customer"):
         allowed |= Q(object_type="customer")
     if actor.has_perms(CONTACT_READ):
-        allowed |= Q(object_type__in=["contact", "contact_point"])
+        allowed |= Q(object_type__in=["contact", "contact_point", "contact_customer"])
     if actor.has_perm("services.view_service"):
         allowed |= Q(object_type="service")
     if actor.has_perms(SERVICE_READ):

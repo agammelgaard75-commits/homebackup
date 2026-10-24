@@ -8,7 +8,7 @@
 - User roles are implemented using Django Groups + explicit permissions checked server-side.
 
 ## Navigation
-Header: `Customers | Services | Search` and user/profile/logout. The `Administration` link is visible to admins only.
+Header: `Home | Customers | Contacts | Services | Search | Search by service` and sign-out. `Audit history` and `Administration` are visible to authorized administrators only.
 
 ### 1. Customer directory (`/customers/`)
 - Paginated table with name, status, number of active services, primary customer contact, last updated.
@@ -42,6 +42,11 @@ Header: `Customers | Services | Search` and user/profile/logout. The `Administra
 - Django-provided authentication, session handling and CSRF protection.
 - Use Django admin for user and group management initially; no custom admin UI in MVP.
 - Disable open sign-up.
+
+### 6. Phase 5B contact directory and service search
+- `/contacts/` lists people across customers and lets Editors manage one or more customer associations per person. Removing an association retains the contact and its details.
+- `/search/by-service/` selects one or more catalog services and matches customers by ANY or ALL. Active agreements, customers and contacts are the default, with explicit archived/inactive expansions.
+- Results show each customer/contact association once, including customers without contacts. Copy All Emails gathers unique active person and general customer addresses from all matched pages for authorized users, with a manual-copy fallback.
 
 ## Layout sketch
 ```text

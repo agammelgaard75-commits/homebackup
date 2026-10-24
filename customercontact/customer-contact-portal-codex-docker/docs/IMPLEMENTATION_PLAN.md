@@ -48,6 +48,15 @@ Deliver:
 
 Exit criteria: End-to-end core workflow works and passes tests without manual database edits.
 
+## Phase 5B: Service-based contact search and shared contacts
+Deliver:
+- Dedicated multi-service ANY/ALL search over customer/contact associations, default active filters, pagination and distinct email collection across the full result set.
+- Global Contacts directory and contact forms that manage one or more customer associations.
+- Additive association backfill before relying on the new relationship, with transactional metadata-only association audit events.
+- Dashboard active-contact regression coverage, retained customer-scoped URLs and Docker-only verification.
+
+Exit criteria: Existing contacts and points survive the migration unchanged; all old and new tests pass; Viewer can read/search/copy while Editor and Administrator can manage associations; the isolated Docker stack stays healthy across recreation.
+
 ## Phase 6: Production-readiness checkpoint (separate approval)
 Deliver:
 - Security review, verify Caddy internal TLS trust for managed clients, production settings, firewall and DNS configuration, backup/restore rehearsal, offsite backups, secrets handling, deployment checklist.

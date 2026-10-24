@@ -3,11 +3,11 @@
 Project different entities into a common shape so PostgreSQL can UNION and
 paginate each group without loading the full result set into Python.
 """
-from django.db.models import Case, CharField, F, Q, Value, When
-from django.db.models.functions import Cast
+from django.db.models import Case, CharField, F, OuterRef, Q, Subquery, Value, When
+from django.db.models.functions import Cast, Coalesce
 from django.urls import reverse
 
-from apps.contacts.models import Contact, ContactPoint
+from apps.contacts.models import Contact, ContactCustomer, ContactPoint
 from apps.contacts.permissions import READ_PERMISSIONS as CONTACT_READ
 from apps.contacts.validation import phone_search_value
 from apps.customers.models import Customer
@@ -44,8 +44,11 @@ def search_groups(actor, query):
         if phone:
             points = ContactPoint.objects.filter(Q(pk__in=points.values("pk")) | Q(kind="phone", normalized_value__contains=phone))
         people = Contact.objects.filter(Q(full_name__icontains=query) | Q(job_title__icontains=query) | Q(pk__in=points.values("contact_id")))
-        people_rows = _rows(people, "contact", F("full_name"), F("job_title"), customer_id=F("customer_id"),
-                            customer_name=F("customer__name"), customer_status=F("customer__status"))
+        current_link = ContactCustomer.objects.filter(contact_id=OuterRef("pk"), is_active=True).order_by("created_at", "customer_id")
+        people_rows = _rows(people, "contact", F("full_name"), F("job_title"),
+                            customer_id=Coalesce(Subquery(current_link.values("customer_id")[:1]), F("customer_id")),
+                            customer_name=Coalesce(Subquery(current_link.values("customer__name")[:1]), F("customer__name")),
+                            customer_status=Coalesce(Subquery(current_link.values("customer__status")[:1]), F("customer__status")))
         general_rows = _rows(points.filter(contact__isnull=True), "general", F("value"), F("kind"), customer_id=F("customer_id"),
                              customer_name=F("customer__name"), customer_status=F("customer__status"))
         groups.append(("Contacts", "contacts_page", people_rows.union(general_rows)))

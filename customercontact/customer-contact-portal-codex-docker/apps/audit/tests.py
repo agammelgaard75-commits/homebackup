@@ -53,7 +53,7 @@ class AuditFixtures(TestCase):
 
 class AuditRecordingTests(AuditFixtures):
     def test_creation_identifiers_actor_customer_and_safe_metadata(self):
-        self.assertEqual(AuditEvent.objects.count(), 5)
+        self.assertEqual(AuditEvent.objects.count(), 6)
         for instance, object_type, actor in ((self.customer, "customer", self.editor), (self.person, "contact", self.editor),
                                            (self.point, "contact_point", self.editor), (self.service, "service", self.admin),
                                            (self.assignment, "customer_service", self.editor)):

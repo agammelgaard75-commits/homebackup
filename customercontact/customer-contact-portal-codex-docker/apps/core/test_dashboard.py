@@ -4,7 +4,7 @@ from django.core.management import call_command
 from django.test import TestCase
 from django.urls import reverse
 
-from apps.contacts.models import Contact
+from apps.contacts.models import Contact, ContactCustomer
 from apps.customers.models import Customer
 from apps.services.models import Service, CustomerService
 
@@ -36,6 +36,16 @@ class DashboardTests(TestCase):
         self.assertEqual(response.context["active_assignments"], 2)
         self.assertIn("no-store", response["Cache-Control"])
         self.assertEqual(self.client.post("/", secure=True).status_code, 405)
+
+    def test_active_contact_widget_shows_people_and_counts_shared_once(self):
+        ContactCustomer.objects.create(contact=self.person, customer=self.active)
+        ContactCustomer.objects.create(contact=self.person, customer=self.archived)
+        response = self.client.get("/", secure=True)
+        self.assertEqual(response.context["active_contacts"], 2)
+        self.assertEqual(list(response.context["active_contact_preview"]).count(self.person), 1)
+        self.assertContains(response, self.person.get_absolute_url())
+        self.assertContains(response, "Browse contacts")
+        self.assertNotContains(response, "No active contacts yet")
 
     def test_recent_lists_order_limit_and_direct_links(self):
         for i in range(8):

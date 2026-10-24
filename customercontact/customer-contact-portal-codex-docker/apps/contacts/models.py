@@ -48,11 +48,40 @@ class Contact(models.Model):
             raise ValidationError({"customer": "A contact cannot be moved to another customer."})
 
     def get_absolute_url(self):
-        return reverse("contacts:detail", args=[self.customer_id, self.pk])
+        # The original customer remains a stable provenance/point owner. The
+        # current URL follows an active association if that link is retired.
+        if hasattr(self, "active_customer_links"):
+            association = min(self.active_customer_links, key=lambda link: (link.created_at, link.customer_id), default=None)
+        else:
+            association = self.customer_links.filter(is_active=True).order_by("created_at", "customer_id").first()
+        return reverse("contacts:detail", args=[association.customer_id if association else self.customer_id, self.pk])
 
     def __str__(self):
         # Avoid accidental contact name/email disclosure in generic object logs.
         return f"Contact {self.pk}"
+
+
+class ContactCustomer(models.Model):
+    """The authoritative current customer membership for a shared contact."""
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    contact = models.ForeignKey(Contact, on_delete=models.PROTECT, related_name="customer_links")
+    customer = models.ForeignKey("customers.Customer", on_delete=models.PROTECT, related_name="contact_links")
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["customer__name", "id"]
+        constraints = [models.UniqueConstraint(fields=["contact", "customer"], name="contact_customer_pair_unique")]
+        indexes = [models.Index(fields=["customer", "is_active"], name="contact_link_customer_active")]
+
+    def clean(self):
+        if not self._state.adding and type(self).objects.filter(pk=self.pk).exclude(contact_id=self.contact_id, customer_id=self.customer_id).exists():
+            raise ValidationError("Contact and customer on an association cannot be changed.")
+
+    def __str__(self):
+        return f"Contact association {self.pk}"
 
 
 class ContactPoint(models.Model):

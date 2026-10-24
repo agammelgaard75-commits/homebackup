@@ -1,6 +1,6 @@
 # Customer Contact Portal
 
-An internal staff portal built as a Django modular monolith with PostgreSQL and Caddy HTTPS. **Phases 1–5 are implemented.** Customer, contact and service management, global search, transactional audit history and a database-backed dashboard are available.
+An internal staff portal built as a Django modular monolith with PostgreSQL and Caddy HTTPS. **Phases 1–5 and the Phase 5B extension are implemented.** Customer, contact and service management, global search, transactional audit history and a database-backed dashboard are available.
 
 The foundation includes staff login/logout, a responsive home page, a custom User model, Viewer/Editor/Administrator groups, restricted Django user administration, database-aware health checks, and Docker installation/maintenance scripts. There is no public registration.
 
@@ -71,13 +71,15 @@ Run `./scripts/update.sh` (with `sudo` if needed). It backs up the database, bui
 
 Customers default to Active in the directory. Select Archived or All statuses to find archived records. A name is required; the CVR / company ID is optional and unique when supplied. Use the detail page's Archive action to retain a record, or edit its status to reactivate it. Contacts and Services are available from each customer. See [customer data rules](docs/DATA_MODEL.md#phase-2-customer-implementation) and the [module service API](docs/ARCHITECTURE.md#customer-module-write-api-phase-2).
 
-Verification evidence: [Phase 1](docs/PHASE1_VERIFICATION.md), [Phase 2](docs/PHASE2_VERIFICATION.md), [Phase 3](docs/PHASE3_VERIFICATION.md), [Phase 4](docs/PHASE4_VERIFICATION.md), and [Phase 5](docs/PHASE5_VERIFICATION.md).
+Verification evidence: [Phase 1](docs/PHASE1_VERIFICATION.md), [Phase 2](docs/PHASE2_VERIFICATION.md), [Phase 3](docs/PHASE3_VERIFICATION.md), [Phase 4](docs/PHASE4_VERIFICATION.md), [Phase 5](docs/PHASE5_VERIFICATION.md), and [Phase 5B](docs/PHASE5B_VERIFICATION.md).
 
 ## Working with contacts
 
 Open a customer and choose **Contacts**. Add a person with only a name, then add as many labeled email addresses and phone numbers as needed from that person's page. Job title, department, type and notes are optional. Use the same pages to edit, archive or restore people and details. Selecting Primary replaces the current primary of that kind for the same owner; email and phone have separate primary choices.
 
 Use **Add general detail** on the customer Overview or Contacts page for a company address or reception number with no person attached. Search a customer's contacts by name, email or phone; switch to Archived or All statuses to include archived people and general details. Archive preserves records and relationships. These features use the existing Viewer/Editor/Administrator permissions and require no JavaScript or new runtime dependency.
+
+Use **Contacts** in the main navigation for a global directory. It searches people by name, job title, email, phone or associated customer, with status and type filters. Editors can create a contact with one or more customers and edit its customer selections later. Removing a selection archives only that association; the person, notes and contact details stay intact. Existing customer-scoped URLs continue to work for active associations.
 
 ## Working with services
 
@@ -90,6 +92,8 @@ Status is maintained manually; dates never trigger automatic changes. Archiving 
 ## Search, activity and dashboard
 
 Use **Search** in the main navigation for partial, case-insensitive customer names/company IDs, contact names/job titles/emails/phones, general contact details, catalog names/descriptions and customer service agreements. Results are grouped by Customers, Contacts and Services with independent pagination. Archived records remain discoverable and are labeled; only records allowed by your existing read permissions are searched. Formatting is removed for phone comparison without guessing country codes.
+
+Use **Search by service** to select one or more catalog entries. ANY finds customers with at least one selected service; ALL requires every selected service. Active assignments, customers and contacts are the defaults; separate checkboxes expand each scope. The paginated table includes each matching customer/contact association and customers without contacts. **Copy All Emails** collects distinct active person and general customer email addresses for all matching active customers across every result page. It excludes archived contacts/customers even when those are displayed. If browser clipboard access fails, a selectable field appears.
 
 The dashboard shows live active customer/contact/agreement counts and recent customer/contact records. Counts follow each record's own status, including active people/agreements under archived customers. Customer tabs consistently expose **Overview**, **Contacts**, **Services** and **Activity** according to read permissions.
 

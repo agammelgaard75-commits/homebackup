@@ -13,33 +13,35 @@ Use Django ORM and migrations. UUID primary keys are recommended for business re
 
 ## Contact (`contacts` app)
 - `id` UUID PK
-- `customer_id` required FK -> Customer
+- `customer_id` required FK -> original Customer (stable provenance and contact-point owner)
 - `full_name` required
 - `job_title` optional
-- `role`: general | technical | billing | escalation | management | other
-- `is_primary` bool (only one primary person per customer; validate)
+- `contact_type`: technical | management | billing | support | other
+- `is_general` bool (team/shared contact such as Support Desk or Reception)
 - `is_active` bool
 - `notes` optional
 - `created_at`, `updated_at`
 
+`ContactCustomer` supplies one or more active customer associations for each Contact. The contact row is reused across customer and global pages; association archive removes a customer relationship without deleting the contact or its details.
+
 ## ContactPoint (`contacts` app)
-Allows multiple contact numbers/email addresses for a person, **or** company-level general contact points.
+Allows multiple contact email addresses and phone numbers for named or general contacts.
 - `id` UUID PK
-- `customer_id` required FK -> Customer
-- `contact_id` optional FK -> Contact, same Customer required; NULL means a company/general contact point.
+- `customer_id` required FK -> Contact's original Customer, retained for the existing composite foreign key
+- `contact_id` required FK -> Contact; personless company points are no longer allowed
 - `kind`: email | phone
-- `label`: work | mobile | support | billing | emergency | other
+- `label`: work | mobile | direct | support | other
 - `value` required (email address or displayed phone number)
-- `normalized_value` optional stored normalized string for consistent search
-- `is_primary` bool (at most one primary per owner and kind)
+- `normalized_value` required normalized string for consistent search
+- `is_primary` bool (at most one active primary per contact and kind)
 - `created_at`, `updated_at`
 
 Validation:
-- If `contact_id` is set, the referenced Contact must have exactly the same `customer_id`.
+- The referenced Contact must have exactly the same original `customer_id` as the point; the contact may also be associated with other customers.
 - Normalize emails for comparison/search; validate proper email shape.
 - Permit international phone numbers; retain human-readable format. Use consistent normalizing/search strategy and test Danish and international formats.
 - Enforce primary uniqueness in transactions/constraints where possible; tests must cover it.
-- Do not duplicate general contact point values directly on Customer.
+- All customer email and phone values belong to Contact records. Customer has no email/phone fields.
 
 ## Service (`services` app)
 - `id` UUID PK
@@ -81,8 +83,9 @@ Audit history is append-only through application code. Avoid logging contact ema
 
 ## Relationships
 ```text
-Customer 1 ────── * Contact
-Customer 1 ────── * ContactPoint [contact is optional]
+Customer 1 ────── * ContactCustomer * ────── 1 Contact
+Customer 1 ────── * Contact [original owner/provenance]
+Customer 1 ────── * ContactPoint [original owner/provenance]
 Contact  1 ────── * ContactPoint
 Customer 1 ────── * CustomerService * ────── 1 Service
 User     1 ────── * AuditEvent
@@ -141,4 +144,10 @@ Phase 5B extends the Phase 3 one-customer model above. `ContactCustomer` is the 
 
 Migration `contacts.0003_contact_customers` creates the new table and backfills exactly one active association from each preexisting contact's original customer. It does not update or delete Contact or ContactPoint rows. Migration `audit.0002_...` expands the audit type constraint to accept association events; existing events are untouched. Association create/archive/restore and person/detail changes record actor and affected customer(s) transactionally, using only field names and fixed descriptions. A previously removed original-customer GET URL redirects to an active association; writes through a removed association are refused.
 
-The updated relationship is `Customer * ─ ContactCustomer ─ * Contact`; `Contact 1 ─ * ContactPoint` and customer-owned general contact points continue as before. Both customer and contact status are checked for the default service-search result rows and email export. A contact shared by two customers is counted once on the dashboard.
+At the Phase 5B checkpoint, the relationship was `Customer * ─ ContactCustomer ─ * Contact`; `Contact 1 ─ * ContactPoint` and the older customer-owned general points still existed. Both customer and contact status are checked for the default service-search result rows and email export. A contact shared by two customers is counted once on the dashboard.
+
+## Contact unification after Phase 5B
+
+The later contact-unification request supersedes the historical personless `ContactPoint` design described in the Phase 3/5B sections above. `Contact.is_general` distinguishes a team or shared contact from a named person; both are ordinary Contact rows with the same customer associations and email/phone support. `ContactPoint.contact_id` is now required. The existing `customer_id` on a point remains the original owner needed by the composite foreign key, and is not a second place to store an address or number.
+
+`contacts.0004_unify_general_contact_points` adds the flag and groups every legacy null-contact point by customer. It creates at most one general contact per affected customer, or reuses an unambiguous empty `General Contact` placeholder belonging only to that customer. It attaches the original point rows without changing their IDs, values, normalized values, labels, primary/active flags or timestamps. A newly created contact is archived when all of its inherited points are archived. `contacts.0005_require_contact_for_details` then removes the obsolete general-primary constraint and makes `contact_id` non-null in a separate transaction, after foreign-key triggers from the data move have committed. The data migration aborts if any orphan remains; no value is discarded. Existing historical audit events remain untouched, and migrations do not fabricate an actor or event. The backup-first update flow provides the rollback point; the data migration is deliberately irreversible in place.

@@ -12,7 +12,7 @@
 {% if page_obj.object_list %}<div class="table-scroll" tabindex="0" role="region" aria-label="Customer contacts"><table>
 <thead><tr><th scope="col">Name</th><th scope="col">Role / department</th><th scope="col">Type</th><th scope="col">Email / phone</th><th scope="col">Status</th></tr></thead>
 <tbody>{% for person in page_obj %}<tr>
-<td><a href="{% url 'contacts:detail' customer.pk person.pk %}">{{ person.full_name }}</a></td>
+<td><a href="{% url 'contacts:detail' customer.pk person.pk %}">{{ person.full_name }}</a>{% if person.is_general %} <span class="badge">General</span>{% endif %}</td>
 <td>{{ person.job_title|default:'—' }}{% if person.department %}<br>{{ person.department }}{% endif %}</td>
 <td>{{ person.get_contact_type_display }}</td>
 <td>{% for point in person.active_points %}<div class="contact-value">{{ point.value }} <small>{{ point.get_label_display }}{% if point.is_primary %} · Primary{% endif %}</small></div>{% empty %}No details added{% endfor %}</td>
@@ -21,5 +21,4 @@
 {% else %}<div class="empty-state"><h2>No contacts found</h2><p>Try another search or status filter, or add a contact if you have editing access.</p></div>{% endif %}
 {% include 'components/pagination.html' with pagination_label='Contact pages' %}
 {% endif %}</section>
-{% if filter_form.is_valid %}{% include 'contacts/general.html' %}{% endif %}
 {% endblock %}

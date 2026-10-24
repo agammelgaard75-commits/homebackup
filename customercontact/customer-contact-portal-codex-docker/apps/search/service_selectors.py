@@ -1,5 +1,5 @@
 """Service-based customer/contact search and permission-scoped email selection."""
-from django.db.models import CharField, Count, Exists, F, OuterRef, Q, UUIDField, Value
+from django.db.models import CharField, Count, Exists, F, OuterRef, UUIDField, Value
 from django.db.models.functions import Lower
 
 from apps.contacts.models import ContactCustomer, ContactPoint
@@ -64,9 +64,8 @@ def _email_points(filters):
     customer_ids = matched_customers(filters).filter(status=Customer.Status.ACTIVE).values("pk")
     contact_ids = ContactCustomer.objects.filter(customer_id__in=customer_ids, is_active=True,
                                                   contact__is_active=True).values("contact_id")
-    return ContactPoint.objects.filter(kind=ContactPoint.Kind.EMAIL, is_active=True).filter(
-        Q(contact__isnull=True, customer_id__in=customer_ids) | Q(contact_id__in=contact_ids),
-    )
+    return ContactPoint.objects.filter(kind=ContactPoint.Kind.EMAIL, is_active=True,
+                                       contact_id__in=contact_ids)
 
 
 def email_count(filters):

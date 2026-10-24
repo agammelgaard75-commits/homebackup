@@ -7,6 +7,10 @@ from .models import Contact, ContactPoint
 
 class ContactForm(forms.ModelForm):
     contact_type = forms.ChoiceField(choices=Contact.Type.choices, required=False)
+    is_general = forms.BooleanField(
+        label="General contact (team or shared address)", required=False,
+        help_text="Select for Support Desk, Reception, Billing or another contact that is not a named person.",
+    )
     customers = forms.ModelMultipleChoiceField(
         label="Associated customers", queryset=Customer.objects.all(), required=False,
         widget=forms.SelectMultiple(attrs={"size": 7}),
@@ -15,7 +19,7 @@ class ContactForm(forms.ModelForm):
 
     class Meta:
         model = Contact
-        fields = ("full_name", "job_title", "department", "contact_type", "notes")
+        fields = ("full_name", "is_general", "job_title", "department", "contact_type", "notes")
         widgets = {"notes": forms.Textarea(attrs={"rows": 5})}
 
     def clean_contact_type(self):

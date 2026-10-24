@@ -22,6 +22,7 @@ class Contact(models.Model):
     job_title = models.CharField(max_length=200, blank=True)
     department = models.CharField(max_length=200, blank=True)
     contact_type = models.CharField(max_length=10, choices=Type.choices, default=Type.OTHER)
+    is_general = models.BooleanField(default=False, help_text="Use for a team or shared contact such as Support Desk or Reception.")
     notes = models.TextField(blank=True, max_length=10000, validators=[MaxLengthValidator(10000)])
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -98,7 +99,7 @@ class ContactPoint(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     customer = models.ForeignKey("customers.Customer", on_delete=models.PROTECT, related_name="contact_points")
-    contact = models.ForeignKey(Contact, on_delete=models.PROTECT, null=True, blank=True, related_name="points")
+    contact = models.ForeignKey(Contact, on_delete=models.PROTECT, related_name="points")
     kind = models.CharField(max_length=5, choices=Kind.choices)
     label = models.CharField(max_length=7, choices=Label.choices, default=Label.OTHER)
     value = models.CharField(max_length=254)
@@ -117,7 +118,6 @@ class ContactPoint(models.Model):
             models.CheckConstraint(condition=models.Q(value__regex=r"\S"), name="point_value_not_blank"),
             models.CheckConstraint(condition=~models.Q(normalized_value=""), name="point_normalized_not_blank"),
             models.UniqueConstraint(fields=["contact", "kind"], condition=models.Q(contact__isnull=False, is_primary=True, is_active=True), name="person_primary_point_unique"),
-            models.UniqueConstraint(fields=["customer", "kind"], condition=models.Q(contact__isnull=True, is_primary=True, is_active=True), name="general_primary_point_unique"),
         ]
 
     def clean_fields(self, exclude=None):
@@ -132,7 +132,7 @@ class ContactPoint(models.Model):
             errors["value"] = error.messages
         if self.contact_id and self.customer_id:
             if not Contact.objects.filter(pk=self.contact_id, customer_id=self.customer_id).exists():
-                errors["contact"] = "The person must belong to this customer."
+                errors["contact"] = "The contact must belong to this customer."
         if not self._state.adding:
             if ContactPoint.objects.filter(pk=self.pk).exclude(customer_id=self.customer_id, contact_id=self.contact_id).exists():
                 errors["contact"] = "Contact detail ownership cannot be changed."

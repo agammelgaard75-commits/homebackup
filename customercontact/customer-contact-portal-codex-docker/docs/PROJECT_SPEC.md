@@ -18,10 +18,10 @@ Header: `Home | Customers | Contacts | Services | Search | Search by service` an
 - Clicking a row opens the customer detail page.
 
 ### 2. Customer detail (`/customers/<id>/`)
-- Header: customer name, reference ID, status, primary general email/phone.
+- Header: customer name, reference ID and status; contact information comes from associated contacts.
 - Tabs: **Overview | Contacts | Services | Activity**.
-- **Overview**: company fields, general contact channels and internal notes.
-- **Contacts**: people with role, email(s), phone(s), preferred/primary flag, status. Support add/edit/archive.
+- **Overview**: company fields, internal notes and a preview of associated contacts.
+- **Contacts**: named people and general contacts, each with email(s), phone(s), primary flags, type and status. Support add/edit/archive.
 - **Services**: current assigned services, status, optional start/end date and internal notes. Support assign/edit/end.
 - **Activity**: timestamp, staff username, action and affected record, without dumping full personally identifiable record values.
 
@@ -32,7 +32,7 @@ Header: `Home | Customers | Contacts | Services | Search | Search by service` an
 - Retired catalog services remain visible on customers with historical assignments.
 
 ### 4. Global search (`/search/`)
-- One search input with results grouped as Customers, Contacts (people and general details), Services.
+- One search input with results grouped as Customers, Contacts (named and general), Services.
 - Search by customer name, contact name, email address, phone number, service name.
 - Results lead to relevant customer or record page.
 - All searches are scoped to records the logged-in user may view.
@@ -46,7 +46,7 @@ Header: `Home | Customers | Contacts | Services | Search | Search by service` an
 ### 6. Phase 5B contact directory and service search
 - `/contacts/` lists people across customers and lets Editors manage one or more customer associations per person. Removing an association retains the contact and its details.
 - `/search/by-service/` selects one or more catalog services and matches customers by ANY or ALL. Active agreements, customers and contacts are the default, with explicit archived/inactive expansions.
-- Results show each customer/contact association once, including customers without contacts. Copy All Emails gathers unique active person and general customer addresses from all matched pages for authorized users, with a manual-copy fallback.
+- Results show each customer/contact association once, including customers without contacts. Copy All Emails gathers unique addresses from active named and general contacts across all matched pages for authorized users, with a manual-copy fallback.
 
 ## Layout sketch
 ```text

@@ -51,17 +51,13 @@ def service_contact_search(request):
         points_by_contact = {contact_id: {"email": [], "phone": []} for contact_id in contact_ids}
         for point in ContactPoint.objects.filter(contact_id__in=contact_ids, is_active=True).order_by("kind", "id"):
             points_by_contact[point.contact_id][point.kind].append(point.value)
-        general_by_customer = {customer_id: {"email": [], "phone": []} for customer_id in customer_ids}
-        for point in ContactPoint.objects.filter(customer_id__in=customer_ids, contact__isnull=True,
-                                                  is_active=True).order_by("kind", "id"):
-            general_by_customer[point.customer_id][point.kind].append(point.value)
         for row in rows:
             contact = contacts_by_id.get(row["row_contact_id"])
             row["contact_type"] = contact.get_contact_type_display() if contact else ""
             row["job_title"] = contact.job_title if contact else ""
             row["contact_active"] = contact.is_active if contact else False
             row["matching_services"] = services_by_customer[row["row_customer_id"]]
-            channels = points_by_contact.get(row["row_contact_id"]) if contact else general_by_customer[row["row_customer_id"]]
+            channels = points_by_contact.get(row["row_contact_id"], {"email": [], "phone": []})
             row["emails"] = channels["email"]
             row["phones"] = channels["phone"]
         count = email_count(filters)

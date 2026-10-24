@@ -1,5 +1,0 @@
-<section class="panel contact-section" aria-labelledby="general-heading">
-<div class="page-heading"><div><h2 id="general-heading">General contact details</h2><p>Company contact information not associated with a person.</p></div>
-{% if perms.accounts.edit_portal and perms.contacts.add_contactpoint %}<a class="button secondary" href="{% url 'contacts:general_create' customer.pk %}">Add general detail</a>{% endif %}</div>
-{% include 'contacts/points.html' with points=general_points %}
-</section>

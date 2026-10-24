@@ -2,7 +2,7 @@
 {% block title %}{{ contact.full_name }} · {{ customer.name }} · Customer Portal{% endblock %}
 {% block content %}
 <a class="back-link" href="{% url 'contacts:list' customer.pk %}">← Contacts for {{ customer.name }}</a>
-<div class="page-heading"><div><p class="eyebrow"><a href="{{ customer.get_absolute_url }}">{{ customer.name }}</a></p><h1>{{ contact.full_name }}</h1><span class="badge {% if not contact.is_active %}archived{% endif %}">{% if contact.is_active %}Active{% else %}Archived{% endif %}</span></div>
+<div class="page-heading"><div><p class="eyebrow"><a href="{{ customer.get_absolute_url }}">{{ customer.name }}</a></p><h1>{{ contact.full_name }}</h1>{% if contact.is_general %}<span class="badge">General contact</span>{% endif %}<span class="badge {% if not contact.is_active %}archived{% endif %}">{% if contact.is_active %}Active{% else %}Archived{% endif %}</span></div>
 {% if perms.accounts.edit_portal and perms.contacts.change_contact %}<div class="actions"><a class="button" href="{% url 'contacts:edit' customer.pk contact.pk %}">Edit contact</a>{% if contact.is_active %}<a class="button secondary" href="{% url 'contacts:archive' customer.pk contact.pk %}">Archive contact</a>{% else %}<a class="button secondary" href="{% url 'contacts:restore' customer.pk contact.pk %}">Restore contact</a>{% endif %}</div>{% endif %}</div>
 {% if not contact.is_active %}<p class="notice">This contact is archived. Its details have been retained.</p>{% endif %}
 {% include 'components/customer_tabs.html' with current='contacts' %}

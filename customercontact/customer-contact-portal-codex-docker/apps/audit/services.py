@@ -10,7 +10,7 @@ from .models import AuditEvent
 
 TRACKED_FIELDS = {
     "customers.customer": ("name", "reference_code", "status", "address", "notes"),
-    "contacts.contact": ("customer_id", "full_name", "job_title", "department", "contact_type", "notes", "is_active"),
+    "contacts.contact": ("customer_id", "full_name", "job_title", "department", "contact_type", "is_general", "notes", "is_active"),
     "contacts.contactpoint": ("customer_id", "contact_id", "kind", "label", "value", "is_primary", "is_active"),
     "contacts.contactcustomer": ("customer_id", "contact_id", "is_active"),
     "services.service": ("name", "description", "category", "is_active"),

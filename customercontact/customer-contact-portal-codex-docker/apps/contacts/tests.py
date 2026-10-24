@@ -37,9 +37,12 @@ class ContactFixtures(TestCase):
         cls.person = create_contact(actor=cls.users["Editor"], customer_id=cls.customer.pk, full_name="Alice Example")
         cls.second_person = create_contact(actor=cls.users["Editor"], customer_id=cls.customer.pk, full_name="Bob Example")
         cls.foreign_person = create_contact(actor=cls.users["Editor"], customer_id=cls.other_customer.pk, full_name="Foreign Example")
+        cls.general_contact = create_contact(actor=cls.users["Editor"], customer_id=cls.customer.pk,
+                                             full_name="Support Desk", contact_type="support", is_general=True)
         cls.email = save_contact_point(actor=cls.users["Editor"], customer_id=cls.customer.pk,
                                       contact_id=cls.person.pk, kind="email", value="alice@example.invalid", is_primary=True)
         cls.general = save_contact_point(actor=cls.users["Editor"], customer_id=cls.customer.pk,
+                                        contact_id=cls.general_contact.pk,
                                         kind="phone", value="+45 12 34 56 78", is_primary=True)
 
     def point(self, **changes):
@@ -80,7 +83,7 @@ class ContactModelTests(ContactFixtures):
                         {"job_title": "x" * 201}, {"department": "x" * 201}, {"notes": "x" * 10001}):
             with self.subTest(fields=list(invalid)), self.assertRaises(ValidationError):
                 create_contact(actor=self.users["Editor"], customer_id=self.customer.pk, **{"full_name": "Valid", **invalid})
-        self.assertEqual(Contact.objects.count(), 3)
+        self.assertEqual(Contact.objects.count(), 4)
 
     def test_all_requested_types_and_metadata(self):
         for contact_type in ("technical", "management", "billing", "support", "other"):
@@ -116,10 +119,11 @@ class ContactModelTests(ContactFixtures):
         with self.assertRaises(ProtectedError):
             Contact.objects.get(pk=self.person.pk).delete()
 
-    def test_general_points_are_not_assigned_to_person(self):
-        self.assertIsNone(self.general.contact_id)
+    def test_general_details_belong_to_associated_contact(self):
+        self.assertEqual(self.general.contact_id, self.general_contact.pk)
         self.assertEqual(self.general.customer_id, self.customer.pk)
         self.assertEqual(self.person.points.count(), 1)
+        self.assertTrue(self.general_contact.is_general)
 
     def test_email_and_danish_international_phone_normalization(self):
         self.assertEqual(self.point(value=" Alice.Work@Example.Invalid ").normalized_value, "alice.work@example.invalid")
@@ -147,8 +151,11 @@ class ContactModelTests(ContactFixtures):
     def test_database_point_constraints(self):
         for changes in ({"kind": "fax"}, {"label": "wrong"}, {"value": " "}, {"normalized_value": ""}):
             with self.assertRaises(IntegrityError), transaction.atomic():
-                ContactPoint.objects.create(**{"customer": self.customer, "kind": "email", "value": "test@example.invalid",
+                ContactPoint.objects.create(**{"customer": self.customer, "contact": self.person, "kind": "email", "value": "test@example.invalid",
                                               "normalized_value": "test@example.invalid", **changes})
+        with self.assertRaises(IntegrityError), transaction.atomic():
+            ContactPoint.objects.create(customer=self.customer, contact=None, kind="email",
+                                        value="orphan@example.invalid", normalized_value="orphan@example.invalid")
 
     def test_string_representation_does_not_contain_contact_values(self):
         self.assertNotIn(self.email.value, str(self.email))
@@ -173,17 +180,17 @@ class ContactServiceTests(ContactFixtures):
 
     def test_database_rejects_two_primary_details_for_each_owner_kind(self):
         for owner in ({"contact": self.person, "kind": "email", "value": "other@example.invalid"},
-                      {"contact": None, "kind": "phone", "value": "+45 99 88 77 66"}):
+                      {"contact": self.general_contact, "kind": "phone", "value": "+45 99 88 77 66"}):
             with self.assertRaises(IntegrityError), transaction.atomic():
                 ContactPoint.objects.create(customer=self.customer, normalized_value="synthetic", is_primary=True, **owner)
 
     def test_general_and_person_primary_are_independent(self):
-        general_email = self.point(contact_id=None, is_primary=True)
+        general_email = self.point(contact_id=self.general_contact.pk, is_primary=True)
         bob_email = self.point(contact_id=self.second_person.pk, is_primary=True)
         other = self.point(customer_id=self.other_customer.pk, contact_id=self.foreign_person.pk, is_primary=True)
         self.email.refresh_from_db()
         self.assertTrue(all(point.is_primary for point in (self.email, general_email, bob_email, other)))
-        self.point(contact_id=None, value="replacement@example.invalid", is_primary=True)
+        self.point(contact_id=self.general_contact.pk, value="replacement@example.invalid", is_primary=True)
         general_email.refresh_from_db()
         self.assertFalse(general_email.is_primary)
         self.email.refresh_from_db()
@@ -293,11 +300,11 @@ class ContactServiceTests(ContactFixtures):
 
 class ContactViewTests(ContactFixtures):
     read_routes = ("list", "detail")
-    write_routes = ("create", "edit", "archive", "restore", "point_create", "point_edit", "point_archive", "point_restore",
-                    "general_create", "general_edit", "general_archive", "general_restore")
+    write_routes = ("create", "edit", "archive", "restore", "point_create", "point_edit", "point_archive", "point_restore")
+    legacy_routes = ("general_create", "general_edit", "general_archive", "general_restore")
 
     def test_every_route_requires_authentication(self):
-        for name in (*self.read_routes, *self.write_routes):
+        for name in (*self.read_routes, *self.write_routes, *self.legacy_routes):
             for method in (self.client.get, self.client.post):
                 response = method(self.route(name), secure=True)
                 self.assertEqual(response.status_code, 302, name)
@@ -312,16 +319,16 @@ class ContactViewTests(ContactFixtures):
             self.assertIn("no-store", response["Cache-Control"])
             for control in ("Add contact</a>", "Edit contact</a>", "Archive contact</a>", "Add email or phone</a>"):
                 self.assertNotContains(response, control)
-        for name in self.write_routes:
+        for name in (*self.write_routes, *self.legacy_routes):
             self.assertEqual(self.client.get(self.route(name), secure=True).status_code, 403, name)
             self.assertEqual(self.client.post(self.route(name), {"full_name": "Forged", **self.point_payload()}, secure=True).status_code, 403, name)
-        self.assertEqual(Contact.objects.count(), 3)
+        self.assertEqual(Contact.objects.count(), 4)
         self.assertEqual(ContactPoint.objects.count(), 2)
 
     def test_unassigned_and_staff_flag_do_not_grant_access(self):
         user = User.objects.create_user(username="staff", is_staff=True)
         self.client.force_login(user)
-        for name in (*self.read_routes, *self.write_routes):
+        for name in (*self.read_routes, *self.write_routes, *self.legacy_routes):
             self.assertEqual(self.client.get(self.route(name), secure=True).status_code, 403)
             self.assertEqual(self.client.post(self.route(name), secure=True).status_code, 403)
 
@@ -354,22 +361,19 @@ class ContactViewTests(ContactFixtures):
                 self.assertEqual(Contact.objects.get(pk=person.pk).is_active, expected)
                 self.assertEqual(person.points.count(), 4)
 
-    def test_general_and_person_detail_forms_and_status_actions(self):
+    def test_legacy_general_urls_redirect_to_normal_contact_actions(self):
         self.client.force_login(self.users["Editor"])
-        for name in ("point_create", "point_edit", "general_create", "general_edit"):
-            self.assertEqual(self.client.get(self.route(name), secure=True).status_code, 200, name)
-        for name in ("point_edit", "general_edit"):
-            self.assertEqual(self.client.post(self.route(name), self.point_payload(value="edited@example.invalid"), secure=True).status_code, 302)
-        self.email.refresh_from_db()
+        self.assertRedirects(self.client.get(self.route("general_create"), secure=True), self.route("create"), fetch_redirect_response=False)
+        for action in ("edit", "archive", "restore"):
+            target = reverse(f"contacts:point_{action}", args=[self.customer.pk, self.general_contact.pk, self.general.pk])
+            self.assertRedirects(self.client.get(self.route(f"general_{action}"), secure=True), target, fetch_redirect_response=False)
+            self.assertEqual(self.client.post(self.route(f"general_{action}"), self.point_payload(), secure=True).status_code, 405)
+        self.assertEqual(self.client.post(self.route("general_create"), self.point_payload(), secure=True).status_code, 405)
+        self.assertEqual(ContactPoint.objects.filter(contact__isnull=True).count(), 0)
+        edit = reverse("contacts:point_edit", args=[self.customer.pk, self.general_contact.pk, self.general.pk])
+        self.assertEqual(self.client.post(edit, self.point_payload(value="edited@example.invalid"), secure=True).status_code, 302)
         self.general.refresh_from_db()
-        self.assertEqual(self.email.value, "edited@example.invalid")
-        self.assertIsNone(self.general.contact_id)
-        for prefix, point in (("point", self.email), ("general", self.general)):
-            for action, expected in (("archive", False), ("restore", True)):
-                self.assertEqual(self.client.get(self.route(f"{prefix}_{action}"), secure=True).status_code, 200)
-                self.assertEqual(self.client.post(self.route(f"{prefix}_{action}"), secure=True).status_code, 302)
-                point.refresh_from_db()
-                self.assertEqual(point.is_active, expected)
+        self.assertEqual(self.general.value, "edited@example.invalid")
 
     def test_cross_customer_urls_and_cross_owner_details_are_not_found(self):
         self.client.force_login(self.users["Editor"])
@@ -380,10 +384,10 @@ class ContactViewTests(ContactFixtures):
             urls.append(reverse(f"contacts:{name}", args=[self.customer.pk, self.second_person.pk, self.email.pk]))
             urls.append(reverse(f"contacts:{name}", args=[self.other_customer.pk, self.person.pk, self.email.pk]))
         for name in ("general_edit", "general_archive", "general_restore"):
-            urls.append(reverse(f"contacts:{name}", args=[self.customer.pk, self.email.pk]))
+            urls.append(reverse(f"contacts:{name}", args=[self.other_customer.pk, self.email.pk]))
         for url in urls:
             self.assertEqual(self.client.get(url, secure=True).status_code, 404)
-            expected_post = 405 if url == reverse("contacts:detail", args=[self.other_customer.pk, self.person.pk]) else 404
+            expected_post = 405 if url == reverse("contacts:detail", args=[self.other_customer.pk, self.person.pk]) or "/general/" in url else 404
             self.assertEqual(self.client.post(url, self.point_payload(), secure=True).status_code, expected_post)
 
     def test_posted_owner_and_status_fields_cannot_reparent_records(self):
@@ -406,7 +410,7 @@ class ContactViewTests(ContactFixtures):
         response = self.client.post(self.route("point_create"), self.point_payload(value="invalid email"), secure=True)
         self.assertContains(response, "invalid email")
         self.assertTrue(response.context["form"].errors)
-        self.assertEqual(Contact.objects.count(), 3)
+        self.assertEqual(Contact.objects.count(), 4)
         self.assertEqual(ContactPoint.objects.count(), 2)
 
     def test_csrf_required_for_every_write_route(self):
@@ -473,7 +477,7 @@ class ContactSearchTests(ContactFixtures):
     def test_search_is_customer_scoped_and_has_no_join_duplicates(self):
         self.point(value="alice.second@example.invalid")
         self.point(contact_id=self.foreign_person.pk, customer_id=self.other_customer.pk, value="alice.foreign@example.invalid")
-        people, _ = directory_results(self.customer, "alice")
+        people = directory_results(self.customer, "alice")
         self.assertEqual(list(people), [self.person])
         self.assertContains(self.client.get(self.route("list"), {"q": "' OR 1=1 --"}, secure=True), "No contacts found")
 
@@ -488,9 +492,10 @@ class ContactSearchTests(ContactFixtures):
         self.assertNotContains(self.client.get(self.route("list"), {"q": "alice@example"}, secure=True), "Alice Example")
 
     def test_general_detail_archive_filter(self):
-        set_point_active(actor=self.users["Editor"], customer_id=self.customer.pk, point_id=self.general.pk, is_active=False)
+        set_contact_active(actor=self.users["Editor"], customer_id=self.customer.pk,
+                           contact_id=self.general_contact.pk, is_active=False)
         self.assertNotContains(self.client.get(self.route("list"), secure=True), self.general.value)
-        self.assertContains(self.client.get(self.route("list"), {"status": "archived"}, secure=True), self.general.value)
+        self.assertContains(self.client.get(self.route("list"), {"status": "archived"}, secure=True), "Support Desk")
 
     def test_pagination_and_invalid_filter(self):
         Contact.objects.bulk_create([Contact(customer=self.customer, full_name=f"Page Person {i:02}") for i in range(28)])

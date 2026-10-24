@@ -49,9 +49,7 @@ def search_groups(actor, query):
                             customer_id=Coalesce(Subquery(current_link.values("customer_id")[:1]), F("customer_id")),
                             customer_name=Coalesce(Subquery(current_link.values("customer__name")[:1]), F("customer__name")),
                             customer_status=Coalesce(Subquery(current_link.values("customer__status")[:1]), F("customer__status")))
-        general_rows = _rows(points.filter(contact__isnull=True), "general", F("value"), F("kind"), customer_id=F("customer_id"),
-                             customer_name=F("customer__name"), customer_status=F("customer__status"))
-        groups.append(("Contacts", "contacts_page", people_rows.union(general_rows)))
+        groups.append(("Contacts", "contacts_page", people_rows))
     if actor.has_perm("services.view_service"):
         catalog = Service.objects.filter(Q(name__icontains=query) | Q(description__icontains=query))
         rows = _rows(catalog, "service", F("name"), F("description"))
@@ -71,8 +69,6 @@ def result_url(row):
         return reverse("customers:detail", args=[pk])
     if kind == "contact":
         return reverse("contacts:detail", args=[customer_pk, pk])
-    if kind == "general":
-        return reverse("contacts:list", args=[customer_pk]) + f"?status=#detail-{pk}"
     if kind == "service":
         return reverse("services:detail", args=[pk])
     return reverse("customer_services:detail", args=[customer_pk, pk])

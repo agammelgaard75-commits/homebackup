@@ -6,8 +6,10 @@ from .models import Contact, ContactCustomer, ContactPoint
 from .validation import phone_search_value
 
 
-def general_contact_points(customer):
-    return ContactPoint.objects.filter(customer=customer, contact__isnull=True, is_active=True)
+def customer_contact_preview(customer):
+    return associated_contacts(customer).filter(is_active=True).order_by(Lower("full_name"), "id").prefetch_related(
+        Prefetch("points", queryset=ContactPoint.objects.filter(is_active=True), to_attr="active_points"),
+    )[:5]
 
 
 def associated_contacts(customer):
@@ -31,23 +33,21 @@ def active_customer_ids(contact):
 
 def directory_results(customer, query="", status="active"):
     people = associated_contacts(customer)
-    general = ContactPoint.objects.filter(customer=customer, contact__isnull=True)
     if status:
         people = people.filter(is_active=status == "active")
-        general = general.filter(is_active=status == "active")
     if query:
         matching = Q(value__icontains=query) | Q(normalized_value__icontains=query.lower())
         phone = phone_search_value(query)
         if phone:
             matching |= Q(kind="phone", normalized_value__contains=phone)
-        point_matches = ContactPoint.objects.filter(is_active=True, contact__isnull=False).filter(matching)
-        people = people.filter(Q(full_name__icontains=query) | Q(pk__in=point_matches.values("contact_id")))
-        general = general.filter(matching)
+        point_matches = ContactPoint.objects.filter(is_active=True).filter(matching)
+        people = people.filter(Q(full_name__icontains=query) | Q(job_title__icontains=query)
+                               | Q(pk__in=point_matches.values("contact_id")))
     people = people.order_by(Lower("full_name"), "id").prefetch_related(
         Prefetch("points", queryset=ContactPoint.objects.filter(is_active=True), to_attr="active_points"),
         Prefetch("customer_links", queryset=ContactCustomer.objects.filter(is_active=True), to_attr="active_customer_links"),
     )
-    return people, general
+    return people
 
 
 def global_contacts(q="", status="active", contact_type=""):
@@ -61,7 +61,7 @@ def global_contacts(q="", status="active", contact_type=""):
         phone = phone_search_value(q)
         if phone:
             matching |= Q(kind="phone", normalized_value__contains=phone)
-        points = ContactPoint.objects.filter(contact__isnull=False, is_active=True).filter(matching).values("contact_id")
+        points = ContactPoint.objects.filter(is_active=True).filter(matching).values("contact_id")
         linked = ContactCustomer.objects.filter(is_active=True).filter(
             Q(customer__name__icontains=q) | Q(customer__reference_code__icontains=q),
         ).values("contact_id")

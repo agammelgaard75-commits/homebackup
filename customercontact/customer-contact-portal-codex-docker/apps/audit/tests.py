@@ -94,8 +94,11 @@ class AuditRecordingTests(AuditFixtures):
                                     kind="email", value="second@example.invalid", is_primary=True)
         self.assertEqual(self.events(self.point).last().changed_fields, ["is_primary"])
         self.assertEqual(self.events(self.point).last().actor, self.editor)
-        general = save_contact_point(actor=self.editor, customer_id=self.customer.pk, kind="phone", value="+45 12 34 56 78")
-        save_contact_point(actor=self.editor, customer_id=self.customer.pk, point_id=general.pk, kind="phone", value="+45 87 65 43 21", label="work")
+        desk = create_contact(actor=self.editor, customer_id=self.customer.pk, full_name="Support Desk", is_general=True)
+        general = save_contact_point(actor=self.editor, customer_id=self.customer.pk, contact_id=desk.pk,
+                                     kind="phone", value="+45 12 34 56 78")
+        save_contact_point(actor=self.editor, customer_id=self.customer.pk, contact_id=desk.pk,
+                           point_id=general.pk, kind="phone", value="+45 87 65 43 21", label="work")
         self.assertEqual(self.events(general).last().changed_fields, ["label", "value"])
         for active in (False, True):
             set_point_active(actor=self.editor, customer_id=self.customer.pk, contact_id=self.person.pk, point_id=second.pk, is_active=active)
@@ -138,7 +141,8 @@ class AuditRecordingTests(AuditFixtures):
         operations = [
             lambda: create_customer(actor=self.editor, name="Rollback"),
             lambda: create_contact(actor=self.editor, customer_id=self.customer.pk, full_name="Rollback"),
-            lambda: save_contact_point(actor=self.editor, customer_id=self.customer.pk, kind="phone", value="12345678"),
+            lambda: save_contact_point(actor=self.editor, customer_id=self.customer.pk,
+                                       contact_id=self.person.pk, kind="phone", value="12345678"),
             lambda: create_service(actor=self.admin, name="Rollback"),
             lambda: create_assignment(actor=self.editor, customer_id=self.customer.pk, service_id=self.service.pk),
         ]

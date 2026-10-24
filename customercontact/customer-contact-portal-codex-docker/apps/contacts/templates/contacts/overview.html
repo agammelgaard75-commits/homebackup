@@ -1,0 +1,4 @@
+<section class="panel contact-section" aria-labelledby="customer-contacts-heading">
+<div class="page-heading"><div><h2 id="customer-contacts-heading">Contacts</h2><p>People and shared contacts associated with this customer.</p></div><div class="actions"><a href="{% url 'contacts:list' customer.pk %}">View all contacts</a>{% if perms.accounts.edit_portal and perms.contacts.add_contact %}<a class="button secondary" href="{% url 'contacts:create' customer.pk %}">Add contact</a>{% endif %}</div></div>
+{% if contact_preview %}<ul>{% for contact in contact_preview %}<li><a href="{% url 'contacts:detail' customer.pk contact.pk %}">{{ contact.full_name }}</a>{% if contact.is_general %} <span class="badge">General</span>{% endif %}{% for point in contact.active_points %}<span class="contact-value"> · {{ point.value }}</span>{% endfor %}</li>{% endfor %}</ul>{% else %}<p>No active contacts are associated with this customer yet.</p>{% endif %}
+</section>

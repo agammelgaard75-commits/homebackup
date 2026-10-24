@@ -19,5 +19,5 @@
   <div><dt>Created</dt><dd><time datetime="{{ customer.created_at|date:'c' }}">{{ customer.created_at|date:'j M Y, H:i' }}</time></dd></div>
   <div><dt>Last updated</dt><dd><time datetime="{{ customer.updated_at|date:'c' }}">{{ customer.updated_at|date:'j M Y, H:i' }}</time></dd></div>
 </dl></section>
-{% if contacts_enabled %}{% include 'contacts/general.html' %}{% endif %}
+{% if contacts_enabled %}{% include 'contacts/overview.html' %}{% endif %}
 {% endblock %}

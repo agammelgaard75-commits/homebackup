@@ -11,7 +11,7 @@ from django.views.decorators.http import require_http_methods, require_safe
 
 from apps.accounts.permissions import permission_required
 from apps.contacts.permissions import READ_PERMISSIONS
-from apps.contacts.selectors import general_contact_points
+from apps.contacts.selectors import customer_contact_preview
 from apps.services.permissions import READ_PERMISSIONS as SERVICE_READ_PERMISSIONS
 from apps.services.selectors import active_service_count
 
@@ -57,7 +57,7 @@ def customer_detail(request, pk):
     services_enabled = request.user.has_perms(SERVICE_READ_PERMISSIONS)
     return render(request, "customers/detail.html", {
         "customer": customer, "contacts_enabled": contacts_enabled,
-        "general_points": general_contact_points(customer) if contacts_enabled else [],
+        "contact_preview": customer_contact_preview(customer) if contacts_enabled else [],
         "services_enabled": services_enabled,
         "active_service_count": active_service_count(customer) if services_enabled else None,
     })

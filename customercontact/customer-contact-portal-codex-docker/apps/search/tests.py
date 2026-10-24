@@ -4,7 +4,7 @@ from django.core.management import call_command
 from django.test import TestCase
 from django.urls import reverse
 
-from apps.contacts.models import Contact, ContactPoint
+from apps.contacts.models import Contact, ContactCustomer, ContactPoint
 from apps.customers.models import Customer
 from apps.services.models import Service, CustomerService
 
@@ -22,10 +22,13 @@ class SearchTests(TestCase):
             cls.users[role] = user
         cls.customer = Customer.objects.create(name="Example Industries", reference_code="DK-012345")
         cls.person = Contact.objects.create(customer=cls.customer, full_name="Alice Example", job_title="Systems Architect")
+        ContactCustomer.objects.create(contact=cls.person, customer=cls.customer)
+        cls.general_contact = Contact.objects.create(customer=cls.customer, full_name="Support Desk", is_general=True, contact_type="support")
+        ContactCustomer.objects.create(contact=cls.general_contact, customer=cls.customer)
         cls.email = ContactPoint.objects.create(customer=cls.customer, contact=cls.person, kind="email", value="Alice@Example.invalid", normalized_value="alice@example.invalid")
         cls.phone = ContactPoint.objects.create(customer=cls.customer, contact=cls.person, kind="phone", value="+44 (20) 7946 0958", normalized_value="442079460958")
-        cls.general = ContactPoint.objects.create(customer=cls.customer, kind="email", value="support@example.invalid", normalized_value="support@example.invalid")
-        cls.general_phone = ContactPoint.objects.create(customer=cls.customer, kind="phone", value="+45 12 34 56 78", normalized_value="4512345678")
+        cls.general = ContactPoint.objects.create(customer=cls.customer, contact=cls.general_contact, kind="email", value="support@example.invalid", normalized_value="support@example.invalid")
+        cls.general_phone = ContactPoint.objects.create(customer=cls.customer, contact=cls.general_contact, kind="phone", value="+45 12 34 56 78", normalized_value="4512345678")
         cls.service = Service.objects.create(name="Infrastructure Monitoring", description="Operational telemetry")
         cls.assignment = CustomerService.objects.create(customer=cls.customer, service=cls.service)
 
@@ -46,12 +49,14 @@ class SearchTests(TestCase):
             self.assertContains(response, self.customer.get_absolute_url())
 
     def test_contact_name_title_and_email_partial(self):
-        for query in ("ALICE", "architect", "lice@EXAM", "example.invalid"):
+        for query in ("ALICE", "architect", "lice@EXAM"):
             response = self.search(query)
             people = [row for row in self.rows(response, "Contacts") if row["result_kind"] == "contact"]
             self.assertEqual(len(people), 1)
             self.assertEqual(people[0]["url"], self.person.get_absolute_url())
             self.assertEqual(people[0]["result_customer_name"], self.customer.name)
+        self.assertCountEqual([row["result_id"] for row in self.rows(self.search("example.invalid"), "Contacts")],
+                              [str(self.person.pk), str(self.general_contact.pk)])
 
     def test_phone_formats_partial_and_general_information(self):
         for query in ("7946", "0044 20 7946", "+44 (20) 7946 0958"):
@@ -59,10 +64,9 @@ class SearchTests(TestCase):
         for query in ("SUPPORT@EX", "12345678", "0045 12 34"):
             rows = self.rows(self.search(query), "Contacts")
             self.assertEqual(len(rows), 1)
-            self.assertEqual(rows[0]["result_kind"], "general")
-            self.assertIn("?status=#detail-", rows[0]["url"])
-            path, anchor = rows[0]["url"].split("#")
-            self.assertContains(self.client.get(path, secure=True), f'id="{anchor}"')
+            self.assertEqual(rows[0]["result_kind"], "contact")
+            self.assertEqual(rows[0]["url"], self.general_contact.get_absolute_url())
+            self.assertContains(self.client.get(rows[0]["url"], secure=True), self.general.value)
 
     def test_catalog_description_and_assigned_services(self):
         for query in ("MONITOR", "teleMETRY"):
@@ -76,13 +80,13 @@ class SearchTests(TestCase):
     def test_archived_and_terminated_records_visible_with_status(self):
         Customer.objects.filter(pk=self.customer.pk).update(status="inactive")
         Contact.objects.filter(pk=self.person.pk).update(is_active=False)
+        Contact.objects.filter(pk=self.general_contact.pk).update(is_active=False)
         ContactPoint.objects.filter(pk=self.general.pk).update(is_active=False)
         Service.objects.filter(pk=self.service.pk).update(is_active=False)
         CustomerService.objects.filter(pk=self.assignment.pk).update(status="terminated")
         self.assertEqual(self.rows(self.search("Alice"), "Contacts")[0]["result_status"], "Archived")
         self.assertContains(self.search("support@"), "Archived")
-        path, anchor = self.rows(self.search("support@"), "Contacts")[0]["url"].split("#")
-        self.assertContains(self.client.get(path, secure=True), f'id="{anchor}"')
+        self.assertEqual(self.rows(self.search("support@"), "Contacts")[0]["url"], self.general_contact.get_absolute_url())
         self.assertContains(self.search("telemetry"), "Terminated")
         self.assertContains(self.search("telemetry"), "Archived catalog service")
         self.assertContains(self.search("Alice"), "Archived customer")

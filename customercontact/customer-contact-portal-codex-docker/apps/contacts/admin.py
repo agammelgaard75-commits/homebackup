@@ -29,7 +29,7 @@ class ReadOnlyContactAdmin(admin.ModelAdmin):
 @admin.register(Contact, site=portal_admin)
 class ContactAdmin(ReadOnlyContactAdmin):
     list_display = ("full_name", "customer", "contact_type", "is_active")
-    list_filter = ("is_active", "contact_type")
+    list_filter = ("is_active", "is_general", "contact_type")
     search_fields = ("full_name",)
     list_select_related = ("customer",)
 

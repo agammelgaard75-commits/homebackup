@@ -55,16 +55,16 @@ def _form_errors(form, error):
 def contact_list(request, customer_pk):
     customer = get_object_or_404(Customer, pk=customer_pk)
     filters = ContactFilterForm({"status": "active", **request.GET.dict()})
-    people, general, filter_query = Contact.objects.none(), ContactPoint.objects.none(), ""
+    people, filter_query = Contact.objects.none(), ""
     valid = filters.is_valid()
     if valid:
         query, status = filters.cleaned_data["q"], filters.cleaned_data["status"]
-        people, general = directory_results(customer, query, status)
+        people = directory_results(customer, query, status)
         filter_query = urlencode({"q": query, "status": status})
     page = Paginator(people, 25).get_page(request.GET.get("page"))
     return render(request, "contacts/list.html", {
         "customer": customer, "filter_form": filters, "page_obj": page,
-        "general_points": general, "filter_query": filter_query,
+        "filter_query": filter_query,
     }, status=200 if valid else 400)
 
 
@@ -137,19 +137,19 @@ def contact_status(request, customer_pk, pk, is_active):
 @contact_access()
 @require_http_methods(["GET", "POST"])
 @never_cache
-def point_form(request, customer_pk, contact_pk=None, point_pk=None):
+def point_form(request, customer_pk, contact_pk, point_pk=None):
     require_access(request.user, "contacts.change_contactpoint" if point_pk else "contacts.add_contactpoint")
     stale = _legacy_redirect(request, customer_pk, contact_pk)
     if stale:
         return stale
     customer, contact = _owner(customer_pk, contact_pk)
-    owner = contact.customer if contact else customer
+    owner = contact.customer
     point = get_object_or_404(ContactPoint, pk=point_pk, customer=owner, contact=contact) if point_pk else None
     initial = {field: getattr(point, field) for field in ("kind", "label", "value", "is_primary")} if point else {"kind": "email", "label": "other"}
     form = ContactPointForm(request.POST if request.method == "POST" else None, customer=owner, contact=contact, initial=initial)
     if request.method == "POST" and form.is_valid():
         try:
-            save_contact_point(actor=request.user, customer_id=customer.pk, contact_id=contact.pk if contact else None,
+            save_contact_point(actor=request.user, customer_id=customer.pk, contact_id=contact.pk,
                                point_id=point.pk if point else None, **form.cleaned_data)
         except ValidationError as error:
             _form_errors(form, error)
@@ -159,21 +159,21 @@ def point_form(request, customer_pk, contact_pk=None, point_pk=None):
     return render(request, "contacts/form.html", {
         "customer": customer, "form": form, "title": "Edit contact detail" if point else "Add contact detail",
         "back_url": _back_url(customer, contact), "submit_label": "Save detail",
-        "form_help": f"For {contact.full_name}." if contact else "General customer information, not associated with a person.",
+        "form_help": f"For {contact.full_name}.",
     })
 
 
 @contact_access("contacts.change_contactpoint")
 @require_http_methods(["GET", "POST"])
 @never_cache
-def point_status(request, customer_pk, point_pk, is_active, contact_pk=None):
+def point_status(request, customer_pk, point_pk, is_active, contact_pk):
     stale = _legacy_redirect(request, customer_pk, contact_pk)
     if stale:
         return stale
     customer, contact = _owner(customer_pk, contact_pk)
-    point = get_object_or_404(ContactPoint, pk=point_pk, customer=contact.customer if contact else customer, contact=contact)
+    point = get_object_or_404(ContactPoint, pk=point_pk, customer=contact.customer, contact=contact)
     if request.method == "POST":
-        set_point_active(actor=request.user, customer_id=customer.pk, contact_id=contact.pk if contact else None,
+        set_point_active(actor=request.user, customer_id=customer.pk, contact_id=contact.pk,
                          point_id=point.pk, is_active=is_active)
         messages.success(request, "Contact detail restored." if is_active else "Contact detail archived.")
         return redirect(_back_url(customer, contact))
@@ -182,6 +182,22 @@ def point_status(request, customer_pk, point_pk, is_active, contact_pk=None):
         "subject": point.value, "back_url": _back_url(customer, contact),
         "explanation": "The value is retained. Its primary designation is cleared when archived; you can choose a primary again after restoring.",
     })
+
+
+@contact_access("contacts.add_contact")
+@require_safe
+@never_cache
+def legacy_general_create(request, customer_pk):
+    get_object_or_404(Customer, pk=customer_pk)
+    return redirect("contacts:create", customer_pk=customer_pk)
+
+
+@contact_access("contacts.change_contactpoint")
+@require_safe
+@never_cache
+def legacy_general_action(request, customer_pk, point_pk, action):
+    point = get_object_or_404(ContactPoint, pk=point_pk, customer_id=customer_pk)
+    return redirect(reverse(f"contacts:point_{action}", args=[customer_pk, point.contact_id, point.pk]))
 
 @contact_access()
 @require_safe

@@ -42,6 +42,12 @@ class ServiceContactSearchTests(TestCase):
                               customer_ids=[cls.a.pk, cls.b.pk])
         cls.a_second = create_contact(actor=cls.users["Editor"], customer_id=cls.a.pk, full_name="Another", job_title="Operator")
         cls.archived = create_contact(actor=cls.users["Editor"], customer_id=cls.a.pk, full_name="Former", contact_type="management")
+        cls.reception = create_contact(actor=cls.users["Editor"], customer_id=cls.a.pk,
+                                       full_name="Reception", is_general=True)
+        cls.support_desk = create_contact(actor=cls.users["Editor"], customer_id=cls.b.pk,
+                                          full_name="Support Desk", contact_type="support", is_general=True)
+        cls.archived_company_contact = create_contact(actor=cls.users["Editor"], customer_id=cls.d.pk,
+                                                      full_name="Billing", contact_type="billing", is_general=True)
         set_contact_active(actor=cls.users["Editor"], customer_id=cls.a.pk, contact_id=cls.archived.pk, is_active=False)
         cls.email1 = save_contact_point(actor=cls.users["Editor"], customer_id=cls.a.pk, contact_id=cls.shared.pk,
                                         kind="email", value="Shared@Example.invalid", is_primary=True)
@@ -53,11 +59,11 @@ class ServiceContactSearchTests(TestCase):
                            kind="email", value="shared@example.INVALID")
         save_contact_point(actor=cls.users["Editor"], customer_id=cls.a.pk, contact_id=cls.archived.pk,
                            kind="email", value="former@example.invalid")
-        save_contact_point(actor=cls.users["Editor"], customer_id=cls.a.pk,
+        save_contact_point(actor=cls.users["Editor"], customer_id=cls.a.pk, contact_id=cls.reception.pk,
                            kind="email", value="reception@example.invalid")
-        save_contact_point(actor=cls.users["Editor"], customer_id=cls.b.pk,
+        save_contact_point(actor=cls.users["Editor"], customer_id=cls.b.pk, contact_id=cls.support_desk.pk,
                            kind="email", value="shared@example.invalid")
-        save_contact_point(actor=cls.users["Editor"], customer_id=cls.d.pk,
+        save_contact_point(actor=cls.users["Editor"], customer_id=cls.d.pk, contact_id=cls.archived_company_contact.pk,
                            kind="email", value="archived-company@example.invalid")
 
     def setUp(self):
@@ -82,10 +88,13 @@ class ServiceContactSearchTests(TestCase):
         rows = self.rows(response)
         self.assertCountEqual([(r["row_customer_id"], r["row_contact_id"]) for r in rows],
                               [(self.a.pk, self.shared.pk), (self.a.pk, self.a_second.pk),
-                               (self.b.pk, self.shared.pk), (self.c.pk, None)])
+                               (self.a.pk, self.reception.pk), (self.b.pk, self.shared.pk),
+                               (self.b.pk, self.support_desk.pk), (self.c.pk, None)])
         self.assertEqual(len(rows), len(set((r["row_customer_id"], r["row_contact_id"]) for r in rows)))
         self.assertContains(response, self.shared.get_absolute_url())
         self.assertContains(response, "+45 12 34 56 78")
+        self.assertContains(response, "Reception")
+        self.assertContains(response, "reception@example.invalid")
         self.assertNotContains(response, "Former")
 
     def test_multiple_services_any_all_and_repeated_agreements(self):
@@ -111,7 +120,8 @@ class ServiceContactSearchTests(TestCase):
         no_contact = next(r for r in rows if r["row_customer_id"] == self.c.pk)
         self.assertIsNone(no_contact["row_contact_id"])
         self.assertEqual(no_contact["emails"], [])
-        self.assertEqual({r["row_contact_id"] for r in rows if r["row_customer_id"] == self.a.pk}, {self.shared.pk, self.a_second.pk})
+        self.assertEqual({r["row_contact_id"] for r in rows if r["row_customer_id"] == self.a.pk},
+                         {self.shared.pk, self.a_second.pk, self.reception.pk})
         self.assertContains(self.page(), "No matching contacts")
 
     def test_email_export_collects_all_distinct_active_across_customers(self):
@@ -139,8 +149,8 @@ class ServiceContactSearchTests(TestCase):
             ContactPoint.objects.create(customer=self.a, contact=contact, kind="email",
                                         value=f"extra{i:02}@example.invalid", normalized_value=f"extra{i:02}@example.invalid")
         response = self.page(page=2)
-        self.assertEqual(response.context["page_obj"].paginator.count, 32)
-        self.assertEqual(len(self.rows(response)), 7)
+        self.assertEqual(response.context["page_obj"].paginator.count, 34)
+        self.assertEqual(len(self.rows(response)), 9)
         exported = self.emails(page=2).json()
         self.assertEqual(exported["count"], 31)
         self.assertIn("extra00@example.invalid", exported["emails"])

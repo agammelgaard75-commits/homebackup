@@ -19,15 +19,7 @@ def _contact(customer_id, contact_id):
 
 def _point(contact, point_id):
     try:
-        return ContactPoint.objects.get(pk=point_id, customer_id=contact.customer_id if contact else None,
-                                        contact_id=contact.pk if contact else None)
-    except ContactPoint.DoesNotExist:
-        raise ValidationError("Contact detail not found for this owner.") from None
-
-
-def _general_point(customer_id, point_id):
-    try:
-        return ContactPoint.objects.get(pk=point_id, customer_id=customer_id, contact__isnull=True)
+        return ContactPoint.objects.get(pk=point_id, customer_id=contact.customer_id, contact_id=contact.pk)
     except ContactPoint.DoesNotExist:
         raise ValidationError("Contact detail not found for this owner.") from None
 
@@ -45,8 +37,7 @@ def _record_contact(actor, contact, before=None):
 
 
 def _record_point(actor, point, before=None):
-    customer_ids = active_customer_ids(point.contact) if point.contact_id else [point.customer_id]
-    for customer_id in customer_ids:
+    for customer_id in active_customer_ids(point.contact):
         audit.record_change(actor=actor, instance=point, before=before, customer_id_override=customer_id)
 
 
@@ -75,7 +66,7 @@ def _set_links(actor, contact, ids):
 
 @transaction.atomic
 def create_contact(*, actor, customer_id, full_name, job_title="", department="", contact_type=Contact.Type.OTHER,
-                   notes="", customer_ids=None, customers=None):
+                   notes="", is_general=False, customer_ids=None, customers=None):
     require_access(actor, "contacts.add_contact")
     if customer_ids is None and customers:
         customer_ids = customers
@@ -84,7 +75,7 @@ def create_contact(*, actor, customer_id, full_name, job_title="", department=""
         raise ValidationError({"customers": "Include the selected customer."})
     Customer.objects.select_for_update().get(pk=customer_id)
     contact = Contact(customer_id=customer_id, full_name=full_name, job_title=job_title,
-                      department=department, contact_type=contact_type, notes=notes)
+                      department=department, contact_type=contact_type, is_general=is_general, notes=notes)
     contact.full_clean()
     contact.save()
     initial_link = ContactCustomer.objects.create(contact=contact, customer_id=customer_id)
@@ -97,7 +88,7 @@ def create_contact(*, actor, customer_id, full_name, job_title="", department=""
 
 @transaction.atomic
 def update_contact(*, actor, customer_id, contact_id, full_name, job_title="", department="", contact_type=Contact.Type.OTHER,
-                   notes="", customer_ids=None, customers=None):
+                   notes="", is_general=None, customer_ids=None, customers=None):
     require_access(actor, "contacts.change_contact")
     if customer_ids is None and customers:
         customer_ids = customers
@@ -105,6 +96,8 @@ def update_contact(*, actor, customer_id, contact_id, full_name, job_title="", d
     before = audit.snapshot(contact)
     contact.full_name, contact.job_title, contact.department = full_name, job_title, department
     contact.contact_type, contact.notes = contact_type, notes
+    if is_general is not None:
+        contact.is_general = is_general
     contact.full_clean()
     contact.save()
     _record_contact(actor, contact, before)
@@ -137,11 +130,11 @@ def set_contact_active(*, actor, customer_id, contact_id, is_active):
 def save_contact_point(*, actor, customer_id, contact_id=None, point_id=None,
                        kind, value, label=ContactPoint.Label.OTHER, is_primary=False):
     require_access(actor, "contacts.change_contactpoint" if point_id else "contacts.add_contactpoint")
-    contact = _contact(customer_id, contact_id) if contact_id else None
-    if not contact:
-        Customer.objects.select_for_update().get(pk=customer_id)
-    owner_id = contact.customer_id if contact else customer_id
-    point = (_point(contact, point_id) if contact else _general_point(customer_id, point_id)) if point_id else ContactPoint(customer_id=owner_id, contact=contact)
+    if contact_id is None:
+        raise ValidationError("Choose a contact before adding an email or phone.")
+    contact = _contact(customer_id, contact_id)
+    owner_id = contact.customer_id
+    point = _point(contact, point_id) if point_id else ContactPoint(customer_id=owner_id, contact=contact)
     before = audit.snapshot(point) if point_id else None
     point.kind, point.value, point.label, point.is_primary = kind, value, label, is_primary
     point.full_clean(validate_constraints=False)
@@ -164,10 +157,10 @@ def save_contact_point(*, actor, customer_id, contact_id=None, point_id=None,
 @transaction.atomic
 def set_point_active(*, actor, customer_id, point_id, contact_id=None, is_active):
     require_access(actor, "contacts.change_contactpoint")
-    contact = _contact(customer_id, contact_id) if contact_id else None
-    if not contact:
-        Customer.objects.select_for_update().get(pk=customer_id)
-    point = _point(contact, point_id) if contact else _general_point(customer_id, point_id)
+    if contact_id is None:
+        raise ValidationError("Choose a contact before changing an email or phone.")
+    contact = _contact(customer_id, contact_id)
+    point = _point(contact, point_id)
     if point.is_active != is_active:
         before = audit.snapshot(point)
         point.is_active = is_active

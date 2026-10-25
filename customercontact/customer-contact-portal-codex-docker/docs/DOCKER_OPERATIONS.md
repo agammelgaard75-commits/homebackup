@@ -20,7 +20,7 @@ Staff browser --HTTPS--> Caddy container --> Django/Gunicorn container --> Postg
 
 Prerequisites: Linux with recent Docker Engine and Docker Compose v2, free TCP ports 80 and 443 on selected bind IP, and local DNS mapping the chosen hostname (e.g. `portal.home.lab`) to the server. Allow HTTPS traffic only from the intended internal networks/VPN. The server will require internet access for pulling images/packages during install, unless these are prepared offline.
 
-**Phases 1–5 are implemented:** the Django foundation, customer management, contact management and service catalog/assignments, search, audit and dashboard run in the existing Docker stack. Production deployment still requires the separate production-readiness approval.
+**Phases 1–5 are implemented:** the Django foundation, customer management, contact management and service catalog/assignments, search, audit and unified home customer directory run in the existing Docker stack. Production deployment still requires the separate production-readiness approval.
 
 1. Copy/clone the finished repository to your internal server (e.g. `/opt/customer-contact-portal`). Never copy actual customer data in Git.
 2. `cd /opt/customer-contact-portal`
@@ -136,3 +136,7 @@ No Compose, proxy, image-major, secret, volume or port change is required. The e
 Use the unchanged backup-first `./scripts/update.sh` to apply `contacts.0004_unify_general_contact_points` and `contacts.0005_require_contact_for_details`. The first migration groups legacy customer-level email/phone points under associated general Contact records and commits; the second requires every point to have a Contact. It preserves each old point row and aborts if a legacy point remains unassigned. The data migration is intentionally irreversible in place; restore the pre-update backup with the matching previous code revision if rollback is required. Do not manually detach point rows or delete generated contacts. Existing audit history is retained; migration does not invent a responsible user.
 
 The same Compose services, volumes, ports, secrets and backup format are used. After update, check customer Contacts, global `/contacts/`, `/search/by-service/`, email export and `/health/`. Old general-detail GET links redirect to contact actions; POST to them is no longer a write path.
+
+## Active-default UI and contact-type update
+
+Use the existing backup-first `./scripts/update.sh` for an authorized installation. `contacts.0006_default_technical_contact_type` changes only the default for new contacts; it leaves existing contact types and other rows intact. List preference choices use the already configured Django session table and secure session cookie. No Compose service, host port, new dependency, secret or volume changes are needed. After update, verify customer Overview, contact creation, active-only directories, archived filters and `/health/`.

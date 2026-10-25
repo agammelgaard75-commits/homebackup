@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "contacts": [
+    {
+      "import_id": "contact-jane",
+      "name": "Jane Doe",
+      "kind": "person",
+      "job_title": "IT Manager",
+      "department": "IT",
+      "contact_type": "technical",
+      "status": "active",
+      "customer_import_ids": [
+        "customer-acme",
+        "customer-north"
+      ],
+      "emails": [
+        {
+          "address": "jane@example.com",
+          "label": "work",
+          "primary": true
+        }
+      ],
+      "phones": [
+        {
+          "number": "+45 12 34 56 78",
+          "label": "mobile",
+          "primary": true
+        }
+      ]
+    },
+    {
+      "import_id": "contact-support",
+      "name": "Support Desk",
+      "kind": "general",
+      "contact_type": "support",
+      "status": "active",
+      "customer_import_ids": [
+        "customer-acme"
+      ],
+      "emails": [
+        {
+          "address": "support@example.com",
+          "label": "shared",
+          "primary": true
+        }
+      ],
+      "phones": []
+    }
+  ]
+}

@@ -34,9 +34,9 @@ class AuditFixtures(TestCase):
             cls.users[role] = user
         cls.editor, cls.admin = cls.users["Editor"], cls.users["Administrator"]
         cls.customer = create_customer(actor=cls.editor, name="Private customer", notes="Secret customer note")
-        cls.person = create_contact(actor=cls.editor, customer_id=cls.customer.pk, full_name="Private person", job_title="Operator")
-        cls.point = save_contact_point(actor=cls.editor, customer_id=cls.customer.pk, contact_id=cls.person.pk,
-                                      kind="email", value="private@example.invalid", is_primary=True)
+        cls.person = create_contact(actor=cls.editor, customer_id=cls.customer.pk, full_name="Private person", job_title="Operator",
+                                    methods=[{"kind": "email", "value": "private@example.invalid", "is_primary": True}])
+        cls.point = cls.person.points.get(kind="email")
         cls.service = create_service(actor=cls.admin, name="Private service", description="Private description")
         cls.assignment = create_assignment(actor=cls.editor, customer_id=cls.customer.pk, service_id=cls.service.pk)
 
@@ -94,9 +94,9 @@ class AuditRecordingTests(AuditFixtures):
                                     kind="email", value="second@example.invalid", is_primary=True)
         self.assertEqual(self.events(self.point).last().changed_fields, ["is_primary"])
         self.assertEqual(self.events(self.point).last().actor, self.editor)
-        desk = create_contact(actor=self.editor, customer_id=self.customer.pk, full_name="Support Desk", is_general=True)
-        general = save_contact_point(actor=self.editor, customer_id=self.customer.pk, contact_id=desk.pk,
-                                     kind="phone", value="+45 12 34 56 78")
+        desk = create_contact(actor=self.editor, customer_id=self.customer.pk, full_name="Support Desk", is_general=True,
+                              methods=[{"kind": "phone", "value": "+45 12 34 56 78"}])
+        general = desk.points.get(kind="phone")
         save_contact_point(actor=self.editor, customer_id=self.customer.pk, contact_id=desk.pk,
                            point_id=general.pk, kind="phone", value="+45 87 65 43 21", label="work")
         self.assertEqual(self.events(general).last().changed_fields, ["label", "value"])
@@ -140,7 +140,8 @@ class AuditRecordingTests(AuditFixtures):
     def test_audit_failure_rolls_back_every_creation_type(self):
         operations = [
             lambda: create_customer(actor=self.editor, name="Rollback"),
-            lambda: create_contact(actor=self.editor, customer_id=self.customer.pk, full_name="Rollback"),
+            lambda: create_contact(actor=self.editor, customer_id=self.customer.pk, full_name="Rollback",
+                                   methods=[{"kind": "phone", "value": "12345678"}]),
             lambda: save_contact_point(actor=self.editor, customer_id=self.customer.pk,
                                        contact_id=self.person.pk, kind="phone", value="12345678"),
             lambda: create_service(actor=self.admin, name="Rollback"),

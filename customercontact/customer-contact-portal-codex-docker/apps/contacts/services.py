@@ -8,6 +8,69 @@ from apps.customers.models import Customer
 from .models import Contact, ContactCustomer, ContactPoint
 from .permissions import require_access
 from .selectors import active_customer_ids, is_associated
+from .validation import CONTACT_METHOD_REQUIRED, normalize_contact_value
+
+
+def _has_active_method(contact):
+    for kind, value in ContactPoint.objects.filter(contact=contact, is_active=True).values_list("kind", "value"):
+        if kind == ContactPoint.Kind.PHONE and value.strip():
+            return True
+        if kind != ContactPoint.Kind.EMAIL:
+            continue
+        try:
+            normalize_contact_value(kind, value)
+        except ValidationError:
+            continue
+        return True
+    return False
+
+
+def _require_active_method(contact):
+    if not _has_active_method(contact):
+        raise ValidationError(CONTACT_METHOD_REQUIRED)
+
+
+def _apply_methods(*, actor, customer_id, contact, methods):
+    """Apply a complete set of active methods; every write shares the caller's transaction."""
+    if methods is None:
+        _require_active_method(contact)
+        return
+    existing = {str(point.pk): point for point in ContactPoint.objects.filter(contact=contact, is_active=True)}
+    seen = set()
+    removals = []
+    for method in methods:
+        if not method or method.get("empty"):
+            continue
+        point_id = method.get("point_id")
+        key = str(point_id) if point_id else None
+        if key:
+            if key in seen or key not in existing:
+                raise ValidationError("Contact detail not found or submitted twice.")
+            seen.add(key)
+        if method.get("remove"):
+            if key:
+                removals.append(existing[key])
+            continue
+        kind, value = method.get("kind"), (method.get("value") or "").strip()
+        if not kind or not value:
+            raise ValidationError(CONTACT_METHOD_REQUIRED)
+        normalize_contact_value(kind, value)
+        label = method.get("label") or ContactPoint.Label.OTHER
+        primary = bool(method.get("is_primary"))
+        previous = existing.get(key)
+        if previous and (previous.kind, previous.value, previous.label, previous.is_primary) == (kind, value, label, primary):
+            continue
+        save_contact_point(actor=actor, customer_id=customer_id, contact_id=contact.pk,
+                           point_id=previous.pk if previous else None, kind=kind, value=value,
+                           label=label, is_primary=primary)
+    # A submitted edit is the complete current set; omitted existing rows are archived.
+    removals.extend(point for key, point in existing.items() if key not in seen)
+    if len({point.pk for point in removals}) == len(existing) and not _has_active_method(contact):
+        raise ValidationError(CONTACT_METHOD_REQUIRED)
+    for point in {point.pk: point for point in removals}.values():
+        require_access(actor, "contacts.change_contactpoint")
+        _change_point_status(actor, point, False)
+    _require_active_method(contact)
 
 
 def _contact(customer_id, contact_id):
@@ -65,8 +128,8 @@ def _set_links(actor, contact, ids):
 
 
 @transaction.atomic
-def create_contact(*, actor, customer_id, full_name, job_title="", department="", contact_type=Contact.Type.OTHER,
-                   notes="", is_general=False, customer_ids=None, customers=None):
+def create_contact(*, actor, customer_id, full_name, job_title="", department="", contact_type=Contact.Type.TECHNICAL,
+                   notes="", is_general=False, customer_ids=None, customers=None, methods=None):
     require_access(actor, "contacts.add_contact")
     if customer_ids is None and customers:
         customer_ids = customers
@@ -83,24 +146,28 @@ def create_contact(*, actor, customer_id, full_name, job_title="", department=""
     audit.record_change(actor=actor, instance=initial_link)
     if len(selected) > 1:
         _set_links(actor, contact, selected)
+    _apply_methods(actor=actor, customer_id=customer_id, contact=contact, methods=methods)
     return contact
 
 
 @transaction.atomic
-def update_contact(*, actor, customer_id, contact_id, full_name, job_title="", department="", contact_type=Contact.Type.OTHER,
-                   notes="", is_general=None, customer_ids=None, customers=None):
+def update_contact(*, actor, customer_id, contact_id, full_name, job_title="", department="", contact_type=None,
+                   notes="", is_general=None, customer_ids=None, customers=None, methods=None):
     require_access(actor, "contacts.change_contact")
     if customer_ids is None and customers:
         customer_ids = customers
     contact = _contact(customer_id, contact_id)
     before = audit.snapshot(contact)
     contact.full_name, contact.job_title, contact.department = full_name, job_title, department
-    contact.contact_type, contact.notes = contact_type, notes
+    if contact_type is not None:
+        contact.contact_type = contact_type
+    contact.notes = notes
     if is_general is not None:
         contact.is_general = is_general
     contact.full_clean()
     contact.save()
     _record_contact(actor, contact, before)
+    _apply_methods(actor=actor, customer_id=customer_id, contact=contact, methods=methods)
     if customer_ids is not None:
         _set_links(actor, contact, customer_ids)
     return contact
@@ -110,6 +177,7 @@ def update_contact(*, actor, customer_id, contact_id, full_name, job_title="", d
 def set_contact_customers(*, actor, customer_id, contact_id, customer_ids):
     require_access(actor, "contacts.change_contact")
     contact = _contact(customer_id, contact_id)
+    _require_active_method(contact)
     return _set_links(actor, contact, customer_ids)
 
 
@@ -118,6 +186,7 @@ def set_contact_active(*, actor, customer_id, contact_id, is_active):
     require_access(actor, "contacts.change_contact")
     contact = _contact(customer_id, contact_id)
     if contact.is_active != is_active:
+        _require_active_method(contact)
         before = audit.snapshot(contact)
         contact.is_active = is_active
         contact.full_clean()
@@ -151,7 +220,17 @@ def save_contact_point(*, actor, customer_id, contact_id=None, point_id=None,
     point.full_clean()
     point.save()
     _record_point(actor, point, before)
+    _require_active_method(contact)
     return point
+
+
+def _change_point_status(actor, point, is_active):
+    before = audit.snapshot(point)
+    point.is_active = is_active
+    point.is_primary = False
+    point.full_clean()
+    point.save(update_fields=["is_active", "is_primary", "updated_at"])
+    _record_point(actor, point, before)
 
 
 @transaction.atomic
@@ -162,10 +241,6 @@ def set_point_active(*, actor, customer_id, point_id, contact_id=None, is_active
     contact = _contact(customer_id, contact_id)
     point = _point(contact, point_id)
     if point.is_active != is_active:
-        before = audit.snapshot(point)
-        point.is_active = is_active
-        point.is_primary = False
-        point.full_clean()
-        point.save(update_fields=["is_active", "is_primary", "updated_at"])
-        _record_point(actor, point, before)
+        _change_point_status(actor, point, is_active)
+        _require_active_method(contact)
     return point

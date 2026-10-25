@@ -34,6 +34,8 @@ class UnifiedContactWorkflowTests(TestCase):
         response = self.client.post(reverse("contacts:create", args=[self.first.pk]), {
             "full_name": "Support Desk", "is_general": "on", "contact_type": "support",
             "customers_present": "1", "customers": [str(self.first.pk)],
+            "methods-TOTAL_FORMS": "1", "methods-INITIAL_FORMS": "0", "methods-MIN_NUM_FORMS": "0",
+            "methods-MAX_NUM_FORMS": "1000", "methods-0-kind": "phone", "methods-0-value": "12345678",
         }, secure=True)
         self.assertEqual(response.status_code, 302)
         person = Contact.objects.get(full_name="Support Desk")
@@ -63,7 +65,7 @@ class UnifiedContactWorkflowTests(TestCase):
         for kind, value in (("email", "desk@example.invalid"), ("email", "team@example.invalid"),
                             ("phone", "+45 12 34 56 78"), ("phone", "+45 87 65 43 21")):
             self.assertEqual(self.client.post(add_detail, {"kind": kind, "value": value}, secure=True).status_code, 302)
-        self.assertEqual(person.points.count(), 4)
+        self.assertEqual(person.points.count(), 5)
         customer_page = self.client.get(reverse("contacts:list", args=[self.first.pk]), secure=True)
         global_page = self.client.get(reverse("global_contacts:list"), secure=True)
         service_page = self.client.get(reverse("search:services"), {"services": [str(self.service.pk)]}, secure=True)
@@ -91,7 +93,7 @@ class UnifiedContactWorkflowTests(TestCase):
                                           secure=True).status_code, 302)
         self.assertNotContains(self.client.get(reverse("contacts:list", args=[self.first.pk]), secure=True), person.full_name)
         self.assertContains(self.client.get(reverse("contacts:list", args=[self.second.pk]), secure=True), person.full_name)
-        self.assertEqual(ContactPoint.objects.get(contact=person).customer_id, self.first.pk)
+        self.assertEqual(ContactPoint.objects.get(contact=person, kind="email").customer_id, self.first.pk)
         self.assertFalse(ContactCustomer.objects.get(contact=person, customer=self.first).is_active)
         self.assertEqual(self.client.get(reverse("search:service_emails"), {"services": [str(self.service.pk)]}, secure=True).json()["count"], 1)
 

@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "customers": [
+    {
+      "import_id": "customer-acme",
+      "name": "ACME A/S",
+      "company_id": "12345678",
+      "status": "active",
+      "notes": "Internal demo customer"
+    },
+    {
+      "import_id": "customer-north",
+      "name": "Northwind ApS",
+      "status": "active"
+    }
+  ]
+}

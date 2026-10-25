@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 
 PHONE_CHARACTERS = re.compile(r"\A\+?[0-9 () .-]+\Z")
+CONTACT_METHOD_REQUIRED = "At least one email address or phone number is required."
 
 
 def phone_search_value(value):

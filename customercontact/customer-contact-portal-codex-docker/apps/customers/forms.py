@@ -22,3 +22,10 @@ class CustomerFilterForm(forms.Form):
                         widget=forms.TextInput(attrs={"placeholder": "Name or CVR / company ID", "type": "search"}))
     status = forms.ChoiceField(required=False, choices=[("", "All statuses"), *Customer.Status.choices])
     sort = forms.ChoiceField(required=False, choices=[("name", "Name"), ("updated", "Recently updated")])
+
+
+class CustomerOverviewFilterForm(forms.Form):
+    services = forms.ChoiceField(label="Services to show", choices=[("current", "Current services"),
+                                                                  ("all", "All agreements and archived catalog services")])
+    contacts = forms.ChoiceField(label="Contacts to show", choices=[("current", "Current contacts"),
+                                                                  ("all", "All contacts, including archived")])

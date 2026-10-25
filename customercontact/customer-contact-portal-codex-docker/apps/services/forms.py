@@ -41,9 +41,15 @@ class AssignmentForm(forms.ModelForm):
 class CatalogFilterForm(forms.Form):
     q = forms.CharField(label="Search services", max_length=200, required=False,
                         widget=forms.TextInput(attrs={"type": "search", "placeholder": "Name, description or category"}))
-    status = forms.ChoiceField(required=False, choices=[("", "All statuses"), ("active", "Active"), ("archived", "Archived")])
+    status = forms.ChoiceField(required=False, choices=[("active", "Active"), ("archived", "Archived"), ("", "All statuses")])
     category = forms.CharField(max_length=100, required=False)
 
 
 class AssignmentFilterForm(forms.Form):
-    status = forms.ChoiceField(required=False, choices=[("", "All statuses"), *CustomerService.Status.choices])
+    status = forms.ChoiceField(required=False, choices=[*CustomerService.Status.choices, ("", "All statuses")])
+
+
+class CatalogUsageFilterForm(forms.Form):
+    status = forms.ChoiceField(label="Agreement status", required=False,
+                               choices=[*CustomerService.Status.choices, ("", "All statuses")])
+    include_archived_customers = forms.BooleanField(label="Include archived customers", required=False)

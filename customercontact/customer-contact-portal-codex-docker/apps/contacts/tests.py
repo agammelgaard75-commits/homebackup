@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser, Group, Permission
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.core.management import call_command
-from django.db import IntegrityError, close_old_connections, transaction
+from django.db import IntegrityError, close_old_connections, connections, transaction
 from django.db.models.deletion import ProtectedError
 from django.test import Client, TestCase, TransactionTestCase
 from django.urls import reverse
@@ -34,16 +34,17 @@ class ContactFixtures(TestCase):
             cls.users[role] = actor
         cls.customer = Customer.objects.create(name="Synthetic Alpha")
         cls.other_customer = Customer.objects.create(name="Synthetic Beta")
-        cls.person = create_contact(actor=cls.users["Editor"], customer_id=cls.customer.pk, full_name="Alice Example")
-        cls.second_person = create_contact(actor=cls.users["Editor"], customer_id=cls.customer.pk, full_name="Bob Example")
-        cls.foreign_person = create_contact(actor=cls.users["Editor"], customer_id=cls.other_customer.pk, full_name="Foreign Example")
+        cls.person = create_contact(actor=cls.users["Editor"], customer_id=cls.customer.pk, full_name="Alice Example",
+                                    methods=[{"kind": "email", "value": "alice@example.invalid", "is_primary": True}])
+        cls.second_person = create_contact(actor=cls.users["Editor"], customer_id=cls.customer.pk, full_name="Bob Example",
+                                           methods=[{"kind": "phone", "value": "77777777"}])
+        cls.foreign_person = create_contact(actor=cls.users["Editor"], customer_id=cls.other_customer.pk, full_name="Foreign Example",
+                                            methods=[{"kind": "phone", "value": "87654321"}])
         cls.general_contact = create_contact(actor=cls.users["Editor"], customer_id=cls.customer.pk,
-                                             full_name="Support Desk", contact_type="support", is_general=True)
-        cls.email = save_contact_point(actor=cls.users["Editor"], customer_id=cls.customer.pk,
-                                      contact_id=cls.person.pk, kind="email", value="alice@example.invalid", is_primary=True)
-        cls.general = save_contact_point(actor=cls.users["Editor"], customer_id=cls.customer.pk,
-                                        contact_id=cls.general_contact.pk,
-                                        kind="phone", value="+45 12 34 56 78", is_primary=True)
+                                             full_name="Support Desk", contact_type="support", is_general=True,
+                                             methods=[{"kind": "phone", "value": "+45 12 34 56 78", "is_primary": True}])
+        cls.email = cls.person.points.get(kind="email")
+        cls.general = cls.general_contact.points.get(kind="phone")
 
     def point(self, **changes):
         return save_contact_point(**{
@@ -53,6 +54,11 @@ class ContactFixtures(TestCase):
 
     def point_payload(self, **changes):
         return {"kind": "email", "label": "work", "value": "new@example.invalid", **changes}
+
+    def contact_payload(self, name, *, kind="email", value="new@example.invalid", **changes):
+        return {"full_name": name, "methods-TOTAL_FORMS": "1", "methods-INITIAL_FORMS": "0",
+                "methods-MIN_NUM_FORMS": "0", "methods-MAX_NUM_FORMS": "1000",
+                "methods-0-kind": kind, "methods-0-value": value, **changes}
 
     def route(self, name):
         args = [self.customer.pk]
@@ -66,15 +72,20 @@ class ContactFixtures(TestCase):
 
 
 class ContactModelTests(ContactFixtures):
-    def test_name_only_and_optional_fields(self):
+    def test_name_and_contact_method_required(self):
         form = ContactForm({"full_name": "  Minimal Person  "}, instance=Contact(customer=self.customer))
         self.assertTrue(form.is_valid(), form.errors)
-        person = create_contact(actor=self.users["Editor"], customer_id=self.customer.pk, **form.cleaned_data)
+        form.cleaned_data.pop("primary_email", None)
+        form.cleaned_data.pop("include_archived_customers", None)
+        with self.assertRaisesMessage(ValidationError, "At least one email address or phone number is required."):
+            create_contact(actor=self.users["Editor"], customer_id=self.customer.pk, **form.cleaned_data)
+        person = create_contact(actor=self.users["Editor"], customer_id=self.customer.pk,
+                                methods=[{"kind": "email", "value": "minimal@example.invalid"}], **form.cleaned_data)
         self.assertEqual(person.full_name, "Minimal Person")
-        self.assertEqual(person.contact_type, "other")
+        self.assertEqual(person.contact_type, "technical")
         self.assertEqual(person.department, "")
         self.assertTrue(person.is_active)
-        self.assertFalse(person.points.exists())
+        self.assertEqual(person.points.count(), 1)
         self.assertIsInstance(person.pk, uuid.UUID)
         self.assertIsNotNone(person.created_at)
 
@@ -82,13 +93,15 @@ class ContactModelTests(ContactFixtures):
         for invalid in ({"full_name": " \n "}, {"full_name": "x" * 201}, {"contact_type": "unknown"},
                         {"job_title": "x" * 201}, {"department": "x" * 201}, {"notes": "x" * 10001}):
             with self.subTest(fields=list(invalid)), self.assertRaises(ValidationError):
-                create_contact(actor=self.users["Editor"], customer_id=self.customer.pk, **{"full_name": "Valid", **invalid})
+                create_contact(actor=self.users["Editor"], customer_id=self.customer.pk,
+                               methods=[{"kind": "phone", "value": "12345678"}], **{"full_name": "Valid", **invalid})
         self.assertEqual(Contact.objects.count(), 4)
 
     def test_all_requested_types_and_metadata(self):
         for contact_type in ("technical", "management", "billing", "support", "other"):
             person = create_contact(actor=self.users["Editor"], customer_id=self.customer.pk, full_name="Example",
-                                    contact_type=contact_type, department="Operations", job_title="Manager", notes="Synthetic notes")
+                                    contact_type=contact_type, department="Operations", job_title="Manager", notes="Synthetic notes",
+                                    methods=[{"kind": "phone", "value": "12345678"}])
             self.assertEqual(person.department, "Operations")
             self.assertEqual(person.contact_type, contact_type)
 
@@ -225,6 +238,7 @@ class ContactServiceTests(ContactFixtures):
         self.assertEqual(list(self.person.points.values()), before)
 
     def test_detail_archive_restore_preserves_value_and_clears_primary(self):
+        self.point(kind="phone", value="12345678")
         point = set_point_active(actor=self.users["Editor"], customer_id=self.customer.pk, contact_id=self.person.pk,
                                  point_id=self.email.pk, is_active=False)
         self.assertFalse(point.is_active)
@@ -323,7 +337,7 @@ class ContactViewTests(ContactFixtures):
             self.assertEqual(self.client.get(self.route(name), secure=True).status_code, 403, name)
             self.assertEqual(self.client.post(self.route(name), {"full_name": "Forged", **self.point_payload()}, secure=True).status_code, 403, name)
         self.assertEqual(Contact.objects.count(), 4)
-        self.assertEqual(ContactPoint.objects.count(), 2)
+        self.assertEqual(ContactPoint.objects.count(), 4)
 
     def test_unassigned_and_staff_flag_do_not_grant_access(self):
         user = User.objects.create_user(username="staff", is_staff=True)
@@ -336,7 +350,7 @@ class ContactViewTests(ContactFixtures):
         for role in ("Editor", "Administrator"):
             self.client.force_login(self.users[role])
             self.assertEqual(self.client.get(self.route("create"), secure=True).status_code, 200)
-            response = self.client.post(self.route("create"), {"full_name": role}, secure=True)
+            response = self.client.post(self.route("create"), self.contact_payload(role), secure=True)
             person = Contact.objects.get(full_name=role)
             self.assertRedirects(response, person.get_absolute_url(), fetch_redirect_response=False)
             edit = reverse("contacts:edit", args=[self.customer.pk, person.pk])
@@ -351,7 +365,7 @@ class ContactViewTests(ContactFixtures):
                             self.point_payload(kind="phone", value="+45 12 34 56 78", label="mobile", is_primary="on"),
                             self.point_payload(kind="phone", value="+44 20 7946 0958", label="direct")):
                 self.assertEqual(self.client.post(point_url, payload, secure=True).status_code, 302)
-            self.assertEqual(person.points.count(), 4)
+            self.assertEqual(person.points.count(), 5)
             for action, expected in (("archive", False), ("restore", True)):
                 url = reverse(f"contacts:{action}", args=[self.customer.pk, person.pk])
                 previous = Contact.objects.get(pk=person.pk).is_active
@@ -359,7 +373,7 @@ class ContactViewTests(ContactFixtures):
                 self.assertEqual(Contact.objects.get(pk=person.pk).is_active, previous)
                 self.assertEqual(self.client.post(url, secure=True).status_code, 302)
                 self.assertEqual(Contact.objects.get(pk=person.pk).is_active, expected)
-                self.assertEqual(person.points.count(), 4)
+                self.assertEqual(person.points.count(), 5)
 
     def test_legacy_general_urls_redirect_to_normal_contact_actions(self):
         self.client.force_login(self.users["Editor"])
@@ -411,7 +425,7 @@ class ContactViewTests(ContactFixtures):
         self.assertContains(response, "invalid email")
         self.assertTrue(response.context["form"].errors)
         self.assertEqual(Contact.objects.count(), 4)
-        self.assertEqual(ContactPoint.objects.count(), 2)
+        self.assertEqual(ContactPoint.objects.count(), 4)
 
     def test_csrf_required_for_every_write_route(self):
         client = Client(enforce_csrf_checks=True, HTTP_ORIGIN="https://testserver")
@@ -419,7 +433,8 @@ class ContactViewTests(ContactFixtures):
         for name in self.write_routes:
             self.assertEqual(client.post(self.route(name), self.point_payload(), secure=True).status_code, 403)
         client.get(self.route("create"), secure=True)
-        self.assertEqual(client.post(self.route("create"), {"full_name": "CSRF valid", "csrfmiddlewaretoken": client.cookies["csrftoken"].value}, secure=True).status_code, 302)
+        self.assertEqual(client.post(self.route("create"), {**self.contact_payload("CSRF valid"),
+                         "csrfmiddlewaretoken": client.cookies["csrftoken"].value}, secure=True).status_code, 302)
 
     def test_customer_overview_integration_and_separate_read_permissions(self):
         self.client.force_login(self.users["Viewer"])
@@ -437,7 +452,8 @@ class ContactViewTests(ContactFixtures):
         self.assertEqual(self.client.get(self.route("list"), secure=True).status_code, 403)
 
     def test_contact_content_is_escaped(self):
-        person = create_contact(actor=self.users["Editor"], customer_id=self.customer.pk, full_name="<b>Example</b>", notes="<script>synthetic()</script>")
+        person = create_contact(actor=self.users["Editor"], customer_id=self.customer.pk, full_name="<b>Example</b>",
+                                notes="<script>synthetic()</script>", methods=[{"kind": "phone", "value": "12345678"}])
         self.client.force_login(self.users["Viewer"])
         response = self.client.get(person.get_absolute_url(), secure=True)
         self.assertContains(response, "&lt;b&gt;Example&lt;/b&gt;")
@@ -488,6 +504,7 @@ class ContactSearchTests(ContactFixtures):
             self.assertContains(self.client.get(self.route("list"), {"status": status, "q": "alice@example"}, secure=True), "Alice Example")
         self.assertContains(self.client.get(self.person.get_absolute_url(), secure=True), self.email.value)
         set_contact_active(actor=self.users["Editor"], customer_id=self.customer.pk, contact_id=self.person.pk, is_active=True)
+        self.point(kind="phone", value="87654321")
         set_point_active(actor=self.users["Editor"], customer_id=self.customer.pk, contact_id=self.person.pk, point_id=self.email.pk, is_active=False)
         self.assertNotContains(self.client.get(self.route("list"), {"q": "alice@example"}, secure=True), "Alice Example")
 
@@ -513,7 +530,8 @@ class PrimaryConcurrencyTests(TransactionTestCase):
         actor = User.objects.create_user(username="concurrent-editor")
         actor.groups.add(Group.objects.get(name="Editor"))
         customer = Customer.objects.create(name="Concurrent synthetic customer")
-        person = create_contact(actor=actor, customer_id=customer.pk, full_name="Concurrent synthetic contact")
+        person = create_contact(actor=actor, customer_id=customer.pk, full_name="Concurrent synthetic contact",
+                                methods=[{"kind": "phone", "value": "12345678"}])
         start = Barrier(2)
 
         def create_primary(index):
@@ -524,11 +542,11 @@ class PrimaryConcurrencyTests(TransactionTestCase):
                 return save_contact_point(actor=user, customer_id=customer.pk, contact_id=person.pk,
                                           kind="email", value=f"concurrent{index}@example.invalid", is_primary=True).pk
             finally:
-                close_old_connections()
+                connections.close_all()
 
         with ThreadPoolExecutor(max_workers=2) as executor:
             futures = [executor.submit(create_primary, index) for index in range(2)]
             ids = [future.result(timeout=20) for future in futures]
-        self.assertEqual(person.points.count(), 2)
+        self.assertEqual(person.points.count(), 3)
         self.assertEqual(person.points.filter(is_primary=True, is_active=True).count(), 1)
         self.assertIn(person.points.get(is_primary=True).pk, ids)

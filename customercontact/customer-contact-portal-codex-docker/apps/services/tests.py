@@ -8,7 +8,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser, Group, Permission
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.core.management import call_command
-from django.db import IntegrityError, close_old_connections, transaction
+from django.db import IntegrityError, close_old_connections, connections, transaction
 from django.db.models.deletion import ProtectedError
 from django.test import Client, TestCase, TransactionTestCase
 from django.urls import reverse
@@ -429,7 +429,8 @@ class ServiceSearchTests(ServiceFixtures):
         self.assertEqual(list(response.context["page_obj"]), [self.service])
         response = self.client.get(self.catalog_url("list"), {"status": "active"}, secure=True)
         self.assertEqual(list(response.context["page_obj"]), [self.other_service])
-        self.assertEqual(self.client.get(self.catalog_url("list"), secure=True).context["page_obj"].paginator.count, 2)
+        self.assertEqual(self.client.get(self.catalog_url("list"), secure=True).context["page_obj"].paginator.count, 1)
+        self.assertEqual(self.client.get(self.catalog_url("list"), {"status": ""}, secure=True).context["page_obj"].paginator.count, 2)
 
     def test_catalog_pagination_preserves_filters(self):
         Service.objects.bulk_create([Service(name=f"Example {i:02}", category="Test") for i in range(28)])
@@ -446,11 +447,12 @@ class ServiceSearchTests(ServiceFixtures):
         response = self.client.get(self.assignment_url("list"), {"status": "suspended"}, secure=True)
         self.assertEqual(list(response.context["page_obj"]), [suspended])
         response = self.client.get(self.catalog_url("detail"), secure=True)
-        self.assertEqual(response.context["page_obj"].paginator.count, 3)
+        self.assertEqual(response.context["page_obj"].paginator.count, 2)
         self.assertContains(response, self.other_customer.name)
         self.assertContains(response, self.customer.name)
         terminate_assignment(actor=self.users["Editor"], customer_id=self.customer.pk, assignment_id=self.assignment.pk)
-        self.assertContains(self.client.get(self.catalog_url("detail"), secure=True), "Terminated")
+        self.assertNotIn(self.assignment, self.client.get(self.catalog_url("detail"), secure=True).context["page_obj"])
+        self.assertIn(self.assignment, self.client.get(self.catalog_url("detail"), {"status": ""}, secure=True).context["page_obj"])
 
     def test_assignment_and_usage_pagination(self):
         CustomerService.objects.bulk_create([CustomerService(customer=self.customer, service=self.service) for _ in range(26)])
@@ -486,7 +488,7 @@ class CatalogConcurrencyTests(TransactionTestCase):
                 except ValidationError:
                     return "validation"
             finally:
-                close_old_connections()
+                connections.close_all()
 
         with patch.object(Service, "full_clean", clean_and_wait), ThreadPoolExecutor(max_workers=2) as pool:
             results = list(pool.map(create, ["Concurrent", "CONCURRENT"]))

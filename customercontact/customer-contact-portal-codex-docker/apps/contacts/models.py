@@ -21,7 +21,7 @@ class Contact(models.Model):
     full_name = models.CharField("Name", max_length=200)
     job_title = models.CharField(max_length=200, blank=True)
     department = models.CharField(max_length=200, blank=True)
-    contact_type = models.CharField(max_length=10, choices=Type.choices, default=Type.OTHER)
+    contact_type = models.CharField(max_length=10, choices=Type.choices, default=Type.TECHNICAL)
     is_general = models.BooleanField(default=False, help_text="Use for a team or shared contact such as Support Desk or Reception.")
     notes = models.TextField(blank=True, max_length=10000, validators=[MaxLengthValidator(10000)])
     is_active = models.BooleanField(default=True)

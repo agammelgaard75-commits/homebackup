@@ -8,7 +8,13 @@
 - User roles are implemented using Django Groups + explicit permissions checked server-side.
 
 ## Navigation
-Header: `Home | Customers | Contacts | Services | Search | Search by service` and sign-out. `Audit history` and `Administration` are visible to authorized administrators only.
+Header: `Home | Customers | Contacts | Services | Search | Search By Service`, plus `Administration` for administrators and sign-out. Search By Service opens `/search/by-service/` directly for users with its read permissions; administrators can reach global Audit history from Search.
+
+### Home customer directory (`/`)
+- One row per active customer, with all associated active contacts and active assigned services linked in their cells.
+- Search by customer name, contact name/email or service name; filter by one or more catalog services; sort by customer name; paginate.
+- Explicit controls reveal archived customers/contacts and inactive agreements/catalog services.
+- Customer, contact and service detail pages include editable sections for authorized staff. Customer detail includes contact creation and service assignment management.
 
 ### 1. Customer directory (`/customers/`)
 - Paginated table with name, status, number of active services, primary customer contact, last updated.

@@ -37,41 +37,36 @@ class ServiceContactSearchTests(TestCase):
                                           (cls.b, cls.service2, "suspended"), (cls.c, cls.service1, "active"),
                                           (cls.d, cls.service1, "active"), (cls.d, cls.service2, "active")):
             CustomerService.objects.create(customer=customer, service=service, status=status)
-        cls.shared = create_contact(actor=cls.users["Editor"], customer_id=cls.a.pk, full_name="Shared", contact_type="technical")
+        cls.shared = create_contact(actor=cls.users["Editor"], customer_id=cls.a.pk, full_name="Shared", contact_type="technical",
+                                    methods=[{"kind": "email", "value": "Shared@Example.invalid", "is_primary": True}])
         set_contact_customers(actor=cls.users["Editor"], customer_id=cls.a.pk, contact_id=cls.shared.pk,
                               customer_ids=[cls.a.pk, cls.b.pk])
-        cls.a_second = create_contact(actor=cls.users["Editor"], customer_id=cls.a.pk, full_name="Another", job_title="Operator")
-        cls.archived = create_contact(actor=cls.users["Editor"], customer_id=cls.a.pk, full_name="Former", contact_type="management")
+        cls.a_second = create_contact(actor=cls.users["Editor"], customer_id=cls.a.pk, full_name="Another", job_title="Operator",
+                                      methods=[{"kind": "email", "value": "shared@example.INVALID"}])
+        cls.archived = create_contact(actor=cls.users["Editor"], customer_id=cls.a.pk, full_name="Former", contact_type="management",
+                                      methods=[{"kind": "email", "value": "former@example.invalid"}])
         cls.reception = create_contact(actor=cls.users["Editor"], customer_id=cls.a.pk,
-                                       full_name="Reception", is_general=True)
+                                       full_name="Reception", is_general=True,
+                                       methods=[{"kind": "email", "value": "reception@example.invalid"}])
         cls.support_desk = create_contact(actor=cls.users["Editor"], customer_id=cls.b.pk,
-                                          full_name="Support Desk", contact_type="support", is_general=True)
+                                          full_name="Support Desk", contact_type="support", is_general=True,
+                                          methods=[{"kind": "email", "value": "shared@example.invalid"}])
         cls.archived_company_contact = create_contact(actor=cls.users["Editor"], customer_id=cls.d.pk,
-                                                      full_name="Billing", contact_type="billing", is_general=True)
+                                                      full_name="Billing", contact_type="billing", is_general=True,
+                                                      methods=[{"kind": "email", "value": "archived-company@example.invalid"}])
         set_contact_active(actor=cls.users["Editor"], customer_id=cls.a.pk, contact_id=cls.archived.pk, is_active=False)
-        cls.email1 = save_contact_point(actor=cls.users["Editor"], customer_id=cls.a.pk, contact_id=cls.shared.pk,
-                                        kind="email", value="Shared@Example.invalid", is_primary=True)
+        cls.email1 = cls.shared.points.get(kind="email")
         cls.email2 = save_contact_point(actor=cls.users["Editor"], customer_id=cls.a.pk, contact_id=cls.shared.pk,
                                         kind="email", value="second@example.invalid")
         save_contact_point(actor=cls.users["Editor"], customer_id=cls.a.pk, contact_id=cls.shared.pk,
                            kind="phone", value="+45 12 34 56 78")
-        save_contact_point(actor=cls.users["Editor"], customer_id=cls.a.pk, contact_id=cls.a_second.pk,
-                           kind="email", value="shared@example.INVALID")
-        save_contact_point(actor=cls.users["Editor"], customer_id=cls.a.pk, contact_id=cls.archived.pk,
-                           kind="email", value="former@example.invalid")
-        save_contact_point(actor=cls.users["Editor"], customer_id=cls.a.pk, contact_id=cls.reception.pk,
-                           kind="email", value="reception@example.invalid")
-        save_contact_point(actor=cls.users["Editor"], customer_id=cls.b.pk, contact_id=cls.support_desk.pk,
-                           kind="email", value="shared@example.invalid")
-        save_contact_point(actor=cls.users["Editor"], customer_id=cls.d.pk, contact_id=cls.archived_company_contact.pk,
-                           kind="email", value="archived-company@example.invalid")
 
     def setUp(self):
         self.client.force_login(self.users["Viewer"])
 
     def query(self, services=None, **extra):
         selected = services if services is not None else [self.service1.pk]
-        return {"services": [str(service.pk if isinstance(service, Service) else service) for service in selected], **extra}
+        return {"filters": "1", "services": [str(service.pk if isinstance(service, Service) else service) for service in selected], **extra}
 
     def page(self, services=None, **extra):
         return self.client.get(reverse("search:services"), self.query(services, **extra), secure=True)
@@ -162,7 +157,8 @@ class ServiceContactSearchTests(TestCase):
         for invalid in ({"mode": "bad"}, {"sort": "bad"}, {"services": [uuid.uuid4()]}):
             self.assertEqual(self.client.get(reverse("search:services"), invalid, secure=True).status_code, 400)
         self.assertEqual(self.client.get(reverse("search:services"), secure=True).status_code, 200)
-        self.assertContains(self.client.get(reverse("search:services"), secure=True), "Choose one or more services")
+        self.assertEqual(self.client.get(reverse("search:services"), secure=True).context["page_obj"].paginator.count, 6)
+        self.assertContains(self.client.get(reverse("search:services"), {"reset": "1"}, secure=True), "Choose one or more services")
         self.assertEqual(self.emails([]).status_code, 400)
 
     def test_permissions_all_roles_and_direct_endpoint(self):
@@ -190,4 +186,6 @@ class ServiceContactSearchTests(TestCase):
         with CaptureQueriesContext(connection) as queries:
             response = self.page()
             self.assertEqual(response.status_code, 200)
-        self.assertLessEqual(len(queries), 14)
+        # One session write remembers service/filter selections; query count
+        # must still stay independent of the number of result rows.
+        self.assertLessEqual(len(queries), 15)

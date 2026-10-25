@@ -4,12 +4,17 @@ from django.db.models.functions import Lower
 
 from .models import Contact, ContactCustomer, ContactPoint
 from .validation import phone_search_value
+from apps.customers.models import Customer
 
 
-def customer_contact_preview(customer):
-    return associated_contacts(customer).filter(is_active=True).order_by(Lower("full_name"), "id").prefetch_related(
+def customer_overview_contacts(customer, *, include_archived=False):
+    """All contacts associated with a customer, including shared/general ones."""
+    contacts = associated_contacts(customer)
+    if not include_archived:
+        contacts = contacts.filter(is_active=True)
+    return contacts.order_by(Lower("full_name"), "id").prefetch_related(
         Prefetch("points", queryset=ContactPoint.objects.filter(is_active=True), to_attr="active_points"),
-    )[:5]
+    )
 
 
 def associated_contacts(customer):
@@ -31,6 +36,14 @@ def active_customer_ids(contact):
     return links if ContactCustomer.objects.filter(contact_id=contact.pk).exists() else [contact.customer_id]
 
 
+def with_active_customer(people):
+    """Hide contacts whose only current customer is archived in broad lists."""
+    links = ContactCustomer.objects.filter(contact_id=OuterRef("pk"))
+    active_links = links.filter(is_active=True, customer__status=Customer.Status.ACTIVE)
+    return people.annotate(_has_links=Exists(links), _active_customer=Exists(active_links)).filter(
+        Q(_active_customer=True) | Q(_has_links=False, customer__status=Customer.Status.ACTIVE))
+
+
 def directory_results(customer, query="", status="active"):
     people = associated_contacts(customer)
     if status:
@@ -50,8 +63,10 @@ def directory_results(customer, query="", status="active"):
     return people
 
 
-def global_contacts(q="", status="active", contact_type=""):
+def global_contacts(q="", status="active", contact_type="", include_archived_customers=False):
     people = Contact.objects.all()
+    if not include_archived_customers:
+        people = with_active_customer(people)
     if status:
         people = people.filter(is_active=status == "active")
     if contact_type:
@@ -70,6 +85,7 @@ def global_contacts(q="", status="active", contact_type=""):
                                | Q(customer__name__icontains=q, customer_links__isnull=True)).distinct()
     return people.order_by(Lower("full_name"), "id").prefetch_related(
         Prefetch("points", queryset=ContactPoint.objects.filter(is_active=True), to_attr="active_points"),
-        Prefetch("customer_links", queryset=ContactCustomer.objects.filter(is_active=True).select_related("customer"),
+        Prefetch("customer_links", queryset=ContactCustomer.objects.filter(is_active=True,
+                 **({} if include_archived_customers else {"customer__status": Customer.Status.ACTIVE})).select_related("customer"),
                  to_attr="active_customer_links"),
     )

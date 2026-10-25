@@ -84,12 +84,14 @@ class SearchTests(TestCase):
         ContactPoint.objects.filter(pk=self.general.pk).update(is_active=False)
         Service.objects.filter(pk=self.service.pk).update(is_active=False)
         CustomerService.objects.filter(pk=self.assignment.pk).update(status="terminated")
-        self.assertEqual(self.rows(self.search("Alice"), "Contacts")[0]["result_status"], "Archived")
-        self.assertContains(self.search("support@"), "Archived")
-        self.assertEqual(self.rows(self.search("support@"), "Contacts")[0]["url"], self.general_contact.get_absolute_url())
-        self.assertContains(self.search("telemetry"), "Terminated")
-        self.assertContains(self.search("telemetry"), "Archived catalog service")
-        self.assertContains(self.search("Alice"), "Archived customer")
+        self.assertEqual(self.rows(self.search("Alice"), "Contacts"), [])
+        self.assertEqual(self.rows(self.search("telemetry"), "Services"), [])
+        self.assertEqual(self.rows(self.search("Alice", include_archived="on"), "Contacts")[0]["result_status"], "Archived")
+        self.assertContains(self.search("support@", include_archived="on"), "Archived")
+        self.assertEqual(self.rows(self.search("support@", include_archived="on"), "Contacts")[0]["url"], self.general_contact.get_absolute_url())
+        self.assertContains(self.search("telemetry", include_archived="on"), "Terminated")
+        self.assertContains(self.search("telemetry", include_archived="on"), "Archived catalog service")
+        self.assertContains(self.search("Alice", include_archived="on"), "Archived customer")
 
     def test_empty_whitespace_no_results_invalid_and_literal_query(self):
         for query in ("", "   "):

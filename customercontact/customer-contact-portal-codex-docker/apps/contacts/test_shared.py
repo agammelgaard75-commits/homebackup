@@ -30,9 +30,9 @@ class SharedContactTests(TestCase):
         cls.first = Customer.objects.create(name="Acme One")
         cls.second = Customer.objects.create(name="Beacon Two")
         cls.third = Customer.objects.create(name="Cedar Three")
-        cls.person = create_contact(actor=cls.users["Editor"], customer_id=cls.first.pk, full_name="Shared Person", notes="Private note")
-        cls.email = save_contact_point(actor=cls.users["Editor"], customer_id=cls.first.pk, contact_id=cls.person.pk,
-                                       kind="email", value="shared@example.invalid", is_primary=True)
+        cls.person = create_contact(actor=cls.users["Editor"], customer_id=cls.first.pk, full_name="Shared Person", notes="Private note",
+                                    methods=[{"kind": "email", "value": "shared@example.invalid", "is_primary": True}])
+        cls.email = cls.person.points.get(kind="email")
 
     def test_add_second_customer_reuses_record_and_preserves_details(self):
         person_before = Contact.objects.values().get(pk=self.person.pk)
@@ -147,7 +147,7 @@ class SharedContactTests(TestCase):
             response = self.client.get(url, {"q": query}, secure=True)
             self.assertEqual(response.context["page_obj"].paginator.count, 1)
             self.assertContains(response, self.person.full_name)
-        self.assertEqual(self.client.get(url, {"contact_type": "technical"}, secure=True).context["page_obj"].paginator.count, 0)
+        self.assertEqual(self.client.get(url, {"contact_type": "technical"}, secure=True).context["page_obj"].paginator.count, 1)
         set_contact_active(actor=editor, customer_id=self.first.pk, contact_id=self.person.pk, is_active=False)
         self.assertEqual(self.client.get(url, secure=True).context["page_obj"].paginator.count, 0)
         self.assertEqual(self.client.get(url, {"status": "archived"}, secure=True).context["page_obj"].paginator.count, 1)
@@ -156,7 +156,9 @@ class SharedContactTests(TestCase):
         self.client.force_login(self.users["Editor"])
         create_url = reverse("global_contacts:create")
         self.assertEqual(self.client.post(create_url, {"full_name": "No owner"}, secure=True).status_code, 200)
-        response = self.client.post(create_url, {"full_name": "Global Person", "customers": [self.first.pk, self.second.pk]}, secure=True)
+        response = self.client.post(create_url, {"full_name": "Global Person", "customers": [self.first.pk, self.second.pk],
+            "methods-TOTAL_FORMS": "1", "methods-INITIAL_FORMS": "0", "methods-MIN_NUM_FORMS": "0",
+            "methods-MAX_NUM_FORMS": "1000", "methods-0-kind": "phone", "methods-0-value": "12345678"}, secure=True)
         self.assertEqual(response.status_code, 302)
         person = Contact.objects.get(full_name="Global Person")
         self.assertEqual(ContactCustomer.objects.filter(contact=person, is_active=True).count(), 2)

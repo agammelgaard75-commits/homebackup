@@ -1,0 +1,19 @@
+Implement JSON import for customers and contacts in the existing Docker-based Django customer contact portal.
+
+Read AGENTS.md, README.md, and all docs first, then inspect actual customer/contact models, forms, services, migrations, permissions, and audit implementation.
+
+Use docs/JSON_IMPORT_FORMAT.md plus schemas/*.schema.json and examples/*.example.json as the intended public import contract. These are specification files, not implementation. If an existing database choice conflicts, reconcile explicitly, update the spec and tests to match the supported behavior, and report the change.
+
+Tasks:
+1. Add an administrator-only Customers > Import JSON and Contacts > Import JSON workflow. Allow .json UTF-8 uploads only. Show a dry-run preview with per-record validation errors, then require explicit confirmation to import.
+2. Implement safe identity matching via stable import_id keys. Re-imports must be idempotent. Preserve existing manual records; any linking to them must be explicitly reviewed, never guessed from names or emails.
+3. Implement per-entity import logic in the owning modules (customers/contacts), with shared upload/preview/transaction plumbing where appropriate. Do not create separate services or containers.
+4. Match the documented field structures: customer fields, general and named contacts, multiple email/phone records, multi-customer links, mandatory email OR phone, primary labels, statuses. Reject invalid references and duplicate identity keys.
+5. Import customers first; contact references resolve by imported customer keys, even when a contact belongs to multiple customers.
+6. Use all-or-nothing transactions, additive relationship/method updates (no implicit deletions), per-field input validation, role permissions and audit summaries without storing personal data in logs.
+7. Add a download link for example JSON and human-readable documentation from each import screen. Include machine-readable JSON Schemas as documented files.
+8. Add automated tests: customers create/update/reimport, contacts create/update/reimport, duplicate key/error handling, unknown customer, contact without method, email-only/phone-only, general contacts, multi-customer contact, permissions, audit, atomic rollback and non-destructive updates.
+9. Run migrations and automated tests inside Docker Compose. Verify existing customer/contact pages, front-page directory, global service search and Copy All Emails still work. Do not touch production data in tests.
+10. Update AGENTS.md/README.md to document importer ownership and the end-user import workflow.
+
+Before editing, check Git status and establish a safe commit checkpoint excluding secrets and runtime files. Afterward report exact files changed, new migrations, tests run/results, manual usage instructions and any open issues. Stop after this feature, do not begin Phase 6.

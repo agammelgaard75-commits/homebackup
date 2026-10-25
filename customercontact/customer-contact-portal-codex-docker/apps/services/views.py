@@ -11,8 +11,9 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods, require_safe
 
 from apps.customers.models import Customer
+from apps.core.filter_preferences import chosen_filters, remember_filters
 
-from .forms import AssignmentFilterForm, AssignmentForm, CatalogFilterForm, ServiceForm
+from .forms import AssignmentFilterForm, AssignmentForm, CatalogFilterForm, CatalogUsageFilterForm, ServiceForm
 from .models import CustomerService, Service
 from .permissions import READ_PERMISSIONS, service_access
 from .selectors import customer_assignments
@@ -31,10 +32,13 @@ def _assignment(customer_pk, pk):
 @require_safe
 @never_cache
 def catalog_list(request):
-    filters = CatalogFilterForm(request.GET)
+    choices = ("status",)
+    selected = chosen_filters(request, "services.catalog", {"status": "active"}, choices)
+    filters = CatalogFilterForm({**selected, "q": request.GET.get("q", ""), "category": request.GET.get("category", "")})
     records = Service.objects.none()
     valid = filters.is_valid()
     if valid:
+        remember_filters(request, "services.catalog", filters, choices)
         data = filters.cleaned_data
         records = Service.objects.all()
         if data["q"]:
@@ -54,12 +58,30 @@ def catalog_list(request):
 @require_safe
 @never_cache
 def catalog_detail(request, pk):
-    service = get_object_or_404(Service, pk=pk)
+    return _render_catalog_detail(request, get_object_or_404(Service, pk=pk))
+
+
+def _render_catalog_detail(request, service, *, edit_form=None, status=200):
     can_view_assignments = request.user.has_perms(READ_PERMISSIONS)
-    records = service.assignments.select_related("customer", "service") if can_view_assignments else CustomerService.objects.none()
+    choices = ("status", "include_archived_customers")
+    key = f"services.usage.{service.pk}"
+    selected = chosen_filters(request, key, {"status": "active", "include_archived_customers": False}, choices)
+    filters = CatalogUsageFilterForm(selected)
+    valid = filters.is_valid()
+    records = service.assignments.select_related("customer", "service") if can_view_assignments and valid else CustomerService.objects.none()
+    if valid:
+        remember_filters(request, key, filters, choices)
+        if filters.cleaned_data["status"]:
+            records = records.filter(status=filters.cleaned_data["status"])
+        if not filters.cleaned_data["include_archived_customers"]:
+            records = records.filter(customer__status=Customer.Status.ACTIVE)
     return render(request, "services/catalog_detail.html", {
         "service": service, "can_view_assignments": can_view_assignments, "page_obj": _page(request, records),
-    })
+        "usage_filter_form": filters,
+        "edit_form": (edit_form or ServiceForm(instance=service)) if request.user.has_perms(("accounts.edit_portal", "accounts.administer_portal", "services.change_service")) else None,
+        "filter_query": urlencode({"status": filters.cleaned_data["status"],
+                                   "include_archived_customers": filters.cleaned_data["include_archived_customers"]}) if valid else "",
+    }, status=status if valid else 400)
 
 
 def _catalog_form(request, service=None):
@@ -75,6 +97,8 @@ def _catalog_form(request, service=None):
         else:
             messages.success(request, "Catalog service saved.")
             return redirect(saved)
+    if service is not None and request.method == "POST" and request.POST.get("inline_edit") == "1":
+        return _render_catalog_detail(request, service, edit_form=form, status=400)
     return render(request, "services/form.html", {
         "form": form, "title": "Edit service" if service else "Create service",
         "back_url": service.get_absolute_url() if service else reverse("services:list"),
@@ -116,8 +140,13 @@ def catalog_status(request, pk, active):
 @never_cache
 def assignment_list(request, customer_pk):
     customer = get_object_or_404(Customer, pk=customer_pk)
-    filters = AssignmentFilterForm(request.GET)
+    choices = ("status",)
+    key = f"services.customer.{customer.pk}"
+    selected = chosen_filters(request, key, {"status": "active"}, choices)
+    filters = AssignmentFilterForm(selected)
     valid = filters.is_valid()
+    if valid:
+        remember_filters(request, key, filters, choices)
     records = customer_assignments(customer) if valid else CustomerService.objects.none()
     if valid and filters.cleaned_data["status"]:
         records = records.filter(status=filters.cleaned_data["status"])
@@ -132,7 +161,9 @@ def assignment_list(request, customer_pk):
 @never_cache
 def assignment_detail(request, customer_pk, pk):
     assignment = _assignment(customer_pk, pk)
-    return render(request, "services/assignment_detail.html", {"assignment": assignment, "customer": assignment.customer})
+    can_edit = request.user.has_perms(("accounts.edit_portal", "services.change_customerservice"))
+    return render(request, "services/assignment_detail.html", {"assignment": assignment, "customer": assignment.customer,
+                  "edit_form": AssignmentForm(instance=assignment) if can_edit else None})
 
 
 def _assignment_form(request, customer, assignment=None):
@@ -150,7 +181,18 @@ def _assignment_form(request, customer, assignment=None):
             form.add_error(None, error)
         else:
             messages.success(request, "Service assignment saved.")
+            if request.POST.get("return_to") == "customer":
+                return redirect(customer)
             return redirect(saved)
+    if assignment is not None and request.method == "POST" and request.POST.get("inline_edit") == "1":
+        return render(request, "services/assignment_detail.html", {
+            "assignment": assignment, "customer": customer, "edit_form": form,
+        }, status=400)
+    if request.method == "POST" and request.POST.get("return_to") == "customer":
+        from apps.customers.views import _render_customer_detail
+        return _render_customer_detail(request, customer,
+            new_assignment_form=form if assignment is None else None,
+            assignment_edit_override=(assignment.pk, form) if assignment else None, status=400)
     return render(request, "services/form.html", {
         "form": form, "customer": customer, "title": "Edit assignment" if assignment else "Assign service",
         "back_url": assignment.get_absolute_url() if assignment else reverse("customer_services:list", args=[customer.pk]),

@@ -7,6 +7,7 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_safe
 
 from apps.accounts.permissions import permission_required
+from apps.core.filter_preferences import chosen_filters, remember_filters
 from apps.customers.models import Customer
 
 from .forms import AuditFilterForm
@@ -17,10 +18,15 @@ def _history(request, customer=None):
     records = visible_events(request.user)
     if customer is not None:
         records = records.filter(customer=customer)
-    filters = AuditFilterForm(request.GET, events=records)
+    key = f"audit.customer.{customer.pk}" if customer is not None else "audit.global"
+    choices = ("actor", "action")
+    selected = chosen_filters(request, key, {"actor": "", "action": ""}, choices)
+    filters = AuditFilterForm({**selected, "date_from": request.GET.get("date_from", ""),
+                               "date_to": request.GET.get("date_to", "")}, events=records)
     valid = filters.is_valid()
     query = {}
     if valid:
+        remember_filters(request, key, filters, choices)
         data = filters.cleaned_data
         if data["date_from"]:
             records = records.filter(created_at__gte=datetime.combine(data["date_from"], time.min, timezone.utc))

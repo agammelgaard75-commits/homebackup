@@ -6,7 +6,7 @@
 {% include 'components/customer_tabs.html' with current='contacts' %}
 {% if customer.status == 'inactive' %}<p class="notice">This customer is archived. Its contacts and details remain available.</p>{% endif %}
 <section class="panel">
-<form class="filters" method="get" role="search">{% for field in filter_form %}<div class="field">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>{% endfor %}<div class="actions"><button type="submit">Apply filters</button><a href="{% url 'contacts:list' customer.pk %}">Reset</a></div></form>
+<form class="filters" method="get" role="search"><input type="hidden" name="filters" value="1">{% for field in filter_form %}<div class="field">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>{% endfor %}<div class="actions"><button type="submit">Apply filters</button><a href="{% url 'contacts:list' customer.pk %}?reset=1">Reset</a></div></form>
 {% if filter_form.is_valid %}
 <p class="muted">{{ page_obj.paginator.count }} contact{{ page_obj.paginator.count|pluralize }}</p>
 {% if page_obj.object_list %}<div class="table-scroll" tabindex="0" role="region" aria-label="Customer contacts"><table>

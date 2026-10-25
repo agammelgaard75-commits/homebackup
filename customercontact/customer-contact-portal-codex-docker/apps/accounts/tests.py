@@ -68,7 +68,7 @@ class AccountsTests(TestCase):
             with self.subTest(role=role):
                 self.client.force_login(user)
                 response = self.client.get("/", secure=True)
-                self.assertContains(response, f"{role} access")
+                self.assertContains(response, "Customer directory")
                 self.assertEqual(user.has_perm("accounts.edit_portal"), role != "Viewer")
                 self.assertEqual(user.has_perm("accounts.administer_portal"), role == "Administrator")
                 if role == "Administrator":

@@ -6,6 +6,7 @@ from django.views.decorators.http import require_safe
 
 from apps.contacts.models import Contact, ContactPoint
 from apps.contacts.permissions import contact_access
+from apps.core.filter_preferences import chosen_filters, remember_filters
 from apps.services.permissions import READ_PERMISSIONS as SERVICE_READ
 from apps.contacts.permissions import READ_PERMISSIONS as CONTACT_READ
 from django.core.exceptions import PermissionDenied
@@ -20,12 +21,19 @@ def _require_search_access(actor):
 
 
 def _filters(request):
-    data = request.GET.copy() if request.GET else None
-    if data is not None:
-        data.setdefault("mode", "any")
-        data.setdefault("sort", "customer")
+    fields = ("services", "include_archived_services", "mode", "include_inactive_assignments",
+              "include_archived_customers", "include_archived_contacts", "sort")
+    defaults = {"services": [], "include_archived_services": False, "mode": "any",
+                "include_inactive_assignments": False, "include_archived_customers": False,
+                "include_archived_contacts": False, "sort": "customer"}
+    data = chosen_filters(request, "search.by_service", defaults, fields, multiple=("services",))
+    if request.GET.get("reset") == "1" or (not request.GET and not data["services"]):
+        data = None
     form = ServiceContactSearchForm(data)
-    return form, form.is_valid() if form.is_bound else False
+    valid = form.is_valid() if form.is_bound else False
+    if valid:
+        remember_filters(request, "search.by_service", form, fields, multiple=("services",))
+    return form, valid
 
 
 @contact_access()
@@ -77,7 +85,14 @@ def service_contact_search(request):
 @never_cache
 def service_contact_emails(request):
     _require_search_access(request.user)
-    form, valid = _filters(request)
+    # The export must be bound to the explicit filters sent with the button,
+    # never an older session preference from a previous page visit.
+    data = request.GET.copy() if request.GET else None
+    if data is not None:
+        data.setdefault("mode", "any")
+        data.setdefault("sort", "customer")
+    form = ServiceContactSearchForm(data)
+    valid = form.is_valid() if form.is_bound else False
     if not valid:
         return JsonResponse({"error": "Select valid service filters."}, status=400)
     addresses = email_values(form.cleaned_data)

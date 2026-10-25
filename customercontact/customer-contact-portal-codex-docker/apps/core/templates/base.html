@@ -17,9 +17,8 @@
       {% if perms.customers.view_customer %}<a href="{% url 'customers:list' %}" {% if request.resolver_match.app_name == 'customers' %}aria-current="page"{% endif %}>Customers</a>{% endif %}
       {% if perms.contacts.view_contact and perms.contacts.view_contactpoint and perms.customers.view_customer %}<a href="{% url 'global_contacts:list' %}" {% if request.resolver_match.app_name == 'global_contacts' or request.resolver_match.app_name == 'contacts' %}aria-current="page"{% endif %}>Contacts</a>{% endif %}
       {% if perms.services.view_service %}<a href="{% url 'services:list' %}" {% if request.resolver_match.app_name == 'services' %}aria-current="page"{% endif %}>Services</a>{% endif %}
-      <a href="{% url 'search:index' %}" {% if request.resolver_match.app_name == 'search' %}aria-current="page"{% endif %}>Search</a>
-      <a href="{% url 'search:services' %}" {% if request.resolver_match.url_name == 'services' and request.resolver_match.app_name == 'search' %}aria-current="page"{% endif %}>Search by service</a>
-      {% if perms.accounts.administer_portal and perms.audit.view_auditevent %}<a href="{% url 'audit:history' %}" {% if request.resolver_match.app_name == 'audit' %}aria-current="page"{% endif %}>Audit history</a>{% endif %}
+      <a href="{% url 'search:index' %}" {% if request.resolver_match.app_name == 'search' and request.resolver_match.url_name == 'index' %}aria-current="page"{% endif %}>Search</a>
+      {% if perms.accounts.access_portal and perms.customers.view_customer and perms.contacts.view_contact and perms.contacts.view_contactpoint and perms.services.view_service and perms.services.view_customerservice %}<a href="{% url 'search:services' %}" {% if request.resolver_match.app_name == 'search' and request.resolver_match.url_name == 'services' %}aria-current="page"{% endif %}>Search By Service</a>{% endif %}
       {% if perms.accounts.administer_portal %}<a href="{% url 'admin:index' %}">Administration</a>{% endif %}
     </nav>
     <div class="account"><span>{{ user.get_username }}</span><form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<button class="secondary" type="submit">Sign out</button></form></div>

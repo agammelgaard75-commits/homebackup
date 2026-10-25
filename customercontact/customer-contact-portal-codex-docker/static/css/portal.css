@@ -54,8 +54,6 @@ button:hover, .button:hover { background: #073d50; color: white; }
 nav, .account { display: flex; gap: 1.2rem; align-items: center; flex-wrap: wrap; }
 nav a { text-decoration: none; font-weight: 600; }
 nav a[aria-current] { text-decoration: underline; }
-.planned { color: #596c79; font-size: .9rem; }
-.planned small { display: block; font-size: .65rem; text-transform: uppercase; letter-spacing: .07em; }
 .account { margin-left: auto; font-size: .9rem; }
 .account > span { overflow-wrap: anywhere; max-width: 18rem; }
 
@@ -73,7 +71,6 @@ h2 { font-size: 1.3rem; }
   color: #125e78 !important;
 }
 .panel { padding: 1.75rem; background: white; border: 1px solid #dce4e9; border-radius: .7rem; }
-.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 1.5rem; }
 .badge {
   display: inline-block;
   background: #e7f3ef;
@@ -110,7 +107,6 @@ footer {
   .site-header { gap: 1rem; padding: 1rem; }
   nav { order: 3; width: 100%; gap: 1.3rem; }
   .account { gap: .5rem; }
-  .cards { grid-template-columns: 1fr; }
   main { padding: 2rem 1rem; }
   .panel { padding: 1.25rem; }
   .login-panel { margin: 1rem auto; }
@@ -158,19 +154,36 @@ dd { margin: 0; overflow-wrap: anywhere; }
 .contact-value { overflow-wrap: anywhere; min-width: 10rem; white-space: normal; }
 .contact-value small { display: block; color: #4b6170; }
 .checkbox-field input { width: 1.2rem; height: 1.2rem; }
+.contact-methods { margin: 2rem 0; }
+.contact-methods h2 { margin-bottom: .3rem; }
+.contact-method-row { display: grid; grid-template-columns: 1fr 2fr 1fr; gap: .3rem 1rem; margin: .8rem 0; padding: .75rem 1rem; }
+.contact-method-row .field { margin: .4rem 0; min-width: 0; }
+.contact-method-row .checkbox-field { align-self: end; }
+@media (max-width: 600px) { .contact-method-row { grid-template-columns: minmax(0, 1fr); } }
 
-/* Shared directory, activity and dashboard components. */
+/* Shared directory and activity components. */
 .section-gap { margin-top: 1.5rem; }
-.metric { font-size: 2.5rem; line-height: 1.2; font-weight: 700; margin: .75rem 0; }
 .customer-tabs { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; }
 .customer-tabs a { padding: .35rem 0; }
 .customer-tabs [aria-current="page"] { font-weight: 700; text-decoration-thickness: .18em; text-underline-offset: .45em; }
 .record-id, td small { overflow-wrap: anywhere; }
 .table-scroll td { max-width: 32rem; overflow-wrap: anywhere; }
 .table-scroll td:last-child { white-space: normal; }
+.directory-filters .field { flex: 1 1 13rem; }
+.directory-filters select[multiple] { min-height: 8rem; }
+.directory-cell-item + .directory-cell-item { margin-top: .45rem; }
+.directory-table td { min-width: 12rem; }
+.inline-editor { margin-top: 1.5rem; }
+.inline-editor summary { cursor: pointer; font-weight: 700; color: #125e78; }
+.inline-editor[open] summary { margin-bottom: 1rem; }
 :target { scroll-margin-top: 1rem; outline: 2px solid #396d88; }
 @media (max-width: 600px) {
   .pagination { flex-wrap: wrap; gap: .75rem; }
   .filters .actions { flex-wrap: wrap; }
   th, td { padding: .65rem .45rem; }
+  .directory-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .directory-table, .directory-table tbody, .directory-table tr, .directory-table td { display: block; width: 100%; }
+  .directory-table tr { border: 1px solid #dce4e9; border-radius: .5rem; margin-bottom: 1rem; padding: .35rem .75rem; }
+  .directory-table td { min-width: 0; max-width: none; border-bottom: 0; padding: .45rem 0; }
+  .directory-table td::before { content: attr(data-label); display: block; color: #4b6170; font-size: .8rem; font-weight: 700; }
 }

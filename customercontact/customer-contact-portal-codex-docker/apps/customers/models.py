@@ -13,6 +13,8 @@ class Customer(models.Model):
         INACTIVE = "inactive", "Archived"
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    import_id = models.CharField(max_length=128, null=True, blank=True, unique=True,
+        validators=[RegexValidator(r"\A[A-Za-z0-9][A-Za-z0-9._:-]*\Z", "Use a stable key starting with a letter or number.")])
     name = models.CharField(max_length=200, db_index=True)
     reference_code = models.CharField(
         "CVR / company ID", max_length=64, blank=True, default="",
@@ -47,6 +49,8 @@ class Customer(models.Model):
         if isinstance(self.name, str):
             self.name = self.name.strip()
         self.reference_code = (self.reference_code or "").strip().upper()
+        if isinstance(self.import_id, str):
+            self.import_id = self.import_id.strip() or None
         super().clean_fields(exclude=exclude)
 
     def clean(self):

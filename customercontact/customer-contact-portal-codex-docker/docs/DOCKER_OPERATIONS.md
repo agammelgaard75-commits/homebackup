@@ -22,6 +22,8 @@ Prerequisites: Linux with recent Docker Engine and Docker Compose v2, free TCP p
 
 **Phases 1–5 are implemented:** the Django foundation, customer management, contact management and service catalog/assignments, search, audit and unified home customer directory run in the existing Docker stack. Production deployment still requires the separate production-readiness approval.
 
+JSON import adds nullable unique keys to Customer and Contact plus audit action/type constraints; no existing business rows are rewritten. On an authorized installation, use the existing backup-first `./scripts/update.sh` to apply the three migrations explicitly before running the new app image. Existing backup/restore covers the import keys and audit events automatically. Admins import customer JSON before contact JSON through the authenticated portal. Files may contain personal data: keep uploads and backups private, and never commit real data.
+
 1. Copy/clone the finished repository to your internal server (e.g. `/opt/customer-contact-portal`). Never copy actual customer data in Git.
 2. `cd /opt/customer-contact-portal`
 3. `./scripts/install.sh portal.home.lab` (replace with the DNS hostname of your deployment).

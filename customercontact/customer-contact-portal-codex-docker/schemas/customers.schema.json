@@ -32,13 +32,16 @@
           "name": {
             "type": "string",
             "minLength": 1,
-            "maxLength": 255
+            "maxLength": 200,
+            "pattern": "\\S"
           },
           "company_id": {
             "type": [
               "string",
               "null"
             ],
+            "maxLength": 64,
+            "pattern": "^(?:$|[A-Za-z0-9][A-Za-z0-9./_-]*)$",
             "description": "CVR or other company identifier; not used as the automatic match key."
           },
           "status": {
@@ -49,7 +52,8 @@
             ]
           },
           "notes": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 10000
           }
         }
       }

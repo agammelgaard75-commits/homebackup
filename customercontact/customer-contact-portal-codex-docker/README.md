@@ -6,6 +6,8 @@ The foundation includes staff login/logout, a responsive home page, a custom Use
 
 Customer management includes a searchable, paginated directory, company identifiers, optional addresses and internal notes, detail/create/edit pages, and reversible archiving. Viewer can read; Editor and Administrator can maintain customers. Open `/customers/` after signing in.
 
+Administrators can import UTF-8 JSON at **Customers → Import JSON** (`/customers/import/`) and **Contacts → Import JSON** (`/contacts/import/`). Import customers first, because contact files refer to customer `import_id` values. Each screen provides a fake-data example, JSON Schema and [format guide](docs/JSON_IMPORT_FORMAT.md). Upload a file, review create/update/unchanged/reject rows, explicitly map possible existing records by UUID when needed, then confirm the entire file. Repeat imports use stable keys; omitted fields and existing contact methods/associations are retained. Imports are transactional and audited. Do not upload real data to a public or unapproved environment.
+
 ## Run with Docker
 
 Only Docker Engine, Docker Compose v2 or later, Bash and standard Linux utilities are required on the host. No host Python, PostgreSQL or web server is needed. Use a Docker-authorized account (or `sudo` for these commands). Review [Docker operations](docs/DOCKER_OPERATIONS.md) before installation.

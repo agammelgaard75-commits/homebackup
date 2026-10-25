@@ -1,11 +1,11 @@
 # JSON Import Contract (v1)
 
-These are design files for Codex to implement in the existing Django Customer Portal. The current repository is the authority for field choices and model names. If an existing choice differs, adapt the backend and these files together, and document any intentional deviation.
+This is the implemented administrator import contract for the Customer Contact Portal. The live Customer and Contact models govern field limits and choices.
 
 ## Files and import sequence
 
-1. Import `examples/customers.example.json` or a file following `schemas/customers.schema.json`.
-2. Import `examples/contacts.example.json` or a file following `schemas/contacts.schema.json`.
+1. Import `examples/customers.example.json` or a file following `schemas/customers.schema.json` from **Customers → Import JSON**.
+2. Import `examples/contacts.example.json` or a file following `schemas/contacts.schema.json` from **Contacts → Import JSON**.
 
 Both files must contain valid UTF-8 JSON. Each includes `schema_version: 1`. Customers should be imported first because contacts reference customer import keys. Separate pages/buttons should appear under Customers and Contacts, plus optional links in the main navigation.
 
@@ -16,7 +16,7 @@ Root: `schema_version` (required number equal to 1), `customers` (required nonem
 | Field | Required | Description |
 |---|---|---|
 | `import_id` | Yes | Stable unique external key for upserts, e.g. `customer-acme`. Must not change between imports. |
-| `name` | Yes | Customer display name. |
+| `name` | Yes | Customer display name, 1–200 characters after trimming. |
 | `company_id` | No | CVR or company identifier, as a string (or explicit `null`). Does *not* identify the customer for automatic merges. |
 | `status` | No | `active`, `inactive`, or `archived`; default `active` for newly imported records. |
 | `notes` | No | Internal notes. Default empty for new records. |
@@ -30,37 +30,38 @@ Root: `schema_version` (required number equal to 1), `contacts` (required nonemp
 | Field | Required | Description |
 |---|---|---|
 | `import_id` | Yes | Stable unique external key for upserts. |
-| `name` | Yes | Person's name or general contact's name, such as Support Desk. |
+| `name` | Yes | Person's name or general contact's name, such as Support Desk; 1–200 characters after trimming. |
 | `kind` | No | `person` or `general`; default `person` for new records. Both use the **same Contacts model**. |
 | `job_title` | No | Job title. |
 | `department` | No | Department. |
-| `contact_type` | No | `technical`, `management`, `billing`, `support`, `other`; default `other` on new records. |
+| `contact_type` | No | `technical`, `management`, `billing`, `support`, `other`; default `technical` on new records, matching normal contact creation. |
 | `status` | No | `active` or `archived`; default `active` on new records. |
 | `notes` | No | Internal notes. |
 | `customer_import_ids` | Yes | Nonempty array of existing customer `import_id` values. The contact may belong to multiple customers. |
 | `emails` | Conditionally | Array of email objects. Required to contain at least one item if `phones` is empty or missing. |
 | `phones` | Conditionally | Array of phone objects. Required to contain at least one item if `emails` is empty or missing. |
 
-Email object: `address` (required valid email); `label` (optional string, e.g. `work`); `primary` (optional boolean).
+Email object: `address` (required valid email); `label` (optional: `work`, `mobile`, `direct`, `support`, `other`); `primary` (optional boolean).
 
-Phone object: `number` (required nonblank string); `label` (optional string, e.g. `mobile`); `primary` (optional boolean).
+Phone object: `number` (required phone with 7–15 digits after normalization); `label` (same choices); `primary` (optional boolean).
 
-**Every contact needs at least one email OR one phone.** A contact can have both and multiple of each. For each method type, allow no more than one entry with `primary: true`; if absent, the backend chooses its documented default. The backend must additionally validate uniqueness of import IDs, duplicate addresses, normalized phone numbers and supported status/type values. JSON Schema alone is not sufficient for all cross-field rules.
+**Every contact file entry needs at least one email OR one phone.** A contact can have both and multiple of each. For each method type, allow no more than one entry with `primary: true`. If no primary is specified and the contact has no active primary of that type, the first supplied method becomes primary. Explicit `primary: false` is respected. Existing primary values stay in place unless another supplied method is explicitly primary. The backend additionally validates uniqueness of import IDs, duplicate addresses, normalized phone numbers and supported status/type values. JSON Schema alone is not sufficient for all cross-field rules.
 
 ## Import behavior and safety
 
 - Import UI: JSON upload -> parse and validate -> **dry-run preview** with create/update/unchanged/errors counts -> explicit Confirm Import.
 - Administrator-only write access, authenticated and CSRF-protected. No public import endpoint.
 - Use `import_id` as the sole automatic **identity key**. Never guess that matching names, company IDs or email addresses represent the same record.
-- Existing portal records without import keys must be linked through an explicit administrator-reviewed mapping workflow if necessary. Never silently merge or overwrite them.
+- Existing portal records without import keys can be linked only when an Administrator enters their UUID on the preview and reviews the mapping. A possible name/email match requires a mapping or explicit approval to create a separate record. A duplicate company ID cannot be created separately because the portal requires unique identifiers. Never silently merge or overwrite records.
 - Re-uploading the exact same JSON must not create duplicate customers, contacts, customer associations, email addresses or phone numbers.
 - On update, fields omitted from JSON stay unchanged; explicitly supplied scalar fields update. `customer_import_ids`, `emails` and `phones` are **additive by default**. Empty arrays do not delete existing data. No implicit unlinking or deletions.
 - Normalize and deduplicate emails case-insensitively; normalize phone numbers consistently without assuming a country code. Handle conflicting primary flags explicitly.
 - Reject duplicate `import_id` values inside the same upload, unresolved customer references, malformed emails, invalid phone entries and contacts with no usable contact method. Provide per-record errors.
 - Validate the entire upload and its database references before writing. Commit each file as one database transaction; roll back the whole import on error.
 - Store import key associations persistently and uniquely, either on the owning records or in an import identity mapping table.
-- Record who performed the import and a summary in audit history without logging uploaded personal data.
-- Enforce a configurable safe file-size/record limit and return clear validation failures.
+- This implementation stores a nullable unique `import_id` on the owning Customer or Contact row. Existing rows retain a null key until an explicit mapping is confirmed.
+- Record who performed the import and a counts-only summary in global audit history without logging uploaded personal data. Each changed business record also uses its normal audit events.
+- Enforce configurable `JSON_IMPORT_MAX_BYTES` (default 1 MiB, cap 5 MiB) and `JSON_IMPORT_MAX_RECORDS` (default 500, cap 1000); return clear validation failures. Signed previews expire after 30 minutes and are bound to the uploading Administrator.
 - Keep existing manual editing and archival behavior intact; no automatic deletion or archive of records omitted from a file.
 - Use the existing Docker stack; no new services or host dependencies.
 

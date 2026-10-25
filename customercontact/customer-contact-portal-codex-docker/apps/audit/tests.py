@@ -63,7 +63,10 @@ class AuditRecordingTests(AuditFixtures):
             self.assertEqual(event.customer_id, None if object_type == "service" else self.customer.pk)
             self.assertEqual(event.action, "assigned" if object_type == "customer_service" else "created")
             self.assertIsNotNone(event.created_at.tzinfo)
-            self.assertEqual(set(event.changed_fields), set(snapshot(instance)))
+            expected_fields = set(snapshot(instance))
+            if "import_id" in expected_fields and instance.import_id is None:
+                expected_fields.remove("import_id")
+            self.assertEqual(set(event.changed_fields), expected_fields)
         stored = json.dumps(list(AuditEvent.objects.values()), default=str)
         for private in ("Private customer", "Secret customer note", "Private person", "private@example.invalid", "Private service", "Private description"):
             self.assertNotIn(private, stored)

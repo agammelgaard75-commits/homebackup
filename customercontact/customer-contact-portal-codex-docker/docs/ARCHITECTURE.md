@@ -3,6 +3,10 @@
 ## Why a modular monolith?
 Each business area has its own source, database models, URLs, forms, templates, and tests, but deployment stays simple: one Django web app + one PostgreSQL database + one HTTPS entry-point container. There is no benefit to splitting a small internal directory into microservices.
 
+## Administrator JSON import
+
+`customers.imports` and `contacts.imports` validate and plan their own v1 records, then write through their owning service APIs. `core.json_import` checks bounded UTF-8 uploads, rejects duplicate JSON keys, signs an administrator-bound preview for 30 minutes and serves allowlisted documentation/example/schema files. Confirm recomputes the plan under a database transaction and rejects a stale preview. Customer and Contact have nullable unique `import_id` columns; existing manual rows are linked only by an explicit UUID mapping. Contact methods and customer links are additive, with no implicit removals. Per-record audit events and a counts-only global import summary commit with the data. The [format contract](JSON_IMPORT_FORMAT.md) records supported fields and limits.
+
 ## Technology
 - Python supported by the selected, maintained Django release; lock dependency versions.
 - Django framework, Django template rendering, plain CSS, and small amounts of JavaScript only where clearly useful.

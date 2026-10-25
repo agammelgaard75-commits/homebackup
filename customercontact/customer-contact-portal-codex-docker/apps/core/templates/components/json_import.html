@@ -1,0 +1,24 @@
+<a class="back-link" href="{{ back_url }}">← Back to {{ import_kind }}</a>
+<div class="page-intro"><p class="eyebrow">Administrator import</p><h1>{{ title }}</h1>
+<p>Upload a UTF-8 .json file. Review every proposed change before confirming. Existing records are matched only by import_id or a UUID you explicitly map below.</p>
+<p>Maximum {{ max_bytes|filesizeformat }} and {{ max_records }} records per file. Import customers before contacts.</p>
+<div class="actions"><a href="{% url example_url %}">Download example JSON</a><a href="{% url schema_url %}">Download JSON Schema</a><a href="{% url guide_url %}">Read format documentation</a></div></div>
+{% if upload_error %}<p class="form-errors" role="alert">{{ upload_error }}</p>{% endif %}
+<section class="panel"><h2>1. Upload and preview</h2>
+<form method="post" enctype="multipart/form-data">{% csrf_token %}<input type="hidden" name="action" value="preview">
+<div class="field"><label for="json-file">JSON file</label><input id="json-file" type="file" name="file" accept=".json,application/json" required></div>
+<button type="submit">Preview import</button></form></section>
+{% if previewed %}<section class="panel section-gap"><h2>2. Review proposed records</h2>
+<p role="status">{{ counts.create|default:0 }} create · {{ counts.update|default:0 }} update · {{ counts.unchanged|default:0 }} unchanged · {{ counts.reject|default:0 }} reject</p>
+<p class="help-text">A possible name or email match requires your decision. Enter an existing record UUID to link it, or approve creating a separate record. A company ID conflict must be mapped.</p>
+<form method="post">{% csrf_token %}<input type="hidden" name="action" value="review"><input type="hidden" name="draft_token" value="{{ draft_token }}">
+<div class="table-scroll" tabindex="0" role="region" aria-label="JSON import preview"><table><thead><tr><th scope="col">Record</th><th scope="col">Action and validation</th><th scope="col">Explicit mapping</th></tr></thead><tbody>
+{% for row in rows %}<tr><td><strong>{{ row.name|default:'Unnamed record' }}</strong><br><small>Row {{ row.index }} · import_id {{ row.key|default:'invalid' }}</small>{% if row.values %}{% if import_kind == 'customers' %}<br><small>Company ID: {{ row.values.reference_code|default:'—' }} · Status: {{ row.values.status }}</small>{% else %}<br><small>{% if row.values.is_general %}General{% else %}Person{% endif %} · {{ row.values.contact_type }} · {% if row.values.is_active %}Active{% else %}Archived{% endif %}</small><br><small>{{ row.customer_ids|length }} customer reference{{ row.customer_ids|length|pluralize }}</small>{% for method in row.methods %}<br><small>{{ method.kind|capfirst }}: {{ method.value }}{% if method.is_primary %} (primary){% endif %}</small>{% endfor %}{% endif %}{% endif %}</td>
+<td><span class="badge {% if row.action == 'reject' %}archived{% endif %}">{{ row.action|capfirst }}</span>{% if row.target %}<br><a href="{{ row.target.get_absolute_url }}">Existing record</a>{% endif %}
+{% if row.errors %}<ul class="form-errors">{% for error in row.errors %}<li>{{ error }}</li>{% endfor %}</ul>{% endif %}
+{% if row.candidates %}<p class="help-text">Possible existing records:</p><ul>{% for candidate in row.candidates %}<li>{% if import_kind == 'customers' %}<a href="{% url 'customers:detail' candidate.pk %}">{{ candidate.name }}</a>{% else %}<a href="{{ candidate.get_absolute_url }}">{{ candidate.full_name }}</a>{% endif %} <small>UUID {{ candidate.pk }}</small></li>{% endfor %}</ul>{% endif %}</td>
+<td><label for="map-{{ row.index }}">Existing record UUID (optional)</label><input id="map-{{ row.index }}" name="map_{{ row.index }}" value="{{ row.mapping }}" autocomplete="off"><label class="checkbox-field"><input type="checkbox" name="separate_{{ row.index }}" {% if row.separate %}checked{% endif %}> I reviewed this match; create a separate record</label></td></tr>{% endfor %}
+</tbody></table></div><div class="actions"><button type="submit" class="secondary">Review mapping choices</button></div></form>
+{% if confirm_token %}<form method="post" class="section-gap">{% csrf_token %}<input type="hidden" name="action" value="confirm"><input type="hidden" name="confirm_token" value="{{ confirm_token }}">
+<div class="field checkbox-field"><label><input type="checkbox" name="confirm_import" required> I reviewed the preview and confirm this entire import</label></div>
+<button type="submit">Confirm import</button></form>{% else %}<p class="notice">Resolve rejected rows, then review the mapping choices again. No records have been changed.</p>{% endif %}</section>{% endif %}

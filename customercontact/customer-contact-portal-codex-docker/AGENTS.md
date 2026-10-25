@@ -9,11 +9,19 @@ Build a maintainable, secure **internal customer contact portal** according to R
 3. State the intended files/areas to change and important assumptions.
 4. Preserve existing behavior unless task explicitly changes it.
 
+## Git checkpoints
+- Use Git commits as source-code checkpoints. Inspect status and recent commits before starting a phase; reuse an existing verified commit or tag as the rollback point instead of copying the source tree.
+- After each completed and verified phase, commit its source, migrations, tests, and documentation with a descriptive message. Keep the working tree clean between phases.
+- Do not accumulate backup copies of source files or create redundant rollback directories when Git already provides a suitable checkpoint. Never rewrite history or delete backups, stashes, or snapshots without explicit review and approval.
+- Check `git rev-parse --show-toplevel`: the Git root may be above this portal directory. Stage only portal paths and inspect the staged names before committing so sibling projects stay untouched. Never commit passwords, secrets, `.env` files, database contents or dumps, Docker volume data, logs, or other runtime data, even if a Git ignore rule is missing.
+- Git protects source history, not PostgreSQL data or the Caddy private CA. Preserve named volumes and use the documented backup-first update process for database changes.
+
 ## Coding conventions
 - Keep each feature's models, forms, views, URLs, templates, and tests in its own Django app.
 - Use Django ORM and migrations; do not invent raw SQL CRUD infrastructure.
 - Prefer small, readable functions/classes to abstraction frameworks.
 - App-to-app writes must go through owning app's documented service layer functions.
+- JSON imports belong to `customers.imports` and `contacts.imports`; `core.json_import` owns only upload, signed preview and reference download mechanics. Confirmed imports must use owning-app write services and keep audit writes inside the same transaction.
 - Do not move unrelated code or refactor modules not required by the current task.
 - Avoid new dependencies unless justified and locked.
 - Do not create placeholder code or empty files merely to look architectural.

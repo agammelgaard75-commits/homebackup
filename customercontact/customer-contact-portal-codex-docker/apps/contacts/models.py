@@ -2,6 +2,7 @@ import uuid
 
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxLengthValidator
+from django.core.validators import RegexValidator
 from django.db import models
 from django.urls import reverse
 
@@ -17,6 +18,8 @@ class Contact(models.Model):
         OTHER = "other", "Other"
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    import_id = models.CharField(max_length=128, null=True, blank=True, unique=True,
+        validators=[RegexValidator(r"\A[A-Za-z0-9][A-Za-z0-9._:-]*\Z", "Use a stable key starting with a letter or number.")])
     customer = models.ForeignKey("customers.Customer", on_delete=models.PROTECT, related_name="contacts")
     full_name = models.CharField("Name", max_length=200)
     job_title = models.CharField(max_length=200, blank=True)
@@ -40,6 +43,8 @@ class Contact(models.Model):
     def clean_fields(self, exclude=None):
         if isinstance(self.full_name, str):
             self.full_name = self.full_name.strip()
+        if isinstance(self.import_id, str):
+            self.import_id = self.import_id.strip() or None
         super().clean_fields(exclude=exclude)
 
     def clean(self):

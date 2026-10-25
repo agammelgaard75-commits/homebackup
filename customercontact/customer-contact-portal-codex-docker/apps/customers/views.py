@@ -8,6 +8,7 @@ from django.http import Http404
 from django.db.models import Q
 from django.db.models.functions import Lower
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods, require_safe
 
@@ -17,6 +18,7 @@ from apps.contacts.selectors import associated_contacts, customer_overview_conta
 from apps.contacts.forms import ContactForm, ContactMethodFormSet, initial_contact_methods
 from apps.contacts.models import Contact
 from apps.core.filter_preferences import chosen_filters, remember_filters
+from apps.core.json_import import import_reference, import_workflow
 from apps.services.permissions import READ_PERMISSIONS as SERVICE_READ_PERMISSIONS
 from apps.services.selectors import active_service_count, overview_services
 from apps.services.forms import AssignmentForm
@@ -25,6 +27,7 @@ from apps.services.models import CustomerService
 from .forms import CustomerFilterForm, CustomerForm, CustomerOverviewFilterForm
 from .models import Customer
 from .services import archive_customer, create_customer, update_customer
+from .imports import confirm_customers, manifest as customer_manifest, preview_customers
 
 
 @permission_required("accounts.access_portal")
@@ -178,3 +181,35 @@ def customer_archive(request, pk):
         messages.success(request, "Customer archived. The record has been retained.")
         return redirect(customer)
     return render(request, "customers/archive.html", {"customer": customer})
+
+
+@permission_required("accounts.access_portal")
+@permission_required("accounts.edit_portal")
+@permission_required("accounts.administer_portal")
+@permission_required("customers.view_customer")
+@permission_required("customers.add_customer")
+@permission_required("customers.change_customer")
+@require_http_methods(["GET", "POST"])
+@never_cache
+def customer_import(request):
+    context, status, counts = import_workflow(request, kind="customers", preview=preview_customers,
+                                              manifest=customer_manifest, confirm=confirm_customers)
+    if counts is not None:
+        messages.success(request, f"Customer import complete: {counts['create']} created, {counts['update']} updated, {counts['unchanged']} unchanged.")
+        return redirect("customers:list")
+    context.update(import_kind="customers", title="Import customers from JSON", back_url=reverse("customers:list"),
+                   example_url="customers:import_example", schema_url="customers:import_schema",
+                   guide_url="customers:import_guide")
+    return render(request, "customers/import.html", context, status=status)
+
+
+@permission_required("accounts.access_portal")
+@permission_required("accounts.edit_portal")
+@permission_required("accounts.administer_portal")
+@permission_required("customers.view_customer")
+@permission_required("customers.add_customer")
+@permission_required("customers.change_customer")
+@require_safe
+@never_cache
+def customer_import_reference(request, asset):
+    return import_reference("customers", asset)

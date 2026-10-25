@@ -18,4 +18,6 @@ def visible_events(actor):
         allowed |= Q(object_type="service")
     if actor.has_perms(SERVICE_READ):
         allowed |= Q(object_type="customer_service")
+    if actor.has_perm("accounts.administer_portal"):
+        allowed |= Q(object_type="json_import")
     return AuditEvent.objects.filter(allowed).select_related("actor", "customer")

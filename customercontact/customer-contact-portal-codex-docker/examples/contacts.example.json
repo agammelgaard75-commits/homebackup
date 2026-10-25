@@ -40,7 +40,7 @@
       "emails": [
         {
           "address": "support@example.com",
-          "label": "shared",
+          "label": "support",
           "primary": true
         }
       ],

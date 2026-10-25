@@ -32,17 +32,17 @@ def _save_validated(customer):
 
 
 @transaction.atomic
-def create_customer(*, actor, name, reference_code="", status=Customer.Status.ACTIVE, address="", notes=""):
+def create_customer(*, actor, name, reference_code="", status=Customer.Status.ACTIVE, address="", notes="", import_id=None):
     require_customer_write(actor, "customers.add_customer")
     customer = _save_validated(Customer(
-        name=name, reference_code=reference_code, status=status, address=address, notes=notes,
+        name=name, reference_code=reference_code, status=status, address=address, notes=notes, import_id=import_id,
     ))
     audit.record_change(actor=actor, instance=customer)
     return customer
 
 
 @transaction.atomic
-def update_customer(*, actor, customer_id, name, reference_code, status, address, notes):
+def update_customer(*, actor, customer_id, name, reference_code, status, address, notes, import_id=None):
     require_customer_write(actor, "customers.change_customer")
     customer = Customer.objects.select_for_update().get(pk=customer_id)
     before = audit.snapshot(customer)
@@ -51,6 +51,10 @@ def update_customer(*, actor, customer_id, name, reference_code, status, address
     customer.status = status
     customer.address = address
     customer.notes = notes
+    if import_id is not None:
+        if customer.import_id and customer.import_id != import_id:
+            raise ValidationError({"import_id": "This customer is linked to a different import key."})
+        customer.import_id = import_id
     _save_validated(customer)
     audit.record_change(actor=actor, instance=customer, before=before)
     return customer

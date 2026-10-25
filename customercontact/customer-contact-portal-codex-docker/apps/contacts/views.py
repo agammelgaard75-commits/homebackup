@@ -2,6 +2,7 @@ from urllib.parse import urlencode
 
 from django.contrib import messages
 from django.core.exceptions import ValidationError
+from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -10,6 +11,7 @@ from django.views.decorators.http import require_http_methods, require_safe
 
 from apps.customers.models import Customer
 from apps.core.filter_preferences import chosen_filters, remember_filters
+from apps.core.json_import import import_reference, import_workflow
 
 from .forms import (ContactFilterForm, ContactForm, ContactPointFilterForm, ContactPointForm,
                     GlobalContactFilterForm, ContactMethodFormSet, initial_contact_methods)
@@ -17,6 +19,7 @@ from .models import Contact, ContactPoint
 from .permissions import contact_access, require_access
 from .selectors import associated_contacts, directory_results, is_associated, active_customer_ids, global_contacts
 from .services import create_contact, update_contact, set_contact_active, save_contact_point, set_point_active
+from .imports import confirm_contacts, manifest as contact_manifest, preview_contacts
 
 
 def _owner(customer_pk, contact_pk=None):
@@ -363,3 +366,34 @@ def global_contact_archive(request, pk):
 @never_cache
 def global_contact_restore(request, pk):
     return _global_contact_action(request, pk, "restore")
+
+
+def _require_contact_import(actor):
+    required = ("accounts.edit_portal", "accounts.administer_portal", "contacts.add_contact", "contacts.change_contact",
+                "contacts.add_contactpoint", "contacts.change_contactpoint")
+    if not actor.has_perms(required):
+        raise PermissionDenied
+
+
+@contact_access()
+@require_http_methods(["GET", "POST"])
+@never_cache
+def global_contact_import(request):
+    _require_contact_import(request.user)
+    context, status, counts = import_workflow(request, kind="contacts", preview=preview_contacts,
+                                              manifest=contact_manifest, confirm=confirm_contacts)
+    if counts is not None:
+        messages.success(request, f"Contact import complete: {counts['create']} created, {counts['update']} updated, {counts['unchanged']} unchanged.")
+        return redirect("global_contacts:list")
+    context.update(import_kind="contacts", title="Import contacts from JSON", back_url=reverse("global_contacts:list"),
+                   example_url="global_contacts:import_example", schema_url="global_contacts:import_schema",
+                   guide_url="global_contacts:import_guide")
+    return render(request, "contacts/import.html", context, status=status)
+
+
+@contact_access()
+@require_safe
+@never_cache
+def global_contact_import_reference(request, asset):
+    _require_contact_import(request.user)
+    return import_reference("contacts", asset)

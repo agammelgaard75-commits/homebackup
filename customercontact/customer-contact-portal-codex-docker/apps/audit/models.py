@@ -27,6 +27,7 @@ class AuditEvent(models.Model):
         SUSPENDED = "suspended", "Suspended"
         EXPIRED = "expired", "Expired"
         TERMINATED = "terminated", "Terminated"
+        IMPORTED = "imported", "Imported"
 
     class ObjectType(models.TextChoices):
         CUSTOMER = "customer", "Customer"
@@ -35,6 +36,7 @@ class AuditEvent(models.Model):
         SERVICE = "service", "Catalog service"
         CUSTOMER_SERVICE = "customer_service", "Service assignment"
         CONTACT_CUSTOMER = "contact_customer", "Contact association"
+        JSON_IMPORT = "json_import", "JSON import"
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -57,9 +59,9 @@ class AuditEvent(models.Model):
             models.Index(fields=["object_type", "object_id"], name="audit_object"),
         ]
         constraints = [
-            models.CheckConstraint(condition=models.Q(action__in=["created", "updated", "archived", "restored", "assigned", "activated", "suspended", "expired", "terminated"]), name="audit_action_valid"),
-            models.CheckConstraint(condition=models.Q(object_type__in=["customer", "contact", "contact_point", "service", "customer_service", "contact_customer"]), name="audit_object_type_valid"),
-            models.CheckConstraint(condition=(models.Q(object_type="service", customer__isnull=True) | (~models.Q(object_type="service") & models.Q(customer__isnull=False))), name="audit_customer_scope"),
+            models.CheckConstraint(condition=models.Q(action__in=["created", "updated", "archived", "restored", "assigned", "activated", "suspended", "expired", "terminated", "imported"]), name="audit_action_valid"),
+            models.CheckConstraint(condition=models.Q(object_type__in=["customer", "contact", "contact_point", "service", "customer_service", "contact_customer", "json_import"]), name="audit_object_type_valid"),
+            models.CheckConstraint(condition=(models.Q(object_type__in=["service", "json_import"], customer__isnull=True) | (~models.Q(object_type__in=["service", "json_import"]) & models.Q(customer__isnull=False))), name="audit_customer_scope"),
         ]
 
     def save(self, *args, **kwargs):

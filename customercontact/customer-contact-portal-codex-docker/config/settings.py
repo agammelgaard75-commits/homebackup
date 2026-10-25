@@ -115,3 +115,17 @@ LOGGING = {
 # This internal hostname has no managed child sites and cannot use public preload.
 # Keep HSTS on this hostname without asserting HTTPS for unrelated descendants.
 SILENCED_SYSTEM_CHECKS = ["security.W005", "security.W021"]
+
+
+def bounded_import_setting(name, default, upper):
+    try:
+        value = int(os.environ.get(name, default))
+    except ValueError as error:
+        raise ImproperlyConfigured(f"{name} must be an integer.") from error
+    if not 1 <= value <= upper:
+        raise ImproperlyConfigured(f"{name} must be between 1 and {upper}.")
+    return value
+
+
+JSON_IMPORT_MAX_BYTES = bounded_import_setting("JSON_IMPORT_MAX_BYTES", 1048576, 5242880)
+JSON_IMPORT_MAX_RECORDS = bounded_import_setting("JSON_IMPORT_MAX_RECORDS", 500, 1000)

@@ -5,12 +5,13 @@ from this allowlist; callers cannot supply free text or old/new field values.
 """
 from django.core.exceptions import PermissionDenied
 from django.db import connection
+import uuid
 
 from .models import AuditEvent
 
 TRACKED_FIELDS = {
-    "customers.customer": ("name", "reference_code", "status", "address", "notes"),
-    "contacts.contact": ("customer_id", "full_name", "job_title", "department", "contact_type", "is_general", "notes", "is_active"),
+    "customers.customer": ("import_id", "name", "reference_code", "status", "address", "notes"),
+    "contacts.contact": ("import_id", "customer_id", "full_name", "job_title", "department", "contact_type", "is_general", "notes", "is_active"),
     "contacts.contactpoint": ("customer_id", "contact_id", "kind", "label", "value", "is_primary", "is_active"),
     "contacts.contactcustomer": ("customer_id", "contact_id", "is_active"),
     "services.service": ("name", "description", "category", "is_active"),
@@ -34,7 +35,8 @@ def record_change(*, actor, instance, before=None, customer_id_override=None):
     if not actor.is_authenticated or not actor.is_active or not actor.has_perms(("accounts.access_portal", "accounts.edit_portal")):
         raise PermissionDenied
     after = snapshot(instance)
-    changed = sorted(after if before is None else [field for field in after if before[field] != after[field]])
+    changed = sorted((field for field in after if field != "import_id" or after[field] is not None)
+                     if before is None else [field for field in after if before[field] != after[field]])
     if not changed:
         return None
     object_type = OBJECT_TYPES[instance._meta.label_lower]
@@ -54,3 +56,17 @@ def record_change(*, actor, instance, before=None, customer_id_override=None):
     description = f"{AuditEvent.ObjectType(object_type).label} {AuditEvent.Action(action).label.lower()}."
     return AuditEvent.objects.create(actor=actor, action=action, object_type=object_type, object_id=instance.pk,
                                      customer_id=customer_id, description=description, changed_fields=changed)
+
+
+def record_import_summary(*, actor, kind, created, updated, unchanged):
+    """Record counts only. The caller must own the surrounding import transaction."""
+    if not connection.in_atomic_block:
+        raise RuntimeError("Audit recording requires the business transaction.")
+    if kind not in ("customers", "contacts") or not actor.is_active or not actor.has_perms(
+        ("accounts.access_portal", "accounts.edit_portal", "accounts.administer_portal", "audit.view_auditevent")
+    ):
+        raise PermissionDenied
+    description = f"{kind.capitalize()} JSON import: {created} created, {updated} updated, {unchanged} unchanged."
+    return AuditEvent.objects.create(actor=actor, action=AuditEvent.Action.IMPORTED,
+        object_type=AuditEvent.ObjectType.JSON_IMPORT, object_id=uuid.uuid4(),
+        description=description, changed_fields=[])

@@ -3,7 +3,7 @@
 {% block content %}
 <div class="page-heading">
   <div><p class="eyebrow">Customer directory</p><h1>Customers</h1><p>Find and maintain your team's customer records.</p></div>
-  {% if perms.accounts.edit_portal and perms.customers.add_customer %}<a class="button" href="{% url 'customers:create' %}">Add customer</a>{% endif %}
+  <div class="actions">{% if perms.accounts.edit_portal and perms.customers.add_customer %}<a class="button" href="{% url 'customers:create' %}">Add customer</a>{% endif %}{% if perms.accounts.administer_portal and perms.customers.add_customer and perms.customers.change_customer %}<a class="button secondary" href="{% url 'customers:import' %}">Import JSON</a>{% endif %}</div>
 </div>
 <section class="panel" aria-label="Customer directory">
   <form class="filters" method="get" action="{% url 'customers:list' %}" role="search">

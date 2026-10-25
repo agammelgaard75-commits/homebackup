@@ -129,7 +129,7 @@ def _set_links(actor, contact, ids):
 
 @transaction.atomic
 def create_contact(*, actor, customer_id, full_name, job_title="", department="", contact_type=Contact.Type.TECHNICAL,
-                   notes="", is_general=False, customer_ids=None, customers=None, methods=None):
+                   notes="", is_general=False, customer_ids=None, customers=None, methods=None, import_id=None):
     require_access(actor, "contacts.add_contact")
     if customer_ids is None and customers:
         customer_ids = customers
@@ -138,7 +138,8 @@ def create_contact(*, actor, customer_id, full_name, job_title="", department=""
         raise ValidationError({"customers": "Include the selected customer."})
     Customer.objects.select_for_update().get(pk=customer_id)
     contact = Contact(customer_id=customer_id, full_name=full_name, job_title=job_title,
-                      department=department, contact_type=contact_type, is_general=is_general, notes=notes)
+                      department=department, contact_type=contact_type, is_general=is_general, notes=notes,
+                      import_id=import_id)
     contact.full_clean()
     contact.save()
     initial_link = ContactCustomer.objects.create(contact=contact, customer_id=customer_id)
@@ -152,7 +153,7 @@ def create_contact(*, actor, customer_id, full_name, job_title="", department=""
 
 @transaction.atomic
 def update_contact(*, actor, customer_id, contact_id, full_name, job_title="", department="", contact_type=None,
-                   notes="", is_general=None, customer_ids=None, customers=None, methods=None):
+                   notes="", is_general=None, customer_ids=None, customers=None, methods=None, import_id=None):
     require_access(actor, "contacts.change_contact")
     if customer_ids is None and customers:
         customer_ids = customers
@@ -162,6 +163,10 @@ def update_contact(*, actor, customer_id, contact_id, full_name, job_title="", d
     if contact_type is not None:
         contact.contact_type = contact_type
     contact.notes = notes
+    if import_id is not None:
+        if contact.import_id and contact.import_id != import_id:
+            raise ValidationError({"import_id": "This contact is linked to a different import key."})
+        contact.import_id = import_id
     if is_general is not None:
         contact.is_general = is_general
     contact.full_clean()

@@ -10,6 +10,7 @@ Use Django ORM and migrations. UUID primary keys are recommended for business re
 - `address` optional free-text for MVP
 - `notes` optional, internal only
 - `created_at`, `updated_at`
+- `import_id` nullable unique stable key for explicitly mapped or newly imported JSON customers. Existing rows remain null until mapped; `company_id` in JSON maps to `reference_code`.
 
 ## Contact (`contacts` app)
 - `id` UUID PK
@@ -21,6 +22,7 @@ Use Django ORM and migrations. UUID primary keys are recommended for business re
 - `is_active` bool
 - `notes` optional
 - `created_at`, `updated_at`
+- `import_id` nullable unique stable key for explicitly mapped or newly imported JSON contacts. Existing rows remain null until mapped; imported multi-customer links use `ContactCustomer`.
 
 `ContactCustomer` supplies one or more active customer associations for each Contact. The contact row is reused across customer and global pages; association archive removes a customer relationship without deleting the contact or its details.
 

@@ -1,0 +1,30 @@
+{% extends 'admin/base_site.html' %}
+{% block title %}Data Cleanup · Customer Portal{% endblock %}
+{% block content %}
+<h1>Data Cleanup</h1>
+<p>Permanent deletion is restricted to archived records. Make and verify a database backup before production cleanup.</p>
+{% if error %}<p class="errornote" role="alert">{{ error }}</p>{% endif %}
+<form method="get"><label for="cleanup-q">Search archived records</label> <input id="cleanup-q" name="q" value="{{ q }}" maxlength="200"> <label for="cleanup-type">Contact type</label> <select id="cleanup-type" name="contact_type"><option value="">All types</option>{% for value,label in contact_types %}<option value="{{ value }}" {% if contact_type == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select> <button type="submit">Filter</button></form>
+<form method="post">{% csrf_token %}<input type="hidden" name="action" value="preview">
+<h2>Archived customers</h2>
+<table><thead><tr><th>Select</th><th>Name</th><th>ID</th></tr></thead><tbody>
+{% for customer in customer_page %}<tr><td><input type="checkbox" name="customer_ids" value="{{ customer.pk }}" aria-label="Select customer {{ customer.name }}"></td><td>{{ customer.name }}</td><td>{{ customer.pk }}</td></tr>{% empty %}<tr><td colspan="3">No archived customers.</td></tr>{% endfor %}
+</tbody></table>
+<p>Customer page {{ customer_page.number }} of {{ customer_page.paginator.num_pages }}. {% if customer_page.has_previous %}<a href="?q={{ q|urlencode }}&amp;contact_type={{ contact_type|urlencode }}&amp;customer_page={{ customer_page.previous_page_number }}">Previous</a>{% endif %} {% if customer_page.has_next %}<a href="?q={{ q|urlencode }}&amp;contact_type={{ contact_type|urlencode }}&amp;customer_page={{ customer_page.next_page_number }}">Next</a>{% endif %}</p>
+<h2>Archived contacts</h2>
+<table><thead><tr><th>Select</th><th>Name</th><th>ID</th></tr></thead><tbody>
+{% for contact in contact_page %}<tr><td><input type="checkbox" name="contact_ids" value="{{ contact.pk }}" aria-label="Select contact {{ contact.full_name }}"></td><td>{{ contact.full_name }}</td><td>{{ contact.pk }}</td></tr>{% empty %}<tr><td colspan="3">No archived contacts.</td></tr>{% endfor %}
+</tbody></table>
+<p>Contact page {{ contact_page.number }} of {{ contact_page.paginator.num_pages }}. {% if contact_page.has_previous %}<a href="?q={{ q|urlencode }}&amp;contact_type={{ contact_type|urlencode }}&amp;contact_page={{ contact_page.previous_page_number }}">Previous</a>{% endif %} {% if contact_page.has_next %}<a href="?q={{ q|urlencode }}&amp;contact_type={{ contact_type|urlencode }}&amp;contact_page={{ contact_page.next_page_number }}">Next</a>{% endif %}</p>
+<button type="submit">Preview selected deletion</button></form>
+{% if preview %}<section><h2>Deletion preview</h2><p>Confirmation reference: {{ preview.confirmation_ref }}</p>
+<ul><li>{{ preview.plan.counts.customers }} customers to delete</li><li>{{ preview.plan.counts.contacts }} contacts to delete</li><li>{{ preview.plan.counts.contact_methods }} email/phone methods to delete</li><li>{{ preview.plan.counts.contact_links_deleted }} selected-contact associations to delete</li><li>{{ preview.plan.counts.contact_links_detached }} shared-contact associations to detach</li><li>{{ preview.plan.counts.contacts_preserved }} shared contacts preserved</li><li>{{ preview.plan.counts.audit_events_preserved }} audit events preserved</li></ul>
+<h3>Customers to delete</h3><ul>{% for row in preview.plan.customers_to_delete %}<li>{{ row.name }} ({{ row.id }})</li>{% empty %}<li>None</li>{% endfor %}</ul>
+<h3>Contacts to delete</h3><ul>{% for row in preview.plan.contacts_to_delete %}<li>{{ row.name }} ({{ row.id }})</li>{% empty %}<li>None</li>{% endfor %}</ul>
+<h3>Email and phone records to delete</h3><ul>{% for id in preview.plan.methods_to_delete %}<li>{{ id }}</li>{% empty %}<li>None</li>{% endfor %}</ul>
+<h3>Selected-contact associations to delete</h3><ul>{% for id in preview.plan.links_to_delete %}<li>{{ id }}</li>{% empty %}<li>None</li>{% endfor %}</ul>
+<h3>Associations to detach</h3><ul>{% for row in preview.plan.links_to_detach %}<li>Association {{ row.id }}: contact {{ row.contact_id }} from customer {{ row.customer_id }}</li>{% empty %}<li>None</li>{% endfor %}</ul>
+<h3>Contacts preserved</h3><ul>{% for row in preview.plan.contacts_preserved %}<li>{{ row.name }} ({{ row.id }})</li>{% empty %}<li>None</li>{% endfor %}</ul>
+{% if preview.plan.blockers %}<h3>Blocked</h3><ul>{% for row in preview.plan.blockers %}<li>{{ row.type }} {{ row.id }}: {{ row.reason }}</li>{% endfor %}</ul>{% else %}
+<form method="post">{% csrf_token %}<input type="hidden" name="action" value="confirm"><input type="hidden" name="confirmation_token" value="{{ preview.confirmation_token }}"><label><input type="checkbox" name="confirm" required> I understand this permanently deletes the listed records</label> <button type="submit" class="deletelink">Permanently delete</button></form>{% endif %}</section>{% endif %}
+{% endblock %}

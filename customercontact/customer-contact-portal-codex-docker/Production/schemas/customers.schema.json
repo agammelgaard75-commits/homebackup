@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Customer Import v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "customers"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "customers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "import_id",
+          "name"
+        ],
+        "properties": {
+          "import_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+            "description": "Stable import key. Never reuse for another record."
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "pattern": "\\S"
+          },
+          "company_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 64,
+            "pattern": "^(?:$|[A-Za-z0-9][A-Za-z0-9./_-]*)$",
+            "description": "CVR or other company identifier; not used as the automatic match key."
+          },
+          "status": {
+            "enum": [
+              "active",
+              "inactive",
+              "archived"
+            ]
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 10000
+          }
+        }
+      }
+    }
+  }
+}

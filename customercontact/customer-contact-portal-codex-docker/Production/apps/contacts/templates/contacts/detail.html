@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}{{ contact.full_name }} · {{ customer.name }} · Customer Portal{% endblock %}
+{% block content %}
+<a class="back-link" href="{% url 'contacts:list' customer.pk %}">← Contacts for {{ customer.name }}</a>
+<div class="page-heading"><div><p class="eyebrow"><a href="{{ customer.get_absolute_url }}">{{ customer.name }}</a></p><h1>{{ contact.full_name }}</h1>{% if contact.is_general %}<span class="badge">General contact</span>{% endif %}<span class="badge {% if not contact.is_active %}archived{% endif %}">{% if contact.is_active %}Active{% else %}Archived{% endif %}</span></div>
+{% if perms.accounts.edit_portal and perms.contacts.change_contact %}<div class="actions">{% if contact.is_active %}<a class="button secondary" href="{% url 'contacts:archive' customer.pk contact.pk %}">Archive contact</a>{% else %}<a class="button secondary" href="{% url 'contacts:restore' customer.pk contact.pk %}">Restore contact</a>{% endif %}</div>{% endif %}</div>
+{% if not contact.is_active %}<p class="notice">This contact is archived. Its details have been retained.</p>{% endif %}
+{% include 'components/customer_tabs.html' with current='contacts' %}
+<section class="panel"><h2>Contact overview</h2><dl class="details">
+<div><dt>Associated customers</dt><dd>{% for linked in linked_customers %}<a href="{{ linked.get_absolute_url }}">{{ linked.name }}</a>{% if not forloop.last %}, {% endif %}{% empty %}No active customers shown{% endfor %}</dd></div>
+<div><dt>Job title</dt><dd>{{ contact.job_title|default:'Not provided' }}</dd></div>
+<div><dt>Department</dt><dd>{{ contact.department|default:'Not provided' }}</dd></div>
+<div><dt>Contact type</dt><dd>{{ contact.get_contact_type_display }}</dd></div>
+<div><dt>Internal notes</dt><dd class="preserve-lines">{{ contact.notes|default:'No notes added' }}</dd></div>
+<div><dt>Created</dt><dd><time datetime="{{ contact.created_at|date:'c' }}">{{ contact.created_at|date:'j M Y, H:i' }}</time></dd></div>
+<div><dt>Last updated</dt><dd><time datetime="{{ contact.updated_at|date:'c' }}">{{ contact.updated_at|date:'j M Y, H:i' }}</time></dd></div>
+</dl></section>
+{% if edit_form %}<details class="panel inline-editor" id="edit-contact" {% if edit_form.errors or edit_methods.errors or edit_methods.non_form_errors %}open{% endif %}><summary>Edit contact and customer associations</summary>
+<form method="post" action="{% url 'contacts:edit' customer.pk contact.pk %}" class="customer-form">{% csrf_token %}<input type="hidden" name="inline_edit" value="1">
+{% include 'contacts/_fields.html' with form=edit_form method_formset=edit_methods %}
+<div class="actions"><button type="submit">Save contact</button><a href="{{ contact.get_absolute_url }}">Cancel</a></div></form></details>{% endif %}
+<section class="panel contact-section"><div class="page-heading"><h2>Email addresses and phone numbers</h2>{% if perms.accounts.edit_portal and perms.contacts.add_contactpoint %}<a class="button secondary" href="{% url 'contacts:point_create' customer.pk contact.pk %}">Add email or phone</a>{% endif %}</div>
+<p class="muted">Each contact can have one primary email and one primary phone. At least one active email or phone is required to save changes.</p>
+<form method="get" class="filters"><input type="hidden" name="filters" value="1">{% for field in point_filter_form %}<div class="field">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>{% endfor %}<div class="actions"><button type="submit">Apply filter</button><a href="?reset=1">Reset</a></div></form>
+{% include 'contacts/points.html' %}</section>
+{% endblock %}

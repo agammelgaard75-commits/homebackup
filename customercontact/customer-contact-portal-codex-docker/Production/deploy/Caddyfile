@@ -1,0 +1,19 @@
+# Internal HTTPS. Clients must trust the public CA; never distribute its key.
+{
+	log default {
+		format filter {
+			wrap json
+			fields {
+				# Runtime proxy errors can otherwise include URLs and headers.
+				request delete
+				msg delete
+			}
+		}
+	}
+}
+
+{$PORTAL_DOMAIN} {
+	tls internal
+	encode zstd gzip
+	reverse_proxy app:8000
+}

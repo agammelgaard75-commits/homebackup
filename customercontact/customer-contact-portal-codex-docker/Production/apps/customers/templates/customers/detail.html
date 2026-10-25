@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}{{ customer.name }} · Customer Portal{% endblock %}
+{% block content %}
+<a class="back-link" href="{% url 'customers:list' %}">← Customers</a>
+<div class="page-heading">
+  <div><p class="eyebrow">Customer overview</p><h1>{{ customer.name }}</h1><span class="badge {% if customer.status == 'inactive' %}archived{% endif %}">{{ customer.get_status_display }}</span></div>
+  {% if perms.accounts.edit_portal and perms.customers.change_customer %}<div class="actions">
+    {% if customer.status == 'active' %}<a class="button secondary" href="{% url 'customers:archive' customer.pk %}">Archive customer</a>{% endif %}
+  </div>{% endif %}
+</div>
+{% include 'components/customer_tabs.html' with current='overview' %}
+{% if customer.status == 'inactive' %}<p class="notice">This customer is archived. Its details are retained.{% if perms.accounts.edit_portal and perms.customers.change_customer %} To reactivate it, edit the customer and select Active.{% endif %}</p>{% endif %}
+<section class="panel"><h2>Overview</h2><dl class="details">
+  {% if contacts_enabled %}<div><dt>Contacts</dt><dd><a href="{% url 'contacts:list' customer.pk %}">View all contacts for {{ customer.name }}</a></dd></div>{% endif %}
+  {% if services_enabled %}<div><dt>Active service assignments</dt><dd><a href="{% url 'customer_services:list' customer.pk %}?status=active">{{ active_service_count }}</a><p class="help-text">Counts active agreements, including agreements for archived catalog services.</p></dd></div>{% endif %}
+  <div><dt>CVR / company ID</dt><dd>{{ customer.reference_code|default:'Not provided' }}</dd></div>
+  <div><dt>Address</dt><dd class="preserve-lines">{{ customer.address|default:'Not provided' }}</dd></div>
+  <div><dt>Internal notes</dt><dd class="preserve-lines">{{ customer.notes|default:'No notes added' }}</dd></div>
+  <div><dt>Created</dt><dd><time datetime="{{ customer.created_at|date:'c' }}">{{ customer.created_at|date:'j M Y, H:i' }}</time></dd></div>
+  <div><dt>Last updated</dt><dd><time datetime="{{ customer.updated_at|date:'c' }}">{{ customer.updated_at|date:'j M Y, H:i' }}</time></dd></div>
+</dl></section>
+{% if customer_form %}<details class="panel inline-editor" id="edit-customer" {% if customer_form.errors %}open{% endif %}><summary>Edit customer details</summary>
+<form method="post" action="{% url 'customers:edit' customer.pk %}" class="customer-form">{% csrf_token %}<input type="hidden" name="inline_edit" value="1">
+{% for field in customer_form %}<div class="field">{{ field.label_tag }}{{ field }}{% if field.help_text %}<p class="help-text">{{ field.help_text }}</p>{% endif %}{{ field.errors }}</div>{% endfor %}
+<div class="field checkbox-field"><label><input type="checkbox" name="confirm_archive" value="yes"> Confirm archive if changing status to Archived</label></div>
+<div class="actions"><button type="submit">Save customer</button><a href="{{ customer.get_absolute_url }}">Cancel</a></div></form></details>{% endif %}
+{% if services_enabled or contacts_enabled %}<section class="panel section-gap"><h2>Overview lists</h2><form method="get" class="filters"><input type="hidden" name="filters" value="1">{% for field in overview_filter_form %}{% if field.name == 'services' and services_enabled or field.name == 'contacts' and contacts_enabled %}<div class="field">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>{% endif %}{% endfor %}<div class="actions"><button type="submit">Apply filters</button><a href="?reset=1">Reset</a></div></form></section>{% endif %}
+{% if services_enabled %}<section class="panel section-gap"><div class="page-heading"><div><h2>Services for this customer</h2><p>Each assigned catalog service appears once.</p></div><a href="{% url 'customer_services:list' customer.pk %}">View service assignments</a></div>
+{% if overview_services %}<ul>{% for service in overview_services %}<li><a href="{{ service.get_absolute_url }}">{{ service.name }}</a>{% if not service.is_active %} <span class="badge archived">Archived</span>{% endif %}</li>{% endfor %}</ul>{% else %}<p>No services match this filter. Choose all agreements to see history.</p>{% endif %}</section>{% endif %}
+{% if contacts_enabled %}{% include 'contacts/overview.html' %}{% endif %}
+{% if selected_contact %}<section class="panel section-gap" id="manage-contact"><h2>Manage {{ selected_contact.full_name }}</h2><p class="help-text">Update this contact's details and customer associations here. At least one active email or phone is required.</p>
+<form method="post" action="{% url 'contacts:edit' customer.pk selected_contact.pk %}" class="customer-form">{% csrf_token %}<input type="hidden" name="return_to" value="customer"><input type="hidden" name="inline_edit" value="1">
+{% include 'contacts/_fields.html' with form=contact_edit_form method_formset=contact_edit_methods %}
+<div class="actions"><button type="submit">Save contact</button><a href="{{ customer.get_absolute_url }}">Cancel</a></div></form>
+{% if selected_contact.is_active %}<form method="post" action="{% url 'contacts:archive' customer.pk selected_contact.pk %}">{% csrf_token %}<input type="hidden" name="return_to" value="customer"><p>Archiving retains this contact, its methods and associations.</p><button type="submit" class="secondary">Confirm archive contact</button></form>{% else %}<form method="post" action="{% url 'contacts:restore' customer.pk selected_contact.pk %}">{% csrf_token %}<input type="hidden" name="return_to" value="customer"><button type="submit" class="secondary">Restore contact</button></form>{% endif %}
+</section>{% endif %}
+{% if contact_create_form and not selected_contact %}<details class="panel inline-editor" id="add-contact" {% if contact_create_form.errors or contact_create_methods.errors or contact_create_methods.non_form_errors %}open{% endif %}><summary>Add contact for this customer</summary>
+<p class="help-text">Create a named or general contact with at least one email address or phone number.</p>
+<form method="post" action="{% url 'contacts:create' customer.pk %}" class="customer-form">{% csrf_token %}<input type="hidden" name="return_to" value="customer">
+{% include 'contacts/_fields.html' with form=contact_create_form method_formset=contact_create_methods %}
+<div class="actions"><button type="submit">Save contact</button><a href="{{ customer.get_absolute_url }}">Cancel</a></div></form></details>{% endif %}
+{% if assignment_create_form %}<details class="panel inline-editor" id="assign-service" {% if assignment_create_form.errors %}open{% endif %}><summary>Assign service to this customer</summary>
+<form method="post" action="{% url 'customer_services:create' customer.pk %}" class="customer-form">{% csrf_token %}<input type="hidden" name="return_to" value="customer">
+{% include 'services/_assignment_fields.html' with form=assignment_create_form %}<div class="actions"><button type="submit">Save assignment</button><a href="{{ customer.get_absolute_url }}">Cancel</a></div></form></details>
+{% if assignment_edit_rows %}<section class="panel section-gap"><h2>Manage service agreements</h2><p class="help-text">Each agreement is kept separately, including repeated periods for one service.</p>
+{% for assignment, form in assignment_edit_rows %}<details class="inline-editor" {% if form.errors %}open{% endif %}><summary>{{ assignment.service.name }} · {{ assignment.get_status_display }}{% if assignment.start_date %} · {{ assignment.start_date|date:'j M Y' }}{% endif %}</summary>
+<form method="post" action="{% url 'customer_services:edit' customer.pk assignment.pk %}" class="customer-form">{% csrf_token %}<input type="hidden" name="return_to" value="customer">
+{% include 'services/_assignment_fields.html' with form=form %}<div class="actions"><button type="submit">Save agreement</button><a href="{{ customer.get_absolute_url }}">Cancel</a></div></form></details>{% endfor %}</section>{% endif %}{% endif %}
+{% endblock %}

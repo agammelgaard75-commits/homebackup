@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Customer directory · Customer Portal{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">Home</p><h1>Customer directory</h1><p>Customers, their contacts, and their assigned services in one place.</p></div>{% if perms.accounts.edit_portal and perms.customers.add_customer %}<a class="button" href="{% url 'customers:create' %}">Add customer</a>{% endif %}</div>
+{% if not can_view_customers %}<section class="panel"><p>Your account has portal access. Ask an administrator for customer read access to use the directory.</p></section>{% else %}
+<section class="panel"><form method="get" class="filters directory-filters" role="search"><input type="hidden" name="filters" value="1">
+{% for field in filter_form %}{% if field.name != 'contact_q' and field.name != 'include_archived_contacts' or can_contacts %}{% if field.name != 'service_q' and field.name != 'services' and field.name != 'include_inactive_services' or can_services %}<div class="field {% if field.field.widget.input_type == 'checkbox' %}checkbox-field{% endif %}">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>{% endif %}{% endif %}{% endfor %}
+<div class="actions"><button type="submit">Apply filters</button><a href="{% url 'core:home' %}?reset=1">Reset</a></div></form></section>
+{% if page_obj.paginator %}<section class="panel section-gap"><p>{{ page_obj.paginator.count }} customer{{ page_obj.paginator.count|pluralize }} found.</p>
+{% if rows %}<div class="table-scroll" tabindex="0" role="region" aria-label="Customer directory"><table class="directory-table"><thead><tr><th scope="col">Customer</th>{% if can_contacts %}<th scope="col">Contacts</th>{% endif %}{% if can_services %}<th scope="col">Services</th>{% endif %}</tr></thead><tbody>
+{% for row in rows %}<tr><td data-label="Customer"><a href="{{ row.customer.get_absolute_url }}">{{ row.customer.name }}</a>{% if row.customer.status == 'inactive' %}<br><span class="badge archived">Archived</span>{% endif %}</td>
+{% if can_contacts %}<td data-label="Contacts">{% for contact in row.contacts %}<div class="directory-cell-item"><a href="{% url 'contacts:detail' row.customer.pk contact.pk %}">{{ contact.full_name }}</a>{% if not contact.is_active %} <span class="badge archived">Archived</span>{% endif %}</div>{% empty %}<span class="muted">No contacts</span>{% endfor %}</td>{% endif %}
+{% if can_services %}<td data-label="Services">{% for service in row.services %}<div class="directory-cell-item"><a href="{{ service.get_absolute_url }}">{{ service.name }}</a>{% if not service.is_active %} <span class="badge archived">Archived</span>{% endif %}</div>{% empty %}<span class="muted">No services</span>{% endfor %}</td>{% endif %}</tr>{% endfor %}
+</tbody></table></div>{% include 'components/pagination.html' with pagination_label='Customer directory pages' %}{% else %}<p class="empty-state">No customers match these filters.</p>{% endif %}</section>{% endif %}
+{% endif %}
+{% endblock %}

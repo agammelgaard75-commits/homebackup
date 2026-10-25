@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}Services · Customer Portal{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">Shared catalog</p><h1>Services</h1></div>{% if perms.accounts.administer_portal and perms.accounts.edit_portal and perms.services.add_service %}<a class="button" href="{% url 'services:create' %}">Create service</a>{% endif %}</div>
+<section class="panel"><form class="filters" method="get" role="search"><input type="hidden" name="filters" value="1">{% for field in filter_form %}<div class="field">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>{% endfor %}<div class="actions"><button type="submit">Apply filters</button><a href="{% url 'services:list' %}?reset=1">Reset</a></div></form>
+{% if filter_form.is_valid %}<p class="muted">{{ page_obj.paginator.count }} service{{ page_obj.paginator.count|pluralize }}</p>
+{% if page_obj.object_list %}<div class="table-scroll" tabindex="0" role="region" aria-label="Service catalog"><table><thead><tr><th scope="col">Name</th><th scope="col">Description</th><th scope="col">Category</th><th scope="col">Status</th></tr></thead><tbody>{% for service in page_obj %}<tr><td><a href="{{ service.get_absolute_url }}">{{ service.name }}</a></td><td>{{ service.description|default:'—'|truncatechars:160 }}</td><td>{{ service.category|default:'—' }}</td><td>{% if service.is_active %}Active{% else %}Archived{% endif %}</td></tr>{% endfor %}</tbody></table></div>{% else %}<div class="empty-state"><h2>No services found</h2><p>Try another filter. Administrators can create catalog services.</p></div>{% endif %}
+{% include 'components/pagination.html' %}{% endif %}</section>
+{% endblock %}

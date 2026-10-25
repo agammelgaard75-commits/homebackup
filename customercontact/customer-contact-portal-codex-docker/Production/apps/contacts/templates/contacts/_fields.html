@@ -1,0 +1,9 @@
+{% if form.customers %}<input type="hidden" name="customers_present" value="1">{% endif %}
+{% if form.errors %}<div class="form-errors" role="alert"><p>Please correct the errors below.</p>{{ form.non_field_errors }}</div>{% endif %}
+{% if form.full_name %}<div class="field">{{ form.full_name.label_tag }}{{ form.full_name }}{{ form.full_name.errors }}</div>{% endif %}
+{% if form.primary_email %}<div class="field">{{ form.primary_email.label_tag }}{{ form.primary_email }}{% if form.primary_email.help_text %}<p class="help-text">{{ form.primary_email.help_text }}</p>{% endif %}{{ form.primary_email.errors }}</div>{% endif %}
+{% for field in form %}{% if field.name != 'full_name' and field.name != 'primary_email' %}<div class="field {% if field.field.widget.input_type == 'checkbox' %}checkbox-field{% endif %}">{{ field.label_tag }}{{ field }}{% if field.name == 'include_archived_customers' %}<p class="help-text">Select to include archived customers in this selection. Existing archived associations are kept when hidden.</p>{% endif %}{% if field.help_text %}<p class="help-text">{{ field.help_text }}</p>{% endif %}{{ field.errors }}</div>{% endif %}{% endfor %}
+{% if method_formset %}<section class="contact-methods"><h3>Email addresses and phone numbers</h3><p class="help-text">At least one email address or phone number is required. Use another row for each additional detail.</p>
+{{ method_formset.management_form }}{{ method_formset.non_form_errors }}
+{% for method in method_formset %}<div class="panel contact-method-row">{{ method.point_id }}{% for field in method.visible_fields %}<div class="field {% if field.field.widget.input_type == 'checkbox' %}checkbox-field{% endif %}">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>{% endfor %}{{ method.non_field_errors }}</div>{% endfor %}
+</section>{% endif %}

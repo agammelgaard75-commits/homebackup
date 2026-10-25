@@ -1,0 +1,16 @@
+from django.urls import path
+from . import views
+
+app_name = "global_contacts"
+urlpatterns = [
+    path("", views.global_contact_list, name="list"),
+    path("new/", views.global_contact_create, name="create"),
+    path("import/", views.global_contact_import, name="import"),
+    path("import/example/", views.global_contact_import_reference, {"asset": "example"}, name="import_example"),
+    path("import/schema/", views.global_contact_import_reference, {"asset": "schema"}, name="import_schema"),
+    path("import/guide/", views.global_contact_import_reference, {"asset": "guide"}, name="import_guide"),
+    path("<uuid:pk>/", views.global_contact_detail, name="detail"),
+    path("<uuid:pk>/edit/", views.global_contact_edit, name="edit"),
+    path("<uuid:pk>/archive/", views.global_contact_archive, name="archive"),
+    path("<uuid:pk>/restore/", views.global_contact_restore, name="restore"),
+]

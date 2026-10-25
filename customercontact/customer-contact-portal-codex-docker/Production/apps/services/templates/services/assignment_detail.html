@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}{{ assignment.service.name }} · {{ customer.name }} · Customer Portal{% endblock %}
+{% block content %}
+<a class="back-link" href="{% url 'customer_services:list' customer.pk %}">← Services for {{ customer.name }}</a>
+<div class="page-heading"><div><p class="eyebrow"><a href="{{ customer.get_absolute_url }}">{{ customer.name }}</a></p><h1>{{ assignment.service.name }}</h1><span class="badge {% if assignment.status == 'terminated' %}archived{% endif %}">{{ assignment.get_status_display }}</span></div>
+{% if perms.accounts.edit_portal and perms.services.change_customerservice %}<div class="actions">{% if assignment.status != 'terminated' %}<a class="button secondary" href="{% url 'customer_services:terminate' customer.pk assignment.pk %}">Terminate</a>{% endif %}</div>{% endif %}</div>
+{% if not assignment.service.is_active %}<p class="notice">The catalog service is archived. This agreement and its status are retained.</p>{% endif %}
+{% include 'components/customer_tabs.html' with current='services' %}
+<section class="panel"><dl class="details"><div><dt>Catalog service</dt><dd><a href="{{ assignment.service.get_absolute_url }}">{{ assignment.service.name }}</a></dd></div><div><dt>Agreement ID</dt><dd>{{ assignment.pk }}</dd></div><div><dt>Start date</dt><dd>{{ assignment.start_date|date:'j M Y'|default:'Not set' }}</dd></div><div><dt>End date</dt><dd>{{ assignment.end_date|date:'j M Y'|default:'Not set' }}</dd></div><div><dt>Notes</dt><dd class="preserve-lines">{{ assignment.notes|default:'No notes added' }}</dd></div><div><dt>Created</dt><dd>{{ assignment.created_at|date:'j M Y, H:i' }}</dd></div><div><dt>Updated</dt><dd>{{ assignment.updated_at|date:'j M Y, H:i' }}</dd></div></dl><p class="help-text">Status is maintained manually. Dates do not automatically change it.</p></section>
+{% if edit_form %}<details class="panel inline-editor" id="edit-assignment" {% if edit_form.errors %}open{% endif %}><summary>Edit service agreement</summary><form method="post" action="{% url 'customer_services:edit' customer.pk assignment.pk %}" class="customer-form">{% csrf_token %}<input type="hidden" name="inline_edit" value="1">
+{% include 'services/_assignment_fields.html' with form=edit_form %}<div class="actions"><button type="submit">Save agreement</button><a href="{{ assignment.get_absolute_url }}">Cancel</a></div></form></details>{% endif %}
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Services · {{ customer.name }} · Customer Portal{% endblock %}
+{% block content %}
+<a class="back-link" href="{{ customer.get_absolute_url }}">← {{ customer.name }}</a>
+<div class="page-heading"><div><p class="eyebrow">{{ customer.name }}</p><h1>Services</h1></div>{% if perms.accounts.edit_portal and perms.services.add_customerservice %}<a class="button" href="{% url 'customer_services:create' customer.pk %}">Assign service</a>{% endif %}</div>
+{% include 'components/customer_tabs.html' with current='services' %}
+{% if customer.status == 'inactive' %}<p class="notice">This customer is archived. Service history is retained.</p>{% endif %}
+<section class="panel"><form class="filters" method="get"><input type="hidden" name="filters" value="1">{% for field in filter_form %}<div class="field">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>{% endfor %}<div class="actions"><button type="submit">Apply filter</button><a href="{% url 'customer_services:list' customer.pk %}?reset=1">Reset</a></div></form>
+{% if filter_form.is_valid %}<p class="muted">{{ page_obj.paginator.count }} assignment{{ page_obj.paginator.count|pluralize }}. Each row represents a separate agreement.</p>{% include 'services/assignments.html' %}{% endif %}</section>
+{% endblock %}

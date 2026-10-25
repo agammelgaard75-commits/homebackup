@@ -1,0 +1,31 @@
+# Pinned application dependencies; review updates deliberately.
+Django==5.2.18
+psycopg[binary]==3.3.6
+gunicorn==26.2.0
+whitenoise==6.12.0
+djangorestframework==3.17.2
+drf-spectacular==0.30.0
+drf-spectacular-sidecar==2026.10.1
+mozilla-django-oidc[drf]==5.0.2
+# Locked dependencies used for verified OIDC claims, JWKS and discovery.
+PyJWT==2.15.1
+cryptography==50.0.2
+requests==2.34.2
+certifi==2026.10.23
+cffi==2.1.1
+charset-normalizer==3.5.2
+idna==3.20
+urllib3==2.8.0
+pycparser==3.12
+# Transitive runtime dependencies locked from the Python 3.12 container build.
+asgiref==3.13.0
+sqlparse==0.6.0
+typing_extensions==4.16.0
+uritemplate==4.2.0
+PyYAML==6.0.3
+jsonschema==4.26.0
+inflection==0.5.1
+attrs==26.1.0
+jsonschema-specifications==2025.9.1
+referencing==0.37.0
+rpds-py==2026.9.1

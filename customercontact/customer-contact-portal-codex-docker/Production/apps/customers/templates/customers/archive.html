@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Archive customer · Customer Portal{% endblock %}
+{% block content %}
+<a class="back-link" href="{{ customer.get_absolute_url }}">← Customer details</a>
+<section class="panel customer-form"><p class="eyebrow">Customer directory</p><h1>Archive customer</h1>
+  {% if customer.status == 'inactive' %}<p>This customer is already archived. Its details remain available.</p>
+  {% else %}<p>Archive <strong>{{ customer.name }}</strong>?</p><p>The customer will leave the active directory. Its details will remain available using the Archived status filter, and it can be reactivated later.</p>
+  <form method="post">{% csrf_token %}<div class="actions"><button type="submit">Confirm archive</button><a href="{{ customer.get_absolute_url }}">Cancel</a></div></form>{% endif %}
+</section>
+{% endblock %}

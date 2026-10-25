@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Contact Import v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "contacts"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "contacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "import_id",
+          "name",
+          "customer_import_ids"
+        ],
+        "properties": {
+          "import_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+            "description": "Stable import key. Never reuse for another record."
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "pattern": "\\S"
+          },
+          "kind": {
+            "enum": [
+              "person",
+              "general"
+            ]
+          },
+          "job_title": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "department": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "contact_type": {
+            "enum": [
+              "technical",
+              "management",
+              "billing",
+              "support",
+              "other"
+            ]
+          },
+          "status": {
+            "enum": [
+              "active",
+              "archived"
+            ]
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 10000
+          },
+          "customer_import_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+              "description": "Stable import key. Never reuse for another record."
+            }
+          },
+          "emails": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "address"
+              ],
+              "properties": {
+                "address": {
+                  "type": "string",
+                  "format": "email"
+                },
+                  "label": {
+                    "enum": ["work", "mobile", "direct", "support", "other"]
+                },
+                "primary": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "phones": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "number"
+              ],
+              "properties": {
+                "number": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                  "label": {
+                    "enum": ["work", "mobile", "direct", "support", "other"]
+                },
+                "primary": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "anyOf": [
+          {
+            "required": [
+              "emails"
+            ],
+            "properties": {
+              "emails": {
+                "minItems": 1
+              }
+            }
+          },
+          {
+            "required": [
+              "phones"
+            ],
+            "properties": {
+              "phones": {
+                "minItems": 1
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

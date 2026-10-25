@@ -80,6 +80,8 @@ def verify_access_token(token):
         )
         if claims.get("typ") != "Bearer" or not isinstance(claims.get("sub"), str) or not claims["sub"]:
             raise jwt.InvalidTokenError()
+        if not isinstance(claims["iat"], (int, float)) or time.time() - claims["iat"] > SESSION_MAX_AGE:
+            raise jwt.InvalidTokenError()
         return claims
     except (jwt.PyJWTError, OIDCUnavailable, requests.RequestException, ValueError) as error:
         raise SuspiciousOperation("Invalid OIDC access token") from error

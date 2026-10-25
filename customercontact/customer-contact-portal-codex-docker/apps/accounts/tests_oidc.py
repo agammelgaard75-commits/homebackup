@@ -126,6 +126,7 @@ class OIDCTests(TestCase):
                 self.claims(iss="https://wrong.test/realms/portal"),
                 self.claims(aud="wrong-audience"),
                 self.claims(exp=int(time.time()) - 5),
+                self.claims(iat=int(time.time()) - 301, exp=int(time.time()) + 60),
                 self.claims(typ="ID"),
             ):
                 with self.subTest(claims=claims):

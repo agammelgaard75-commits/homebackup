@@ -34,7 +34,9 @@ expiry and access-token-type validation. No Keycloak container is added.
    token claims. Verify these claims using a nonproduction account before
    enabling OIDC. Do not put portal roles solely in realm roles.
 6. Set access-token lifetime to at most five minutes. The portal expires its
-   interactive authorization after five minutes; users must reauthenticate.
+   interactive authorization after five minutes and rejects access tokens
+   older than five minutes, even if Keycloak gave them a longer expiry; users
+   must reauthenticate.
    Role removal, deactivation and service-account changes take effect at the
    next login or token expiry, within this configured interval. Keycloak SSO
    can make a fresh login seamless while applying current roles.

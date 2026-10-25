@@ -40,6 +40,10 @@ def parse_upload(upload, collection):
                               parse_constant=_reject_constant)
     except (UnicodeDecodeError, json.JSONDecodeError) as error:
         raise ValidationError("Enter valid UTF-8 JSON.") from error
+    return validate_document(document, collection)
+
+
+def validate_document(document, collection):
     if not isinstance(document, dict) or set(document) != {"schema_version", collection}:
         raise ValidationError(f"The root must contain only schema_version and {collection}.")
     if type(document["schema_version"]) is not int or document["schema_version"] != 1:

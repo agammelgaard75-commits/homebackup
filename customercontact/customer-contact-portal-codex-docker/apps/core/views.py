@@ -1,5 +1,5 @@
-from django.db import DatabaseError, connection
 from django.http import JsonResponse
+from django.db import connection
 from django.shortcuts import render
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_safe
@@ -10,6 +10,7 @@ from apps.services.permissions import READ_PERMISSIONS as SERVICE_READ
 from .directory import directory_rows
 from .filter_preferences import chosen_filters, remember_filters
 from .forms import CustomerDirectoryForm
+from .health import database_is_healthy
 
 
 @permission_required("accounts.access_portal")
@@ -43,10 +44,5 @@ def home(request):
 @require_safe
 @never_cache
 def health(request):
-    try:
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT 1")
-            cursor.fetchone()
-    except DatabaseError:
-        return JsonResponse({"status": "unavailable"}, status=503)
-    return JsonResponse({"status": "ok"})
+    healthy = database_is_healthy(connection)
+    return JsonResponse({"status": "ok" if healthy else "unavailable"}, status=200 if healthy else 503)

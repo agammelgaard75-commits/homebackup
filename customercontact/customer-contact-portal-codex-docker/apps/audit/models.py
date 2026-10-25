@@ -28,6 +28,8 @@ class AuditEvent(models.Model):
         EXPIRED = "expired", "Expired"
         TERMINATED = "terminated", "Terminated"
         IMPORTED = "imported", "Imported"
+        DELETED = "deleted", "Deleted"
+        FAILED = "failed", "Failed"
 
     class ObjectType(models.TextChoices):
         CUSTOMER = "customer", "Customer"
@@ -37,6 +39,7 @@ class AuditEvent(models.Model):
         CUSTOMER_SERVICE = "customer_service", "Service assignment"
         CONTACT_CUSTOMER = "contact_customer", "Contact association"
         JSON_IMPORT = "json_import", "JSON import"
+        DATA_CLEANUP = "data_cleanup", "Data cleanup"
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -44,7 +47,8 @@ class AuditEvent(models.Model):
     action = models.CharField(max_length=12, choices=Action.choices, db_index=True)
     object_type = models.CharField(max_length=20, choices=ObjectType.choices)
     object_id = models.UUIDField()
-    customer = models.ForeignKey("customers.Customer", null=True, blank=True, on_delete=models.PROTECT, related_name="activity_events")
+    customer = models.ForeignKey("customers.Customer", null=True, blank=True, on_delete=models.SET_NULL, related_name="activity_events")
+    related_customer_id = models.UUIDField(null=True, blank=True, db_index=True)
     description = models.CharField(max_length=100)
     changed_fields = models.JSONField(default=list)
     objects = AuditQuerySet.as_manager()
@@ -59,9 +63,9 @@ class AuditEvent(models.Model):
             models.Index(fields=["object_type", "object_id"], name="audit_object"),
         ]
         constraints = [
-            models.CheckConstraint(condition=models.Q(action__in=["created", "updated", "archived", "restored", "assigned", "activated", "suspended", "expired", "terminated", "imported"]), name="audit_action_valid"),
-            models.CheckConstraint(condition=models.Q(object_type__in=["customer", "contact", "contact_point", "service", "customer_service", "contact_customer", "json_import"]), name="audit_object_type_valid"),
-            models.CheckConstraint(condition=(models.Q(object_type__in=["service", "json_import"], customer__isnull=True) | (~models.Q(object_type__in=["service", "json_import"]) & models.Q(customer__isnull=False))), name="audit_customer_scope"),
+            models.CheckConstraint(condition=models.Q(action__in=["created", "updated", "archived", "restored", "assigned", "activated", "suspended", "expired", "terminated", "imported", "deleted", "failed"]), name="audit_action_valid"),
+            models.CheckConstraint(condition=models.Q(object_type__in=["customer", "contact", "contact_point", "service", "customer_service", "contact_customer", "json_import", "data_cleanup"]), name="audit_object_type_valid"),
+            models.CheckConstraint(condition=(models.Q(object_type__in=["service", "json_import", "data_cleanup"], customer__isnull=True, related_customer_id__isnull=True) | (~models.Q(object_type__in=["service", "json_import", "data_cleanup"]) & models.Q(related_customer_id__isnull=False))), name="audit_customer_scope"),
         ]
 
     def save(self, *args, **kwargs):

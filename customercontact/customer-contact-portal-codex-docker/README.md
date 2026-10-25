@@ -8,6 +8,8 @@ Customer management includes a searchable, paginated directory, company identifi
 
 Administrators can import UTF-8 JSON at **Customers → Import JSON** (`/customers/import/`) and **Contacts → Import JSON** (`/contacts/import/`). Import customers first, because contact files refer to customer `import_id` values. Each screen provides a fake-data example, JSON Schema and [format guide](docs/JSON_IMPORT_FORMAT.md). Upload a file, review create/update/unchanged/reject rows, explicitly map possible existing records by UUID when needed, then confirm the entire file. Repeat imports use stable keys; omitted fields and existing contact methods/associations are retained. Imports are transactional and audited. Do not upload real data to a public or unapproved environment.
 
+The versioned [REST API](docs/REST_API.md) exposes portal records, search, imports and audit at `/api/v1/`. Administrators can open its OpenAPI/Swagger documentation and the two-stage **Data Cleanup** screen from Administration. Cleanup permanently deletes only selected archived records after dependency preview and confirmation; verify a database backup first.
+
 ## Run with Docker
 
 Only Docker Engine, Docker Compose v2 or later, Bash and standard Linux utilities are required on the host. No host Python, PostgreSQL or web server is needed. Use a Docker-authorized account (or `sudo` for these commands). Review [Docker operations](docs/DOCKER_OPERATIONS.md) before installation.
@@ -62,6 +64,8 @@ docker compose down
 - `apps/services/`: central catalog, customer service agreements, status/date validation, permissions and retained history.
 - `apps/search/`: permission-scoped global search and grouped pagination.
 - `apps/audit/`: transactional metadata-only history, global audit and customer Activity.
+- `apps/api/`: versioned JSON endpoints, scoped credentials, pagination and OpenAPI definitions.
+- `apps/cleanup/`: administrator-only preview and explicit permanent deletion of eligible archived records.
 - `compose.yaml`, `Dockerfile`, `deploy/Caddyfile`, `scripts/`: the three-container deployment and operational contract.
 - [Architecture](docs/ARCHITECTURE.md), [product specification](docs/PROJECT_SPEC.md), [data model](docs/DATA_MODEL.md), [implementation plan](docs/IMPLEMENTATION_PLAN.md), [Docker operations](docs/DOCKER_OPERATIONS.md).
 

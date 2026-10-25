@@ -12,7 +12,7 @@ from apps.services.models import CustomerService
 from apps.services.permissions import READ_PERMISSIONS as SERVICE_READ
 
 
-def directory_rows(actor, filters, page_number):
+def directory_rows(actor, filters, page_number, page_size=25):
     can_contacts = actor.has_perms(CONTACT_READ)
     can_services = actor.has_perms(SERVICE_READ)
     customers = Customer.objects.all()
@@ -41,7 +41,7 @@ def directory_rows(actor, filters, page_number):
         customers = customers.filter(pk__in=assignments.filter(service__in=filters["services"]).values("customer_id"))
 
     ordering = [Lower("name").desc(), "id"] if filters["sort"] == "-name" else [Lower("name"), "id"]
-    page = Paginator(customers.order_by(*ordering), 25).get_page(page_number)
+    page = Paginator(customers.order_by(*ordering), page_size).get_page(page_number)
     visible = list(page.object_list)
     ids = [customer.pk for customer in visible]
     contacts_by_customer = defaultdict(dict)

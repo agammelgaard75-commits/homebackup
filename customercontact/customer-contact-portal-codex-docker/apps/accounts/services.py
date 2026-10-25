@@ -17,6 +17,7 @@ ROLE_PERMISSIONS = {
         "contacts.view_contactpoint", "contacts.add_contactpoint", "contacts.change_contactpoint",
     },
     "Administrator": {
+        "cleanup.view_cleanupoperation", "cleanup.execute_cleanup",
         "audit.view_customer_activity", "audit.view_auditevent",
         "services.view_service", "services.add_service", "services.change_service",
         "services.view_customerservice", "services.add_customerservice", "services.change_customerservice",
@@ -35,7 +36,7 @@ def setup_roles():
     permissions = {
         f"{permission.content_type.app_label}.{permission.codename}": permission
         for permission in Permission.objects.filter(
-            content_type__app_label__in=["accounts", "customers", "contacts", "services", "audit"],
+            content_type__app_label__in=["accounts", "customers", "contacts", "services", "audit", "cleanup"],
         ).select_related("content_type")
     }
     for name, permission_names in ROLE_PERMISSIONS.items():

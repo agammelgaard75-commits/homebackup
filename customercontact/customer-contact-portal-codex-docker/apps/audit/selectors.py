@@ -19,5 +19,5 @@ def visible_events(actor):
     if actor.has_perms(SERVICE_READ):
         allowed |= Q(object_type="customer_service")
     if actor.has_perm("accounts.administer_portal"):
-        allowed |= Q(object_type="json_import")
+        allowed |= Q(object_type__in=["json_import", "data_cleanup"])
     return AuditEvent.objects.filter(allowed).select_related("actor", "customer")

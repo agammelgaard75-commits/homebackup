@@ -13,6 +13,13 @@ class PortalAdminSite(AdminSite):
     site_header = "Customer Portal administration"
     site_title = "Customer Portal"
     site_url = "/"
+    index_template = "admin/portal_index.html"
+
+    def get_urls(self):
+        from django.urls import path
+        from apps.cleanup.views import cleanup_page
+
+        return [path("data-cleanup/", self.admin_view(cleanup_page), name="data_cleanup"), *super().get_urls()]
 
     def has_permission(self, request):
         return request.user.is_active and request.user.has_perm("accounts.administer_portal")

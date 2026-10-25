@@ -32,8 +32,9 @@ if not DEBUG and any(not origin.startswith("https://") for origin in CSRF_TRUSTE
 INSTALLED_APPS = [
     "django.contrib.admin", "django.contrib.auth", "django.contrib.contenttypes",
     "django.contrib.sessions", "django.contrib.messages", "django.contrib.staticfiles",
+    "rest_framework", "drf_spectacular", "drf_spectacular_sidecar",
     "apps.core", "apps.accounts", "apps.customers", "apps.contacts",
-    "apps.services", "apps.search", "apps.audit",
+    "apps.services", "apps.search", "apps.audit", "apps.cleanup", "apps.api",
 ]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -129,3 +130,35 @@ def bounded_import_setting(name, default, upper):
 
 JSON_IMPORT_MAX_BYTES = bounded_import_setting("JSON_IMPORT_MAX_BYTES", 1048576, 5242880)
 JSON_IMPORT_MAX_RECORDS = bounded_import_setting("JSON_IMPORT_MAX_RECORDS", 500, 1000)
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "apps.api.authentication.BearerCredentialAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
+    "DEFAULT_RENDERER_CLASSES": ["rest_framework.renderers.JSONRenderer"],
+    "DEFAULT_PAGINATION_CLASS": "apps.api.pagination.PortalPagination",
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_THROTTLE_CLASSES": [
+        "rest_framework.throttling.AnonRateThrottle",
+        "rest_framework.throttling.UserRateThrottle",
+    ],
+    "DEFAULT_THROTTLE_RATES": {"anon": "60/min", "user": "240/min"},
+    "EXCEPTION_HANDLER": "apps.api.exceptions.portal_exception_handler",
+    "PAGE_SIZE": 25,
+}
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Customer Contact Portal API",
+    "DESCRIPTION": "Versioned internal API. Session writes require CSRF; bearer credentials require a matching scope and user permission.",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "SWAGGER_UI_DIST": "SIDECAR",
+    "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
+    "ENUM_NAME_OVERRIDES": {
+        "CustomerStatusEnum": [("active", "Active"), ("inactive", "Archived")],
+        "AssignmentStatusEnum": [("active", "Active"), ("suspended", "Suspended"),
+                                 ("expired", "Expired"), ("terminated", "Terminated")],
+    },
+}
+DATA_UPLOAD_MAX_MEMORY_SIZE = max(JSON_IMPORT_MAX_BYTES + 65536, 2621440)

@@ -55,7 +55,8 @@ def record_change(*, actor, instance, before=None, customer_id_override=None):
         customer_id = customer_id_override
     description = f"{AuditEvent.ObjectType(object_type).label} {AuditEvent.Action(action).label.lower()}."
     return AuditEvent.objects.create(actor=actor, action=action, object_type=object_type, object_id=instance.pk,
-                                     customer_id=customer_id, description=description, changed_fields=changed)
+                                     customer_id=customer_id, related_customer_id=customer_id,
+                                     description=description, changed_fields=changed)
 
 
 def record_import_summary(*, actor, kind, created, updated, unchanged):
@@ -70,3 +71,19 @@ def record_import_summary(*, actor, kind, created, updated, unchanged):
     return AuditEvent.objects.create(actor=actor, action=AuditEvent.Action.IMPORTED,
         object_type=AuditEvent.ObjectType.JSON_IMPORT, object_id=uuid.uuid4(),
         description=description, changed_fields=[])
+
+
+def record_cleanup(*, actor, operation):
+    """Audit only stable IDs and counts; caller controls transaction boundaries."""
+    if not connection.in_atomic_block or not actor.is_active or not actor.has_perms(
+        ("accounts.access_portal", "accounts.administer_portal", "audit.view_auditevent")
+    ):
+        raise PermissionDenied
+    counts = operation.counts
+    description = (f"Cleanup {operation.result}: {counts.get('customers', 0)} customers, "
+                   f"{counts.get('contacts', 0)} contacts.")
+    return AuditEvent.objects.create(
+        actor=actor, action=AuditEvent.Action.DELETED if operation.result == "completed" else AuditEvent.Action.FAILED,
+        object_type=AuditEvent.ObjectType.DATA_CLEANUP, object_id=operation.pk,
+        description=description, changed_fields=[],
+    )

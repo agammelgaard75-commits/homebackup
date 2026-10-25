@@ -2,7 +2,7 @@
 from django.db.models import CharField, Count, Exists, F, OuterRef, UUIDField, Value
 from django.db.models.functions import Lower
 
-from apps.contacts.models import ContactCustomer, ContactPoint
+from apps.contacts.models import Contact, ContactCustomer, ContactPoint
 from apps.customers.models import Customer
 from apps.services.models import CustomerService
 
@@ -82,3 +82,28 @@ def email_values(filters):
             seen.add(key)
             result.append(value)
     return result
+
+
+def enrich_rows(filters, rows):
+    """Attach display details to one page of unique customer/contact pairs."""
+    customer_ids = {row["row_customer_id"] for row in rows}
+    contact_ids = {row["row_contact_id"] for row in rows if row["row_contact_id"]}
+    contacts = {contact.pk: contact for contact in Contact.objects.filter(pk__in=contact_ids)}
+    services_by_customer = {customer_id: [] for customer_id in customer_ids}
+    seen = {customer_id: set() for customer_id in customer_ids}
+    for assignment in matching_assignments(filters, customer_ids):
+        if assignment.service_id not in seen[assignment.customer_id]:
+            seen[assignment.customer_id].add(assignment.service_id)
+            services_by_customer[assignment.customer_id].append(assignment.service)
+    points_by_contact = {contact_id: {"email": [], "phone": []} for contact_id in contact_ids}
+    for point in ContactPoint.objects.filter(contact_id__in=contact_ids, is_active=True).order_by("kind", "id"):
+        points_by_contact[point.contact_id][point.kind].append(point.value)
+    for row in rows:
+        contact = contacts.get(row["row_contact_id"])
+        row["contact_type"] = contact.get_contact_type_display() if contact else ""
+        row["job_title"] = contact.job_title if contact else ""
+        row["contact_active"] = contact.is_active if contact else False
+        row["matching_services"] = services_by_customer[row["row_customer_id"]]
+        channels = points_by_contact.get(row["row_contact_id"], {"email": [], "phone": []})
+        row["emails"], row["phones"] = channels["email"], channels["phone"]
+    return rows

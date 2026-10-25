@@ -1,10 +1,12 @@
 """Limited user administration; only superusers may change raw permissions."""
 from django.contrib.admin import AdminSite
+from django.conf import settings
+from django.shortcuts import redirect
 from django.contrib.auth.admin import GroupAdmin, UserAdmin
 from django.contrib.auth.models import Group
 
 from .forms import PortalAdminAuthenticationForm
-from .models import User
+from .models import OIDCIdentity, User
 from .services import ROLE_PERMISSIONS
 
 
@@ -14,6 +16,11 @@ class PortalAdminSite(AdminSite):
     site_title = "Customer Portal"
     site_url = "/"
     index_template = "admin/portal_index.html"
+
+    def login(self, request, extra_context=None):
+        if settings.AUTH_MODE == "oidc":
+            return redirect("accounts:login")
+        return super().login(request, extra_context)
 
     def get_urls(self):
         from django.urls import path
@@ -26,15 +33,21 @@ class PortalAdminSite(AdminSite):
 
 
 class PortalUserAdmin(UserAdmin):
+    def has_add_permission(self, request):
+        if settings.AUTH_MODE == "oidc":
+            return False
+        return super().has_add_permission(request)
+
     def get_fieldsets(self, request, obj=None):
         if request.user.is_superuser:
             return super().get_fieldsets(request, obj)
         if obj is None:
             return ((None, {"fields": ("username", "password1", "password2", "groups")}),)
+        oidc_managed = settings.AUTH_MODE == "oidc" and OIDCIdentity.objects.filter(user=obj).exists()
         return (
             (None, {"fields": ("username", "password")}),
             ("Personal information", {"fields": ("first_name", "last_name", "email")}),
-            ("Access", {"fields": ("is_active", "groups")}),
+            ("Access", {"fields": ("is_active",) if oidc_managed else ("is_active", "groups")}),
         )
 
     def get_queryset(self, request):

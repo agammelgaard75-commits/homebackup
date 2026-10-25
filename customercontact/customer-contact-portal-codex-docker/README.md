@@ -10,6 +10,8 @@ Administrators can import UTF-8 JSON at **Customers → Import JSON** (`/custome
 
 The versioned [REST API](docs/REST_API.md) exposes portal records, search, imports and audit at `/api/v1/`. Administrators can open its OpenAPI/Swagger documentation and the two-stage **Data Cleanup** screen from Administration. Cleanup permanently deletes only selected archived records after dependency preview and confirmation; verify a database backup first.
 
+Optional [Keycloak OIDC integration](docs/KEYCLOAK_OIDC.md) supports browser SSO and Keycloak bearer access tokens while `AUTH_MODE=local` remains the default. OIDC links users by issuer and subject, maps portal client roles to existing permissions, and requires a separately tested Keycloak setup before activation.
+
 ## Run with Docker
 
 Only Docker Engine, Docker Compose v2 or later, Bash and standard Linux utilities are required on the host. No host Python, PostgreSQL or web server is needed. Use a Docker-authorized account (or `sudo` for these commands). Review [Docker operations](docs/DOCKER_OPERATIONS.md) before installation.

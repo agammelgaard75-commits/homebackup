@@ -8,6 +8,15 @@ as the web interface. UUIDs are stable record IDs; timestamps use ISO 8601 UTC.
 
 ## Authentication and authorization
 
+In the default `AUTH_MODE=local`, the credential flow below applies. With
+`AUTH_MODE=oidc`, browser sessions use Keycloak and API calls use Keycloak
+Bearer **access** tokens with the configured issuer, portal audience and
+client roles. Legacy `ccp_` bearer credentials and their management endpoints
+are disabled in OIDC mode. Valid OIDC tokens without a portal role get 403;
+invalid, expired or wrong-audience tokens get 401. The same endpoint role
+permissions continue to apply. See [Keycloak OIDC](KEYCLOAK_OIDC.md) for
+realm setup, service accounts and curl examples.
+
 Every endpoint except `GET health/` requires an authenticated, active portal user.
 Session requests use the existing login cookie; **session writes require a CSRF
 token**. Automation uses `Authorization: Bearer ccp_<credential-id>.<secret>`.
@@ -60,6 +69,8 @@ field-level `400` responses.
 
 `V` means Viewer, Editor or Administrator; `E` means Editor or Administrator;
 `A` means Administrator. A bearer caller additionally needs the listed scope.
+The listed scopes apply to local `ccp_` credentials; OIDC bearer callers use
+their Keycloak portal client role and the endpoint's existing role check.
 
 | Path | Methods | Role / scope | Parameters and behavior |
 | --- | --- | --- | --- |

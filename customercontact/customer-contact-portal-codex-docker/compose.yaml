@@ -38,6 +38,7 @@ services:
       db:
         condition: service_healthy
     networks:
+      - edge
       - application
       - database
     read_only: true

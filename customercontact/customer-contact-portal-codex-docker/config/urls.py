@@ -1,4 +1,5 @@
 from django.urls import include, path
+from django.conf import settings
 
 from apps.accounts.admin import portal_admin
 
@@ -16,3 +17,5 @@ urlpatterns = [
     path("customers/<uuid:customer_pk>/activity/", include("apps.audit.customer_urls")),
     path("", include("apps.core.urls")),
 ]
+if settings.AUTH_MODE == "oidc":
+    urlpatterns.insert(0, path("oidc/", include("mozilla_django_oidc.urls")))

@@ -6,6 +6,17 @@ whitenoise==6.12.0
 djangorestframework==3.17.2
 drf-spectacular==0.30.0
 drf-spectacular-sidecar==2026.10.1
+mozilla-django-oidc[drf]==5.0.2
+# Locked dependencies used for verified OIDC claims, JWKS and discovery.
+PyJWT==2.15.1
+cryptography==50.0.2
+requests==2.34.2
+certifi==2026.10.23
+cffi==2.1.1
+charset-normalizer==3.5.2
+idna==3.20
+urllib3==2.8.0
+pycparser==3.12
 # Transitive runtime dependencies locked from the Python 3.12 container build.
 asgiref==3.13.0
 sqlparse==0.6.0

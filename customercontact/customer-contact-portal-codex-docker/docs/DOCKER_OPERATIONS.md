@@ -13,6 +13,9 @@ Staff browser --HTTPS--> Caddy container --> Django/Gunicorn container --> Postg
 - `app`: Django + Gunicorn, and WhiteNoise for static assets. Runs as an unprivileged user on a read-only root filesystem. No published host port.
 - `db`: PostgreSQL. Dedicated Docker named volume persists contacts/customers/services. No published host port.
 - Container networking keeps the application and database off the externally routable network.
+- The app also joins the existing `edge` network for outbound HTTPS discovery,
+  token exchange and JWKS retrieval when optional Keycloak OIDC is enabled.
+  It publishes no port; PostgreSQL remains only on the internal database network.
 - Docker named volumes: `postgres_data`, `caddy_data`, `caddy_config`. All survive `docker compose down`; **never use `docker compose down -v` on a populated deployment.**
 - Single stack, one Compose file; feature modules remain Django apps, **not separate containers**.
 
@@ -142,3 +145,15 @@ The same Compose services, volumes, ports, secrets and backup format are used. A
 ## Active-default UI and contact-type update
 
 Use the existing backup-first `./scripts/update.sh` for an authorized installation. `contacts.0006_default_technical_contact_type` changes only the default for new contacts; it leaves existing contact types and other rows intact. List preference choices use the already configured Django session table and secure session cookie. No Compose service, host port, new dependency, secret or volume changes are needed. After update, verify customer Overview, contact creation, active-only directories, archived filters and `/health/`.
+
+## Optional Keycloak OIDC authentication
+
+`AUTH_MODE=local` remains the default. `accounts.0003_oidcidentity` adds only an
+issuer/subject link table; no existing users or business records are rewritten.
+Apply migrations through the existing backup-first update flow on an authorized
+test installation before switching modes. Keycloak is external and is never a
+Compose service. The app uses the `edge` network for outbound TLS; no app or
+database port is published. Browser and app must resolve the same trusted HTTPS
+issuer. See [Keycloak OIDC](KEYCLOAK_OIDC.md) for configuration, exact callback,
+role mapping, test sequence and controlled revert. Do not enable OIDC on a
+running production stack until an independently verified migration is approved.

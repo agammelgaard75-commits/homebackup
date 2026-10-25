@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.conf import settings
 from django.shortcuts import get_object_or_404
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
@@ -42,6 +43,8 @@ class CredentialListAPI(APIView):
 
     def _check(self, request, scope):
         require_api(request, "accounts.administer_portal", scope=scope)
+        if settings.AUTH_MODE == "oidc":
+            raise PermissionDenied("Legacy API credentials are disabled in OIDC mode.")
         if isinstance(request.auth, APICredential):
             raise PermissionDenied("Manage credentials with an administrator browser session.")
 
@@ -70,6 +73,8 @@ class CredentialActionAPI(APIView):
     @extend_schema(request=None, responses=CredentialIssueResponse)
     def post(self, request, pk):
         require_api(request, "accounts.administer_portal", scope="write")
+        if settings.AUTH_MODE == "oidc":
+            raise PermissionDenied("Legacy API credentials are disabled in OIDC mode.")
         if isinstance(request.auth, APICredential):
             raise PermissionDenied("Manage credentials with an administrator browser session.")
         credential = get_object_or_404(APICredential, pk=pk)

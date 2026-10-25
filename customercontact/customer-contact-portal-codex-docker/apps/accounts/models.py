@@ -31,3 +31,14 @@ class APICredential(models.Model):
 
     def __str__(self):
         return f"API credential {self.pk}"
+
+
+class OIDCIdentity(models.Model):
+    """Explicit issuer/subject link; never inferred from email or display name."""
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="oidc_identity")
+    issuer = models.URLField(max_length=500)
+    subject = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["issuer", "subject"], name="unique_oidc_issuer_subject")]

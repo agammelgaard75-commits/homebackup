@@ -32,7 +32,7 @@ if not DEBUG and any(not origin.startswith("https://") for origin in CSRF_TRUSTE
 INSTALLED_APPS = [
     "django.contrib.admin", "django.contrib.auth", "django.contrib.contenttypes",
     "django.contrib.sessions", "django.contrib.messages", "django.contrib.staticfiles",
-    "rest_framework", "drf_spectacular", "drf_spectacular_sidecar",
+    "rest_framework", "drf_spectacular", "drf_spectacular_sidecar", "mozilla_django_oidc",
     "apps.core", "apps.accounts", "apps.customers", "apps.contacts",
     "apps.services", "apps.search", "apps.audit", "apps.cleanup", "apps.api",
 ]
@@ -43,6 +43,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "apps.accounts.oidc.OIDCSessionGateMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -71,6 +72,33 @@ DATABASES = {"default": {
     "OPTIONS": {"connect_timeout": 3},
 }}
 AUTH_USER_MODEL = "accounts.User"
+AUTH_MODE = os.environ.get("AUTH_MODE", "local").strip().lower()
+if AUTH_MODE not in {"local", "oidc"}:
+    raise ImproperlyConfigured("AUTH_MODE must be local or oidc.")
+if AUTH_MODE == "oidc":
+    OIDC_ISSUER_URL = required("OIDC_ISSUER_URL").rstrip("/")
+    if not OIDC_ISSUER_URL.startswith("https://"):
+        raise ImproperlyConfigured("OIDC_ISSUER_URL must use HTTPS.")
+    OIDC_CLIENT_ID = required("OIDC_CLIENT_ID")
+    OIDC_CLIENT_SECRET = required("OIDC_CLIENT_SECRET")
+    OIDC_API_AUDIENCE = os.environ.get("OIDC_API_AUDIENCE", OIDC_CLIENT_ID).strip()
+    OIDC_REDIRECT_URI = os.environ.get("OIDC_REDIRECT_URI", "").strip()
+    OIDC_RP_CLIENT_ID = OIDC_CLIENT_ID
+    OIDC_RP_CLIENT_SECRET = OIDC_CLIENT_SECRET
+    OIDC_RP_SIGN_ALGO = "RS256"
+    OIDC_RP_SCOPES = "openid"
+    OIDC_USE_PKCE = True
+    OIDC_USE_NONCE = True
+    OIDC_VERIFY_SSL = True
+    OIDC_TIMEOUT = 5
+    OIDC_STORE_ACCESS_TOKEN = False
+    OIDC_STORE_ID_TOKEN = False
+    OIDC_AUTHENTICATE_CLASS = "apps.accounts.oidc.PortalOIDCRequestView"
+    OIDC_CALLBACK_CLASS = "apps.accounts.oidc.PortalOIDCCallbackView"
+    OIDC_OP_LOGOUT_URL_METHOD = "apps.accounts.oidc.oidc_logout_url"
+    AUTHENTICATION_BACKENDS = ["apps.accounts.oidc.PortalOIDCBackend"]
+else:
+    AUTHENTICATION_BACKENDS = ["django.contrib.auth.backends.ModelBackend"]
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
@@ -133,7 +161,8 @@ JSON_IMPORT_MAX_RECORDS = bounded_import_setting("JSON_IMPORT_MAX_RECORDS", 500,
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "apps.api.authentication.BearerCredentialAuthentication",
+        ("apps.api.authentication.KeycloakBearerAuthentication" if AUTH_MODE == "oidc"
+         else "apps.api.authentication.BearerCredentialAuthentication"),
         "rest_framework.authentication.SessionAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
@@ -161,4 +190,9 @@ SPECTACULAR_SETTINGS = {
                                  ("expired", "Expired"), ("terminated", "Terminated")],
     },
 }
+if AUTH_MODE == "oidc":
+    SPECTACULAR_SETTINGS["DESCRIPTION"] = (
+        "Versioned internal API. Session writes require CSRF; Keycloak Bearer access tokens "
+        "require the portal audience and client roles."
+    )
 DATA_UPLOAD_MAX_MEMORY_SIZE = max(JSON_IMPORT_MAX_BYTES + 65536, 2621440)

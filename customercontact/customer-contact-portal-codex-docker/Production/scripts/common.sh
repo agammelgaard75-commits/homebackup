@@ -110,17 +110,23 @@ check_ports() {
 prepare_image() {
   if [[ "${BUILD_IMAGE:-1}" == 1 ]]; then
     compose build app
+    compose build proxy
   else
     docker image inspect "$(jq -r .services.app.image <<< "$configuration")" >/dev/null || fail 'Load the reviewed application image first.'
+    docker image inspect "$(jq -r .services.proxy.image <<< "$configuration")" >/dev/null || fail 'Load the reviewed proxy image first.'
   fi
+  # Catch invalid proxy images/configuration before any application downtime.
+  compose run --rm --no-deps proxy caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile
   compose run --rm --no-deps app python manage.py check --deploy --fail-level WARNING
 }
 record_deployment() {
-  local destination="$1" id
+  local destination="$1" id proxy_id proxy_metadata
   id="$(container_id app)"
-  docker inspect "$id" | jq --arg time "$(date -u +%FT%TZ)" --arg project "$project" \
+  proxy_id="$(container_id proxy)"
+  proxy_metadata="$(docker inspect "$proxy_id" | jq '.[0] | {image_id:.Image, image:.Config.Image, version:.Config.Labels["org.opencontainers.image.version"]}')"
+  docker inspect "$id" | jq --arg time "$(date -u +%FT%TZ)" --arg project "$project" --argjson proxy "$proxy_metadata" \
     '.[0] | {recorded_at:$time, project:$project, image_id:.Image, image:.Config.Image,
-      version:.Config.Labels["org.opencontainers.image.version"], revision:.Config.Labels["org.opencontainers.image.revision"]}' > "$destination.partial"
+      version:.Config.Labels["org.opencontainers.image.version"], revision:.Config.Labels["org.opencontainers.image.revision"], proxy:$proxy}' > "$destination.partial"
   mv "$destination.partial" "$destination"
 }
 verify_archive() {

@@ -45,3 +45,6 @@ docs/PHASE*
 docs/*VERIFICATION*
 docs/IMPLEMENTATION_PLAN.md
 docs/PROJECT_SPEC.md
+
+# Proxy build inputs are used only by the separate proxy build context.
+deploy/caddy

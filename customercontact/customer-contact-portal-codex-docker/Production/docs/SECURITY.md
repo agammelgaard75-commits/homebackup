@@ -71,7 +71,9 @@ A repeat scan of all 29 resolved pinned application packages reported zero known
 vulnerabilities. The container scan additionally found old pip advisories; the
 build uses pip26.2.2, then removes pip and ensurepip from the runtime image.
 
-Python3.12.15, PostgreSQL17.11 and Caddy2.11.7 image tags **and digests** are pinned.
+Python3.12.15 and PostgreSQL17.11 image tags **and digests** are pinned. Caddy2.11.7
+uses a [security rebuild](CADDY_SECURITY.md) with a digest-pinned Go1.26.10 builder,
+locked patched dependencies and patched Brotli runtime library.
 No mutable `latest` tags or automatic image updates are used. Scan again before
 future releases; a clean application-package scan is not proof that a base OS has
 no vulnerabilities. See [release verification](RELEASE_VERIFICATION.md) for actual

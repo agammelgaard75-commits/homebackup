@@ -14,7 +14,7 @@ export PATH="$fixture/bin:$PATH"
 printf 'synthetic fixture\n' > "$PORTAL_ENV_FILE"
 chmod 600 "$PORTAL_ENV_FILE"
 cat > "$STUB_CONFIG" <<'JSON'
-{"name":"fixture","services":{"app":{"image":"fixture-app:1.0.0","environment":{"PORTAL_DOMAIN":"fixture.localhost","DJANGO_DEBUG":"0","DJANGO_SECRET_KEY":"synthetic-secret-not-used-outside-tests-12345678901234567890","POSTGRES_PASSWORD":"synthetic-password-not-used-outside-tests-1234567890","AUTH_MODE":"local"}},"proxy":{"ports":[{"target":443,"host_ip":"127.0.0.9"}]}},"volumes":{"postgres_data":{"name":"fixture_postgres_data"}}}
+{"name":"fixture","services":{"app":{"image":"fixture-app:1.0.0","environment":{"PORTAL_DOMAIN":"fixture.localhost","DJANGO_DEBUG":"0","DJANGO_SECRET_KEY":"synthetic-secret-not-used-outside-tests-12345678901234567890","POSTGRES_PASSWORD":"synthetic-password-not-used-outside-tests-1234567890","AUTH_MODE":"local"}},"proxy":{"image":"fixture-proxy:2.11.7-portal.1","ports":[{"target":443,"host_ip":"127.0.0.9"}]}},"volumes":{"postgres_data":{"name":"fixture_postgres_data"}}}
 JSON
 cat > "$fixture/bin/docker" <<'STUB'
 #!/usr/bin/env bash
@@ -107,6 +107,23 @@ reset_case
 export FAIL_ON='build app'
 expect_failure ./scripts/update.sh
 ! grep -q 'stop app' "$DOCKER_CALLS"; passed
+reset_case
+export FAIL_ON='build proxy'
+expect_failure ./scripts/update.sh
+! grep -q 'stop app' "$DOCKER_CALLS"; passed
+reset_case
+export FAIL_ON='caddy validate'
+expect_failure ./scripts/update.sh
+! grep -q 'stop app' "$DOCKER_CALLS"; passed
+reset_case
+export FAIL_ON='image inspect fixture-proxy:'
+expect_failure env BUILD_IMAGE=0 ./scripts/update.sh
+! grep -q 'stop app' "$DOCKER_CALLS"; passed
+reset_case
+BUILD_IMAGE=0 ./scripts/update.sh >/dev/null
+! grep -q 'build app\|build proxy' "$DOCKER_CALLS"
+grep -q 'image inspect fixture-proxy:' "$DOCKER_CALLS"
+jq -e '.proxy.image_id == "sha256:fixture"' .state/fixture/deployed.json >/dev/null; passed
 reset_case
 export FAIL_ON='migrate --noinput'
 expect_failure ./scripts/update.sh

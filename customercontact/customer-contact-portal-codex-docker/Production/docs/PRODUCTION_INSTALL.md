@@ -56,6 +56,7 @@ recordings. The installer does not generate/overwrite configuration.
 | `COMPOSE_PROJECT_NAME` | Stable installation/volume namespace. Never change it for an existing installation. |
 | `PORT_BIND_IP` | Server bind address; default `0.0.0.0`. Use loopback for isolated tests. |
 | `APP_IMAGE` | Reviewed application image/tag, e.g. `customer-contact-portal-app:1.0.0`. |
+| `PROXY_IMAGE` | Optional reviewed proxy image/tag; default `<project>-proxy:2.11.7-portal.1`. Built from the pinned security rebuild, not the vulnerable upstream binary. |
 | `DJANGO_SECRET_KEY` | Private random signing key, stable across container replacement. |
 | `DJANGO_ALLOWED_HOSTS` | Exact hostname plus `localhost,127.0.0.1` for health checks. No wildcard. |
 | `DJANGO_CSRF_TRUSTED_ORIGINS` | Exact `https://<PORTAL_DOMAIN>`. |
@@ -75,7 +76,7 @@ recordings. The installer does not generate/overwrite configuration.
 | `JSON_IMPORT_MAX_BYTES`, `JSON_IMPORT_MAX_RECORDS` | Defaults 1 MiB / 500; maximum 5 MiB / 1000. |
 
 Operator environment switches: `PORTAL_ENV_FILE=/absolute/private/file`,
-`DEPLOYMENT_MODE=production` (default), `BUILD_IMAGE=0` to use a preloaded image,
+`DEPLOYMENT_MODE=production` (default), `BUILD_IMAGE=0` to use preloaded app and proxy images,
 `APP_VERSION`/`GIT_REVISION` for image build provenance. Archive users without Git
 should set `GIT_REVISION` to the release's recorded commit when building.
 `PORTAL_ENV=production` is enforced by the production Compose overlay; it rejects
@@ -101,14 +102,14 @@ On the authorized new server with free selected ports:
 ```
 
 Use `sudo` if required. The installer validates prerequisites, private env,
-production mode and ports, builds/checks the image, verifies OIDC discovery/JWKS,
+production mode and ports, builds/checks app and patched proxy images, verifies OIDC discovery/JWKS,
 starts/waits for DB, explicitly migrates/reconciles roles, starts app/proxy and
 checks HTTPS with certificate verification. Static files are collected during
 the database-free image build. A healthy repeat invocation is a read-only check;
 existing/orphaned DB volumes are never overwritten. Use update for changes.
 
 For offline deployment, build on a compatible staging platform, export the
-versioned app and pinned DB/proxy images with `docker image save`, transfer and
+versioned app, patched proxy and pinned DB images with `docker image save`, transfer and
 `docker image load -i release-images.tar`; then `BUILD_IMAGE=0 ./scripts/install.sh`.
 Preserve the same release files/Caddyfile. Keycloak must still be reachable.
 

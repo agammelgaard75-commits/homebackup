@@ -8,7 +8,7 @@ record="$state_dir/pre-update-$(date -u +%Y%m%dT%H%M%SZ)-$$.json"
 record_deployment "$record"
 "$PORTAL_ROOT/scripts/backup.sh"
 echo "Previous deployment recorded: $record"
-# Build/check while the current application remains available; no DB/proxy upgrade.
+# Build/check both reviewed images while the current app serves; no DB upgrade.
 prepare_image
 if [[ "$DEPLOYMENT_MODE" == production ]]; then
   compose run --rm --no-deps app python manage.py check_oidc

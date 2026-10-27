@@ -76,7 +76,10 @@ services:
       start_period: 30s
 
   proxy:
-    image: caddy:2.11.7-alpine@sha256:eb4d35b7452d1ab6171fbdbe8d9275b2301dad6dad92115d91e19fb9b24d510f
+    build:
+      context: ./deploy/caddy
+      dockerfile: Dockerfile
+    image: ${PROXY_IMAGE:-${COMPOSE_PROJECT_NAME:-customer-contact-portal}-proxy:2.11.7-portal.1}
     logging: *logging
     mem_limit: ${PROXY_MEMORY_LIMIT:-256m}
     cpus: ${PROXY_CPU_LIMIT:-0.5}

@@ -15,6 +15,7 @@ and volumes. Never run the development-only base file alone in production.
 - [Starting, monitoring, updates and rollback](OPERATIONS.md)
 - [Verified backups, explicit restore and retention](BACKUP_RESTORE.md)
 - [Security controls and limitations](SECURITY.md)
+- [Patched Caddy build and proxy maintenance](CADDY_SECURITY.md)
 - [Troubleshooting](TROUBLESHOOTING.md)
 - [Keycloak client, roles, migration and token examples](KEYCLOAK_OIDC.md)
 - [Release verification results](RELEASE_VERIFICATION.md)

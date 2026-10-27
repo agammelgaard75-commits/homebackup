@@ -32,11 +32,13 @@ Do not edit the Compose project name or automatically change PostgreSQL major.
 ```
 
 The update validates existing health/HTTPS, records the **running** image ID,
-version and revision under private `.state/<project>/pre-update-*.json`, makes a
-fully read/verified backup, builds/checks the new image while the old app serves,
+version and revision (including the running proxy image) under private `.state/<project>/pre-update-*.json`, makes a
+fully read/verified backup, builds/checks the new app and proxy images while the old app serves,
 checks OIDC discovery, stops app writes, applies explicit migrations and roles,
 then recreates app/proxy and verifies health. DB containers/images are not
-silently upgraded. `BUILD_IMAGE=0` uses a reviewed, preloaded app image instead.
+silently upgraded. `BUILD_IMAGE=0` requires reviewed, preloaded app and proxy images.
+The proxy uses the pinned [Caddy security rebuild](CADDY_SECURITY.md); its configuration
+is validated before downtime, and no certificate volumes are replaced.
 
 No volumes, backups or previous images are pruned. Locking prevents concurrent
 scripted backups/install/update/restore for the same project. Run operations
@@ -49,7 +51,7 @@ container running. Neither case triggers an automatic database restore. Read
 the error and logs before any further command. Keep maintenance windows short,
 and do authenticated customer/contact/search checks after health succeeds.
 
-For DB/proxy patch-image upgrades, review explicit pinned tags/digests, verify a
+For DB patch-image upgrades, review explicit pinned tags/digests, verify a
 backup and rehearse replacement separately. Stop writes, use `compose.sh up -d
 --wait db` with the reviewed same-major image, then start app/proxy and verify.
 A PostgreSQL major upgrade requires its supported dump/restore or pg_upgrade

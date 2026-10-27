@@ -6,10 +6,10 @@ command -v rg >/dev/null || { echo 'ripgrep is required for source packaging.' >
 manifest="$(mktemp)"
 trap 'rm -f "$manifest"' EXIT
 rg --files apps config deploy scripts static schemas examples |
-  grep -E '(\.py|\.html|\.css|\.js|\.json|\.sh|/Caddyfile)$' |
+  grep -E '(\.py|\.html|\.css|\.js|\.json|\.sh|\.go|/go\.mod|/go\.sum|/Dockerfile|/Caddyfile)$' |
   grep -v '^scripts/package-production.sh$' > "$manifest"
 printf '%s\n' Dockerfile compose.yaml compose.production.yaml requirements.txt manage.py VERSION .env.example .env.development.example .gitignore .dockerignore >> "$manifest"
-for doc in PRODUCTION_INSTALL OPERATIONS BACKUP_RESTORE SECURITY TROUBLESHOOTING RELEASE_VERIFICATION KEYCLOAK_OIDC REST_API JSON_IMPORT_FORMAT DOCKER_OPERATIONS; do
+for doc in PRODUCTION_INSTALL OPERATIONS BACKUP_RESTORE SECURITY CADDY_SECURITY TROUBLESHOOTING RELEASE_VERIFICATION KEYCLOAK_OIDC REST_API JSON_IMPORT_FORMAT DOCKER_OPERATIONS; do
   printf 'docs/%s.md\n' "$doc" >> "$manifest"
 done
 while IFS= read -r source; do

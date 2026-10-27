@@ -94,7 +94,10 @@ and post-restore health checks, and recovery was repeated successfully. A sudo G
 provenance check initially refreshed index ownership; ownership was restored and
 optional Git index writes disabled. No business data was affected by these fixes.
 
-## Security scanning and release hold
+## Original security scanning and release hold
+
+The Caddy findings in this original scan were subsequently fixed; see the
+**Caddy security fix** section below. Application/DB findings remain separate.
 
 `pip-audit2.10.1` initially found three DRF3.17.2 advisories. Updating to3.18.3
 removed them; the repeat scan of 29 resolved pinned application packages reported
@@ -127,16 +130,59 @@ TLS-server/client advisories are not obviously reachable there. Its privilege
 helper dependencies still need reviewed applicability evidence or a patched
 upstream build; the scan is not silently waived.
 
-**The Caddy findings are the immediate release blocker.** Its binary contains
+**Original Caddy blocker (subsequently resolved below).** Its binary contained
 Go1.26.8 and x/net0.59.0. Reported high findings include CVE-2026-78669 (HTTP/2
 SETTINGS denial of service), CVE-2026-78667 (HTTP Range handling),
 CVE-2026-97031 (TLS ECH parsing), and CVE-2026-111943 (certificate validation).
 The Alpine image also flags brotli CVE-2026-111497. Fixed library/toolchain
 versions are listed, but the reviewed official [Caddy2.11.7 release](https://github.com/caddyserver/caddy/releases/tag/v2.11.7)
-is still the current upstream release at verification time. A patched official
-image or separately reviewed reproducible rebuild plus fresh compatibility/security
-tests is required. This task does not silently replace the proxy with a custom
-unreviewed build or grant itself an exception for network-facing advisories.
+was still the current upstream release at verification time. The initial readiness
+checkpoint withheld release rather than silently waiving these findings. The
+separately requested Caddy fix below supplies and verifies a locked security build.
+
+## Caddy security fix — 2026-10-27
+
+Starting checkpoint: `fe25acfac3db4627fb18738c0b72d687b8fb9f1b` (clean working
+tree). Caddy stays at2.11.7, with the exact same standard module set. Its Docker
+build now uses Go1.26.10, x/net0.60.0, chi5.4.0 and checksum-locked transitive
+dependencies. The upstream runtime base is retained with Brotli1.2.1-r0 and
+curl/libcurl8.23.0-r0. All compilation occurs in a temporary Docker build stage;
+no compiler, module cache or new runtime service is added to deployment.
+
+The final Trivy0.76.0 scan reported **0 critical, 0 high, 0 medium and 0 low**
+findings. It reports one UNKNOWN module-level advisory, GO-2026-5932, for
+unmaintained x/crypto/OpenPGP. The [Go advisory](https://pkg.go.dev/vuln/GO-2026-5932)
+specifically affects OpenPGP packages. None is in Caddy's compiled dependency
+graph, and the build now fails if one enters that graph. No scanner suppression
+or TLS/HTTP2 feature disabling was used. Metadata/package evidence is retained
+inside the proxy image; see [Caddy security build](CADDY_SECURITY.md).
+
+The fresh scan first exposed curl/libcurl findings absent from the October25
+scan; these were fixed before the final scan. The original Go/TLS/HTTP2, chi,
+Brotli and newly reported curl findings are all removed from the final image.
+
+Install/update now build/check both application and proxy before downtime.
+Offline mode checks that both images exist. Deployment records include the
+running proxy image ID/tag/version for rollback. The clean Production bundle
+includes the Dockerfile, go.mod/go.sum, standard entry point and operating guide.
+No business model, Django behavior, database schema or production configuration
+was changed. The original running portal was not updated.
+
+Verification: **259 Django regression tests passed** (148.249s); **26 shell
+operation checks passed**; **44 authenticated HTTPS workflow checks passed**;
+**10 HTTPS/HTTP2 checks passed**, covering redirects,
+TLS trust, HSTS, API authentication, login, static files, valid/invalid Range and
+oversized input. The initial oversized-request test hit the earlier CSRF gate;
+it was corrected to use a valid CSRF cookie/referer before testing size rejection.
+The patched proxy's module names exactly match the upstream binary. Isolated
+backup-first updates succeeded; all database model hashes/counts and the Caddy
+public CA certificate matched the pre-update values. Standalone bundle build
+and checksum verification passed; its Caddy binary and build/package metadata
+are byte-identical to the tested source build (image metadata can differ).
+
+**The Caddy-specific release hold is resolved.** This does not waive the
+separate application/DB image findings, privilege limitations or live Keycloak
+verification below, and does not authorize production deployment or a release tag.
 
 ## Remaining verification and acceptance
 

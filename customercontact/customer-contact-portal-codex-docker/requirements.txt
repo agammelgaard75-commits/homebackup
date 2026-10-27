@@ -1,9 +1,9 @@
-# Baseline dependency pins for Codex Phase 1. Review and update deliberately.
+# Pinned application dependencies; review and update deliberately.
 Django==5.2.18
 psycopg[binary]==3.3.6
 gunicorn==26.2.0
 whitenoise==6.12.0
-djangorestframework==3.17.2
+djangorestframework==3.18.3
 drf-spectacular==0.30.0
 drf-spectacular-sidecar==2026.10.1
 mozilla-django-oidc[drf]==5.0.2

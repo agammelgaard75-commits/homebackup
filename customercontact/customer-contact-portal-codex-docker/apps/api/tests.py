@@ -250,9 +250,10 @@ class APITests(TestCase):
             {"import_id": "rollback-two", "name": "Rollback Two"}]}
         preview = self.post_json("/api/v1/imports/customers/preview/", {"document": document}).json()
         with patch("apps.customers.imports.record_import_summary", side_effect=RuntimeError("test audit failure")):
-            with self.assertRaises(RuntimeError):
-                self.post_json("/api/v1/imports/customers/execute/", {"confirm": True,
-                    "confirmation_token": preview["confirmation_token"]})
+            response = self.post_json("/api/v1/imports/customers/execute/", {"confirm": True,
+                "confirmation_token": preview["confirmation_token"]})
+            self.assertEqual(response.status_code, 500)
+            self.assertEqual(response.json()["error"]["code"], "server_error")
         self.assertFalse(Customer.objects.filter(import_id__in=["rollback-one", "rollback-two"]).exists())
 
     def test_customer_activity_and_credential_scopes(self):

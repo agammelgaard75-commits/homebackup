@@ -1,68 +1,35 @@
 #!/usr/bin/env bash
-# Usage: ./scripts/install.sh portal.home.lab
-# Run on target server. Host needs only Docker Engine + Compose plugin + Bash.
-set -euo pipefail
-cd "$(dirname "$0")/.."
-umask 077
-
-domain="${1:-portal.home.lab}"
-if [[ ! "$domain" =~ ^[a-zA-Z0-9][a-zA-Z0-9.-]*$ ]]; then
-  echo "Invalid DNS hostname: $domain" >&2; exit 2
+# Configuration is supplied explicitly; never overwrite an installation.
+source "$(dirname "$0")/common.sh"
+[[ $# == 0 ]] || fail 'Usage: ./scripts/install.sh (configure PORTAL_DOMAIN in .env first).'
+validate_environment
+lock_operation
+if [[ -n "$(container_id db)" ]]; then
+  require_health
+  https_check
+  echo "Existing installation is healthy at https://$domain/. Use update.sh for changes."
+  exit 0
 fi
-
-if ! docker compose version >/dev/null 2>&1; then
-  echo "Docker Engine with the Docker Compose v2 plugin is required." >&2; exit 1
+volume="$(jq -r .volumes.postgres_data.name <<< "$configuration")"
+if docker volume inspect "$volume" >/dev/null 2>&1; then
+  fail 'Existing PostgreSQL volume found. Refusing a fresh installation; use the documented recovery/update procedure.'
 fi
-
-if [[ ! -e .env ]]; then
-  cp .env.example .env
-  # Generate secrets without installing Python or OpenSSL on the host.
-  secret="$(od -An -tx1 -N 48 /dev/urandom | tr -d ' \n')"
-  db_secret="$(od -An -tx1 -N 32 /dev/urandom | tr -d ' \n')"
-  sed -i \
-    -e "s|^PORTAL_DOMAIN=.*|PORTAL_DOMAIN=${domain}|" \
-    -e "s|^COMPOSE_PROJECT_NAME=.*|COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME:-customer-contact-portal}|" \
-    -e "s|^PORT_BIND_IP=.*|PORT_BIND_IP=${PORT_BIND_IP:-0.0.0.0}|" \
-    -e "s|^DJANGO_ALLOWED_HOSTS=.*|DJANGO_ALLOWED_HOSTS=${domain},127.0.0.1,localhost|" \
-    -e "s|^DJANGO_CSRF_TRUSTED_ORIGINS=.*|DJANGO_CSRF_TRUSTED_ORIGINS=https://${domain}|" \
-    -e "s|^DJANGO_SECRET_KEY=.*|DJANGO_SECRET_KEY=${secret}|" \
-    -e "s|^POSTGRES_PASSWORD=.*|POSTGRES_PASSWORD=${db_secret}|" \
-    .env
-  chmod 600 .env
-  echo "Created .env with generated passwords and domain ${domain}."
+check_ports
+prepare_image
+if [[ "$DEPLOYMENT_MODE" == production ]]; then
+  compose run --rm --no-deps app python manage.py check_oidc
+fi
+compose up -d --wait --wait-timeout 180 db
+compose run --rm --no-deps app python manage.py migrate --noinput
+compose run --rm --no-deps app python manage.py setup_roles
+compose up -d --wait --wait-timeout 180 app proxy
+require_health
+https_check
+record_deployment "$state_dir/deployed.json"
+echo "Installation complete: https://$domain/"
+echo 'Distribute the public Caddy CA certificate to managed clients. Configure off-server backups.'
+if [[ "$DEPLOYMENT_MODE" == development ]]; then
+  echo 'Development only: ./scripts/compose.sh exec app python manage.py createsuperuser'
 else
-  existing_domain="$(sed -n 's/^PORTAL_DOMAIN=//p' .env | head -n 1)"
-  if [[ -z "$existing_domain" ]]; then
-    echo "Existing .env lacks PORTAL_DOMAIN." >&2; exit 1
-  fi
-  if [[ $# -ge 1 && "$domain" != "$existing_domain" ]]; then
-    echo "Existing .env uses ${existing_domain}; change it manually to change domain." >&2
-    exit 1
-  fi
-  domain="$existing_domain"
+  echo 'Sign in with an authorized Keycloak portal role; no local administrator was created.'
 fi
-chmod 600 .env
-
-if grep -Eq '^(DJANGO_SECRET_KEY|POSTGRES_PASSWORD)=REPLACE_ON_INSTALL' .env; then
-  echo "Set DJANGO_SECRET_KEY and POSTGRES_PASSWORD in .env before continuing." >&2
-  exit 1
-fi
-
-if [[ ! -f manage.py ]]; then
-  echo "Django application files are missing from this deployment directory." >&2
-  exit 1
-fi
-
-docker compose config --quiet
-docker compose build --pull app
-docker compose up -d --wait db
-docker compose run --rm --no-deps app python manage.py migrate --noinput
-docker compose run --rm --no-deps app python manage.py setup_roles
-docker compose run --rm --no-deps app python manage.py check --deploy --fail-level WARNING
-docker compose up -d --wait app proxy
-
-echo
-echo "Portal deployed. URL: https://${domain}/"
-echo "Create first admin: docker compose exec app python manage.py createsuperuser"
-echo "IMPORTANT: Trust the local Caddy CA on clients; see docs/DOCKER_OPERATIONS.md."
-echo "IMPORTANT: Back up the database off-server; run ./scripts/backup.sh."

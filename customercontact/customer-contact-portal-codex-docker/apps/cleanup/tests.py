@@ -139,8 +139,9 @@ class CleanupTests(TestCase):
         self.client.force_login(self.users["Administrator"])
         token = self.preview(contacts=[self.contact.pk]).json()["confirmation_token"]
         with patch("apps.cleanup.services.record_cleanup", side_effect=RuntimeError("test audit failure")):
-            with self.assertRaises(RuntimeError):
-                self.post_json("/api/v1/cleanup/confirm/", {"confirmation_token": token, "confirm": True})
+            response = self.post_json("/api/v1/cleanup/confirm/", {"confirmation_token": token, "confirm": True})
+            self.assertEqual(response.status_code, 500)
+            self.assertEqual(response.json()["error"]["code"], "server_error")
         self.assertTrue(Contact.objects.filter(pk=self.contact.pk).exists())
         self.assertTrue(ContactPoint.objects.filter(contact=self.contact).exists())
         self.assertFalse(CleanupOperation.objects.filter(result="completed").exists())

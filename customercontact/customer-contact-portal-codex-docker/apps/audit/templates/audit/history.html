@@ -3,12 +3,12 @@
 {% block title %}{% if customer %}Activity · {{ customer.name }}{% else %}Audit history{% endif %} · Customer Portal{% endblock %}
 {% block content %}
 {% if customer %}<a class="back-link" href="{{ customer.get_absolute_url }}">← {{ customer.name }}</a>{% endif %}
-<div class="page-intro">{% if customer %}<p class="eyebrow">{{ customer.name }}</p>{% endif %}<h1>{% if customer %}Activity{% else %}Audit history{% endif %}</h1><p>Read-only change history. All times and date filters are UTC. History begins with Phase 5; earlier actions are not reconstructed.</p></div>
+<div class="page-intro">{% if customer %}<p class="eyebrow">{{ customer.name }}</p>{% endif %}<h1>{% if customer %}Activity{% else %}Audit history{% endif %}</h1><p>Read-only change history. All times and date filters are UTC. History begins when audit logging was enabled; earlier actions are not reconstructed.</p></div>
 {% if customer %}{% include 'components/customer_tabs.html' with current='activity' %}{% endif %}
 <section class="panel"><form class="filters" method="get"><input type="hidden" name="filters" value="1">{% for field in filter_form %}<div class="field">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>{% endfor %}<div class="actions"><button type="submit">Apply filters</button><a href="{{ request.path }}?reset=1">Reset</a></div></form>
 {% if filter_form.is_valid %}<p class="muted">{{ page_obj.paginator.count }} event{{ page_obj.paginator.count|pluralize }}</p>
 {% if page_obj.object_list %}<div class="table-scroll" tabindex="0" role="region" aria-label="Audit events"><table><thead><tr><th scope="col">Time (UTC)</th><th scope="col">User</th><th scope="col">Action</th><th scope="col">Record</th><th scope="col">Description / changed fields</th></tr></thead><tbody>
 {% for event in page_obj %}<tr><td><time datetime="{{ event.created_at|utc|date:'c' }}">{{ event.created_at|utc|date:'Y-m-d H:i:s' }}</time></td><td>{{ event.actor.get_username }}</td><td>{{ event.get_action_display }}</td><td>{{ event.get_object_type_display }}<br><small class="record-id">{{ event.object_id }}</small>{% if event.customer %}<br><a href="{{ event.customer.get_absolute_url }}">{{ event.customer.name }}</a>{% endif %}</td><td>{{ event.description }}<br><small>{{ event.changed_fields|join:', ' }}</small></td></tr>{% endfor %}
-</tbody></table></div>{% else %}<div class="empty-state"><h2>No activity found</h2><p>No visible events match these filters. Changes made after Phase 5 appear here.</p></div>{% endif %}
+</tbody></table></div>{% else %}<div class="empty-state"><h2>No activity found</h2><p>No visible events match these filters. Changes made after audit logging was enabled appear here.</p></div>{% endif %}
 {% include 'components/pagination.html' %}{% endif %}</section>
 {% endblock %}

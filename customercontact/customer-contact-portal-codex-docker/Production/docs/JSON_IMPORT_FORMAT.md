@@ -7,7 +7,7 @@ This is the implemented administrator import contract for the Customer Contact P
 1. Import `examples/customers.example.json` or a file following `schemas/customers.schema.json` from **Customers → Import JSON**.
 2. Import `examples/contacts.example.json` or a file following `schemas/contacts.schema.json` from **Contacts → Import JSON**.
 
-Both files must contain valid UTF-8 JSON. Each includes `schema_version: 1`. Import customers first because contacts reference customer import keys. The Customers and Contacts pages each provide an Import JSON screen.
+Both files must contain valid UTF-8 JSON. Each includes `schema_version: 1`. Customers should be imported first because contacts reference customer import keys. Separate pages/buttons should appear under Customers and Contacts, plus optional links in the main navigation.
 
 ## Customers file
 
@@ -58,7 +58,8 @@ Phone object: `number` (required phone with 7–15 digits after normalization); 
 - Normalize and deduplicate emails case-insensitively; normalize phone numbers consistently without assuming a country code. Handle conflicting primary flags explicitly.
 - Reject duplicate `import_id` values inside the same upload, unresolved customer references, malformed emails, invalid phone entries and contacts with no usable contact method. Provide per-record errors.
 - Validate the entire upload and its database references before writing. Commit each file as one database transaction; roll back the whole import on error.
-- A nullable unique `import_id` on each Customer or Contact row stores the stable key. Existing rows retain a null key until an explicit mapping is confirmed.
+- Store import key associations persistently and uniquely, either on the owning records or in an import identity mapping table.
+- This implementation stores a nullable unique `import_id` on the owning Customer or Contact row. Existing rows retain a null key until an explicit mapping is confirmed.
 - Record who performed the import and a counts-only summary in global audit history without logging uploaded personal data. Each changed business record also uses its normal audit events.
 - Enforce configurable `JSON_IMPORT_MAX_BYTES` (default 1 MiB, cap 5 MiB) and `JSON_IMPORT_MAX_RECORDS` (default 500, cap 1000); return clear validation failures. Signed previews expire after 30 minutes and are bound to the uploading Administrator.
 - Keep existing manual editing and archival behavior intact; no automatic deletion or archive of records omitted from a file.

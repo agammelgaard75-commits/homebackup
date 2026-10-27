@@ -33,9 +33,12 @@ volumes/
 *.orig
 *.rej
 .verification/
+.state/
 staticfiles/
 media/
 __pycache__/
 *.py[cod]
 .venv/
 .pytest_cache/
+
+!.env.development.example

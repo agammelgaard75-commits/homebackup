@@ -1,26 +1,32 @@
 #!/usr/bin/env bash
-# Destructive restore into the explicitly selected Compose project only.
-set -euo pipefail
-cd "$(dirname "$0")/.."
-if [[ $# -ne 1 || ! -s "$1" ]]; then
-  echo "Usage: $0 path/to/nonempty-backup.dump" >&2; exit 2
-fi
+source "$(dirname "$0")/common.sh"
+legacy=0
+if [[ "${1:-}" == --legacy ]]; then legacy=1; shift; fi
+[[ $# == 1 && -s "$1" ]] || fail 'Usage: restore.sh [--legacy] backup.dump (legacy mode explicitly accepts old archives without metadata).'
 file="$1"
-docker compose config --quiet
-read -r -p "This REPLACES the configured database contents. Type RESTORE to proceed: " answer
-if [[ "$answer" != 'RESTORE' ]]; then
-  echo "Cancelled."; exit 1
+validate_environment
+lock_operation
+healthy db || fail 'Start the target database and verify its health first.'
+if [[ "$legacy" == 0 ]]; then
+  [[ -s "$file.json" ]] || fail 'Backup metadata is required. For reviewed older archives use --legacy.'
+  expected="$(jq -er '.sha256 | select(test("^[a-f0-9]{64}$"))' "$file.json")" || fail 'Invalid backup metadata.'
+  [[ "$(sha256sum "$file" | cut -d ' ' -f1)" == "$expected" ]] || fail 'Backup checksum mismatch; nothing was stopped or changed.'
+else
+  echo 'Legacy archive: no recorded checksum or application version is available. Verify provenance and matching code independently.'
 fi
-
-echo "Stopping app to prevent concurrent writes"
-docker compose stop app
-docker compose up -d --wait db
-if ! docker compose exec -T db sh -c 'exec pg_restore --clean --if-exists --exit-on-error --single-transaction --no-owner --no-privileges -U "$POSTGRES_USER" -d "$POSTGRES_DB"' < "$file"; then
-  echo "Restore failed. Application remains stopped for investigation." >&2
-  exit 1
-fi
-# Restore only a dump from the matching code/schema revision; do not migrate it here.
-docker compose run --rm --no-deps app python manage.py migrate --check
-docker compose run --rm --no-deps app python manage.py check
-docker compose up -d --wait app proxy
-echo "Restore completed. Verify data, user login, and application version compatibility."
+verify_archive "$file"
+echo "WARNING: This overwrites database contents in project $project with the selected snapshot. All later writes will be lost."
+echo 'Use matching application/schema versions. Preserve a current backup separately before proceeding.'
+read -r -p "Type RESTORE $project to confirm: " answer
+[[ "$answer" == "RESTORE $project" ]] || fail 'Cancelled; database unchanged.'
+compose stop app
+trap 'result=$?; if [[ "$result" != 0 ]]; then compose stop app >&2 || true; echo "Restore failed. Application stopped; inspect database and schema compatibility before recovery." >&2; fi; exit "$result"' EXIT
+compose exec -T db sh -c 'exec pg_restore --clean --if-exists --exit-on-error --single-transaction --no-owner --no-privileges -U "$POSTGRES_USER" -d "$POSTGRES_DB"' < "$file"
+compose run --rm --no-deps app python manage.py migrate --check
+compose run --rm --no-deps app python manage.py check
+compose exec -T db sh -c 'psql -X -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "$POSTGRES_DB" -Atc "SELECT count(*) FROM pg_constraint WHERE NOT convalidated"' | grep -qx 0
+compose up -d --wait --wait-timeout 180 app proxy
+require_health
+https_check
+record_deployment "$state_dir/deployed.json"
+echo "Restore completed and health verified for $project. Perform an authenticated data spot-check."

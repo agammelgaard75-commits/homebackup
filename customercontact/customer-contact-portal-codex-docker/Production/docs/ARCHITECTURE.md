@@ -32,8 +32,8 @@ with source and applied explicitly during installation or update.
 Viewer can read; Editor can maintain customers, contacts, relationships and
 customer service assignments; Administrator can also manage the service
 catalog, imports, audit and cleanup. Permission checks run on the server for
-web and API requests. Local Django login is the default. Optional Keycloak
-OIDC maps `portal-viewer`, `portal-editor` and `portal-admin` client roles to
+web and API requests. Production requires Keycloak; local Django login is
+development-only. Keycloak OIDC maps `portal-viewer`, `portal-editor` and `portal-admin` client roles to
 these same permissions; identity uses issuer and subject rather than email.
 
 REST API routes are under `/api/v1/`, with schema at `/api/v1/schema/` and

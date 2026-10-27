@@ -15,5 +15,8 @@
 {$PORTAL_DOMAIN} {
 	tls internal
 	encode zstd gzip
+	request_body {
+		max_size 6MB
+	}
 	reverse_proxy app:8000
 }

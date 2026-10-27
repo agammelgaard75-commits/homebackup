@@ -73,6 +73,17 @@ DATABASES = {"default": {
 }}
 AUTH_USER_MODEL = "accounts.User"
 AUTH_MODE = os.environ.get("AUTH_MODE", "local").strip().lower()
+PORTAL_ENV = os.environ.get("PORTAL_ENV", "development").strip().lower()
+if PORTAL_ENV not in {"development", "production"}:
+    raise ImproperlyConfigured("PORTAL_ENV must be development or production.")
+if PORTAL_ENV == "production":
+    if DEBUG or AUTH_MODE != "oidc":
+        raise ImproperlyConfigured("Production requires DEBUG=0 and AUTH_MODE=oidc.")
+    if len(SECRET_KEY) < 50 or len(required("POSTGRES_PASSWORD")) < 32:
+        raise ImproperlyConfigured("Production secrets do not meet minimum lengths.")
+    domain = required("PORTAL_DOMAIN")
+    if domain not in ALLOWED_HOSTS or f"https://{domain}" not in CSRF_TRUSTED_ORIGINS:
+        raise ImproperlyConfigured("Production hostname must match allowed hosts and CSRF origins.")
 if AUTH_MODE not in {"local", "oidc"}:
     raise ImproperlyConfigured("AUTH_MODE must be local or oidc.")
 if AUTH_MODE == "oidc":
@@ -83,6 +94,8 @@ if AUTH_MODE == "oidc":
     OIDC_CLIENT_SECRET = required("OIDC_CLIENT_SECRET")
     OIDC_API_AUDIENCE = os.environ.get("OIDC_API_AUDIENCE", OIDC_CLIENT_ID).strip()
     OIDC_REDIRECT_URI = os.environ.get("OIDC_REDIRECT_URI", "").strip()
+    if PORTAL_ENV == "production" and OIDC_REDIRECT_URI != f"https://{domain}/oidc/callback/":
+        raise ImproperlyConfigured("Production requires the exact external HTTPS OIDC callback.")
     OIDC_RP_CLIENT_ID = OIDC_CLIENT_ID
     OIDC_RP_CLIENT_SECRET = OIDC_CLIENT_SECRET
     OIDC_RP_SIGN_ALGO = "RS256"

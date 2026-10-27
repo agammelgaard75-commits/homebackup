@@ -1,0 +1,5 @@
+# Use with compose.yaml; scripts/compose.sh selects this by default.
+services:
+  app:
+    environment:
+      PORTAL_ENV: production

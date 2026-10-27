@@ -8,7 +8,7 @@ as the web interface. UUIDs are stable record IDs; timestamps use ISO 8601 UTC.
 
 ## Authentication and authorization
 
-In the default `AUTH_MODE=local`, the credential flow below applies. With
+In development `AUTH_MODE=local`, the credential flow below applies. With
 `AUTH_MODE=oidc`, browser sessions use Keycloak and API calls use Keycloak
 Bearer **access** tokens with the configured issuer, portal audience and
 client roles. Legacy `ccp_` bearer credentials and their management endpoints
@@ -217,3 +217,14 @@ curl --request POST --header "Authorization: Bearer $PORTAL_API_TOKEN" \
 For a browser session, send the existing `sessionid` cookie and a matching
 `X-CSRFToken` header on POST/PUT/PATCH. The Swagger UI uses the same origin and
 the established CSRF protection.
+
+## Production operations
+
+Production requires Keycloak OIDC through the production Compose overlay; local
+credentials are development-only. Unhandled API failures return HTTP500 with
+`{"error":{"code":"server_error","detail":"The request could not be completed."}}`.
+No traceback, provider response, secret or submitted values are included. Existing
+transactional business/import/cleanup services still roll back on failure.
+The standard in-memory DRF throttles are per-worker, best-effort request limits;
+they do not replace internal-network restrictions or a site-level DoS policy.
+See [security](SECURITY.md) and [operations](OPERATIONS.md).

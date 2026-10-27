@@ -60,3 +60,11 @@ Build a maintainable, secure **internal customer contact portal** according to R
 
 ## Final report after each task
 Provide: (1) what changed, (2) key files, (3) commands/tests and observed results, (4) known limitations, (5) a single suggested next phase. Do not claim deployment occurred unless verified.
+
+## Production maintenance
+- Preserve the verified Git checkpoint and existing private configuration before changes. Make a final commit after tests; create a release tag only when its documented critical acceptance checks pass. Never claim live Keycloak or production deployment was tested without evidence.
+- Production commands must use scripts/compose.sh (compose.yaml plus compose.production.yaml); local-auth development uses a separate project/env/volumes and DEPLOYMENT_MODE=development. Never downgrade production authentication to make a test pass.
+- Keep application and base-image versions/digests explicit. Review dependency/container advisories on every release; document unfixed findings and applicability. Do not auto-upgrade database majors.
+- Rehearse install, update, persistent restart, backup and restore on disposable isolated data. Keep shell failure tests and all Django regressions passing. Never use the working database as a restore target.
+- Keep scripts non-destructive by default. No volume/image/backup pruning, implicit database rollback or source-copy rollback directories. Backups and versioned Git/images have separate recovery roles.
+- Update permanent operating guides and regenerate Production/ using scripts/package-production.sh. Production must contain only allowlisted source/configuration and current documentation, never AGENTS, planning prompts, secrets, runtime files or historical phase notes. Verify bundle/source parity and its standalone build.

@@ -2,9 +2,21 @@
 # App and database have no published ports; persistent state uses named volumes.
 name: customer-contact-portal
 
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "5"
+
 services:
   db:
-    image: postgres:17-alpine
+    image: postgres:17.11-alpine@sha256:eee6c6e1b0894fa4fe0075eb054af9fd1cf39a35321c2d4110626cfe506411fb
+    logging: *logging
+    mem_limit: ${DB_MEMORY_LIMIT:-1g}
+    cpus: ${DB_CPU_LIMIT:-1.0}
+    pids_limit: 200
+    # Avoid SQL statements/constraint values appearing in database error logs.
+    command: ["postgres", "-c", "log_min_error_statement=panic", "-c", "log_error_verbosity=terse", "-c", "log_parameter_max_length_on_error=0"]
     restart: unless-stopped
     environment:
       POSTGRES_DB: ${POSTGRES_DB:?Set POSTGRES_DB in .env}
@@ -27,13 +39,21 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: ${COMPOSE_PROJECT_NAME:-customer-contact-portal}-app:local
+      args:
+        APP_VERSION: ${APP_VERSION:-1.0.0}
+        GIT_REVISION: ${GIT_REVISION:-unknown}
+    image: ${APP_IMAGE:-${COMPOSE_PROJECT_NAME:-customer-contact-portal}-app:local}
+    logging: *logging
+    mem_limit: ${APP_MEMORY_LIMIT:-1g}
+    cpus: ${APP_CPU_LIMIT:-2.0}
+    pids_limit: 128
     restart: unless-stopped
     env_file:
-      - .env
+      - ${PORTAL_ENV_FILE:-.env}
     environment:
       DATABASE_HOST: db
       DATABASE_PORT: "5432"
+      PORTAL_ENV: development
     depends_on:
       db:
         condition: service_healthy
@@ -42,6 +62,7 @@ services:
       - application
       - database
     read_only: true
+    cap_drop: [ALL]
     tmpfs:
       - /tmp:rw,noexec,nosuid,size=64m
     security_opt:
@@ -55,7 +76,11 @@ services:
       start_period: 30s
 
   proxy:
-    image: caddy:2-alpine
+    image: caddy:2.11.7-alpine@sha256:eb4d35b7452d1ab6171fbdbe8d9275b2301dad6dad92115d91e19fb9b24d510f
+    logging: *logging
+    mem_limit: ${PROXY_MEMORY_LIMIT:-256m}
+    cpus: ${PROXY_CPU_LIMIT:-0.5}
+    pids_limit: 128
     restart: unless-stopped
     environment:
       PORTAL_DOMAIN: ${PORTAL_DOMAIN:?Set PORTAL_DOMAIN in .env}

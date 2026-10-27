@@ -1,7 +1,8 @@
 # Keycloak OIDC integration
 
-The portal supports `AUTH_MODE=local` (the default) and `AUTH_MODE=oidc`. OIDC is
-an opt-in deployment change. The implementation uses `mozilla-django-oidc` 5.0.2
+Production requires `AUTH_MODE=oidc`; `AUTH_MODE=local` remains available only
+for isolated development. Activation requires a verified staging configuration.
+The implementation uses `mozilla-django-oidc` 5.0.2
 for authorization code flow, PKCE, state/nonce, callback and Django sessions;
 its DRF bearer parser is combined with PyJWT signature, issuer, audience,
 expiry and access-token-type validation. No Keycloak container is added.
@@ -177,3 +178,19 @@ procedure. Previously linked local users retain their records; their local
 passwords and groups should be reviewed before local access is restored.
 Stored `ccp_` credentials become usable again in local mode, so review/revoke
 them before reverting. Do not delete OIDC identity rows or Docker volumes.
+
+## Production deployment policy
+
+The release production overlay requires `AUTH_MODE=oidc`, `DJANGO_DEBUG=0`, and
+an exact `OIDC_REDIRECT_URI=https://<PORTAL_DOMAIN>/oidc/callback/`. Follow
+[production installation](PRODUCTION_INSTALL.md); `OIDC_VERIFIED=1` records the
+operator's completed staging login/API/role/logout verification before install.
+The `check_oidc` management command checks trusted-TLS discovery and JWKS reachability,
+not client-secret validity or successful interactive login.
+
+The earlier controlled local-mode revert procedure applies only to an isolated
+migration/development environment. It is **not permitted on a production deployment**.
+If production Keycloak fails, keep access closed and restore a reviewed working
+OIDC configuration/provider; never disable the production guard to regain access.
+For existing account migration, retain an approved operator recovery procedure
+and tested Keycloak administration access independently of this application.
